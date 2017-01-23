@@ -1,0 +1,6 @@
+framework module Pods_Tooli {
+  umbrella header "Pods-Tooli-umbrella.h"
+
+  export *
+  module * { export * }
+}
