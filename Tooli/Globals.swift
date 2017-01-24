@@ -11,6 +11,7 @@ class Globals {
     static let sharedInstance = Globals()
     var deviceToken : String!
     var currentUser : SignIn!
+    var masters : Masters!
     
     private init() {
 

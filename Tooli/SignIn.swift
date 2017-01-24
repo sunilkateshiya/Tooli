@@ -120,6 +120,41 @@ class SignIn: NSObject, Mappable  {
     }
 }
 
+class Masters : NSObject, Mappable {
+    var status = 0
+    var message = ""
+    var DataList : [Trades]? = []
+    required init?(map: Map) {
+        status <- map["status"]
+        message <- map["message"]
+        DataList <- map["DataList"]
+    }
+    func mapping(map: Map) {
+        status <- map["status"]
+        message <- map["message"]
+        DataList <- map["DataList"]
+    }
+}
+
+class Trades : NSObject, Mappable {
+    var PrimaryID = 0
+    var TradeCategoryName = ""
+    var ServiceList : [ServiceListM]? = []
+    var CertificateCategoryList : [CertificateFileListM]? = []
+    required init?(map: Map) {
+        PrimaryID <- map["PrimaryID"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        ServiceList <- map["ServiceList"]
+        CertificateCategoryList <- map["CertificateCategoryList"]
+    }
+    func mapping(map: Map) {
+        PrimaryID <- map["PrimaryID"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        ServiceList <- map["ServiceList"]
+        CertificateCategoryList <- map["CertificateCategoryList"]
+    }
+}
+
 class AvailableStatusListM : NSObject, Mappable {
     
     var PrimaryID = 0
@@ -148,12 +183,12 @@ class ServiceListM : NSObject, Mappable {
     var ServiceName = ""
     required init?(map: Map) {
         
-        ServiceID <- map["ServiceID"]
+        ServiceID <- map["PrimaryID"]
         ServiceName <- map["ServiceName"]
         
     }
     func mapping(map: Map) {
-        ServiceID <- map["ServiceID"]
+        ServiceID <- map["PrimaryID"]
         ServiceName <- map["ServiceName"]
         
     }
@@ -163,21 +198,18 @@ class ServiceListM : NSObject, Mappable {
 class ExperienceListM : NSObject, Mappable {
     
     
-    var CompanyName = ""
-    var ExperienceYear = ""
-    var Title = ""
+    var PrimaryID = 0
+    var CertificateCategoryName = ""
     
     required init?(map: Map) {
         
-        CompanyName <- map["CompanyName"]
-        ExperienceYear <- map["ExperienceYear"]
-        Title <- map["Title"]
+        PrimaryID <- map["PrimaryID"]
+        CertificateCategoryName <- map["CertificateCategoryName"]
         
     }
     func mapping(map: Map) {
-        CompanyName <- map["CompanyName"]
-        ExperienceYear <- map["ExperienceYear"]
-        Title <- map["Title"]
+        PrimaryID <- map["PrimaryID"]
+        CertificateCategoryName <- map["CertificateCategoryName"]
         
     }
 }

@@ -7,8 +7,12 @@
 //
 
 import UIKit
-
-class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate {
+import GooglePlaces
+import Toast_Swift
+import NVActivityIndicatorView
+import ObjectMapper
+import Alamofire
+class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, NVActivityIndicatorViewable {
 
     @IBOutlet var vwhide : UIView!
     @IBOutlet var vwhideheight : NSLayoutConstraint!
@@ -22,6 +26,9 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var btnskills : UIButton!
     @IBOutlet var btntrades : UIButton!
 
+    var sharedManager : Globals = Globals.sharedInstance
+    var isTradeSelected : Bool = false;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,6 +48,49 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate {
         tvskills.rowHeight = UITableViewAutomaticDimension
         tvskills.estimatedRowHeight = 450
         tvskills.tableFooterView = UIView()
+         getMasters()
+        
+        
+    }
+    
+    func getMasters(){
+        // Z_MasterDataList
+        
+        
+        self.startAnimating()
+        let param = [:] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.Z_MasterDataList, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.masters = Mapper<Masters>().map(JSONObject: JSONResponse.rawValue)
+            
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil {
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+                
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+        
         
     }
 
@@ -87,8 +137,16 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
         //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
+        guard ((sharedManager.masters) != nil) else {
+            return 0
+        }
+        if tableView == self.tvtrades {
+            return  (sharedManager.masters.DataList?.count)!
+        }
+        else {
+            return 10
+        }
         
-        return  10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
@@ -108,6 +166,32 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView == self.tvtrades {
+            self.isTradeSelected = true
+            
+        }
+        else {
+            
+        }
+    }
+    
+    // MARK: - AutoComplete Code
+    
+    @IBAction func autocompleteClicked(_ sender: UIButton) {
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        autocompleteController.tintColor = UIColor.red
+        let header : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 60))
+        header.backgroundColor=UIColor.red
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
+        autocompleteController.view.addSubview(header)
+        
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        autocompleteController.navigationController?.setToolbarHidden(false, animated: true)
+        present(autocompleteController, animated: true, completion: nil)
+    }
+
    
     /*
     // MARK: - Navigation
@@ -119,4 +203,34 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     */
 
+}
+extension YourTrades: GMSAutocompleteViewControllerDelegate {
+    
+    // Handle the user's selection.
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Place name: \(place.name)")
+        print("Place address: \(place.formattedAddress)")
+        print("Place attributions: \(place.attributions)")
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    // User canceled the operation.
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+    
 }

@@ -5,7 +5,7 @@ target 'Tooli' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-
+platform :ios, '8.0'
 pod 'Alamofire'
 pod 'AlamofireObjectMapper'
 pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
@@ -28,6 +28,8 @@ pod 'ENSwiftSideMenu', '~> 0.1.1'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'FacebookShare'
+#pod 'GooglePlacesAutocomplete'
+pod 'ActionSheetPicker-3.0'
   # Pods for Tooli
 
   target 'TooliTests' do

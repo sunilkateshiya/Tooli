@@ -120,7 +120,7 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                 print(error)
             case .cancelled:
                 print("User cancelled lo gin.")
-            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+            case .success(let _, let declinedPermissions, let accessToken):
                 
                 let connection = GraphRequestConnection()
                 let params = ["fields" :"id, email, name, first_name, last_name, gender"]

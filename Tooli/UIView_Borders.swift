@@ -9,6 +9,24 @@
 import UIKit
 
 // MARK: - UIView
+public extension UISearchBar {
+    
+    public func setTextColor(color: UIColor) {
+        let svs = subviews.flatMap { $0.subviews }
+        guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
+        tf.textColor = color
+        let textFieldInsideSearchBarLabel = tf.value(forKey: "placeholderLabel") as? UILabel
+        textFieldInsideSearchBarLabel?.textColor = UIColor.white
+        
+        let glassIconView = tf.leftView as! UIImageView
+        glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        glassIconView.tintColor = UIColor.white
+        
+        let clearButton = tf.value(forKey: "clearButton") as! UIButton
+        clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: .normal)
+        clearButton.tintColor = UIColor.white
+    }
+}
 extension UIView {
     
     @IBInspectable var cornerRadius: CGFloat {

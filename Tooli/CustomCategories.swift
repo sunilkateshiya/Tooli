@@ -36,6 +36,11 @@ extension UITextField {
 }
 
 extension String {
+    func getDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss a"
+        return dateFormatter.date(from: self)!
+    }
     func heightWithWidth(width: CGFloat, font: UIFont) -> CGFloat {
         let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let actualSize = self.boundingRect(with: maxSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: font], context: nil)
@@ -214,7 +219,19 @@ extension UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 }
-
+extension Date {
+    func toWebString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: self)
+    }
+    func toDisplayString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        return dateFormatter.string(from: self)
+    }
+    
+}
 extension Dictionary
 {
     public init(keys: [Key], values: [Value])

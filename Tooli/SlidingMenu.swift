@@ -89,11 +89,11 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
           return cell!
      }
      
-     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
           return 50.0
      }
      
-      func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
           //Present new view controller
           let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main",bundle: nil)
           var destViewController : UIViewController

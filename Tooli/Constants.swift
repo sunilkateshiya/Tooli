@@ -12,6 +12,11 @@ struct Constants {
     
     static let buildName = "Tooli"
     
+    struct Keys
+    {
+        static let GOOGLE_PLACE_KEY = "AIzaSyCNKruzLdUXb55lvgRElDn8Qhe4yAdbf10"
+    }
+    
     struct ScreenSize
     {
         static let SCREEN_WIDTH = UIScreen.main.bounds.size.width

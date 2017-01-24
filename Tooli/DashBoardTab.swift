@@ -12,6 +12,7 @@ import ENSwiftSideMenu
 class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate{
 
     @IBOutlet var tvdashb : UITableView!
+    @IBOutlet var searchBar : UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         tvdashb.rowHeight = UITableViewAutomaticDimension
         tvdashb.estimatedRowHeight = 100
         tvdashb.tableFooterView = UIView()
-        
+        self.searchBar.setTextColor(color: UIColor.white)
         
         // Do any additional setup after loading the view.
     }
