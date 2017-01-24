@@ -49,7 +49,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         tvskills.estimatedRowHeight = 450
         tvskills.tableFooterView = UIView()
          getMasters()
-        
+        GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
         
     }
     

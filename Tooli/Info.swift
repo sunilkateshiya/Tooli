@@ -34,7 +34,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
         let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(imageTapped(img:)))
         imguser.isUserInteractionEnabled = true
         imguser.addGestureRecognizer(tapGestureRecognizer)
-        GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
+        
         // Do any additional setup after loading the view.
        
     }
