@@ -43,7 +43,7 @@ class SignIn: NSObject, Mappable  {
     var AvailableStatusList : [AvailableStatusListM]? = []
     var CertificateFileList : [CertificateFileListM]? = []
     var ServiceList : [ServiceListM]? = []
-    var ExperienceList : [ExperienceListM]? = []
+    var ExperienceList : [Experiences]? = []
     var PortfolioList : [ExperienceListM]? = []
  
     required init?(map: Map){
@@ -216,8 +216,6 @@ class ExperienceListM : NSObject, Mappable {
 
 
 class CertificateFileListM : NSObject, Mappable {
-    
-    
     var PrimaryID = 0
     var CertificateCategoryName = ""
     var IshaveFile : Bool = false
@@ -240,5 +238,38 @@ class CertificateFileListM : NSObject, Mappable {
         IsImage <- map["IsImage"]
         FileLink <- map["FileLink"]
         
+    }
+}
+
+class TotalExperience : NSObject, Mappable {
+    var ExperienceList : [Experiences] = []
+    required override init(){
+        
+    }
+    required init?(map : Map) {
+        ExperienceList <- map["ExperienceList"]
+    }
+    func mapping(map: Map) {
+        ExperienceList <- map["ExperienceList"]
+    }
+}
+
+class Experiences : NSObject, Mappable {
+    
+    var Title = ""
+    var CompanyName = ""
+    var ExperienceYear = ""
+    required override init(){
+        
+    }
+    required init?(map : Map) {
+        Title <- map["Title"]
+        CompanyName <- map["CompanyName"]
+        ExperienceYear <- map["ExperienceYear"]
+    }
+    func mapping(map: Map) {
+        Title <- map["Title"]
+        CompanyName <- map["CompanyName"]
+        ExperienceYear <- map["ExperienceYear"]
     }
 }

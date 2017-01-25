@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */; };
 		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
 		3118664C1E274C18008A4C74 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664B1E274C18008A4C74 /* Connections.swift */; };
@@ -32,7 +33,6 @@
 		3171AC6E1E3396320063198C /* Addportfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC6A1E3396320063198C /* Addportfolio.swift */; };
 		3171AC6F1E3396320063198C /* CompnayProfilefeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */; };
 		3171AC761E3396470063198C /* ProfileFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC701E3396470063198C /* ProfileFeedCell.swift */; };
-		3171AC771E3396470063198C /* ExperienceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC711E3396470063198C /* ExperienceCell.swift */; };
 		3171AC781E3396470063198C /* PortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC721E3396470063198C /* PortfolioCell.swift */; };
 		3171AC791E3396470063198C /* Addcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC731E3396470063198C /* Addcell.swift */; };
 		3171AC7A1E3396470063198C /* CompanyprofileJobsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC741E3396470063198C /* CompanyprofileJobsCell.swift */; };
@@ -88,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		188DC577411309CBD8F4498A /* Pods-TooliUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests.release.xcconfig"; sourceTree = "<group>"; };
+		200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceCell.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
 		3118664B1E274C18008A4C74 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
 		3118664D1E274C32008A4C74 /* ConnectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
@@ -112,7 +113,6 @@
 		3171AC6A1E3396320063198C /* Addportfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addportfolio.swift; sourceTree = "<group>"; };
 		3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompnayProfilefeed.swift; sourceTree = "<group>"; };
 		3171AC701E3396470063198C /* ProfileFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileFeedCell.swift; sourceTree = "<group>"; };
-		3171AC711E3396470063198C /* ExperienceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceCell.swift; sourceTree = "<group>"; };
 		3171AC721E3396470063198C /* PortfolioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioCell.swift; sourceTree = "<group>"; };
 		3171AC731E3396470063198C /* Addcell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addcell.swift; sourceTree = "<group>"; };
 		3171AC741E3396470063198C /* CompanyprofileJobsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyprofileJobsCell.swift; sourceTree = "<group>"; };
@@ -215,11 +215,11 @@
 				3118664D1E274C32008A4C74 /* ConnectionCell.swift */,
 				31663C8E1E25085500D5DD3C /* DashBoardCvCell.swift */,
 				3171AC701E3396470063198C /* ProfileFeedCell.swift */,
-				3171AC711E3396470063198C /* ExperienceCell.swift */,
 				3171AC721E3396470063198C /* PortfolioCell.swift */,
 				3171AC731E3396470063198C /* Addcell.swift */,
 				3171AC741E3396470063198C /* CompanyprofileJobsCell.swift */,
 				3171AC751E3396470063198C /* SpecialOfferCell.swift */,
+				200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */,
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -227,11 +227,12 @@
 		31663C891E24CA7500D5DD3C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3193295D1E1A614200456DDF /* Experience.swift */,
 				31691C771E30A2430029CDB6 /* Register.swift */,
 				31691C791E30A2510029CDB6 /* Login.swift */,
 				31691C7B1E30A25A0029CDB6 /* Info.swift */,
 				314676BF1E23C51600B01108 /* YourTrades.swift */,
+				3193295D1E1A614200456DDF /* Experience.swift */,
+				31691C731E307E620029CDB6 /* RatesTravel.swift */,
 				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
 				31663C801E24C18400D5DD3C /* NotificationTab.swift */,
 				31663C861E24C5AB00D5DD3C /* MessageTab.swift */,
@@ -239,7 +240,6 @@
 				31B6BE711E265C37009C03C7 /* JobCenter.swift */,
 				3118664B1E274C18008A4C74 /* Connections.swift */,
 				31FB339A1E27791000157820 /* JobDetail.swift */,
-				31691C731E307E620029CDB6 /* RatesTravel.swift */,
 				31691C751E3091C40029CDB6 /* Certificates.swift */,
 				312297DE1E2F6FDD00EC48F7 /* ContractorDetail.swift */,
 				31A6ED781E31D3470039A780 /* SlidingMenu.swift */,
@@ -679,13 +679,13 @@
 				312297DF1E2F6FDD00EC48F7 /* ContractorDetail.swift in Sources */,
 				31691C7A1E30A2510029CDB6 /* Login.swift in Sources */,
 				319329971E1A7C9400456DDF /* Globals.swift in Sources */,
-				3171AC771E3396470063198C /* ExperienceCell.swift in Sources */,
 				319329981E1A7C9400456DDF /* Reachability.swift in Sources */,
 				3118664E1E274C32008A4C74 /* ConnectionCell.swift in Sources */,
 				314A44CB1E1B73A600401F49 /* CustomCategories.swift in Sources */,
 				319329961E1A7C9400456DDF /* CreditCardFormatter.swift in Sources */,
 				314676C01E23C51600B01108 /* YourTrades.swift in Sources */,
 				31663C8F1E25085500D5DD3C /* DashBoardCvCell.swift in Sources */,
+				200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */,
 				3171AC791E3396470063198C /* Addcell.swift in Sources */,
 				3171AC6C1E3396320063198C /* EditProfile.swift in Sources */,
 				31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */,

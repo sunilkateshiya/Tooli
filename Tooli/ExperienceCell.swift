@@ -2,18 +2,17 @@
 //  ExperienceCell.swift
 //  Tooli
 //
-//  Created by Impero-Moin on 19/01/17.
+//  Created by Impero IT on 25/01/2017.
 //  Copyright © 2017 Moin Shirazi. All rights reserved.
 //
 
 import UIKit
 
 class ExperienceCell: UITableViewCell {
-
-     @IBOutlet weak var LblJobTitle: UILabel!
-     @IBOutlet weak var lblUntil: UILabel!
-     @IBOutlet weak var lblFrom: UILabel!
-     @IBOutlet weak var lblCompany: UILabel!
+    @IBOutlet var btnClose : UIButton!
+    @IBOutlet var txtJobTitle : UITextField!
+    @IBOutlet var txtCompany : UITextField!
+    @IBOutlet var txtExperience : UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,6 +22,11 @@ class ExperienceCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func closeCell (sender : UIButton) {
+        let indexpath = NSIndexPath(row: sender.tag-100, section: 0)
+        NotificationCenter.default.post(Notification.init(name: Notification.Name(rawValue: "RemoveCell"), object: nil, userInfo: ["index":indexpath.row] ))
     }
 
 }

@@ -107,8 +107,8 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
                     {
                         let userDefaults = UserDefaults.standard
                         
-                        //userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
-                        //userDefaults.synchronize()
+                        userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                        userDefaults.synchronize()
                         
 //                        let obj : YourTrades = self.storyboard?.instantiateViewController(withIdentifier: "YourTrades") as! YourTrades
 //                        self.navigationController?.pushViewController(obj, animated: true)

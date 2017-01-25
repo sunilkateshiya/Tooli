@@ -17,6 +17,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBOutlet var btntrades : UIButton!
     
+    let options = ["Own Vehicle","Licence Held"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
         //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
         
-        return  10
+        return  options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
@@ -63,7 +64,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource 
        
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             
-            cell.textLabel?.text = "Trades " +  "\(indexPath.row)"
+            cell.textLabel?.text = "\(options[indexPath.row])"
             return cell
             
         

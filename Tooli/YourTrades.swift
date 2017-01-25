@@ -12,6 +12,7 @@ import Toast_Swift
 import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
+import ActionSheetPicker_3_0
 class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, NVActivityIndicatorViewable {
 
     @IBOutlet var vwhide : UIView!
@@ -26,9 +27,22 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     @IBOutlet var btnskills : UIButton!
     @IBOutlet var btntrades : UIButton!
 
+    @IBOutlet var txtAdderess : UITextField!
+    @IBOutlet var lblDistance : UILabel!
+    @IBOutlet var txtPostcode : UITextField!
+    
+    @IBOutlet var slider : UISlider!
+    
+    var city : String = ""
+    var postcode : String = ""
+    
     var sharedManager : Globals = Globals.sharedInstance
     var isTradeSelected : Bool = false;
-    
+    var selectedTrade = 0;
+    var selectedSkills : [String] = [];
+    var lat = 0.0000
+    var long = 0.0000
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +65,10 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
          getMasters()
         GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
         
+        self.tvskills.allowsMultipleSelection = true
+
+        let leftTrackImage = UIImage(named: "mySlider")
+        slider.setThumbImage(leftTrackImage, for: .normal)
     }
     
     func getMasters(){
@@ -100,24 +118,45 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     @IBAction func btntrades(_ sender: Any) {
-  
-        if btntrades.isSelected {
-            tvtradesheight.constant = 0
-            btntrades.isSelected = false
-        }
-        else{
-            btntrades.isSelected = true
-            tvtradesheight.constant = 44 * 10
 
-            tvtrades.reloadData()
+        var trades : [String] = []
+        for trade in  sharedManager.masters.DataList! {
+            trades.append(trade.TradeCategoryName)
         }
+        
+        
+        ActionSheetStringPicker.show(withTitle: "Select Trade", rows: trades, initialSelection: 0, doneBlock: {
+            picker, value, index in
+            
+            print("value = \(value)")
+            self.selectedTrade = value
+            // Reload table
+            
+            self.tvskills.reloadData()
+            self.btntrades.setTitle(String(describing: index!), for: UIControlState.normal)
+            
+            print("index = \(index!)")
+            print("picker = \(picker)")
+            return
+        }, cancel: { ActionStringCancelBlock in return }, origin: sender)
+        
+//        if btntrades.isSelected {
+//            tvtradesheight.constant = 0
+//            btntrades.isSelected = false
+//        }
+//        else{
+//            btntrades.isSelected = true
+//            tvtradesheight.constant = 44 * 10
+//
+//            tvtrades.reloadData()
+//        }
     }
    
     @IBAction func btnskills(_ sender: Any) {
         
         if btnskills.isSelected {
-            tvskillsheight.constant = 0
-            btnskills.isSelected = false
+//            tvskillsheight.constant = 0
+//            btnskills.isSelected = false
         }
         else{
             btnskills.isSelected = true
@@ -140,42 +179,30 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         guard ((sharedManager.masters) != nil) else {
             return 0
         }
-        if tableView == self.tvtrades {
-            return  (sharedManager.masters.DataList?.count)!
-        }
-        else {
-            return 10
-        }
+        
+        return  (sharedManager.masters.DataList![selectedTrade].ServiceList?.count)!
+        
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        
-        if tableView == self.tvtrades {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            
-            cell.textLabel?.text = "Trades " +  "\(indexPath.row)"
-            return cell
-            
-        }
-        else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-            cell.textLabel?.text = "Skills " +  "\(indexPath.row)"
+            cell.textLabel?.text = "Skills " +  "\(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceName)"
+        cell.accessoryType = cell.isSelected ? .checkmark : .none
+        cell.selectionStyle = .none // to prevent cells from being "highlighted"
             return cell
-        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        selectedSkills.append(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if tableView == self.tvtrades {
-            self.isTradeSelected = true
-            
-        }
-        else {
-            
-        }
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        selectedSkills.remove(at: selectedSkills.index(of: String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))! )
     }
-    
     // MARK: - AutoComplete Code
     
     @IBAction func autocompleteClicked(_ sender: UIButton) {
@@ -187,11 +214,90 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
         autocompleteController.view.addSubview(header)
         
+        let filter = GMSAutocompleteFilter();
+        filter.type = GMSPlacesAutocompleteTypeFilter.city
+        
+        //autocompleteController.autocompleteFilter = filter
+        
         self.navigationController?.setToolbarHidden(false, animated: true)
         autocompleteController.navigationController?.setToolbarHidden(false, animated: true)
         present(autocompleteController, animated: true, completion: nil)
     }
 
+    @IBAction func valueChanged (sender : UISlider) {
+        self.lblDistance.text = "\(Int(sender.value)) Miles"
+    }
+    
+    @IBAction func actionBack(sender : UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func actionSubmit(sender : UIButton) {
+        var isValid : Bool = true
+        if txtPostcode.text == "" {
+            isValid = false
+            self.view.makeToast("Please enter valid postcode", duration: 3, position: .bottom)
+        }
+        else if txtAdderess.text == "" {
+            isValid = false
+            self.view.makeToast("Please enter valid address", duration: 3, position: .bottom)
+        }
+        else if selectedSkills.count == 0 {
+            isValid = false
+            self.view.makeToast("Please select at least one skill", duration: 3, position: .bottom)
+        }
+        
+        if  isValid {
+            self.startAnimating()
+            var param = [:] as [String : Any]
+            param["ContractorID"] = sharedManager.currentUser.ContractorID
+            param["TradeCategoryID"] = sharedManager.masters.DataList?[selectedTrade].PrimaryID
+            param["FullAddress"] = self.txtAdderess.text
+            param["CityName"] = self.city
+            param["StreetAddress"] = self.txtAdderess.text
+            param["Zipcode"] = self.postcode
+            param["DistanceRadius"] = Int(self.slider.value)
+            param["Latitude"] = self.lat
+            param["Longitude"] = self.long
+            param["ServiceIDGroup"] = self.selectedSkills.joined(separator: ",")
+            
+            print(param)
+            AFWrapper.requestPOSTURL(Constants.URLS.ContractorTradeUpdate, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                (JSONResponse) -> Void in
+                
+                self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                
+                if JSONResponse != nil {
+                    
+                    if JSONResponse["status"].rawString()! == "1"
+                    {
+                        let userDefaults = UserDefaults.standard
+                        
+                        userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                        userDefaults.synchronize()
+
+                        self.stopAnimating()
+                        
+                        let obj : Experience = self.storyboard?.instantiateViewController(withIdentifier: "Experience") as! Experience
+                        self.navigationController?.pushViewController(obj, animated: true)
+                        
+                    }
+                    else
+                    {
+                        self.stopAnimating()
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    }
+                    
+                }
+                
+            }) {
+                (error) -> Void in
+                self.stopAnimating()
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            }
+        }
+    }
+    
    
     /*
     // MARK: - Navigation
@@ -208,9 +314,27 @@ extension YourTrades: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        
         print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
+        print("Place address: \(place.formattedAddress!)")
         print("Place attributions: \(place.attributions)")
+        
+        self.lat = (place.coordinate.latitude)
+        self.long = (place.coordinate.longitude)
+        
+        for tmt in place.addressComponents! {
+            if tmt.type == "administrative_area_level_2" {
+                 print("City is : \(tmt.name) ")
+                 self.city = tmt.name
+            }
+            if tmt.type == "postal_code" {
+                print("Postal code is : \(tmt.name) ")
+                self.postcode = tmt.name
+                self.txtPostcode.text = tmt.name
+            }
+        }
+        
+        self.txtAdderess.text = place.formattedAddress
         dismiss(animated: true, completion: nil)
     }
     

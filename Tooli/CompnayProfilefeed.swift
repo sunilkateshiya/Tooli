@@ -309,10 +309,10 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
                
                let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ExperienceCell
                
-               cell.lblCompany?.text = "Company " +  "\(indexPath.row)"
-               cell.lblFrom?.text = "From " +  "\(indexPath.row)"
-               cell.LblJobTitle?.text = "Job title " +  "\(indexPath.row)"
-               cell.lblUntil?.text = "Until " +  "\(indexPath.row)"
+//               cell.lblCompany?.text = "Company " +  "\(indexPath.row)"
+//               cell.lblFrom?.text = "From " +  "\(indexPath.row)"
+//               cell.LblJobTitle?.text = "Job title " +  "\(indexPath.row)"
+//               cell.lblUntil?.text = "Until " +  "\(indexPath.row)"
                
                return cell
           }

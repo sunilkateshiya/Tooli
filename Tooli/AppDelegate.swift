@@ -48,7 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: userinfo)
             
             if  self.sharedManager.currentUser.IsSetupProfile {
-                moveToDashboard()
+                //moveToDashboard()
+                moveToInfo()
             }
             else {
                 moveToInfo()
@@ -137,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
-        let initialViewController : YourTrades = storyboard.instantiateViewController(withIdentifier: "YourTrades") as! YourTrades
+        let initialViewController : RatesTravel = storyboard.instantiateViewController(withIdentifier: "RatesTravel") as! RatesTravel
        
         self.navigationController?.viewControllers = [initialViewController]
         self.window?.rootViewController = self.navigationController
