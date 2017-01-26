@@ -152,7 +152,9 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
         let obj : RatesTravel = self.storyboard?.instantiateViewController(withIdentifier: "RatesTravel") as! RatesTravel
         self.navigationController?.pushViewController(obj, animated: true)
     }
-    
+    @IBAction func btnBack(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
 
 }
 

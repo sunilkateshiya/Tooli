@@ -114,8 +114,11 @@ class Login: UIViewController, NVActivityIndicatorViewable {
 
     @IBAction func btnfblogin(_ sender: AnyObject) {
         let loginManager = LoginManager()
+        //self.startAnimating()
         loginManager.logIn([ .publicProfile, .email ], viewController: self) { loginResult in
+           // self.stopAnimating()
             switch loginResult {
+                
             case .failed(let error):
                 print(error)
             case .cancelled:
@@ -127,6 +130,58 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                 connection.add(GraphRequest(graphPath:"me", parameters: params)) { httpResponse, result in
                     switch result {
                     case .success(let response):
+                        self.startAnimating()
+                        let param = ["FBAccountID": response.dictionaryValue?["id"] ?? "123",
+                                     "Platform": "iOS",
+                                     "DeviceToken": self.sharedManager.deviceToken != nil ? self.sharedManager.deviceToken! : ""] as [String : Any]
+                        
+                        print(param)
+                        AFWrapper.requestPOSTURL(Constants.URLS.ContractorFacebookSignIn, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                            (JSONResponse) -> Void in
+                            
+                            self.stopAnimating()
+                            self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                            
+                            print(self.sharedManager.currentUser)
+                            print(JSONResponse["status"].rawValue as! String)
+                            
+                            if JSONResponse != nil{
+                                
+                                if self.sharedManager.currentUser.status == "1"
+                                {
+                                    
+                                    let userDefaults = UserDefaults.standard
+                                    userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
+                                    
+                                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                    userDefaults.synchronize()
+                                    
+                                    
+                                    if self.sharedManager.currentUser.IsSetupProfile == true {
+                                        
+                                        
+                                        self.appDelegate().moveToDashboard()
+                                    }
+                                    else{
+                                        let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                                        self.navigationController?.pushViewController(obj, animated: true)
+                                        
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                }
+                                
+                                self.view.makeToast(self.sharedManager.currentUser.message, duration: 3, position: .bottom)
+                            }
+                            
+                        }) {
+                            (error) -> Void in
+                            print(error.localizedDescription)
+                            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                        }
+                        
                         print("Graph Request Succeeded: \(response)")
                     case .failed(let error):
                         print("Graph Request Failed: \(error)")

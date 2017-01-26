@@ -10,7 +10,9 @@ import UIKit
 import ObjectMapper
 import NVActivityIndicatorView
 import Toast_Swift
-
+import FBSDKLoginKit
+import FacebookCore
+import FacebookLogin
 class Register: UIViewController, NVActivityIndicatorViewable {
 
     @IBOutlet var txtemail : UITextField!
@@ -111,6 +113,39 @@ class Register: UIViewController, NVActivityIndicatorViewable {
     }
     
 
+    @IBAction func btnfblogin(_ sender: AnyObject) {
+        let loginManager = LoginManager()
+        //self.startAnimating()
+        loginManager.logIn([ .publicProfile, .email ], viewController: self) { loginResult in
+            
+            //self.stopAnimating()
+            
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled lo gin.")
+            case .success(let _, let declinedPermissions, let accessToken):
+                
+                let connection = GraphRequestConnection()
+                let params = ["fields" :"id, email, name, first_name, last_name, gender"]
+                connection.add(GraphRequest(graphPath:"me", parameters: params)) { httpResponse, result in
+                    switch result {
+                    case .success(let response):
+                        print("Graph Request Succeeded: \(response)")
+                        self.txtemail.text = response.dictionaryValue?["email"] as! String?
+                        self.txtfname.text = response.dictionaryValue?["first_name"] as! String?
+                        self.txtlname.text = response.dictionaryValue?["last_name"] as! String?
+                    case .failed(let error):
+                        print("Graph Request Failed: \(error)")
+                    }
+                }
+                connection.start()
+            }
+        }
+        
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -89,17 +89,17 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
           return cell!
      }
      
-     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
           return 50.0
      }
      
-      func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           //Present new view controller
           let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main",bundle: nil)
           var destViewController : UIViewController
           switch (indexPath.row) {
           case 0:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "DashBoard")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "EditProfile")
                break
           case 1:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "TrackList")
@@ -124,6 +124,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
+        self.navigationController?.pushViewController(destViewController, animated: true)
           sideMenuController()?.setContentViewController(destViewController)
      }
      

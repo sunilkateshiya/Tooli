@@ -36,9 +36,22 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
         imguser.addGestureRecognizer(tapGestureRecognizer)
         
         // Do any additional setup after loading the view.
-       
+       setValues()
     }
 
+    
+    func setValues() {
+        if (sharedManager.currentUser != nil) {
+            self.txtabout.text = sharedManager.currentUser.Aboutme
+            self.txtphone.text = sharedManager.currentUser.LandlineNumber
+            self.txtmobile.text = sharedManager.currentUser.MobileNumber
+            self.txtdateofbirth.text = sharedManager.currentUser.DOB
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
+            self.txtdateofbirth.text = self.selectedDate.toDisplayString()
+        }
+    }
    
     
     override func didReceiveMemoryWarning() {
@@ -75,10 +88,10 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             self.view.makeToast("Please enter about me.", duration: 3, position: .bottom)
             validflag = 1
         }
-        else if isImageSelected == false  {
-            self.view.makeToast("Please select image.", duration: 3, position: .bottom)
-            validflag = 1
-        }
+//        else if isImageSelected == false  {
+//            self.view.makeToast("Please select image.", duration: 3, position: .bottom)
+//            validflag = 1
+//        }
         
         
         
@@ -96,7 +109,11 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
                 (JSONResponse) -> Void in
                 
                 self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-                self.uploadphoto()
+                if  self.isImageSelected {
+                
+                    self.uploadphoto()
+                    
+                }
                 //self.stopAnimating()
                 
                 print(JSONResponse["status"].rawValue as! String)
@@ -109,9 +126,11 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
                         
                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                         userDefaults.synchronize()
-                        
-//                        let obj : YourTrades = self.storyboard?.instantiateViewController(withIdentifier: "YourTrades") as! YourTrades
-//                        self.navigationController?.pushViewController(obj, animated: true)
+                        if  !self.isImageSelected {
+                            let obj : YourTrades = self.storyboard?.instantiateViewController(withIdentifier: "YourTrades") as! YourTrades
+                            self.navigationController?.pushViewController(obj, animated: true)
+                        }
+
                         
                     }
                     else
@@ -244,7 +263,9 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             }
         }
     }
-    
+    @IBAction func btnBack(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
     // MARK: - AutoComplete Code
     
     @IBAction func autocompleteClicked(_ sender: UIButton) {
@@ -262,6 +283,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             print("picker = \(picker)")
             let dob : Date = value as! Date
             self.txtdateofbirth.text = dob.toDisplayString()
+            self.selectedDate = dob
         }, cancel: { ActionStringCancelBlock in return }, origin: sender.superview!.superview)
         
         //datePicker?.minimumDate = NSDate(timeInterval: -secondsInMinYear, since: NSDate() as Date) as Date!

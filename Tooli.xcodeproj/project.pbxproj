@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */; };
+		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
+		20FF04851E3A2DFA00CF53E5 /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF04841E3A2DFA00CF53E5 /* SkillCell.swift */; };
 		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
 		3118664C1E274C18008A4C74 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664B1E274C18008A4C74 /* Connections.swift */; };
@@ -89,6 +91,8 @@
 /* Begin PBXFileReference section */
 		188DC577411309CBD8F4498A /* Pods-TooliUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests.release.xcconfig"; sourceTree = "<group>"; };
 		200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceCell.swift; sourceTree = "<group>"; };
+		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
+		20FF04841E3A2DFA00CF53E5 /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = ../../Downloads/SkillCell.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
 		3118664B1E274C18008A4C74 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
 		3118664D1E274C32008A4C74 /* ConnectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
@@ -214,12 +218,14 @@
 				31B6BE731E265C56009C03C7 /* JobCenterCell.swift */,
 				3118664D1E274C32008A4C74 /* ConnectionCell.swift */,
 				31663C8E1E25085500D5DD3C /* DashBoardCvCell.swift */,
+				20FF04841E3A2DFA00CF53E5 /* SkillCell.swift */,
 				3171AC701E3396470063198C /* ProfileFeedCell.swift */,
 				3171AC721E3396470063198C /* PortfolioCell.swift */,
 				3171AC731E3396470063198C /* Addcell.swift */,
 				3171AC741E3396470063198C /* CompanyprofileJobsCell.swift */,
 				3171AC751E3396470063198C /* SpecialOfferCell.swift */,
 				200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */,
+				206A08701E39D2A3004C6036 /* CertificateCell.swift */,
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -233,6 +239,7 @@
 				314676BF1E23C51600B01108 /* YourTrades.swift */,
 				3193295D1E1A614200456DDF /* Experience.swift */,
 				31691C731E307E620029CDB6 /* RatesTravel.swift */,
+				31691C751E3091C40029CDB6 /* Certificates.swift */,
 				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
 				31663C801E24C18400D5DD3C /* NotificationTab.swift */,
 				31663C861E24C5AB00D5DD3C /* MessageTab.swift */,
@@ -240,7 +247,6 @@
 				31B6BE711E265C37009C03C7 /* JobCenter.swift */,
 				3118664B1E274C18008A4C74 /* Connections.swift */,
 				31FB339A1E27791000157820 /* JobDetail.swift */,
-				31691C751E3091C40029CDB6 /* Certificates.swift */,
 				312297DE1E2F6FDD00EC48F7 /* ContractorDetail.swift */,
 				31A6ED781E31D3470039A780 /* SlidingMenu.swift */,
 				3171AC681E3396320063198C /* EditProfile.swift */,
@@ -653,6 +659,7 @@
 				31A6ED791E31D3470039A780 /* SlidingMenu.swift in Sources */,
 				3193295E1E1A614200456DDF /* Experience.swift in Sources */,
 				3171AC781E3396470063198C /* PortfolioCell.swift in Sources */,
+				206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */,
 				3171AC6E1E3396320063198C /* Addportfolio.swift in Sources */,
 				31B6BE741E265C56009C03C7 /* JobCenterCell.swift in Sources */,
 				31691C781E30A2430029CDB6 /* Register.swift in Sources */,
@@ -666,6 +673,7 @@
 				31663C8B1E24CAB400D5DD3C /* DashBoardTab.swift in Sources */,
 				319329931E1A7C9400456DDF /* AFWrapper.swift in Sources */,
 				319329991E1A7C9400456DDF /* UITextField_Inset.swift in Sources */,
+				20FF04851E3A2DFA00CF53E5 /* SkillCell.swift in Sources */,
 				31B6BE721E265C37009C03C7 /* JobCenter.swift in Sources */,
 				3193295C1E1A614200456DDF /* AppDelegate.swift in Sources */,
 				31A6ED771E31D2F40039A780 /* MyNavigationController.swift in Sources */,

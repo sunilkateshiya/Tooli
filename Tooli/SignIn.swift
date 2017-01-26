@@ -10,7 +10,10 @@ import UIKit
 import ObjectMapper
 
 class SignIn: NSObject, Mappable  {
-    
+    var FirstName = ""
+    var LastName = ""
+    var PerDayRate = ""
+
     var status = ""
     var message = ""
     var UserID = 0
@@ -30,7 +33,7 @@ class SignIn: NSObject, Mappable  {
     var EmailID = ""
     var Aboutme = ""
     var Zipcode = ""
-    var DistanceRadius = ""
+    var DistanceRadius = 0
     var IsLicenceHeld : Bool = false
     var IsOwnVehicle : Bool = false
     var FullAddress = ""
@@ -80,7 +83,9 @@ class SignIn: NSObject, Mappable  {
         ServiceList <- map["ServiceList"]
         ExperienceList <- map["ExperienceList"]
         PortfolioList <- map["PortfolioList"]
-
+        FirstName <- map["FirstName"]
+        LastName <- map["LastName"]
+        PerDayRate <- map["PerDayRate"]
         
     }
     func mapping(map: Map) {
@@ -117,6 +122,9 @@ class SignIn: NSObject, Mappable  {
         ServiceList <- map["ServiceList"]
         ExperienceList <- map["ExperienceList"]
         PortfolioList <- map["PortfolioList"]
+        FirstName <- map["FirstName"]
+        LastName <- map["LastName"]
+        PerDayRate <- map["PerDayRate"]
     }
 }
 
@@ -140,7 +148,7 @@ class Trades : NSObject, Mappable {
     var PrimaryID = 0
     var TradeCategoryName = ""
     var ServiceList : [ServiceListM]? = []
-    var CertificateCategoryList : [CertificateFileListM]? = []
+    var CertificateCategoryList : [CertificateCategoryList]? = []
     required init?(map: Map) {
         PrimaryID <- map["PrimaryID"]
         TradeCategoryName <- map["TradeCategoryName"]
@@ -152,6 +160,22 @@ class Trades : NSObject, Mappable {
         TradeCategoryName <- map["TradeCategoryName"]
         ServiceList <- map["ServiceList"]
         CertificateCategoryList <- map["CertificateCategoryList"]
+    }
+}
+
+class CertificateCategoryList : NSObject, Mappable {
+    var PrimaryID = 0
+    var CertificateCategoryName = ""
+    required override init(){
+        
+    }
+    required init?(map: Map) {
+       PrimaryID <- map["PrimaryID"]
+       CertificateCategoryName <- map["CertificateCategoryName"]
+    }
+    func mapping(map: Map) {
+        PrimaryID <- map["PrimaryID"]
+        CertificateCategoryName <- map["CertificateCategoryName"]
     }
 }
 
@@ -272,4 +296,56 @@ class Experiences : NSObject, Mappable {
         CompanyName <- map["CompanyName"]
         ExperienceYear <- map["ExperienceYear"]
     }
+}
+
+class AppNotificationsList: NSObject, Mappable {
+    var status = "0"
+    var message = ""
+    var DataList : [NotificationDetail] = []
+    
+    required override init(){
+        
+    }
+    required init?(map : Map) {
+        status <- map["status"]
+        message <- map["message"]
+        DataList <- map["DataList"]
+    }
+    func mapping(map: Map) {
+        status <- map["status"]
+        message <- map["message"]
+        DataList <- map["DataList"]
+    }
+}
+
+class NotificationDetail: NSObject, Mappable {
+    var TransactionID = 0
+    var NotificationStatusID = 0
+    var ProfileImageLink = ""
+    var UserProfileLink = ""
+    var FullName = ""
+    var NotificationText = ""
+    var AddedOn = ""
+    var IsRead = false
+    var JobTitle = ""
+    var RedirectLink = ""
+    required override init(){
+        
+    }
+    required init?(map : Map) {
+        
+    }
+    func mapping(map: Map) {
+        TransactionID <- map["TransactionID"]
+        NotificationStatusID <- map["NotificationStatusID"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        UserProfileLink <- map["UserProfileLink"]
+        FullName <- map["FullName"]
+        NotificationText <- map["NotificationText"]
+        AddedOn <- map["AddedOn"]
+        IsRead <- map["IsRead"]
+        JobTitle <- map["JobTitle"]
+        RedirectLink <- map["RedirectLink"]
+    }
+    
 }
