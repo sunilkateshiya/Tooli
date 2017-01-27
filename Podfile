@@ -28,6 +28,7 @@ pod 'ENSwiftSideMenu', '~> 0.1.1'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'FacebookShare'
+pod 'ActiveLabel'
 #pod 'GooglePlacesAutocomplete'
 pod 'ActionSheetPicker-3.0'
   # Pods for Tooli

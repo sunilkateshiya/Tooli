@@ -49,7 +49,10 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
-            self.txtdateofbirth.text = self.selectedDate.toDisplayString()
+            if (self.selectedDate != nil) {
+                self.txtdateofbirth.text = self.selectedDate.toDisplayString()
+            }
+            
         }
     }
    

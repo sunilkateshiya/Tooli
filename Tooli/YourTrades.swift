@@ -62,19 +62,43 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         tvskills.rowHeight = UITableViewAutomaticDimension
         tvskills.estimatedRowHeight = 450
         tvskills.tableFooterView = UIView()
-         getMasters()
+        getMasters()
         GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
         
         self.tvskills.allowsMultipleSelection = true
 
         let leftTrackImage = UIImage(named: "mySlider")
         slider.setThumbImage(leftTrackImage, for: .normal)
+        
+    }
+    
+    func setValues() {
+        if (sharedManager.currentUser != nil) {
+            self.txtAdderess.text = sharedManager.currentUser.StreetAddress
+            self.txtPostcode.text = sharedManager.currentUser.Zipcode
+            self.slider.value = Float(Int(sharedManager.currentUser.DistanceRadius))
+            self.btntrades.setTitle(String(describing: self.sharedManager.currentUser.TradeCategoryName), for: UIControlState.normal)
+            self.postcode=sharedManager.currentUser.Zipcode
+            self.city = sharedManager.currentUser.CityName
+            for currentService in sharedManager.currentUser.ServiceList! {
+                selectedSkills.append(String(currentService.ServiceID))
+            }
+            var i = 0;
+            for trades in sharedManager.masters.DataList! {
+                
+                if trades.PrimaryID == sharedManager.currentUser.TradeCategoryID {
+                    selectedTrade = i
+                }
+                i = i + 1;
+            }
+            
+            
+        }
     }
     
     func getMasters(){
         // Z_MasterDataList
-        
-        
+
         self.startAnimating()
         let param = [:] as [String : Any]
         
@@ -92,7 +116,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     self.stopAnimating()
-                    
+                    //self.setValues()
                 }
                 else
                 {
@@ -130,8 +154,8 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             
             print("value = \(value)")
             self.selectedTrade = value
-            // Reload table
             
+            // Reload table
             self.tvskills.reloadData()
             self.btntrades.setTitle(String(describing: index!), for: UIControlState.normal)
             
@@ -186,22 +210,41 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SkillCell
         
-            cell.textLabel?.text = "Skills " +  "\(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceName)"
-        cell.accessoryType = cell.isSelected ? .checkmark : .none
-        cell.selectionStyle = .none // to prevent cells from being "highlighted"
-            return cell
+        cell.lblSkillName?.text = "Skills " +  "\(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceName)"
+        if  selectedSkills .contains(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID)) {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+        }
+        else {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        selectedSkills.append(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))
+        let cell = tableView.cellForRow(at: indexPath) as! SkillCell
+        
+        if  selectedSkills .contains(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID)) {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+            selectedSkills.remove(at: selectedSkills.index(of: String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))! )
+        }
+        else {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+            selectedSkills.append(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        selectedSkills.remove(at: selectedSkills.index(of: String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))! )
+        let cell = tableView.cellForRow(at: indexPath) as! SkillCell
+        if  selectedSkills .contains(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID)) {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+            selectedSkills.remove(at: selectedSkills.index(of: String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))! )
+        }
+        else {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+            selectedSkills.append(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID))
+        }
     }
     // MARK: - AutoComplete Code
     

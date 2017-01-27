@@ -7,11 +7,19 @@
 
 import UIKit
 import ENSwiftSideMenu
+import Toast_Swift
+import NVActivityIndicatorView
+import ObjectMapper
+import Alamofire
 
-class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate  {
+class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable  {
 
     @IBOutlet var tvnoti : UITableView!
-    
+    var sharedManager : Globals = Globals.sharedInstance
+    var currentPage = 1
+    var notificationList : AppNotificationsList = AppNotificationsList();
+    var isFull : Bool = false
+    var isFirstTime : Bool = true
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,10 +29,76 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         tvnoti.estimatedRowHeight = 450
         tvnoti.tableFooterView = UIView()
         
-        
+       
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        getNotifications(page: self.currentPage);
+    }
+    
+    func getNotifications(page : Int){
+        if self.isFirstTime {
+            self.startAnimating()
+        }
+        else {
+            let view : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 80))
+            let activity : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            activity.startAnimating()
+            view.addSubview(activity)
+            self.tvnoti.tableFooterView = view
+        }
+        var param = [:] as [String : Any]
+        param["ContractorID"] = sharedManager.currentUser.ContractorID
+        param["ContractorID"] = "1"
+        param["PageIndex"] = page
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.NotificationList, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil {
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    if self.isFirstTime {
+                        self.notificationList = Mapper<AppNotificationsList>().map(JSONObject: JSONResponse.rawValue)!
+                        self.isFirstTime = false;
+                    }
+                    else {
+                        let tmpList : AppNotificationsList = Mapper<AppNotificationsList>().map(JSONObject: JSONResponse.rawValue)!
+                        for tmpNotifcation in tmpList.DataList {
+                            self.notificationList.DataList.append(tmpNotifcation)
+                        }
+                        self.currentPage = self.currentPage + 1
+                    }
+                    self.tvnoti.reloadData()
+                    //self.setValues()
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.isFull = true
+                    self.isFirstTime = false;
+                    //self.currentPage = 1
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.tvnoti.reloadData()
+                }
+                
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -39,18 +113,40 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
         //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
+       
+        guard notificationList != nil else {
+            return 0
+        }
         
-        return  10
+        return  notificationList.DataList.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-    
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTabCell
-        cell.lbltitle.text = "Colin Surname sent you a message"
-        cell.lbldate.text = "01/10/2016 at 10:10am - Lancaster"
-        cell.imguser.image = UIImage(named: "image")
-        return cell
+        if indexPath.row < notificationList.DataList.count  {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTabCell
+            cell.lbltitle.text = notificationList.DataList[indexPath.row].NotificationText
+            cell.lbldate.text = notificationList.DataList[indexPath.row].AddedOn
+            cell.imguser.image = UIImage(named: "image")
+            return cell
+        }
+        
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "loadingCell") as! LoadingCell
+            cell.activity.startAnimating()
+            
+            return cell
+        }
+        
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y > 10 {
+            self.getNotifications(page: currentPage )
+        }
+        
+        
+    }
+    
     /*
     // MARK: - Navigation
 
