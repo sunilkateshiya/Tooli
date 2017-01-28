@@ -11,7 +11,7 @@ import Toast_Swift
 import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
-
+import Kingfisher
 class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable  {
 
     @IBOutlet var tvnoti : UITableView!
@@ -86,7 +86,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
                     self.isFirstTime = false;
                     //self.currentPage = 1
                     self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                    self.tvnoti.reloadData()
+                    //self.tvnoti.reloadData()
                 }
                 
             }
@@ -118,29 +118,38 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             return 0
         }
         
-        return  notificationList.DataList.count + 1
+        return  notificationList.DataList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        if indexPath.row < notificationList.DataList.count  {
+        if indexPath.row == notificationList.DataList.count-1  {
+            self.getNotifications(page: currentPage)
+        }
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTabCell
             cell.lbltitle.text = notificationList.DataList[indexPath.row].NotificationText
             cell.lbldate.text = notificationList.DataList[indexPath.row].AddedOn
-            cell.imguser.image = UIImage(named: "image")
-            return cell
-        }
-        
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "loadingCell") as! LoadingCell
-            cell.activity.startAnimating()
+            
+
+            
+            let url = URL(string: notificationList.DataList[indexPath.row].ProfileImageLink)!
+            let resource = ImageResource(downloadURL: url, cacheKey: notificationList.DataList[indexPath.row].ProfileImageLink)
+
+             cell.imguser.kf.setImage(with: resource)
+            cell.imguser.clipsToBounds = true
+            cell.imguser.cornerRadius = cell.imguser.frame.width / 2
             
             return cell
-        }
+     
+        
+       
         
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y > 10 {
+        
+        let tblheight = self.notificationList.DataList.count * 80
+        
+        if scrollView.contentOffset.y > CGFloat(tblheight) {
             self.getNotifications(page: currentPage )
         }
         

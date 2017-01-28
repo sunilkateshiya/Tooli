@@ -11,7 +11,6 @@
 		204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E71DD1E3B235D00E971E0 /* EditExperience.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
-		20FF04851E3A2DFA00CF53E5 /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF04841E3A2DFA00CF53E5 /* SkillCell.swift */; };
 		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
 		3118664C1E274C18008A4C74 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664B1E274C18008A4C74 /* Connections.swift */; };
@@ -70,6 +69,8 @@
 		31E947CD1E3244960005184D /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E947CC1E3244960005184D /* FBSDKShareKit.framework */; };
 		31FB339B1E27791000157820 /* JobDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FB339A1E27791000157820 /* JobDetail.swift */; };
 		41AEF2D84B3232A0334CE548 /* Pods_Tooli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF153FAE8C921DB8201C28D /* Pods_Tooli.framework */; };
+		B8010AC31E3C5F1B00961C8D /* EditCertificate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */; };
+		B83AA1E51E3C5BF2004FD90F /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83AA1E41E3C5BF2004FD90F /* SkillCell.swift */; };
 		FDB6D16A9DFEA54312FF9CCB /* Pods_TooliUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 534A386BB0DEF1795088B19F /* Pods_TooliUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,7 +97,6 @@
 		204E71DD1E3B235D00E971E0 /* EditExperience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditExperience.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
-		20FF04841E3A2DFA00CF53E5 /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = ../../Downloads/SkillCell.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
 		3118664B1E274C18008A4C74 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
 		3118664D1E274C32008A4C74 /* ConnectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
@@ -163,6 +163,8 @@
 		534A386BB0DEF1795088B19F /* Pods_TooliUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TooliUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		58553292CE7B94A7F9B486DF /* Pods-TooliUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A9AFEDC52344310C4170358D /* Pods-Tooli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tooli.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tooli/Pods-Tooli.debug.xcconfig"; sourceTree = "<group>"; };
+		B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCertificate.swift; sourceTree = "<group>"; };
+		B83AA1E41E3C5BF2004FD90F /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCell.swift; sourceTree = "<group>"; };
 		C2733AA69E73BBB45A6610AA /* Pods-TooliTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TooliTests/Pods-TooliTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TooliTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF153FAE8C921DB8201C28D /* Pods_Tooli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tooli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,7 +224,7 @@
 				31B6BE731E265C56009C03C7 /* JobCenterCell.swift */,
 				3118664D1E274C32008A4C74 /* ConnectionCell.swift */,
 				31663C8E1E25085500D5DD3C /* DashBoardCvCell.swift */,
-				20FF04841E3A2DFA00CF53E5 /* SkillCell.swift */,
+				B83AA1E41E3C5BF2004FD90F /* SkillCell.swift */,
 				3171AC701E3396470063198C /* ProfileFeedCell.swift */,
 				3171AC721E3396470063198C /* PortfolioCell.swift */,
 				3171AC731E3396470063198C /* Addcell.swift */,
@@ -298,6 +300,7 @@
 		3193295A1E1A614200456DDF /* Tooli */ = {
 			isa = PBXGroup;
 			children = (
+				B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */,
 				3193295B1E1A614200456DDF /* AppDelegate.swift */,
 				3193295F1E1A614200456DDF /* Main.storyboard */,
 				3193299D1E1A84D300456DDF /* oxygen */,
@@ -657,6 +660,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3193299A1E1A7C9400456DDF /* UIView_Borders.swift in Sources */,
+				B8010AC31E3C5F1B00961C8D /* EditCertificate.swift in Sources */,
 				31FB339B1E27791000157820 /* JobDetail.swift in Sources */,
 				3171AC761E3396470063198C /* ProfileFeedCell.swift in Sources */,
 				319329951E1A7C9400456DDF /* Constants.swift in Sources */,
@@ -675,11 +679,11 @@
 				31691C741E307E620029CDB6 /* RatesTravel.swift in Sources */,
 				3118664C1E274C18008A4C74 /* Connections.swift in Sources */,
 				318694CB1E1F746D000E8349 /* CustomTabBarC.swift in Sources */,
+				B83AA1E51E3C5BF2004FD90F /* SkillCell.swift in Sources */,
 				3171AC7A1E3396470063198C /* CompanyprofileJobsCell.swift in Sources */,
 				31663C8B1E24CAB400D5DD3C /* DashBoardTab.swift in Sources */,
 				319329931E1A7C9400456DDF /* AFWrapper.swift in Sources */,
 				319329991E1A7C9400456DDF /* UITextField_Inset.swift in Sources */,
-				20FF04851E3A2DFA00CF53E5 /* SkillCell.swift in Sources */,
 				31B6BE721E265C37009C03C7 /* JobCenter.swift in Sources */,
 				3193295C1E1A614200456DDF /* AppDelegate.swift in Sources */,
 				31A6ED771E31D2F40039A780 /* MyNavigationController.swift in Sources */,

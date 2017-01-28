@@ -12,11 +12,15 @@ import ActionSheetPicker_3_0
 import ObjectMapper
 import NVActivityIndicatorView
 import GooglePlaces
+import Toast_Swift
+import Alamofire
+
 
 
 
 class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable
 {
+     var DobWebString : String!
 
      let sharedManager : Globals = Globals.sharedInstance
 
@@ -25,7 +29,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
      @IBAction func BTnDOBtapped(_ sender: UIButton) {
           
           var selectedDate : Date!
-
+          
           let secondsInMinYear: TimeInterval = 18 * 365 * 24 * 60 * 60;
           if selectedDate == nil {
                selectedDate = NSDate(timeInterval: -secondsInMinYear, since: NSDate() as Date) as Date!
@@ -40,6 +44,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                print("picker = \(picker)")
                let dob : Date = value as! Date
                self.BtnDob.titleLabel?.text = dob.toDisplayString()
+               self.DobWebString = dob.toWebString()
           }, cancel: { ActionStringCancelBlock in return }, origin: sender.superview!.superview)
           
           //datePicker?.minimumDate = NSDate(timeInterval: -secondsInMinYear, since: NSDate() as Date) as Date!
@@ -50,6 +55,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
      }
 
      var selectedImage : UIImage?
+     var selectedDate : Date!
      var imagePicker: UIImagePickerController!
      var isImageSelected : Bool = false
      var isTradeSelected : Bool = false;
@@ -78,6 +84,107 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
      @IBOutlet weak var TradeHeightConstraints: NSLayoutConstraint!
      @IBOutlet weak var BtnTrade: UIButton!
 
+     @IBAction func ManageExpTapped(_ sender: Any) {
+          let obj : EditExperience = self.storyboard?.instantiateViewController(withIdentifier: "EditExperience") as! EditExperience
+          self.navigationController?.pushViewController(obj, animated: true)
+          
+     }
+     @IBAction func ManageCertTapped(_ sender: Any) {
+          let obj : EditCertificate = self.storyboard?.instantiateViewController(withIdentifier: "EditCertificate") as! EditCertificate
+          self.navigationController?.pushViewController(obj, animated: true)
+     }
+     @IBAction func BtnUpdateProfileTapped(_ sender: Any) {
+          var isValid : Bool = true
+          if TxtName.text == "" {
+               isValid = false
+               self.view.makeToast("Please enter your firstname", duration: 3, position: .bottom)
+          }
+          else if TxtSurname.text == "" {
+               isValid = false
+               self.view.makeToast("Please enter your surname", duration: 3, position: .bottom)
+          }
+               
+          else if TxtViewAboutme.text == "" {
+               isValid = false
+               self.view.makeToast("Please enter your details", duration: 3, position: .bottom)
+          }
+          else if TxtPerDayRate.text == "" {
+               isValid = false
+               self.view.makeToast("Please enter your workout perhour rate", duration: 3, position: .bottom)
+          }
+          else if TxtPerhourRate.text == "" {
+               isValid = false
+               self.view.makeToast("Please enter your workout perday rate", duration: 3, position: .bottom)
+          }
+          else if TxtReferalCode.text == "" {
+               isValid = false
+               self.view.makeToast("Please enter zip code", duration: 3, position: .bottom)
+          }
+          else if selectedSkills.count == 0 {
+               isValid = false
+               self.view.makeToast("Please select at least one skill", duration: 3, position: .bottom)
+          }
+          
+          
+          if  isValid {
+               self.startAnimating()
+               var param = [:] as [String : Any]
+               param["ContractorID"] = sharedManager.currentUser.ContractorID
+               param["TradeCategoryID"] = sharedManager.masters.DataList?[selectedTrade].PrimaryID
+               param["Aboutme"] = self.TxtViewAboutme.text
+               param["Latitude"] = self.lat
+               param["Longitude"] = self.long
+               param["FullAddress"] = self.FullAddress
+               param["StreetAddress"] = self.FullAddress
+               param["CityName"] = self.city
+               param["Zipcode"] = self.postcode
+               param["DOB"] = self.DobWebString
+               param["strPerHourRate"] = self.TxtPerhourRate.text
+               param["strPerDayRate"] = self.TxtPerDayRate.text
+               param["IsLicenceHeld"] = self.isLicenceSelected
+               param["IsOwnVehicle"] = self.isVehicleSelected
+               param["DistanceRadius"] = Int(self.slider.value)
+               param["CompanyName"] = Int(self.slider.value)
+               param["ServiceIDGroup"] = self.selectedSkills.joined(separator: ",")
+               
+               
+               print(param)
+               AFWrapper.requestPOSTURL(Constants.URLS.ContractorTradeUpdate, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                    (JSONResponse) -> Void in
+                    
+                    self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                    
+                    if JSONResponse != nil {
+                         
+                         if JSONResponse["status"].rawString()! == "1"
+                         {
+                              let userDefaults = UserDefaults.standard
+                              
+                              userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                              userDefaults.synchronize()
+                              
+                              self.stopAnimating()
+                              
+                              let obj : EditExperience = self.storyboard?.instantiateViewController(withIdentifier: "EditExperience") as! EditExperience
+                              self.navigationController?.pushViewController(obj, animated: true)
+                              
+                              
+                         }
+                         else
+                         {
+                              self.stopAnimating()
+                              self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                         }
+                         
+                    }
+                    
+               }) {
+                    (error) -> Void in
+                    self.stopAnimating()
+                    self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+               }
+          }
+     }
      @IBAction func LicenceSwitchTapped(_ sender: Any) {
           if LicenceSwitch.isOn {
                isLicenceSelected = true
@@ -153,6 +260,12 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
      self.BtnTrade.setTitle(self.sharedManager.currentUser.TradeCategoryName as String,for: .normal)
      self.BtnDob.setTitle(self.sharedManager.currentUser.DOB as String,for: .normal)
 
+     
+     
+
+     
+     
+     
      self.BtnDob.setTitleColor(Color.black, for: .normal)
 
 
@@ -180,6 +293,21 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
      }
      
      }
+     
+     
+//     func setValues() {
+//          if (sharedManager.currentUser != nil) {
+//               self.txtabout.text = sharedManager.currentUser.Aboutme
+//               self.txtphone.text = sharedManager.currentUser.LandlineNumber
+//               self.txtmobile.text = sharedManager.currentUser.MobileNumber
+//               self.txtdateofbirth.text = sharedManager.currentUser.DOB
+//               let dateFormatter = DateFormatter()
+//               dateFormatter.dateFormat = "yyyy-MM-dd"
+//               self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
+//               
+//               self.txtdateofbirth.text = self.selectedDate.toDisplayString()
+//          }
+//     }
      @IBAction func ValueChanged(_ sender: UISlider) {
           self.lblDistance.text = "\(Int(sender.value)) Miles"
      }
@@ -392,6 +520,67 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                self.ImgProfilePic?.layer.cornerRadius = self.ImgProfilePic.frame.size.height/2
                self.ImgProfilePic?.clipsToBounds = true
                self.ImgProfilePic?.image = selectedImage
+               self.uploadphoto()
+          }
+     }
+     func uploadphoto(){
+          
+          self.startAnimating()
+          
+          let image = self.ImgProfilePic.image!
+          
+          print(image)
+          let pid : String =  String(self.sharedManager.currentUser.ContractorID)
+          
+          let parameters = [
+               "PrimaryID": pid ,
+               "PageType" : "contractor"
+               ] as [String : Any]
+          
+          Alamofire.upload(multipartFormData: { (multipartFormData) in
+               multipartFormData.append(UIImageJPEGRepresentation(image, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
+               for (key, value) in parameters {
+                    multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
+               }
+          }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=contractor")
+          { (result) in
+               switch result {
+               case .success(let upload, _, _):
+                    
+                    upload.uploadProgress(closure: { (progress) in
+                         
+                    })
+                    
+                    upload.responseJSON { response in
+                         self.stopAnimating()
+                         
+                         print(response.result)
+                         switch  response.result  {
+                         case .success(let JSON):
+                              let response1 = JSON as! NSDictionary
+                              if String(describing: response1.object(forKey: "status")!) == "1" {
+                                   self.sharedManager.currentUser.ProfileImageLink=response1.object(forKey: "FileLink")! as! String
+                                   
+                                   
+                                   
+                              }
+                              else
+                              {
+                                   self.view.makeToast("\(response1.object(forKey: "message")!)", duration: 3, position: .bottom)
+                              }
+                              
+                         case .failure(let error):
+                              self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .bottom)
+                              
+                         }
+                         
+                         
+                    }
+                    
+               case .failure(let encodingError):
+                    print(encodingError.localizedDescription)
+                    break
+               }
           }
      }
      
@@ -446,96 +635,6 @@ extension EditProfile: GMSAutocompleteViewControllerDelegate {
      func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
           UIApplication.shared.isNetworkActivityIndicatorVisible = false
      }
-     @IBAction func BtnUpdateProfileTapped(_ sender: Any) {
-          var isValid : Bool = true
-          if TxtName.text == "" {
-               isValid = false
-               self.view.makeToast("Please enter your firstname", duration: 3, position: .bottom)
-          }
-          else if TxtSurname.text == "" {
-               isValid = false
-               self.view.makeToast("Please enter your surname", duration: 3, position: .bottom)
-          }
-               
-          else if TxtViewAboutme.text == "" {
-               isValid = false
-               self.view.makeToast("Please enter your details", duration: 3, position: .bottom)
-          }
-          else if TxtPerDayRate.text == "" {
-               isValid = false
-               self.view.makeToast("Please enter your workout perhour rate", duration: 3, position: .bottom)
-          }
-          else if TxtPerhourRate.text == "" {
-               isValid = false
-               self.view.makeToast("Please enter your workout perday rate", duration: 3, position: .bottom)
-          }
-          else if TxtReferalCode.text == "" {
-               isValid = false
-               self.view.makeToast("Please enter zip code", duration: 3, position: .bottom)
-          }
-          else if selectedSkills.count == 0 {
-               isValid = false
-               self.view.makeToast("Please select at least one skill", duration: 3, position: .bottom)
-          }
-          
-          
-          if  isValid {
-               self.startAnimating()
-               var param = [:] as [String : Any]
-               param["ContractorID"] = sharedManager.currentUser.ContractorID
-               param["TradeCategoryID"] = sharedManager.masters.DataList?[selectedTrade].PrimaryID
-               param["Aboutme"] = self.TxtViewAboutme.text
-               param["Latitude"] = self.lat
-               param["Longitude"] = self.long
-               param["FullAddress"] = self.FullAddress
-               param["StreetAddress"] = self.FullAddress
-               param["CityName"] = self.city
-               param["Zipcode"] = self.postcode
-               param["DOB"] = self.BtnDob.titleLabel?.text
-               param["strPerHourRate"] = self.TxtPerhourRate.text
-               param["strPerDayRate"] = self.TxtPerDayRate.text
-               param["IsLicenceHeld"] = self.isLicenceSelected
-               param["IsOwnVehicle"] = self.isVehicleSelected
-               param["DistanceRadius"] = Int(self.slider.value)
-               param["CompanyName"] = Int(self.slider.value)
-               param["ServiceIDGroup"] = self.selectedSkills.joined(separator: ",")
-               
-               
-               print(param)
-               AFWrapper.requestPOSTURL(Constants.URLS.ContractorTradeUpdate, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
-               (JSONResponse) -> Void in
-               
-               self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-               
-               if JSONResponse != nil {
-               
-               if JSONResponse["status"].rawString()! == "1"
-               {
-               let userDefaults = UserDefaults.standard
-               
-               userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
-               userDefaults.synchronize()
-               
-               self.stopAnimating()
-               
-               let obj : Experience = self.storyboard?.instantiateViewController(withIdentifier: "Experience") as! Experience
-               self.navigationController?.pushViewController(obj, animated: true)
-               
-               }
-               else
-               {
-               self.stopAnimating()
-               self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-               }
-               
-               }
-               
-               }) {
-                    (error) -> Void in
-                    self.stopAnimating()
-                    self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
-               }
-          }
-     }
+     
      
 }
