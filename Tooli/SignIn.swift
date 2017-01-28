@@ -86,6 +86,7 @@ class SignIn: NSObject, Mappable  {
         FirstName <- map["FirstName"]
         LastName <- map["LastName"]
         PerDayRate <- map["PerDayRate"]
+        CertificateFileList <- map["CertificateFileList"]
         
     }
     func mapping(map: Map) {
@@ -125,6 +126,7 @@ class SignIn: NSObject, Mappable  {
         FirstName <- map["FirstName"]
         LastName <- map["LastName"]
         PerDayRate <- map["PerDayRate"]
+        CertificateFileList <- map["CertificateFileList"]
     }
 }
 

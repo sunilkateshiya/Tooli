@@ -12,7 +12,7 @@ import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
 import SwiftyJSON
-class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,NVActivityIndicatorViewable {
+class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,NVActivityIndicatorViewable, UITextFieldDelegate {
 
     
     @IBOutlet weak var tvBlogList: UITableView!
@@ -25,16 +25,19 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        i = 1
+       NotificationCenter.default.addObserver(self, selector: #selector(removeRows(notiffy:)), name: NSNotification.Name(rawValue: "RemoveCell"), object: nil)
+
+    }
+    override func viewWillAppear(_ animated: Bool) {
         tvBlogList.delegate = self
         tvBlogList.dataSource = self
         tvBlogList.rowHeight = UITableViewAutomaticDimension
         tvBlogList.estimatedRowHeight = 450
         
-        NotificationCenter.default.addObserver(self, selector: #selector(removeRows(notiffy:)), name: NSNotification.Name(rawValue: "RemoveCell"), object: nil)
         
+        experiences = []
+        self.tvBlogList.reloadData()
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -42,46 +45,72 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
 
     func removeRows(notiffy : Notification) {
      //   let dict = notiffy.userInfo as! [String:String]
-        i = i - 1
+        //   let dict = notiffy.userInfo as! [String:String]
+        
         let indePath = NSIndexPath(row: (notiffy.userInfo!["index"]! as! Int), section: 0)
-        self.tvBlogList.deleteRows(at: [indePath as IndexPath], with: UITableViewRowAnimation.automatic)
+        self.tvBlogList.reloadData()
+        
+        if (notiffy.userInfo!["index"]! as! Int) <= (self.sharedManager.currentUser.ExperienceList?.count)! {
+            self.sharedManager.currentUser.ExperienceList?.remove(at: (notiffy.userInfo!["index"]! as! Int))
+            self.tvBlogList.deleteRows(at: [indePath as IndexPath], with: UITableViewRowAnimation.automatic)
+            self.tvBlogList.reloadData()
+        }
+        
+        
+        
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(i)
-        return i
+        guard (sharedManager.currentUser != nil) else {
+            return 0
+        }
+        
+         return self.sharedManager.currentUser.ExperienceList!.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ExperienceCell
+        
+        cell.txtJobTitle.text = (sharedManager.currentUser.ExperienceList?[indexPath.row].Title)! as String
+        cell.txtCompany.text = (sharedManager.currentUser.ExperienceList?[indexPath.row].CompanyName)! as String
+        cell.txtExperience.text = (sharedManager.currentUser.ExperienceList?[indexPath.row].ExperienceYear)! as String
+        cell.txtCompany.tag = 100000 + indexPath.row
+        cell.txtCompany.delegate = self
+        cell.txtJobTitle.delegate = self;
+        cell.txtExperience.delegate = self
+        cell.txtJobTitle.tag = 200000 + indexPath.row
+        cell.txtExperience.tag = 300000 + indexPath.row
         cell.btnClose.tag = indexPath.row + 100
+
         return cell
+
     }
     
     @IBAction func btnAddExp(_ sender: Any) {
         
-        i = i + 1
+        let tmpEmp : Experiences = Experiences()
+        self.sharedManager.currentUser.ExperienceList?.append(tmpEmp)
         tvBlogList.reloadData()
     }
     
     
     @IBAction func actionSubmit(sender : UIButton){
         var isAllValid : Bool = true
-        
-        for index in 0 ..< i {
+        for tmpExp in self.sharedManager.currentUser.ExperienceList! {
             var isValid : Bool = true
-            let expCell = tvBlogList.cellForRow(at: IndexPath(row: index, section: 0)) as! ExperienceCell
-            if expCell.txtJobTitle.text == "" {
+            
+            if tmpExp.Title == "" {
                 isValid = false
                 self.view.makeToast("Please enter valid Job Title", duration: 3, position: .bottom)
             }
-            else if expCell.txtCompany.text == "" {
+                
+            else if tmpExp.CompanyName == "" {
                 isValid = false
                 self.view.makeToast("Please enter valid Company", duration: 3, position: .bottom)
             }
-            else if expCell.txtExperience.text == "" {
+            else if tmpExp.ExperienceYear == "" {
                 isValid = false
                 self.view.makeToast("Please enter valid Experience", duration: 3, position: .bottom)
             }
@@ -91,10 +120,7 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
                 break;
             }
             if isValid {
-                let tmpExp : Experiences = Experiences()
-                tmpExp.Title = expCell.txtJobTitle.text!
-                tmpExp.ExperienceYear = expCell.txtExperience.text!
-                tmpExp.CompanyName = expCell.txtCompany.text!
+                
                 experiences.append(tmpExp)
             }
         }
@@ -107,7 +133,7 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
             tmpTotalExp.ExperienceList = experiences
             let dictionary = Mapper<TotalExperience>().toJSON(tmpTotalExp)
             
-
+            
             param["JsonData"] = JSON(dictionary)
             
             
@@ -115,7 +141,7 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
             AFWrapper.requestPOSTURL(Constants.URLS.ContractorExperienceAdd, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
                 (JSONResponse) -> Void in
                 
-               
+                
                 
                 if JSONResponse != nil {
                     
@@ -127,10 +153,8 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
                         userDefaults.synchronize()
                         self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
                         self.stopAnimating()
-                        
                         let obj : RatesTravel = self.storyboard?.instantiateViewController(withIdentifier: "RatesTravel") as! RatesTravel
                         self.navigationController?.pushViewController(obj, animated: true)
-                        
                     }
                     else
                     {
@@ -155,6 +179,19 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
     @IBAction func btnBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
-
+    // Delegate
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField.tag >= 100000 && textField.tag < 200000  {
+            sharedManager.currentUser.ExperienceList?[textField.tag-100000].CompanyName = textField.text!
+        }
+        else if textField.tag >= 200000 && textField.tag < 300000  {
+            sharedManager.currentUser.ExperienceList?[textField.tag-200000].Title = textField.text!
+        }
+        else if textField.tag >= 300000 {
+            sharedManager.currentUser.ExperienceList?[textField.tag-300000].ExperienceYear = textField.text!
+        }
+    }
 }
 

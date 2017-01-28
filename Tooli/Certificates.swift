@@ -220,15 +220,29 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        picker.dismiss(animated: true, completion: nil);
+//    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+//        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+//            selectedImage = image
+//            uploadphoto()
+//            isImageSelected=true
+//        } else{
+//            print("Something went wrong")
+//        }
+//        
+//        self.dismiss(animated: true, completion: nil)
+//    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         
-        isImageSelected=true
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             selectedImage = image
             uploadphoto()
+            isImageSelected=true
+        } else{
+            print("Something went wrong")
         }
+        
+        
+        picker.dismiss(animated: true, completion: nil);
     }
     
     func uploadphoto(){
