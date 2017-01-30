@@ -50,7 +50,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           // Return the number of rows in the section.
-          return 5
+          return 6
      }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,6 +85,9 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
           else if indexPath.row == 4 {
                cell!.textLabel?.text = "   MESSAGES"
           }
+          else if indexPath.row == 5 {
+               cell!.textLabel?.text = "   LOGOUT"
+        }
        
           return cell!
      }
@@ -118,14 +121,20 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                let userDefaults = UserDefaults.standard
                userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
                userDefaults.synchronize()
-               destViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController")
+               let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+               app.moveToLogin()
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Login")
                break
           default:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        self.navigationController?.pushViewController(destViewController, animated: true)
-          sideMenuController()?.setContentViewController(destViewController)
+        if indexPath.row != 5 {
+            self.navigationController?.pushViewController(destViewController, animated: true)
+            sideMenuController()?.setContentViewController(destViewController)
+        }
+        
+        
      }
      
 

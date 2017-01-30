@@ -12,8 +12,10 @@ class CertificateCell: UITableViewCell {
     @IBOutlet var btnUpload : UIButton!
     @IBOutlet var lblTitle : UILabel!
     @IBOutlet var imgCertificate : UIImageView!
+    @IBOutlet var btnRemove : UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
+        btnRemove.isHidden = true
         // Initialization code
     }
 

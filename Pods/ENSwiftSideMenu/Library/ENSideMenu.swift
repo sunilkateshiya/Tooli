@@ -136,7 +136,7 @@ open class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     ///  A Boolean value indicating whether the bouncing effect is enabled. The default value is TRUE.
     open var bouncingEnabled :Bool = true
     /// The duration of the slide animation. Used only when `bouncingEnabled` is FALSE.
-    open var animationDuration = 0.4
+    open var animationDuration = 0.1
     fileprivate let sideMenuContainerView =  UIView()
     fileprivate(set) var menuViewController : UIViewController!
     fileprivate var animator : UIDynamicAnimator!

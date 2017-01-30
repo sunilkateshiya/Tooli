@@ -43,18 +43,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let userDefaults = UserDefaults.standard
         if (userDefaults.value(forKey: Constants.KEYS.LOGINKEY) != nil) == true{
             
-            let userinfo  = userDefaults.object(forKey: Constants.KEYS.USERINFO)
-            
-            self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: userinfo)
-            
-            if  self.sharedManager.currentUser.IsSetupProfile {
-                moveToDashboard()
-                //moveToInfo()
+            if userDefaults.value(forKey: Constants.KEYS.LOGINKEY)! as! Bool == false {
+                moveToLogin()
+                
             }
             else {
-                moveToInfo()
+                let userinfo  = userDefaults.object(forKey: Constants.KEYS.USERINFO)
+                
+                self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: userinfo)
+                
+                if  self.sharedManager.currentUser.IsSetupProfile {
+                    moveToDashboard()
+                    //moveToInfo()
+                }
+                else {
+                    moveToInfo()
+                }
             }
-            
         }
             
         else{
@@ -138,8 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
-        let initialViewController : Info = storyboard.instantiateViewController(withIdentifier: "Info") as! Info
-       
+//        let initialViewController : Info = storyboard.instantiateViewController(withIdentifier: "Info") as! Info
+
+        let initialViewController : Certificates = storyboard.instantiateViewController(withIdentifier: "Certificates") as! Certificates
         self.navigationController?.viewControllers = [initialViewController]
         self.window?.rootViewController = self.navigationController
 

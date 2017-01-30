@@ -97,7 +97,9 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
                (JSONResponse) -> Void in
                
                self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-               
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+            userDefaults.synchronize()
                self.tvBlogList.reloadData()
                print(JSONResponse["status"].rawValue as! String)
                
@@ -179,9 +181,10 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
                          {
                               let userDefaults = UserDefaults.standard
                               
-                              userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
-                              userDefaults.synchronize()
+                            
                               self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                            userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                            userDefaults.synchronize()
                               self.stopAnimating()
                               let obj : EditCertificate = self.storyboard?.instantiateViewController(withIdentifier: "EditCertificate") as! EditCertificate
                               self.navigationController?.pushViewController(obj, animated: true)

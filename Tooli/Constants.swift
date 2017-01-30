@@ -43,6 +43,7 @@ struct Constants {
         
         static let ConnectionList = BASE_URL + "ConnectionList"
         static let ContractorCertificateUpdate = BASE_URL + "ContractorCertificateUpdate"
+        static let ContractorCertificateDelete = BASE_URL + "ContractorCertificateDelete"
         static let ContractorChangeStatus = BASE_URL + "ContractorChangeStatus"
         static let ContractorDashboard = BASE_URL + "ContractorDashboard"
         static let ContractorExperienceAdd = BASE_URL + "ContractorExperienceAdd"

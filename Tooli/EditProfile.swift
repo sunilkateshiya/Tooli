@@ -153,7 +153,9 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     (JSONResponse) -> Void in
                     
                     self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-                    
+                let userDefaults = UserDefaults.standard
+                userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                userDefaults.synchronize()
                     if JSONResponse != nil {
                          
                          if JSONResponse["status"].rawString()! == "1"
@@ -244,6 +246,18 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
      let urlPro = URL(string: imgURL)
 
      ImgProfilePic.kf.setImage(with: urlPro)
+        
+        let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
+        let optionInfo: KingfisherOptionsInfo = [
+            .downloadPriority(0.5),
+            .transition(ImageTransition.fade(1)),
+            .forceRefresh
+        ]
+        
+        ImgProfilePic.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+        
+        
+        
      self.TxtName.text = self.sharedManager.currentUser.FirstName as String
      self.TxtSurname.text = self.sharedManager.currentUser.LastName as String
      
@@ -317,6 +331,11 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         super.didReceiveMemoryWarning()
     }
      @IBAction func BtnBackTapped(_ sender: Any) {
+        
+        let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+       app.moveToDashboard()
+        
      }
      @IBAction func BtnEditProfileTapped(_ sender: Any) {
 

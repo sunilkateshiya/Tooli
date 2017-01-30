@@ -167,6 +167,7 @@ class Trades : NSObject, Mappable {
 
 class CertificateCategoryList : NSObject, Mappable {
     var PrimaryID = 0
+    var CertificateCategoryID = 0
     var CertificateCategoryName = ""
     required override init(){
         
@@ -174,10 +175,12 @@ class CertificateCategoryList : NSObject, Mappable {
     required init?(map: Map) {
        PrimaryID <- map["PrimaryID"]
        CertificateCategoryName <- map["CertificateCategoryName"]
+       CertificateCategoryID <- map["CertificateCategoryID"]
     }
     func mapping(map: Map) {
         PrimaryID <- map["PrimaryID"]
         CertificateCategoryName <- map["CertificateCategoryName"]
+        CertificateCategoryID <- map["CertificateCategoryID"]
     }
 }
 
@@ -243,13 +246,18 @@ class ExperienceListM : NSObject, Mappable {
 
 class CertificateFileListM : NSObject, Mappable {
     var PrimaryID = 0
+    var CertificateCategoryID = 0
     var CertificateCategoryName = ""
     var IshaveFile : Bool = false
     var IsImage : Bool = false
     var FileLink = ""
     
-    required init?(map: Map) {
+    override init() {
         
+    }
+    
+    required init?(map: Map) {
+        CertificateCategoryID <- map["CertificateCategoryID"]
         PrimaryID <- map["PrimaryID"]
         CertificateCategoryName <- map["CertificateCategoryName"]
         IshaveFile <- map["IshaveFile"]
@@ -258,6 +266,7 @@ class CertificateFileListM : NSObject, Mappable {
         
     }
     func mapping(map: Map) {
+        CertificateCategoryID <- map["CertificateCategoryID"]
         PrimaryID <- map["PrimaryID"]
         CertificateCategoryName <- map["CertificateCategoryName"]
         IshaveFile <- map["IshaveFile"]

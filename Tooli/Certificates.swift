@@ -41,12 +41,11 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
             getMasters()
         }
         else {
-            for trade in sharedManager.masters.DataList! {
-                if  trade.PrimaryID == sharedManager.currentUser.TradeCategoryID {
+            for trade in self.sharedManager.masters.DataList! {
+                if  trade.PrimaryID == self.sharedManager.currentUser.TradeCategoryID {
                     for cert in trade.CertificateCategoryList! {
                         let tmpCert : CertificateCategoryList = cert
-                        certificates.append(tmpCert)
-                        
+                        self.certificates.append(tmpCert)
                     }
                 }
             }
@@ -54,6 +53,11 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.updateUserInfo()
+    }
+    
     func getMasters(){
         // Z_MasterDataList
         
@@ -136,8 +140,25 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CertificateCell
         cell.lblTitle?.text = "\(certificates[indexPath.row].CertificateCategoryName)"
         cell.btnUpload.tag = 100 + indexPath.row
-        if cellImages.count > indexPath.row {
-            cell.imgCertificate.image =  cellImages[indexPath.row].image
+        var isFound : Bool = false
+        
+        for tmpcert in self.sharedManager.currentUser.CertificateFileList! {
+            
+            if tmpcert.CertificateCategoryID == certificates[indexPath.row].CertificateCategoryID {
+                isFound = true
+                let imgURL = tmpcert.FileLink as String
+                
+                let urlPro = URL(string: imgURL)
+                
+                cell.imgCertificate.kf.setImage(with: urlPro)
+                cell.btnUpload.setImage(#imageLiteral(resourceName: "ic_check"), for: .normal)
+                
+            }
+        }
+        
+        if !isFound {
+            cell.imgCertificate.image = #imageLiteral(resourceName: "ic_certificate")
+            cell.btnUpload.setImage(#imageLiteral(resourceName: "ic_uncheck"), for: .normal)
         }
         //cell.textLabel?.text = "\(certificates[indexPath.row].CertificateCategoryName)"
         return cell
@@ -252,7 +273,8 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         let pid : String =  String(self.sharedManager.currentUser.ContractorID)
         
         let parameters = [
-            "PrimaryID": String(selectedCertificates.PrimaryID) ,
+            "PrimaryID": String(sharedManager.currentUser.ContractorID) ,
+            "CertificateCategoryID" : String(selectedCertificates.PrimaryID),
             "PageType" : "certificate"
             ] as [String : Any]
         
@@ -261,7 +283,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
             for (key, value) in parameters {
                 multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
             }
-        }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=contractor")
+        }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&CertificateCategoryID=" +  String(selectedCertificates.PrimaryID) + "&PageType=certificate")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -281,14 +303,22 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                         if String(describing: response1.object(forKey: "status")!) == "1" {
                             self.selectedCell.btnUpload.setImage(#imageLiteral(resourceName: "ic_check"), for: UIControlState.normal)
                             self.selectedCell.btnUpload.setTitle("  Selected", for: UIControlState.normal)
+                            
+//                            if self.cellImages.count > self.selectedCell.btnUpload.tag-100 {
+//                                self.cellImages[self.selectedCell.btnUpload.tag-100].image = self.selectedImage
+//                            } else {
+//                                let tmpImg : UIImageView = UIImageView(frame: self.selectedCell.imgCertificate.frame)
+//                                tmpImg.image = self.selectedImage
+//                                self.cellImages.append(tmpImg)
+//                            }
+                            
+                            
+                            
                             self.selectedCertificates = nil
-                            if self.cellImages.count > self.selectedCell.btnUpload.tag-100 {
-                                self.cellImages[self.selectedCell.btnUpload.tag-100].image = self.selectedImage
-                            } else {
-                                let tmpImg : UIImageView = UIImageView(frame: self.selectedCell.imgCertificate.frame)
-                                tmpImg.image = self.selectedImage
-                                self.cellImages.append(tmpImg)
-                            }
+                            
+                            self.updateUserInfo()
+                            
+                            
                             self.tvcerts.reloadData()
                             
                         }
@@ -302,7 +332,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                         
                     }
                     
-                    
+                
                 }
                 
             case .failure(let encodingError):
@@ -311,7 +341,45 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
         }
     }
-    
+    func updateUserInfo(){
+        self.startAnimating()
+        var param = [:] as [String : Any]
+        param["ContractorID"] = sharedManager.currentUser.ContractorID
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ContractorInfo, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil {
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    
+                    self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                    
+                    let userDefaults = UserDefaults.standard
+                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                    userDefaults.synchronize()
+                    self.tvcerts.reloadData()
+                    
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+                
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
     @IBAction func btnNext(_ sender: Any) {
         self.appDelegate.moveToDashboard()
     }

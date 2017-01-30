@@ -156,10 +156,7 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                                     userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                                     userDefaults.synchronize()
                                     
-                                    
                                     if self.sharedManager.currentUser.IsSetupProfile == true {
-                                        
-                                        
                                         self.appDelegate().moveToDashboard()
                                     }
                                     else{

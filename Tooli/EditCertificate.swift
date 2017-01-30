@@ -47,7 +47,6 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                               for cert in trade.CertificateCategoryList! {
                                    let tmpCert : CertificateCategoryList = cert
                                    certificates.append(tmpCert)
-                                   
                               }
                          }
                     }
@@ -55,6 +54,10 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                }
                // Do any additional setup after loading the view.
           }
+    override func viewWillAppear(_ animated: Bool) {
+        updateUserInfo()
+    }
+    
           func getMasters(){
                // Z_MasterDataList
                
@@ -74,15 +77,15 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                               self.stopAnimating()
                               
                               self.sharedManager.masters = Mapper<Masters>().map(JSONObject: JSONResponse.rawValue)
-                              
-                              for trade in self.sharedManager.masters.DataList! {
-                                   if  trade.PrimaryID == self.sharedManager.currentUser.TradeCategoryID {
-                                        for cert in trade.CertificateCategoryList! {
-                                             let tmpCert : CertificateCategoryList = cert
-                                             self.certificates.append(tmpCert)
-                                        }
-                                   }
-                              }
+                            for trade in self.sharedManager.masters.DataList! {
+                                if  trade.PrimaryID == self.sharedManager.currentUser.TradeCategoryID {
+                                    for cert in trade.CertificateCategoryList! {
+                                        let tmpCert : CertificateCategoryList = cert
+                                        self.certificates.append(tmpCert)
+                                    }
+                                }
+                            }
+                        
                               self.tvcerts.reloadData()
                               
                          }
@@ -134,23 +137,32 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
           
           func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
                
-               let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CertificateCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CertificateCell
                cell.lblTitle?.text = "\(certificates[indexPath.row].CertificateCategoryName)"
                cell.btnUpload.tag = 100 + indexPath.row
-               
-               for tmpcert in self.sharedManager.currentUser.CertificateFileList! {
-                    if tmpcert.PrimaryID == certificates[indexPath.row].PrimaryID {
-                         let imgURL = (self.sharedManager.currentUser.CertificateFileList?[indexPath.row].FileLink)! as String
-                         
-                         let urlPro = URL(string: imgURL)
-                         
-                         cell.imgCertificate.kf.setImage(with: urlPro)
-                    }
-               }
-               
-               
+            var isFound : Bool = false
+            cell.btnRemove.tag = 12000 + indexPath.row
+            cell.btnRemove.addTarget(self, action: #selector(removeCertificate(sender:)), for: UIControlEvents.touchUpInside);
+            
+            for tmpcert in self.sharedManager.currentUser.CertificateFileList! {
+                if tmpcert.CertificateCategoryID == certificates[indexPath.row].CertificateCategoryID {
+                    isFound = true
+                    let imgURL = tmpcert.FileLink as String
+                    let urlPro = URL(string: imgURL)
+                    cell.imgCertificate.kf.setImage(with: urlPro)
+                    cell.btnUpload.setImage(#imageLiteral(resourceName: "ic_check"), for: .normal)
+                    cell.btnRemove.isHidden = false;
+                    cell.btnUpload.isHidden = true;
+                }
+            }
      
-     
+            if isFound == false {
+                cell.imgCertificate.image = #imageLiteral(resourceName: "ic_certificate")
+                cell.btnUpload.setImage(#imageLiteral(resourceName: "ic_uncheck"), for: .normal)
+                cell.btnRemove.isHidden = true;
+                cell.btnUpload.isHidden = false;
+            }
+            
 //               for certificates in self.sharedManager.currentUser.CertificateFileList! {
 //                    if  certificates.PrimaryID == self.sharedManager.currentUser.CertificateFileList?[indexPath.row].PrimaryID {
 //                         
@@ -163,7 +175,55 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
 //
                return cell
           }
-          
+    
+            func removeCertificate (sender : UIButton) {
+                self.startAnimating()
+                var param = [:] as [String : Any]
+                param["ContractorID"] = sharedManager.currentUser.ContractorID
+                let index1 =  sender.tag - 12000
+                
+                for tmpcert in sharedManager.currentUser.CertificateFileList! {
+                    if tmpcert.CertificateCategoryID == certificates[index1].PrimaryID {
+                        param["PrimaryID"] = tmpcert.PrimaryID
+                    }
+                }
+                
+                
+                print(param)
+                AFWrapper.requestPOSTURL(Constants.URLS.ContractorCertificateDelete, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                    (JSONResponse) -> Void in
+                    
+                    print(JSONResponse["status"].rawValue as! String)
+                    
+                    if JSONResponse != nil {
+                        
+                        if JSONResponse["status"].rawString()! == "1"
+                        {
+                            self.stopAnimating()
+                            
+                            self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                            let userDefaults = UserDefaults.standard
+                            userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                            userDefaults.synchronize()
+                            
+                            self.tvcerts.reloadData()
+                            
+                        }
+                        else
+                        {
+                            self.stopAnimating()
+                            self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        }
+                        
+                    }
+                    
+                }) {
+                    (error) -> Void in
+                    self.stopAnimating()
+                    print(error.localizedDescription)
+                    self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                }
+            }
           
           func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
                let cell = tableView.cellForRow(at: indexPath) as! CertificateCell
@@ -251,24 +311,66 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                     uploadphoto()
                }
           }
-          
+    
+    func updateUserInfo(){
+        self.startAnimating()
+        var param = [:] as [String : Any]
+        param["ContractorID"] = sharedManager.currentUser.ContractorID
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ContractorInfo, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil {
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    
+                    self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                    let userDefaults = UserDefaults.standard
+                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                    userDefaults.synchronize()
+                   
+                    self.tvcerts.reloadData()
+                    
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+                
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    
+    
           func uploadphoto(){
-               
+            
                self.startAnimating()
-               
+            
                let pid : String =  String(self.sharedManager.currentUser.ContractorID)
-               
-               let parameters = [
-                    "PrimaryID": String(selectedCertificates.PrimaryID) ,
+            
+                let parameters = [
+                    "PrimaryID": String(sharedManager.currentUser.ContractorID) ,
+                    "CertificateCategoryID" : String(selectedCertificates.PrimaryID),
                     "PageType" : "certificate"
-                    ] as [String : Any]
+                ] as [String : Any]
                
                Alamofire.upload(multipartFormData: { (multipartFormData) in
                     multipartFormData.append(UIImageJPEGRepresentation(self.selectedImage!, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
                     for (key, value) in parameters {
                          multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
                     }
-               }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=contractor")
+               }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&CertificateCategoryID=" +  String(selectedCertificates.PrimaryID) + "&PageType=certificate")
                { (result) in
                     switch result {
                     case .success(let upload, _, _):
@@ -278,7 +380,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                          })
                          
                          upload.responseJSON { response in
-                              self.stopAnimating()
+                            
                               
                               
                               print(response.result)
@@ -286,16 +388,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                               case .success(let JSON):
                                    let response1 = JSON as! NSDictionary
                                    if String(describing: response1.object(forKey: "status")!) == "1" {
-                                        self.selectedCell.btnUpload.setImage(#imageLiteral(resourceName: "ic_check"), for: UIControlState.normal)
-                                        self.selectedCell.btnUpload.setTitle("  Selected", for: UIControlState.normal)
-                                        self.selectedCertificates = nil
-                                        if self.cellImages.count > self.selectedCell.btnUpload.tag-100 {
-                                             self.cellImages[self.selectedCell.btnUpload.tag-100].image = self.selectedImage
-                                        } else {
-                                             let tmpImg : UIImageView = UIImageView(frame: self.selectedCell.imgCertificate.frame)
-                                             tmpImg.image = self.selectedImage
-                                             self.cellImages.append(tmpImg)
-                                        }
+                                        self.updateUserInfo()
                                         self.tvcerts.reloadData()
                                         
                                    }

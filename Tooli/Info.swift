@@ -112,6 +112,9 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
                 (JSONResponse) -> Void in
                 
                 self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                let userDefaults = UserDefaults.standard
+                userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                userDefaults.synchronize()
                 if  self.isImageSelected {
                 
                     self.uploadphoto()

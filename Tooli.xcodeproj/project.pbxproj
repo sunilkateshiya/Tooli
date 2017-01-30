@@ -247,7 +247,9 @@
 				3193295D1E1A614200456DDF /* Experience.swift */,
 				31691C731E307E620029CDB6 /* RatesTravel.swift */,
 				31691C751E3091C40029CDB6 /* Certificates.swift */,
+				3171AC681E3396320063198C /* EditProfile.swift */,
 				204E71DD1E3B235D00E971E0 /* EditExperience.swift */,
+				B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */,
 				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
 				31663C801E24C18400D5DD3C /* NotificationTab.swift */,
 				31663C861E24C5AB00D5DD3C /* MessageTab.swift */,
@@ -257,7 +259,6 @@
 				31FB339A1E27791000157820 /* JobDetail.swift */,
 				312297DE1E2F6FDD00EC48F7 /* ContractorDetail.swift */,
 				31A6ED781E31D3470039A780 /* SlidingMenu.swift */,
-				3171AC681E3396320063198C /* EditProfile.swift */,
 				3171AC691E3396320063198C /* ProfileFeed.swift */,
 				3171AC6A1E3396320063198C /* Addportfolio.swift */,
 				3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */,
@@ -300,7 +301,6 @@
 		3193295A1E1A614200456DDF /* Tooli */ = {
 			isa = PBXGroup;
 			children = (
-				B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */,
 				3193295B1E1A614200456DDF /* AppDelegate.swift */,
 				3193295F1E1A614200456DDF /* Main.storyboard */,
 				3193299D1E1A84D300456DDF /* oxygen */,

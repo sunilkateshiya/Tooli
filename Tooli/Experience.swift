@@ -103,16 +103,16 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
             
             if tmpExp.Title == "" {
                 isValid = false
-                self.view.makeToast("Please enter valid Job Title", duration: 3, position: .bottom)
+                self.view.makeToast("Please enter valid Job Title", duration: 3, position: .center)
             }
                 
             else if tmpExp.CompanyName == "" {
                 isValid = false
-                self.view.makeToast("Please enter valid Company", duration: 3, position: .bottom)
+                self.view.makeToast("Please enter valid Company", duration: 3, position: .center)
             }
             else if tmpExp.ExperienceYear == "" {
                 isValid = false
-                self.view.makeToast("Please enter valid Experience", duration: 3, position: .bottom)
+                self.view.makeToast("Please enter valid Experience", duration: 3, position: .center)
             }
             if !isValid {
                 isAllValid = false
@@ -152,6 +152,9 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                         userDefaults.synchronize()
                         self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                        let userinfo  = userDefaults.object(forKey: Constants.KEYS.USERINFO)
+                        userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                        userDefaults.synchronize()
                         self.stopAnimating()
                         let obj : RatesTravel = self.storyboard?.instantiateViewController(withIdentifier: "RatesTravel") as! RatesTravel
                         self.navigationController?.pushViewController(obj, animated: true)
