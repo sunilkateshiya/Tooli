@@ -34,9 +34,20 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
         tvtrades.tableFooterView = UIView()
         tvtrades.isHidden = true
         self.tvtrades.allowsMultipleSelection = true
+        setValue()
         // Do any additional setup after loading the view.
     }
 
+    func setValue(){
+        
+        self.txtfrom.text = self.sharedManager.currentUser.PerDayRate
+        self.txtuntil.text = self.sharedManager.currentUser.PerHourRate
+        btntrades.isSelected = true
+        tvtrades.isHidden = false
+        tvtrades.reloadData()
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -51,7 +62,6 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
         else{
             btntrades.isSelected = true
             tvtrades.isHidden = false
-
             tvtrades.reloadData()
         }
     }
@@ -65,23 +75,41 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-       
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            
-            cell.textLabel?.text = "\(options[indexPath.row])"
-            return cell
-            
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SkillCell
+            cell.lblSkillName.text = "\(options[indexPath.row])"
+        if selectedOptions.contains(options[indexPath.row]) {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+        }
+        else {
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+        }
         
+            //cell.textLabel?.text = "\(options[indexPath.row])"
+            return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        selectedOptions.append(options[indexPath.row])
+        let cell = tableView.cellForRow(at: indexPath) as! SkillCell
+        if selectedOptions.contains(options[indexPath.row]) {
+            selectedOptions.remove(at: selectedOptions.index(of: options[indexPath.row])!)
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+        }
+        else {
+            selectedOptions.append(options[indexPath.row])
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        selectedOptions.remove(at: selectedOptions.index(of: options[indexPath.row])!)
+        let cell = tableView.cellForRow(at: indexPath) as! SkillCell
+        if selectedOptions.contains(options[indexPath.row]) {
+            selectedOptions.remove(at: selectedOptions.index(of: options[indexPath.row])!)
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+        }
+        else {
+            selectedOptions.append(options[indexPath.row])
+            cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+        }
     }
     
     @IBAction func btnNext(_ sender: Any) {

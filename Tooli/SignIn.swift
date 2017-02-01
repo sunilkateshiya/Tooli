@@ -37,8 +37,8 @@ class SignIn: NSObject, Mappable  {
     var IsLicenceHeld : Bool = false
     var IsOwnVehicle : Bool = false
     var FullAddress = ""
-    var Latitude = 0
-    var Longitude = 0
+    var Latitude = 0.00
+    var Longitude = 0.00
     var StreetAddress = ""
     var PerHourRate = ""
     var IsSaved : Bool = false
@@ -212,12 +212,12 @@ class ServiceListM : NSObject, Mappable {
     var ServiceName = ""
     required init?(map: Map) {
         
-        ServiceID <- map["PrimaryID"]
+        ServiceID <- map["ServiceID"]
         ServiceName <- map["ServiceName"]
         
     }
     func mapping(map: Map) {
-        ServiceID <- map["PrimaryID"]
+        ServiceID <- map["ServiceID"]
         ServiceName <- map["ServiceName"]
         
     }
@@ -332,6 +332,10 @@ class AppNotificationsList: NSObject, Mappable {
 class NotificationDetail: NSObject, Mappable {
     var TransactionID = 0
     var NotificationStatusID = 0
+    var PrimaryID = 0
+    var IsContractor = false
+    var CompanyID = 0
+    var ContractorID = 0
     var ProfileImageLink = ""
     var UserProfileLink = ""
     var FullName = ""
@@ -349,6 +353,10 @@ class NotificationDetail: NSObject, Mappable {
     func mapping(map: Map) {
         TransactionID <- map["TransactionID"]
         NotificationStatusID <- map["NotificationStatusID"]
+        PrimaryID <- map["PrimaryID"]
+        CompanyID <- map["CompanyID"]
+        IsContractor <- map["IsContractor"]
+        ContractorID <- map["ContractorID"]
         ProfileImageLink <- map["ProfileImageLink"]
         UserProfileLink <- map["UserProfileLink"]
         FullName <- map["FullName"]

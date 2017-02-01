@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>ActiveLabel.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -134,6 +129,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TTTAttributedLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Toast-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -157,17 +157,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1ADE193A3F54517B17BE8429BB4A818D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>1DE93A359FA21F91DFBE81309E851A4A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3110A2B14D680AE6A2DF1063BD60216F</key>
+		<key>1FB7AB197B9E4B4886401AD4422DD1B5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -177,12 +172,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4C145A9FE32FB624D42F4779B35C50C2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>533607A808BC64912197562E016B6085</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>542D37003134F6BD3694559630CE9888</key>
+		<key>57467C2163FB162667E2BFBE66397E89</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -192,7 +192,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5AC619EFDE42F064B7E58E547DC1C79D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>5E40B80F0FA7BDA9FBB0AB7DDCD07249</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>605AB7A12849257A1E829A738C585F8A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -207,27 +217,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7CB26C30B339115810337A678F531FA4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>8008952BFBBB435983E7D25E47F6F96B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8011F7173B493100BEE47F740F128750</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8329B4DD82B7A073B34A61C9527865D0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>847FC2DC6E3238B3DA44DA32BE9760C8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88704C02B695D10F0FFD6C4088DE7BC9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -242,7 +242,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B5869C49ECA99755424D0ED9001D9AB7</key>
+		<key>AEADFAB57A51CC4A5647E4E0DE34D809</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B69E6204AEE5C1046901173A634413DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -258,11 +263,6 @@
 			<true/>
 		</dict>
 		<key>DD707E469C8D0BEA816D740155A3B629</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E4C07DB9E67F785D0F9816CE00F9A597</key>
 		<dict>
 			<key>primary</key>
 			<true/>

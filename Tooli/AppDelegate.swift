@@ -143,9 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
-//        let initialViewController : Info = storyboard.instantiateViewController(withIdentifier: "Info") as! Info
+        let initialViewController : Info = storyboard.instantiateViewController(withIdentifier: "Info") as! Info
 
-        let initialViewController : Certificates = storyboard.instantiateViewController(withIdentifier: "Certificates") as! Certificates
+        //let initialViewController : RatesTravel = storyboard.instantiateViewController(withIdentifier: "RatesTravel") as! RatesTravel
         self.navigationController?.viewControllers = [initialViewController]
         self.window?.rootViewController = self.navigationController
 

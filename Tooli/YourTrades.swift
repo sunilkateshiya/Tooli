@@ -69,6 +69,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
 
         let leftTrackImage = UIImage(named: "mySlider")
         slider.setThumbImage(leftTrackImage, for: .normal)
+        //setValues()
         
     }
     
@@ -80,19 +81,36 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             self.btntrades.setTitle(String(describing: self.sharedManager.currentUser.TradeCategoryName), for: UIControlState.normal)
             self.postcode=sharedManager.currentUser.Zipcode
             self.city = sharedManager.currentUser.CityName
+            
+            self.lat = sharedManager.currentUser.Latitude
+            self.long = sharedManager.currentUser.Longitude
+            
+            if sharedManager.currentUser.TradeCategoryID == 0 && sharedManager.currentUser.TradeCategoryName == "" {
+                return;
+            }
+            
             for currentService in sharedManager.currentUser.ServiceList! {
                 selectedSkills.append(String(currentService.ServiceID))
             }
+            
             var i = 0;
-            for trades in sharedManager.masters.DataList! {
-                
-                if trades.PrimaryID == sharedManager.currentUser.TradeCategoryID {
-                    selectedTrade = i
+            if (sharedManager.masters != nil) {
+                for trades in sharedManager.masters.DataList! {
+                    
+                    if trades.PrimaryID == sharedManager.currentUser.TradeCategoryID {
+                        selectedTrade = i
+                        self.btntrades.setTitle(trades.TradeCategoryName, for: UIControlState.normal)
+                    }
+                    i = i + 1;
                 }
-                i = i + 1;
             }
             
+            btnskills.isSelected = true
+            tvskillsheight.constant = 44 * 10
             
+            self.tvskills.isHidden = false
+            self.tvskills.reloadData()
+
         }
     }
     
@@ -116,7 +134,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     self.stopAnimating()
-                    //self.setValues()
+                    self.setValues()
                 }
                 else
                 {
@@ -219,6 +237,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         else {
             cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
         }
+
         return cell
     }
     

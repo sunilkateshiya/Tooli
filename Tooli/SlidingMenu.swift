@@ -20,7 +20,23 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
      tableview?.tableFooterView = UIView()
      tableview?.tableHeaderView = UIView()
-     
+        
+        if self.sharedManager.currentUser.ProfileImageLink != "" {
+            let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
+            let urlPro = URL(string: imgURL)
+            ivimage?.kf.setImage(with: urlPro)
+            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
+            let optionInfo: KingfisherOptionsInfo = [
+                .downloadPriority(0.5),
+                .transition(ImageTransition.fade(1)),
+                .forceRefresh
+            ]
+            
+            ivimage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+            
+            ivimage?.clipsToBounds = true
+            ivimage?.cornerRadius = (ivimage?.frame.size.width)! / 2
+        }
         
 //        let url = URL(string: "http://domain.com/image.png")!
 //        ivimage?.kf.setImage(with: url,

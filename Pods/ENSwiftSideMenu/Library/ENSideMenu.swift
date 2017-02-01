@@ -136,7 +136,7 @@ open class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     ///  A Boolean value indicating whether the bouncing effect is enabled. The default value is TRUE.
     open var bouncingEnabled :Bool = true
     /// The duration of the slide animation. Used only when `bouncingEnabled` is FALSE.
-    open var animationDuration = 0.1
+    open var animationDuration = 0.4
     fileprivate let sideMenuContainerView =  UIView()
     fileprivate(set) var menuViewController : UIViewController!
     fileprivate var animator : UIDynamicAnimator!
@@ -293,6 +293,7 @@ open class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         var width:CGFloat
         var height:CGFloat
         (width, height) = adjustFrameDimensions( sourceView.frame.size.width, height: sourceView.frame.size.height)
+        bouncingEnabled = false
         if (bouncingEnabled) {
             
             animator.removeAllBehaviors()
@@ -346,6 +347,12 @@ open class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
                                    width: menuWidth,
                                    height: height)
             }
+            
+//            if (self.isMenuOpen) {
+//                self.delegate?.sideMenuDidOpen?()
+//            } else {
+//                self.delegate?.sideMenuDidClose?()
+//            }
             
             UIView.animate(
                 withDuration: animationDuration,

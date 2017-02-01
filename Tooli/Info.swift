@@ -13,6 +13,7 @@ import NVActivityIndicatorView
 import Alamofire
 import GooglePlaces
 import ActionSheetPicker_3_0
+import Kingfisher
 class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UITextViewDelegate {
 
     @IBOutlet var txtphone : UITextField!
@@ -51,6 +52,20 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
             if (self.selectedDate != nil) {
                 self.txtdateofbirth.text = self.selectedDate.toDisplayString()
+            }
+            
+            if self.sharedManager.currentUser.ProfileImageLink != "" {
+                let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
+                let urlPro = URL(string: imgURL)
+                self.imguser.kf.setImage(with: urlPro)
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
+                let optionInfo: KingfisherOptionsInfo = [
+                    .downloadPriority(0.5),
+                    .transition(ImageTransition.fade(1)),
+                    .forceRefresh
+                ]
+                
+                self.imguser.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
             }
             
         }

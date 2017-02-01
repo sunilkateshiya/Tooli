@@ -8,11 +8,11 @@
 
 import UIKit
 import Cosmos
-
+import TTTAttributedLabel
 class NotificationTabCell: UITableViewCell {
 
     
-    @IBOutlet var lbltitle: UILabel!
+    @IBOutlet var lbltitle: TTTAttributedLabel!
     @IBOutlet var lbldate: UILabel!
     @IBOutlet var imguser: UIImageView!
 

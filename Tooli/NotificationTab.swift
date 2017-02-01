@@ -12,7 +12,8 @@ import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
 import Kingfisher
-class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable  {
+import TTTAttributedLabel
+class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable, TTTAttributedLabelDelegate  {
 
     @IBOutlet var tvnoti : UITableView!
     var sharedManager : Globals = Globals.sharedInstance
@@ -126,15 +127,82 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             self.getNotifications(page: currentPage)
         }
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTabCell
-            cell.lbltitle.text = notificationList.DataList[indexPath.row].NotificationText
-            cell.lbldate.text = notificationList.DataList[indexPath.row].AddedOn
-            
+        
+        let name : String = notificationList.DataList[indexPath.row].FullName;
 
+        //let range : NSRange = NSMakeRange(0, name.length)
+        //print(range);
+            cell.lbltitle.text = notificationList.DataList[indexPath.row].FullName + " " + notificationList.DataList[indexPath.row].NotificationText
+
+            cell.lbldate.text = notificationList.DataList[indexPath.row].AddedOn
+        
+        
+        
+        
+        cell.lbltitle.delegate = self
+        
+        
+        var statusMessage = ""
+        
+        switch notificationList.DataList[indexPath.row].NotificationStatusID {
+        case 1:
+            statusMessage = " sent you new message"
+            break;
+        case 2:
+            statusMessage = " applied to your \(notificationList.DataList[indexPath.row].JobTitle) job"
+            break;
+        case 3:
+            statusMessage = " started following you"
+            break;
+        case 4:
+            statusMessage = " followed you via your share link"
+            break;
+        case 5:
+            statusMessage = " company has posted new offer"
+            break;
+        default:
+            statusMessage = " "
+            break;
+        }
+        
+        let finalText = name + statusMessage;
+        
+        let string = finalText
+        let nsString = string as NSString
+        let range = nsString.range(of: name)
+        let range1 = nsString.range(of: "message")
+        let range3 = nsString.range(of: notificationList.DataList[indexPath.row].JobTitle);
+        let range4 = nsString.range(of: "offer");
+        let keyID = notificationList.DataList[indexPath.row].IsContractor ? notificationList.DataList[indexPath.row].ContractorID : notificationList.DataList[indexPath.row].CompanyID
+        
+        cell.lbltitle.setText(finalText) { (mutableAttributedString) -> NSMutableAttributedString? in
+            var boldSystemFont : UIFont = UIFont.boldSystemFont(ofSize: 16)
+            if Constants.DeviceType.IS_IPHONE_5 {
+                boldSystemFont=UIFont(name: (boldSystemFont.fontName), size: (boldSystemFont.pointSize)-1)!
+            }
+            if Constants.DeviceType.IS_IPHONE_6P {
+                boldSystemFont=UIFont(name: (boldSystemFont.fontName), size: (boldSystemFont.pointSize)+4)!
+            }
+            if Constants.DeviceType.IS_IPAD {
+                boldSystemFont=UIFont(name: (boldSystemFont.fontName), size: (boldSystemFont.pointSize)+7)!
+            }
             
+            mutableAttributedString?.addAttribute(String(kCTFontAttributeName), value: boldSystemFont, range: range)
+            mutableAttributedString?.addAttribute(String(kCTFontAttributeName), value: boldSystemFont, range: range1)
+            
+            return mutableAttributedString;
+        }
+        let url1 = NSURL(string: "action://users/\(keyID)")!
+        let url2 = NSURL(string: "action://message/\(notificationList.DataList[indexPath.row].PrimaryID)")!
+        cell.lbltitle.addLink(to: url1 as URL!, with: range)
+        cell.lbltitle.addLink(to: url2 as URL!, with: range1)
+        cell.lbltitle.addLink(to: url2 as URL!, with: range3)
+        cell.lbltitle.addLink(to: url2 as URL!, with: range4)
+        
             let url = URL(string: notificationList.DataList[indexPath.row].ProfileImageLink)!
             let resource = ImageResource(downloadURL: url, cacheKey: notificationList.DataList[indexPath.row].ProfileImageLink)
 
-             cell.imguser.kf.setImage(with: resource)
+            cell.imguser.kf.setImage(with: resource)
             cell.imguser.clipsToBounds = true
             cell.imguser.cornerRadius = cell.imguser.frame.width / 2
             
@@ -153,6 +221,11 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             self.getNotifications(page: currentPage )
         }
         
+        
+    }
+    
+    func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
+        print(url)
         
     }
     
