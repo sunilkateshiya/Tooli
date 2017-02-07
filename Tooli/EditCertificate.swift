@@ -364,7 +364,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                     "CertificateCategoryID" : String(selectedCertificates.PrimaryID),
                     "PageType" : "certificate"
                 ] as [String : Any]
-               
+               self.selectedImage = Globals.compressForUpload(original: self.selectedImage!, withHeightLimit: 1100, andWidthLimit: 800)
                Alamofire.upload(multipartFormData: { (multipartFormData) in
                     multipartFormData.append(UIImageJPEGRepresentation(self.selectedImage!, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
                     for (key, value) in parameters {

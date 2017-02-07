@@ -11,4 +11,5 @@ import UIKit
 class PortfolioCell: UICollectionViewCell {
     
      @IBOutlet weak var PortfolioImage: UIImageView!
+     @IBOutlet weak var btnRemove : UIButton!
 }

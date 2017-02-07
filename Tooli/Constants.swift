@@ -71,6 +71,7 @@ struct Constants {
         static let PortfolioEdit = BASE_URL + "PortfolioEdit"
         static let PortfolioInfo = BASE_URL + "PortfolioInfo"
         static let PortfolioList = BASE_URL + "PortfolioList"
+        static let PortfolioImageDelete = BASE_URL + "PortfolioImageDelete"
         
         static let Z_MasterDataList = BASE_URL + "Z_MasterDataList"
         

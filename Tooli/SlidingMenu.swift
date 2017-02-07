@@ -20,7 +20,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
      tableview?.tableFooterView = UIView()
      tableview?.tableHeaderView = UIView()
-        
+        if (self.sharedManager.currentUser != nil) {
         if self.sharedManager.currentUser.ProfileImageLink != "" {
             let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
@@ -37,7 +37,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
             ivimage?.clipsToBounds = true
             ivimage?.cornerRadius = (ivimage?.frame.size.width)! / 2
         }
-        
+        }
 //        let url = URL(string: "http://domain.com/image.png")!
 //        ivimage?.kf.setImage(with: url,
 //                             placeholder: UIImage(named:"ic_Logo"),

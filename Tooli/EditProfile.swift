@@ -616,7 +616,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         self.startAnimating()
         
-        let image = self.ImgProfilePic.image!
+        var image = self.ImgProfilePic.image!
         
         print(image)
         let pid : String =  String(self.sharedManager.currentUser.ContractorID)
@@ -625,7 +625,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             "PrimaryID": pid ,
             "PageType" : "contractor"
             ] as [String : Any]
-        
+        image = Globals.compressForUpload(original: image, withHeightLimit: 1100, andWidthLimit: 800)
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(UIImageJPEGRepresentation(image, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
             for (key, value) in parameters {

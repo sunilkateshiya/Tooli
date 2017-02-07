@@ -10,7 +10,15 @@ import UIKit
 
 extension UITextView {
     open override func awakeFromNib() {
-        
+        if Constants.DeviceType.IS_IPHONE_5 {
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!-1)
+        }
+        if Constants.DeviceType.IS_IPHONE_6P {
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+3)
+        }
+        if Constants.DeviceType.IS_IPAD {
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
+        }
     }
 }
 
@@ -24,10 +32,10 @@ extension UITextField {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!-1)
         }
         if Constants.DeviceType.IS_IPHONE_6P {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+4)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+3)
         }
         if Constants.DeviceType.IS_IPAD {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+7)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
         }
         
     }
@@ -93,10 +101,10 @@ extension UILabel {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!-1)
         }
         if Constants.DeviceType.IS_IPHONE_6P {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+4)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+3)
         }
         if Constants.DeviceType.IS_IPAD {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+7)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
         }
     }
 }

@@ -53,7 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: userinfo)
                 
                 if  self.sharedManager.currentUser.IsSetupProfile {
-                    moveToDashboard()
+                    moveToEditPortfolio()
+                    //moveToDashboard()
                     //moveToInfo()
                 }
                 else {
@@ -117,6 +118,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
     }
     
+    func moveToPortfolio(){
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+        let initialViewController : Addportfolio = storyboard.instantiateViewController(withIdentifier: "Addportfolio") as! Addportfolio
+        self.navigationController?.viewControllers = [initialViewController]
+        self.window?.rootViewController = self.navigationController
+    }
+    func moveToEditPortfolio(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+        let initialViewController : ProfileFeed = storyboard.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+        
+        self.navigationController?.viewControllers = [initialViewController]
+        self.window?.rootViewController = self.navigationController
+    }
     
     func moveToLogin()
     {

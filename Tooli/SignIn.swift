@@ -47,7 +47,7 @@ class SignIn: NSObject, Mappable  {
     var CertificateFileList : [CertificateFileListM]? = []
     var ServiceList : [ServiceListM]? = []
     var ExperienceList : [Experiences]? = []
-    var PortfolioList : [ExperienceListM]? = []
+    var PortfolioList : [Portfolio]? = []
  
     required init?(map: Map){
         status <- map["status"]
@@ -243,7 +243,84 @@ class ExperienceListM : NSObject, Mappable {
     }
 }
 
+class Portfolio : NSObject, Mappable {
+    var UserID = 0;
+    var PrimaryID = 0;
+    var PageTypeID = 0;
+    var UserFullName = "";
+    var ProfileImageLink = "";
+    var Date = ""
+    var Time = ""
+    var Description = ""
+    var Location = ""
+    var CustomerName = ""
+    var Title = ""
+    var ThumbnailImageLink = ""
+    var SavePageStarImageLink = ""
+    var PortfolioImageList : [PortfolioImages] = []
+    var TotalPortfolio = 1
+    var Caption = ""
+    override init() {
+        
+    }
+    required init?(map: Map) {
+        UserID <- map["UserID"]
+        PrimaryID <- map["PrimaryID"]
+        PageTypeID <- map["PageTypeID"]
+        UserFullName <- map["UserFullName"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        Date <- map["Date"]
+        Time <- map["Time"]
+        Description <- map["Description"]
+        Location <- map["Location"]
+        CustomerName <- map["CustomerName"]
+        Title <- map["Title"]
+        ThumbnailImageLink <- map["ThumbnailImageLink"]
+        SavePageStarImageLink <- map["SavePageStarImageLink"]
+        PortfolioImageList <- map["PortfolioImageList"]
+        TotalPortfolio <- map["TotalPortfolio"]
+        Caption <- map["Caption"]
+        
+    }
+    func mapping(map: Map) {
+        UserID <- map["UserID"]
+        PrimaryID <- map["PrimaryID"]
+        PageTypeID <- map["PageTypeID"]
+        UserFullName <- map["UserFullName"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        Date <- map["Date"]
+        Time <- map["Time"]
+        Description <- map["Description"]
+        Location <- map["Location"]
+        CustomerName <- map["CustomerName"]
+        Title <- map["Title"]
+        ThumbnailImageLink <- map["ThumbnailImageLink"]
+        SavePageStarImageLink <- map["SavePageStarImageLink"]
+        PortfolioImageList <- map["PortfolioImageList"]
+        TotalPortfolio <- map["TotalPortfolio"]
+        Caption <- map["Caption"]
+    }
+}
 
+class PortfolioImages : NSObject, Mappable {
+    var PrimaryID = 0
+    var PortfolioImageLink = ""
+    var img : UIImage?
+    var imgName = ""
+    var isCreatedbyMe = false;
+    override init() {
+        
+    }
+    required init?(map: Map) {
+        PrimaryID <- map["PrimaryID"]
+        PortfolioImageLink <- map["PortfolioImageLink"]
+    }
+    func mapping(map: Map) {
+        PrimaryID <- map["PrimaryID"]
+        PortfolioImageLink <- map["PortfolioImageLink"]
+        
+    }
+}
 class CertificateFileListM : NSObject, Mappable {
     var PrimaryID = 0
     var CertificateCategoryID = 0
