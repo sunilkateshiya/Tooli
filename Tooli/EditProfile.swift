@@ -298,7 +298,12 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         self.BtnTrade.setTitleColor(Color.black, for: .normal)
-        self.BtnSkill.setTitle(self.sharedManager.currentUser.ServiceList?[0].ServiceName,for: .normal)
+        if  self.sharedManager.currentUser.ServiceList?.count == 0 {
+            self.BtnSkill.setTitle("Select ", for: .normal);
+        }
+        else {
+            self.BtnSkill.setTitle(self.sharedManager.currentUser.ServiceList?[0].ServiceName,for: .normal)
+        }
         self.BtnSkill.setTitleColor(Color.black, for: .normal)
         if self.sharedManager.currentUser.IsOwnVehicle == true {
             SwitchVehicle.setOn(true, animated: true)

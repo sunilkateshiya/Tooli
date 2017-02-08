@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */; };
 		2025C34A1E49D47B00615DFE /* Editportfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2025C3491E49D47B00615DFE /* Editportfolio.swift */; };
+		204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */; };
+		204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79E1E4AEB0D00C35938 /* JobList.swift */; };
+		204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */; };
 		204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E71DD1E3B235D00E971E0 /* EditExperience.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
@@ -96,6 +99,9 @@
 		188DC577411309CBD8F4498A /* Pods-TooliUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests.release.xcconfig"; sourceTree = "<group>"; };
 		200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceCell.swift; sourceTree = "<group>"; };
 		2025C3491E49D47B00615DFE /* Editportfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editportfolio.swift; sourceTree = "<group>"; };
+		204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionList.swift; sourceTree = "<group>"; };
+		204CF79E1E4AEB0D00C35938 /* JobList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobList.swift; sourceTree = "<group>"; };
+		204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorDashBoard.swift; sourceTree = "<group>"; };
 		204E71DD1E3B235D00E971E0 /* EditExperience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditExperience.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
@@ -253,15 +259,15 @@
 				204E71DD1E3B235D00E971E0 /* EditExperience.swift */,
 				B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */,
 				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
+				31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */,
+				3171AC691E3396320063198C /* ProfileFeed.swift */,
 				31663C801E24C18400D5DD3C /* NotificationTab.swift */,
 				31663C861E24C5AB00D5DD3C /* MessageTab.swift */,
-				31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */,
 				31B6BE711E265C37009C03C7 /* JobCenter.swift */,
 				3118664B1E274C18008A4C74 /* Connections.swift */,
 				31FB339A1E27791000157820 /* JobDetail.swift */,
 				312297DE1E2F6FDD00EC48F7 /* ContractorDetail.swift */,
 				31A6ED781E31D3470039A780 /* SlidingMenu.swift */,
-				3171AC691E3396320063198C /* ProfileFeed.swift */,
 				3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */,
 				31A6ED761E31D2F40039A780 /* MyNavigationController.swift */,
 				3171AC6A1E3396320063198C /* Addportfolio.swift */,
@@ -273,6 +279,9 @@
 		3171AC671E3335670063198C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */,
+				204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */,
+				204CF79E1E4AEB0D00C35938 /* JobList.swift */,
 				3171AC651E3335610063198C /* SignIn.swift */,
 				311428831E35BDF10032F8FB /* CompanyProfileM.swift */,
 			);
@@ -671,6 +680,7 @@
 				31663C851E24C55900D5DD3C /* MessageTabCell.swift in Sources */,
 				31A6ED791E31D3470039A780 /* SlidingMenu.swift in Sources */,
 				3193295E1E1A614200456DDF /* Experience.swift in Sources */,
+				204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */,
 				3171AC781E3396470063198C /* PortfolioCell.swift in Sources */,
 				206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */,
 				3171AC6E1E3396320063198C /* Addportfolio.swift in Sources */,
@@ -681,6 +691,7 @@
 				31691C761E3091C40029CDB6 /* Certificates.swift in Sources */,
 				31691C741E307E620029CDB6 /* RatesTravel.swift in Sources */,
 				3118664C1E274C18008A4C74 /* Connections.swift in Sources */,
+				204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */,
 				318694CB1E1F746D000E8349 /* CustomTabBarC.swift in Sources */,
 				B83AA1E51E3C5BF2004FD90F /* SkillCell.swift in Sources */,
 				3171AC7A1E3396470063198C /* CompanyprofileJobsCell.swift in Sources */,
@@ -710,6 +721,7 @@
 				31663C8F1E25085500D5DD3C /* DashBoardCvCell.swift in Sources */,
 				200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */,
 				3171AC791E3396470063198C /* Addcell.swift in Sources */,
+				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
 				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
 				3171AC6C1E3396320063198C /* EditProfile.swift in Sources */,
 				31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */,

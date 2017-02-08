@@ -9,12 +9,20 @@
 import UIKit
 import Popover
 import ENSwiftSideMenu
+import ObjectMapper
+import Toast_Swift
+import NVActivityIndicatorView
+import Kingfisher
 
-class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate{
+
+class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable{
 
     @IBOutlet var tvjobs : UITableView!
     @IBOutlet var btnSortby : UIButton!
-
+    var FilterOption : NSString!
+    var sharedManager : Globals = Globals.sharedInstance
+    var joblist : [JobCenterM]?
+    
     var popover = Popover()
 
     override func viewDidLoad() {
@@ -25,9 +33,55 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         tvjobs.rowHeight = UITableViewAutomaticDimension
         tvjobs.estimatedRowHeight = 100
         tvjobs.tableFooterView = UIView()
+     
+        FilterOption = "Default"
+        onLoadDetail(withfilter: FilterOption)
+
+        btnSortby.setTitle("Sort by : Default", for: .normal)
         // Do any additional setup after loading the view.
     }
 
+    func onLoadDetail(withfilter: NSString){
+        
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "PageIndex":"1",
+                     "FilterOption":FilterOption] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.JobList, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.jobList = Mapper<JobList>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.joblist = self.sharedManager.jobList.DataList
+                    self.tvjobs.reloadData()
+                }
+                else
+                {
+                    
+                }
+                
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+            }
+            
+        }) {
+            (error) -> Void in
+            print(error.localizedDescription)
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    
     @IBAction func btnMenu(button: AnyObject)
     {
         toggleSideMenuView()
@@ -45,6 +99,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             Share.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
             Share.contentHorizontalAlignment = .left
             Share.setTitleColor(UIColor.darkGray, for: .normal)
+        Share.tag = 1
             Share.addTarget(self, action: #selector(press(button:)), for: .touchUpInside)
         
         let border = CALayer()
@@ -62,6 +117,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             Delete.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
             Delete.setTitleColor(UIColor.darkGray, for: .normal)
             Delete.contentHorizontalAlignment = .left
+        Delete.tag = 2
             Delete.addTarget(self, action: #selector(press(button:)), for: .touchUpInside)
         
         
@@ -87,13 +143,25 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     }
     
     func press(button: UIButton) {
-        
+      //  Nearest
+        if button.tag == 1 {
+            FilterOption = "RecentlyAdded"
+            btnSortby.setTitle("Sort by : Recently Added", for: .normal)
+
+        }else{
+            FilterOption = "Nearest"
+            btnSortby.setTitle("Sort by : Nearest", for: .normal)
+
+        }
+        onLoadDetail(withfilter: FilterOption)
         popover.dismiss()
 
     }
     @IBAction func btnBack(_ sender: Any) {
         
-       _ = self.navigationController?.popViewController(animated: true)
+        let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        app.moveToDashboard()
     }
 
     @IBAction func btnSortBy(_ sender: Any) {
@@ -104,22 +172,86 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
         //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
-        return  5
+        guard  ((sharedManager.jobList) != nil) else {
+            return 0
+        }
+        if self.joblist == nil {
+            self.joblist = sharedManager.jobList.DataList
+        }
+        return  (self.joblist?.count)!;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! JobCenterCell
-        cell.lblcompany.text = "JLE Electricals"
-        cell.lblwork.text = "Electrical work"
-        cell.lblexperience.text = "Experienced Worker"
-        cell.lblstartfinish.text = "Start : 15/1/2016 Finish : 2/2/2016"
-        cell.imguser.image = UIImage(named: "image")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileFeedCell
+        
+        cell.lblcity.text = self.joblist?[indexPath.row].CityName as String!
+        cell.lblcompany.text = self.joblist?[indexPath.row].Description as String!
+        cell.lblstart.text = self.joblist?[indexPath.row].StartOn as String!
+        cell.lblfinish.text = self.joblist?[indexPath.row].EndOn as String!
+        cell.lblexperience.text = self.joblist?[indexPath.row].Title as String!
+        cell.lblwork.text = self.joblist?[indexPath.row].TradeCategoryName as String!
+
+        cell.btnfav!.tag=indexPath.row
+        cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+        if self.joblist?[indexPath.row].IsSaved == true {
+            cell.btnfav.isSelected = true
+        }
+        else{
+            cell.btnfav.isSelected = false
+        }
+        let imgURL = self.joblist?[indexPath.row].ProfileImageLink as String!
+        let url = URL(string: imgURL!)
+        cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+        
         return cell
     }
 
-    
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let obj : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+        self.navigationController?.pushViewController(obj, animated: true)
+    }
+
+    func btnfav(btn : UIButton)  {
+        
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "PrimaryID":self.joblist?[btn.tag].PrimaryID ?? "",
+                     "PageType":"job"] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.joblist = self.sharedManager.jobList.DataList
+                    self.tvjobs.reloadData()
+                }
+                else
+                {
+                    
+                }
+                
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+            }
+            
+        }) {
+            (error) -> Void in
+            print(error.localizedDescription)
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
     /*
     // MARK: - Navigation
 

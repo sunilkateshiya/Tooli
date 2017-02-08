@@ -14,10 +14,10 @@ class ConnectionCell : UITableViewCell {
     
     @IBOutlet var lblcompany: UILabel!
     @IBOutlet var lblwork: UILabel!
+    @IBOutlet var lbllocatn: UILabel!
     @IBOutlet var btnfav: UIButton!
     @IBOutlet var imguser: UIImageView!
 
-    @IBOutlet var cvport : UICollectionView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

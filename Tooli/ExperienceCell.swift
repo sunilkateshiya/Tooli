@@ -13,6 +13,9 @@ class ExperienceCell: UITableViewCell {
     @IBOutlet var txtJobTitle : UITextField!
     @IBOutlet var txtCompany : UITextField!
     @IBOutlet var txtExperience : UITextField!
+    @IBOutlet var lblJobTitle : UILabel!
+    @IBOutlet var lblCompanyName : UILabel!
+    @IBOutlet var lblFrom : UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

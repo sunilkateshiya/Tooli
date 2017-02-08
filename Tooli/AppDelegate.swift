@@ -53,8 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: userinfo)
                 
                 if  self.sharedManager.currentUser.IsSetupProfile {
-                    moveToEditPortfolio()
-                    //moveToDashboard()
+                    //moveToEditPortfolio()
+                    moveToDashboard()
                     //moveToInfo()
                 }
                 else {

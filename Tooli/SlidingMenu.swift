@@ -8,7 +8,7 @@
 
 import UIKit
 import Kingfisher
-
+import Toast_Swift
 class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource {
      @IBOutlet var tableview : UITableView?
      @IBOutlet var ivimage : UIImageView?
@@ -121,16 +121,17 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "EditProfile")
                break
           case 1:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "TrackList")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
                break
           case 2:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Rides")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
                break
           case 3:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "PaymentCard")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
                break
           case 4:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Settings")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
+               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
                break
           case 5:
                callWSSignOut()
@@ -145,7 +146,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        if indexPath.row != 5 {
+        if indexPath.row != 5 && indexPath.row != 4 {
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }

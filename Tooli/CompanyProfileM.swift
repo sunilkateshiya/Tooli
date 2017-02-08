@@ -35,7 +35,7 @@ class CompanyProfileM: NSObject, Mappable  {
     var ServiceGroup = ""
     var JobList : [JobListM]? = []
     var OfferList : [OfferListM]? = []
-  
+    
     required init?(map: Map){
         status <- map["status"]
         message <- map["message"]
@@ -148,7 +148,7 @@ class OfferListM : NSObject, Mappable {
     var Title = ""
     var Description = ""
     var RedirectLink = ""
-
+    
     required init?(map: Map) {
         
         UserID <- map["UserID"]
@@ -161,7 +161,7 @@ class OfferListM : NSObject, Mappable {
         RedirectLink <- map["RedirectLink"]
         OfferImageLink <- map["OfferImageLink"]
         
-       }
+    }
     func mapping(map: Map) {
         
         UserID <- map["UserID"]

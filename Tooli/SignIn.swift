@@ -328,6 +328,7 @@ class CertificateFileListM : NSObject, Mappable {
     var IshaveFile : Bool = false
     var IsImage : Bool = false
     var FileLink = ""
+    var IsPDF : Bool = false
     
     override init() {
         
@@ -340,6 +341,7 @@ class CertificateFileListM : NSObject, Mappable {
         IshaveFile <- map["IshaveFile"]
         IsImage <- map["IsImage"]
         FileLink <- map["FileLink"]
+        IsPDF <- map["IsPDF"]
         
     }
     func mapping(map: Map) {
@@ -349,7 +351,7 @@ class CertificateFileListM : NSObject, Mappable {
         IshaveFile <- map["IshaveFile"]
         IsImage <- map["IsImage"]
         FileLink <- map["FileLink"]
-        
+        IsPDF <- map["IsPDF"]
     }
 }
 

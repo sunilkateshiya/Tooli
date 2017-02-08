@@ -12,7 +12,10 @@ class Globals {
     var deviceToken : String!
     var currentUser : SignIn!
     var masters : Masters!
-    
+    var selectedCompany : CompanyProfileM!
+    var dashBoard : ContractorDashBoard!
+    var jobList : JobList!
+    var connectionList : ConnectionList!
     private init() {
 
         
