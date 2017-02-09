@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func moveToEditPortfolio(){
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
-        let initialViewController : ProfileFeed = storyboard.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+        let initialViewController : PortfolioDetails = storyboard.instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
         
         self.navigationController?.viewControllers = [initialViewController]
         self.window?.rootViewController = self.navigationController

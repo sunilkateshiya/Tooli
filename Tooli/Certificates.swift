@@ -149,7 +149,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                 let imgURL = tmpcert.FileLink as String
                 
                 let urlPro = URL(string: imgURL)
-                
+                cell.imgCertificate.kf.indicatorType = .activity
                 cell.imgCertificate.kf.setImage(with: urlPro)
                 cell.btnUpload.setImage(#imageLiteral(resourceName: "ic_check"), for: .normal)
                 

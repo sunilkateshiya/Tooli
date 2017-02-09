@@ -56,7 +56,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     @IBOutlet weak var PortCollectionHeight: NSLayoutConstraint!
     @IBOutlet weak var BtnAbout: UIButton!
-    
+    @IBOutlet weak var BtnActivty: UIButton!
     @IBOutlet weak var BtnPortfolio: UIButton!
     
     // About Outlets
@@ -94,7 +94,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblHeightConstraints.constant = 265 * 10
         self.AboutviewHeight.constant = 265 * 10
         
-        self.PortCollectionHeight.constant = 265 * 10
+        //self.PortCollectionHeight.constant = 265 * 10
         self.ObjScrollview.contentSize.height = self.PortCollectionHeight.constant
         self.AboutCollectionView.delegate = self
         self.AboutCollectionView.dataSource = self
@@ -159,6 +159,18 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         // Setting About Info :
         
+        if  self.profile.IsSaved == true {
+            self.ImgStar.isHidden = false
+        } else {
+            self.ImgStar.isHidden = true
+        }
+        
+        if self.profile.IsFollow == true {
+            self.BtnFollow.setTitle("Following", for: UIControlState.normal)
+        } else {
+            self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
+        }
+        
         self.lblAbtDOb.text = self.profile.DOB
         self.lblAbtMob.text = self.profile.MobileNumber
         self.lblAbtTel.text = self.profile.LandlineNumber
@@ -188,6 +200,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         if self.profile.ProfileImageLink != "" {
             let imgURL = self.profile.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
+            self.ImgProfilePic?.kf.indicatorType = .activity
             self.ImgProfilePic?.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [
@@ -203,17 +216,91 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
     }
     
+    
     @IBAction func BtnFollowTapped(_ sender: Any) {
+        
+        self.startAnimating()
+        let param = ["FollowUserID": self.profile.ContractorID,
+                     "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.FollowUserToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            // self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    if self.profile.IsFollow == true {
+                        self.profile.IsFollow = false
+                        self.BtnFollow.setTitle("Following", for: UIControlState.normal)
+                    } else {
+                        self.profile.IsFollow = true
+                        self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
+                    }
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+        
     }
     
     @IBAction func BtnMessageTapped(_ sender: Any) {
     }
+    @IBAction func BtnActivtyTapped(_ sender: Any) {
+//        if self.profile != nil {
+//            self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+//        }
+        self.TblTimeline.reloadData()
+        self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
+        //self.ObjScrollview.contentSize.height = self.TblTimeline.contentSize.height
+        self.BtnPortfolio.isSelected = false
+        self.BtnPortfolio.tintColor = UIColor.white
+        self.BtnPortfolio.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+        
+        self.BtnAbout.isSelected = false
+        self.BtnAbout.tintColor = UIColor.white
+        self.BtnAbout.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+        
+        self.BtnActivty.isSelected = true
+        self.BtnActivty.tintColor = UIColor.white
+        self.BtnActivty.setTitleColor(UIColor.red, for: UIControlState.selected)
+        
+        
+        self.TblTimeline.isHidden = false
+        self.PortfolioView.isHidden = true
+        self.AboutView.isHidden = true
+        
+        self.TblTimeline.tag = 1
+        self.TblAboutus.tag = 2
+        self.ObjCollectionView.tag = 3
+        self.AboutCollectionView.tag = 4
+        
+        //          self.HeightConstraints.constant = 0
+        //          self.PortCollectionHeight.constant = 0
+    }
     @IBAction func BtnAboutTapped(_ sender: Any) {
         
-        self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
+        //self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
         //self.ObjScrollview.contentSize.height = 237 + self.PortCollectionHeight.constant
         
-        self.ObjScrollview.contentSize.height = 237 + AboutView.frame.size.height
+        self.ObjScrollview.contentSize.height = 217 + AboutView.frame.size.height
         
         self.BtnPortfolio.isSelected = false
         self.BtnPortfolio.tintColor = UIColor.white
@@ -223,6 +310,9 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.BtnAbout.tintColor = UIColor.white
         self.BtnAbout.setTitleColor(UIColor.red, for: UIControlState.selected)
         
+        self.BtnActivty.isSelected = false
+        self.BtnActivty.tintColor = UIColor.white
+        self.BtnActivty.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
         
         self.TblTimeline.isHidden = true
         self.PortfolioView.isHidden = true
@@ -237,13 +327,17 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         //          self.PortCollectionHeight.constant = 0
     }
     @IBAction func BtnPortfolioTapped(_ sender: Any) {
-        
-        self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
-        self.ObjScrollview.contentSize.height = 237 + self.PortCollectionHeight.constant
+        //self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height + 20
+        //self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
+        self.ObjScrollview.contentSize.height = 237 + self.ObjCollectionView.contentSize.height + 20
         
         self.BtnAbout.isSelected = false
         self.BtnAbout.tintColor = UIColor.white
         self.BtnAbout.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+        
+        self.BtnActivty.isSelected = false
+        self.BtnActivty.tintColor = UIColor.white
+        self.BtnActivty.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
         
         self.BtnPortfolio.isSelected = true
         self.BtnPortfolio.tintColor = UIColor.white
@@ -353,7 +447,13 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.TblTimeline {
-            return 10
+            if self.profile != nil {
+                //self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                return (self.profile.PortfolioList?.count)!
+            }
+            else {
+                return 0
+            }
         }
         else
         {
@@ -369,10 +469,165 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView == self.TblTimeline {
+            let lastRowIndex = tableView.numberOfRows(inSection: 0)
+            if indexPath.row == lastRowIndex - 1 {
+                self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+            }
+        }
+    }
+    
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         if tableView == self.TblTimeline {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            let cell : TimelineCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TimelineCell
+            let tmpPortfolio : Portfolio = self.profile.PortfolioList![indexPath.row]
+            // Set Image of user
+            
+            if self.profile.ProfileImageLink != "" {
+                let imgURL = self.profile.ProfileImageLink as String
+                let urlPro = URL(string: imgURL)
+                cell.imgProfile?.kf.indicatorType = .activity
+                cell.imgProfile?.kf.setImage(with: urlPro)
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink)
+                let optionInfo: KingfisherOptionsInfo = [
+                    .downloadPriority(0.5),
+                    .transition(ImageTransition.fade(1)),
+                    
+                    ]
+                
+                cell.imgProfile?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                
+                //ImgProfilePic?.clipsToBounds = true
+                //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
+            }
+            
+            //cell.imguser
+            cell.lblName.text = self.profile.FirstName + " " + self.profile.LastName
+            cell.lblCaption.text = tmpPortfolio.Caption
+            cell.lblTitle.text = tmpPortfolio.Description
+            cell.lblDate.text = tmpPortfolio.Date + " at " + tmpPortfolio.Time + " - " + tmpPortfolio.Location
+            
+            
+            // Handling the button click
+            
+            cell.btnProfile!.tag=indexPath.row
+            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+            
+            cell.btnPortfolio!.tag=indexPath.row
+            cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+            
+            cell.btnFav!.tag=indexPath.row
+            cell.btnFav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+            
+            // Remove all Subviews from View 
+            for view in cell.imgView.subviews {
+                view.removeFromSuperview()
+            }
+            
+            // Set Image for Album Images
+            if tmpPortfolio.PortfolioImageList.count >= 3 {
+                var count = 0
+                var x = 5;
+                for img in tmpPortfolio.PortfolioImageList {
+                    if  count < 3
+                    {
+                        let imgView : UIImageView = UIImageView(frame: CGRect(x: x, y: 5, width: Int((Constants.ScreenSize.SCREEN_WIDTH / 3 ) - 20), height: 130))
+                        
+                        
+                        if tmpPortfolio.PortfolioImageList[count].PortfolioImageLink != "" {
+                            let imgURL = tmpPortfolio.PortfolioImageList[count].PortfolioImageLink as String
+                            let urlPro = URL(string: imgURL)
+                           
+                            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: tmpPortfolio.PortfolioImageList[count].PortfolioImageLink)
+                            let optionInfo: KingfisherOptionsInfo = [
+                                .downloadPriority(0.5),
+                                .transition(ImageTransition.fade(1)),
+                                
+                                ]
+                            imgView.kf.indicatorType = .activity
+                            imgView.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                            imgView.clipsToBounds = true
+                            imgView.contentMode = UIViewContentMode.scaleAspectFill
+                            //ImgProfilePic?.clipsToBounds = true
+                            //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
+                        }
+                        
+                        //imgView.image = UIImage(named: "image")
+                        cell.imgView.addSubview(imgView);
+                        x = x + 5 + Int((Constants.ScreenSize.SCREEN_WIDTH / 3 ) - 20)
+                        count = count + 1
+                    }
+                }
+            }
+            else if tmpPortfolio.PortfolioImageList.count == 2 {
+                var count = 0
+                var x = 5;
+                for img in tmpPortfolio.PortfolioImageList {
+                    if  count < 2
+                    {
+                        let imgView : UIImageView = UIImageView(frame: CGRect(x: x, y: 5, width: Int((Constants.ScreenSize.SCREEN_WIDTH / 2 ) - 15), height: 140))
+                        if tmpPortfolio.PortfolioImageList[count].PortfolioImageLink != "" {
+                            let imgURL = tmpPortfolio.PortfolioImageList[count].PortfolioImageLink as String
+                            let urlPro = URL(string: imgURL)
+                            
+                            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: tmpPortfolio.PortfolioImageList[count].PortfolioImageLink)
+                            let optionInfo: KingfisherOptionsInfo = [
+                                .downloadPriority(0.5),
+                                .transition(ImageTransition.fade(1)),
+                                
+                                ]
+                            imgView.kf.indicatorType = .activity
+                            imgView.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                            imgView.clipsToBounds = true
+                            imgView.contentMode = UIViewContentMode.scaleAspectFill
+                            //ImgProfilePic?.clipsToBounds = true
+                            //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
+                        }
+                        cell.imgView.addSubview(imgView);
+                        x = x + 5 + Int((Constants.ScreenSize.SCREEN_WIDTH / 2 ) - 15)
+                        count = count + 1
+                    }
+                }
+                
+            }
+            else if tmpPortfolio.PortfolioImageList.count == 1 {
+                var count = 0
+                var x = 5;
+                for img in tmpPortfolio.PortfolioImageList {
+                    if  count < 1
+                    {
+                        let imgView : UIImageView = UIImageView(frame: CGRect(x: x, y: 5, width: Int((Constants.ScreenSize.SCREEN_WIDTH / 2 ) - 10), height: 150))
+                        if tmpPortfolio.PortfolioImageList[count].PortfolioImageLink != "" {
+                            let imgURL = tmpPortfolio.PortfolioImageList[count].PortfolioImageLink as String
+                            let urlPro = URL(string: imgURL)
+                            
+                            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: tmpPortfolio.PortfolioImageList[count].PortfolioImageLink)
+                            let optionInfo: KingfisherOptionsInfo = [
+                                .downloadPriority(0.5),
+                                .transition(ImageTransition.fade(1)),
+                                
+                                ]
+                            imgView.kf.indicatorType = .activity
+                            imgView.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                            imgView.clipsToBounds = true
+                            imgView.contentMode = UIViewContentMode.scaleAspectFill
+                            //ImgProfilePic?.clipsToBounds = true
+                            //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
+                        }
+                        cell.imgView.addSubview(imgView);
+                        x = x + 5 + Int((Constants.ScreenSize.SCREEN_WIDTH / 1 ) - 10)
+                        count = count + 1
+                    }
+                }
+            }
+            else {
+                // Reduce height constraint of table by views height
+            }
+            
             
             //               cell.textLabel?.text = "Trades " +  "\(indexPath.row)"
             return cell
@@ -387,6 +642,83 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             return cell
         }
     }
+    
+    
+    func btnProfile (btn : UIButton) {
+//        
+//        
+//        let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+//        obj.contractorId = (self.profile?[btn.tag].ContractorID)!
+//        self.navigationController?.pushViewController(obj, animated: true)
+        
+    }
+    
+    func btnPortfolio (btn : UIButton) {
+        let obj : PortfolioDetails = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+        obj.portfolio = (self.profile?.PortfolioList?[btn.tag])!
+        self.navigationController?.pushViewController(obj, animated: true)
+    }
+    
+    func btnfav(btn : UIButton)  {
+        
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "PrimaryID":self.profile.PortfolioList?[btn.tag].PrimaryID ?? "-1",
+                     "PageType":6] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.jobList = Mapper<JobList>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.TblTimeline.reloadData()
+                }
+                else
+                {
+                    
+                }
+                
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+            }
+            
+        }) {
+            (error) -> Void in
+            print(error.localizedDescription)
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if  tableView == self.TblTimeline {
+//        let tmpPortfolio : Portfolio = self.profile.PortfolioList![indexPath.row]
+//        let str1 = self.profile.FirstName + " " + self.profile.LastName
+//        let str2 = tmpPortfolio.Caption
+//        let str3 = tmpPortfolio.Description
+//        let str4 = tmpPortfolio.Date + " at " + tmpPortfolio.Time + " - " + tmpPortfolio.Location
+//        
+//        let height = (str1 + str2 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 15, font: UIFont(name: "Oxygen", size: 16)!) + (str3 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 125, font: UIFont(name: "Oxygen", size: 14)!) + (str4 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 60, font: UIFont(name: "Oxygen", size: 16)!) + 20 + 180
+//        
+//        return CGFloat(height)
+//        }
+//        else {
+//            
+//            return 95
+//        }
+//        
+//    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == AboutCollectionView {
@@ -399,6 +731,11 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         else if collectionView == ObjCollectionView {
             if  self.profile != nil {
+                let itemsPerRow:CGFloat = 2
+                let hardCodedPadding:CGFloat = 5
+                let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
+                let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
+                self.POrCollectionHeightConstraints.constant = CGFloat(((itemHeight/2) * CGFloat((profile.PortfolioList?.count)!)))
                 return (self.profile.PortfolioList?.count)!
             }
             else {
@@ -429,14 +766,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 .downloadPriority(0.5),
                 .transition(ImageTransition.fade(1)),
             ]
-            
+            Collectcell.PortfolioImage?.kf.indicatorType = .activity
             
             
             Collectcell.PortfolioImage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: { (img1, err, cacheType, url1) in
                 //
                 if (err != nil) {
                     Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_pdf")
-                    self.profile.CertificateFileList?[indexPath.row].IsPDF=true
+                    //self.profile.CertificateFileList?[indexPath.row].IsPDF=true
                     
                 }
                 else {
@@ -457,6 +794,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             
             let imgURL = (self.profile.CertificateFileList?[indexPath.row].FileLink)! as String
             let urlPro = URL(string: imgURL)
+            Collectcell.PortfolioImage?.kf.indicatorType = .activity
             Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             let optionInfo: KingfisherOptionsInfo = [
@@ -494,9 +832,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == self.ObjCollectionView {
+            let itemsPerRow:CGFloat = 2
+            let hardCodedPadding:CGFloat = 5
+            let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
+            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding + (self.profile.PortfolioList![indexPath.row].Title).heightWithWidth(width: itemWidth, font: UIFont(name: "Oxygen-Bold", size: 14)!)
+            return CGSize(width: itemWidth, height: itemHeight)
+        }
         
-        
-        if collectionView.tag == 3 {
+        else if collectionView.tag == 3 {
             let itemsPerRow:CGFloat = 2
             let hardCodedPadding:CGFloat = 5
             let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
@@ -519,11 +863,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if  self.profile.CertificateFileList?[indexPath.row].IsPDF == true {
+        if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsPDF == true {
             let url = URL(string: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             if (UIApplication.shared.canOpenURL(url!)){
                 UIApplication.shared.openURL(url!)
             }
+        } else if collectionView == self.ObjCollectionView {
+            let port : PortfolioDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+            port.portfolio = self.profile.PortfolioList?[indexPath.row]
+            self.navigationController?.pushViewController(port, animated: true)
         }
     }
     

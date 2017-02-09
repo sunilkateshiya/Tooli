@@ -13,6 +13,8 @@
 		204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79E1E4AEB0D00C35938 /* JobList.swift */; };
 		204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */; };
 		204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E71DD1E3B235D00E971E0 /* EditExperience.swift */; };
+		205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */; };
+		205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D19111E4C4250009CF5BD /* TimelineCell.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
 		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
@@ -103,6 +105,8 @@
 		204CF79E1E4AEB0D00C35938 /* JobList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobList.swift; sourceTree = "<group>"; };
 		204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorDashBoard.swift; sourceTree = "<group>"; };
 		204E71DD1E3B235D00E971E0 /* EditExperience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditExperience.swift; sourceTree = "<group>"; };
+		205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioDetails.swift; sourceTree = "<group>"; };
+		205D19111E4C4250009CF5BD /* TimelineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineCell.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 				200EB8571E38935A00E6B0E0 /* ExperienceCell.swift */,
 				206A08701E39D2A3004C6036 /* CertificateCell.swift */,
 				20898A3C1E3B690F009498DD /* LoadingCell.swift */,
+				205D19111E4C4250009CF5BD /* TimelineCell.swift */,
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
 				31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */,
 				3171AC691E3396320063198C /* ProfileFeed.swift */,
+				205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */,
 				31663C801E24C18400D5DD3C /* NotificationTab.swift */,
 				31663C861E24C5AB00D5DD3C /* MessageTab.swift */,
 				31B6BE711E265C37009C03C7 /* JobCenter.swift */,
@@ -707,6 +713,7 @@
 				311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */,
 				31663C811E24C18400D5DD3C /* NotificationTab.swift in Sources */,
 				31663C8D1E25083000D5DD3C /* DashBoardTvCell.swift in Sources */,
+				205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */,
 				31691C7C1E30A25A0029CDB6 /* Info.swift in Sources */,
 				312297DF1E2F6FDD00EC48F7 /* ContractorDetail.swift in Sources */,
 				31691C7A1E30A2510029CDB6 /* Login.swift in Sources */,
@@ -725,6 +732,7 @@
 				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
 				3171AC6C1E3396320063198C /* EditProfile.swift in Sources */,
 				31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */,
+				205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

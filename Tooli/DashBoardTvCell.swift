@@ -70,6 +70,7 @@ class DashBoardTvCell: UITableViewCell,UICollectionViewDelegate, UICollectionVie
         
         let imgURL = self.portimgs?[indexPath.row].PortfolioImageLink as String!
         let url = URL(string: imgURL!)
+        cell.imgport.kf.indicatorType = .activity
         cell.imgport.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         return cell
     }

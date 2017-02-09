@@ -115,6 +115,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
         let url = URL(string: imgURL!)
+        cell.imguser.kf.indicatorType = .activity
         cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         cell.cvimgcnt = self.dashlist?[indexPath.row].PortfolioImageList?.count
         cell.portimgs = self.dashlist?[indexPath.row].PortfolioImageList

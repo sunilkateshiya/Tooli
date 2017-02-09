@@ -244,6 +244,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         if self.sharedManager.currentUser.ProfileImageLink != "" {
             let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
+            ImgProfilePic.kf.indicatorType = .activity
             ImgProfilePic.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [

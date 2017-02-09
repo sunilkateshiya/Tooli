@@ -137,6 +137,7 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         let imgURL = self.connlist?[indexPath.row].ProfileImageLink as String!
         let url = URL(string: imgURL!)
+        cell.imguser.kf.indicatorType = .activity
         cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         
         return cell

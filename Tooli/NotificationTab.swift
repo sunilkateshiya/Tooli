@@ -201,7 +201,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         
             let url = URL(string: notificationList.DataList[indexPath.row].ProfileImageLink)!
             let resource = ImageResource(downloadURL: url, cacheKey: notificationList.DataList[indexPath.row].ProfileImageLink)
-
+            cell.imguser.kf.indicatorType = .activity
             cell.imguser.kf.setImage(with: resource)
             cell.imguser.clipsToBounds = true
             cell.imguser.cornerRadius = cell.imguser.frame.width / 2

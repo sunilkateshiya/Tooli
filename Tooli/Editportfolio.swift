@@ -201,6 +201,7 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
             if  portfolio.PortfolioImageList[indexPath.row].isCreatedbyMe == false {
                 let imgURL = portfolio.PortfolioImageList[indexPath.row].PortfolioImageLink
                 let urlPro = URL(string: imgURL)
+                Collectcell.PortfolioImage.kf.indicatorType = .activity
                 Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
                 let optionInfo: KingfisherOptionsInfo = [

@@ -378,6 +378,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             let imgURL = self.joblist?[indexPath.row].ProfileImageLink as String!
             
             let url = URL(string: imgURL!)
+            cell.imguser.kf.indicatorType = .activity
             cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
             
             return cell
@@ -393,6 +394,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             let imgURL = self.speciallist?[indexPath.row].ProfileImageLink as String!
             
             let url = URL(string: imgURL!)
+            cell.ImgProfilepic.kf.indicatorType = .activity
             cell.ImgProfilepic.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
             
 
