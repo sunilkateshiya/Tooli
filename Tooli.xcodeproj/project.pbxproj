@@ -16,6 +16,7 @@
 		205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */; };
 		205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D19111E4C4250009CF5BD /* TimelineCell.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
+		206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206AC5431E4DEA0C00A20341 /* Forgot.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
 		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
@@ -108,6 +109,7 @@
 		205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioDetails.swift; sourceTree = "<group>"; };
 		205D19111E4C4250009CF5BD /* TimelineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineCell.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
+		206AC5431E4DEA0C00A20341 /* Forgot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forgot.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
 		3118664B1E274C18008A4C74 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			children = (
 				31691C771E30A2430029CDB6 /* Register.swift */,
 				31691C791E30A2510029CDB6 /* Login.swift */,
+				206AC5431E4DEA0C00A20341 /* Forgot.swift */,
 				31691C7B1E30A25A0029CDB6 /* Info.swift */,
 				314676BF1E23C51600B01108 /* YourTrades.swift */,
 				3193295D1E1A614200456DDF /* Experience.swift */,
@@ -730,6 +733,7 @@
 				3171AC791E3396470063198C /* Addcell.swift in Sources */,
 				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
 				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
+				206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */,
 				3171AC6C1E3396320063198C /* EditProfile.swift in Sources */,
 				31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */,
 				205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */,

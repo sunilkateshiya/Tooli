@@ -74,7 +74,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Info.swift"
-                  timestampString = "508342119.459835"
+                  timestampString = "508427180.171289"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "243"
@@ -89,7 +89,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Info.swift"
-                  timestampString = "508342119.462564"
+                  timestampString = "508427180.174681"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "244"
@@ -250,7 +250,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/YourTrades.swift"
-                  timestampString = "508342119.49479"
+                  timestampString = "508427180.219687"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "327"
@@ -265,7 +265,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/YourTrades.swift"
-                  timestampString = "508342119.497818"
+                  timestampString = "508427180.222959"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "330"
@@ -314,7 +314,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/YourTrades.swift"
-                  timestampString = "508342119.507554"
+                  timestampString = "508427180.236939"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "343"
@@ -329,7 +329,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/YourTrades.swift"
-                  timestampString = "508342119.510129"
+                  timestampString = "508427180.240192"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "343"
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/AppDelegate.swift"
-            timestampString = "508155858.348938"
+            timestampString = "508420466.974576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "moveToInfo()"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,7 +538,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/RatesTravel.swift"
-                  timestampString = "508342119.560878"
+                  timestampString = "508427180.318607"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "136"
@@ -553,7 +553,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/RatesTravel.swift"
-                  timestampString = "508342119.5637"
+                  timestampString = "508427180.321899"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "139"
@@ -586,7 +586,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Certificates.swift"
-                  timestampString = "508342119.568963"
+                  timestampString = "508427180.32958"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "281"
@@ -601,7 +601,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Certificates.swift"
-                  timestampString = "508342119.571847"
+                  timestampString = "508427180.332864"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "282"
@@ -842,11 +842,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/SlidingMenu.swift"
-            timestampString = "508332872.694043"
+            timestampString = "508399874.616789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,7 +1018,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Certificates.swift"
-                  timestampString = "508342119.656558"
+                  timestampString = "508427180.444208"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "295"
@@ -1033,7 +1033,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Certificates.swift"
-                  timestampString = "508342119.659312"
+                  timestampString = "508427180.447547"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "296"
@@ -1162,11 +1162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/EditProfile.swift"
-            timestampString = "508332872.694043"
+            timestampString = "508397821.695163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "BtnBackTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1194,7 +1194,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditCertificate.swift"
-                  timestampString = "508342119.705071"
+                  timestampString = "508427180.512791"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "389"
@@ -1209,7 +1209,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditCertificate.swift"
-                  timestampString = "508342119.708027"
+                  timestampString = "508427180.515734"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "389"
@@ -1338,7 +1338,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditCertificate.swift"
-                  timestampString = "508342119.735911"
+                  timestampString = "508427180.553597"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "194"
@@ -1353,7 +1353,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditCertificate.swift"
-                  timestampString = "508342119.738736"
+                  timestampString = "508427180.556698"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "197"
@@ -1386,7 +1386,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditCertificate.swift"
-                  timestampString = "508342119.743866"
+                  timestampString = "508427180.564425"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "321"
@@ -1401,7 +1401,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditCertificate.swift"
-                  timestampString = "508342119.746976"
+                  timestampString = "508427180.567303"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "324"
@@ -1482,7 +1482,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditProfile.swift"
-                  timestampString = "508342119.766259"
+                  timestampString = "508427180.603393"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "154"
@@ -1497,7 +1497,7 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/EditProfile.swift"
-                  timestampString = "508342119.769077"
+                  timestampString = "508427180.607942"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "157"
@@ -1594,11 +1594,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/EditProfile.swift"
-            timestampString = "508332872.694043"
+            timestampString = "508397821.695163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1690,7 +1690,103 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508154434.677553"
+            timestampString = "508399046.315087"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "uploadphoto()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Addportfolio.swift"
+            timestampString = "508399046.315087"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
+            landmarkName = "uploadphoto()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Tooli.Addportfolio.(uploadphoto () -&gt; ()).(closure #2).(closure #2)"
+                  moduleName = "Tooli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/tooli/Tooli/Addportfolio.swift"
+                  timestampString = "508427180.681846"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "284"
+                  endingLineNumber = "284"
+                  offsetFromSymbolStart = "732">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Tooli.Addportfolio.(uploadphoto () -&gt; ()).(closure #2).(closure #2)"
+                  moduleName = "Tooli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/tooli/Tooli/Addportfolio.swift"
+                  timestampString = "508427180.685026"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "284"
+                  endingLineNumber = "284"
+                  offsetFromSymbolStart = "773">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Addportfolio.swift"
+            timestampString = "508399046.315087"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
+            landmarkName = "uploadphoto()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Addportfolio.swift"
+            timestampString = "508399046.315087"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "uploadphoto()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Addportfolio.swift"
+            timestampString = "508399046.315087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "280"
@@ -1706,107 +1802,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508154434.677553"
+            timestampString = "508399046.315087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tooli.Addportfolio.(uploadphoto () -&gt; ()).(closure #2).(closure #2)"
-                  moduleName = "Tooli"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/tooli/Tooli/Addportfolio.swift"
-                  timestampString = "508342119.828921"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "282"
-                  endingLineNumber = "282"
-                  offsetFromSymbolStart = "732">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tooli.Addportfolio.(uploadphoto () -&gt; ()).(closure #2).(closure #2)"
-                  moduleName = "Tooli"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/tooli/Tooli/Addportfolio.swift"
-                  timestampString = "508342119.831469"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "282"
-                  endingLineNumber = "282"
-                  offsetFromSymbolStart = "773">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508154434.677553"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508154434.677553"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508154434.677553"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508149390.987185"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "collectionView(_:numberOfItemsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1818,11 +1818,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508149390.987185"
+            timestampString = "508399046.315087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "actionPost(sender:)"
             landmarkType = "7">
             <Locations>
@@ -1834,11 +1834,11 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Addportfolio.swift"
-                  timestampString = "508342119.913764"
+                  timestampString = "508427180.711815"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
                   offsetFromSymbolStart = "7876">
                </Location>
                <Location
@@ -1849,11 +1849,11 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/Addportfolio.swift"
-                  timestampString = "508342119.916545"
+                  timestampString = "508427180.71526"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
                   offsetFromSymbolStart = "102">
                </Location>
             </Locations>
@@ -1866,11 +1866,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508153801.556802"
+            timestampString = "508399046.315087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "textViewShouldBeginEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1882,11 +1882,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Addportfolio.swift"
-            timestampString = "508153802.540726"
+            timestampString = "508399046.315087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "textViewShouldEndEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1898,11 +1898,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/EditProfile.swift"
-            timestampString = "508332872.694043"
+            timestampString = "508397821.695163"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1914,11 +1914,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "getProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1930,11 +1930,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1942,15 +1942,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "getProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1962,11 +1962,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "getProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1978,11 +1978,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "getProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1994,11 +1994,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "getProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2006,15 +2006,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508250546.397952"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "setProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2022,15 +2022,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "467"
-            endingLineNumber = "467"
+            startingLineNumber = "563"
+            endingLineNumber = "563"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "508419503.822786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "558"
+            endingLineNumber = "558"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2042,27 +2058,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "462"
-            endingLineNumber = "462"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "726"
-            endingLineNumber = "726"
+            startingLineNumber = "837"
+            endingLineNumber = "837"
             landmarkName = "collectionView(_:numberOfItemsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2074,11 +2074,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "799"
-            endingLineNumber = "799"
+            startingLineNumber = "920"
+            endingLineNumber = "920"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
             <Locations>
@@ -2090,12 +2090,12 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/ProfileFeed.swift"
-                  timestampString = "508342119.980817"
+                  timestampString = "508427180.769559"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "799"
-                  endingLineNumber = "799"
-                  offsetFromSymbolStart = "8058">
+                  startingLineNumber = "905"
+                  endingLineNumber = "905"
+                  offsetFromSymbolStart = "10416">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2105,12 +2105,12 @@
                   moduleName = "Tooli"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/imperoit/tooli/Tooli/ProfileFeed.swift"
-                  timestampString = "508342119.983701"
+                  timestampString = "508427180.772674"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "799"
-                  endingLineNumber = "799"
-                  offsetFromSymbolStart = "10546">
+                  startingLineNumber = "905"
+                  endingLineNumber = "905"
+                  offsetFromSymbolStart = "12844">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2166,15 +2166,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "452"
-            endingLineNumber = "452"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2186,11 +2186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "711"
-            endingLineNumber = "711"
+            startingLineNumber = "822"
+            endingLineNumber = "822"
             landmarkName = "ProfileFeed"
             landmarkType = "3">
          </BreakpointContent>
@@ -2202,11 +2202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "704"
-            endingLineNumber = "704"
+            startingLineNumber = "815"
+            endingLineNumber = "815"
             landmarkName = "ProfileFeed"
             landmarkType = "3">
          </BreakpointContent>
@@ -2218,11 +2218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "717"
-            endingLineNumber = "717"
+            startingLineNumber = "828"
+            endingLineNumber = "828"
             landmarkName = "ProfileFeed"
             landmarkType = "3">
          </BreakpointContent>
@@ -2234,11 +2234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "835"
-            endingLineNumber = "835"
+            startingLineNumber = "1012"
+            endingLineNumber = "1012"
             landmarkName = "collectionView(_:layout:sizeForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2250,11 +2250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "850"
-            endingLineNumber = "850"
+            startingLineNumber = "1027"
+            endingLineNumber = "1027"
             landmarkName = "collectionView(_:layout:sizeForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2266,11 +2266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341304.962233"
+            timestampString = "508428235.483044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "738"
-            endingLineNumber = "738"
+            startingLineNumber = "849"
+            endingLineNumber = "849"
             landmarkName = "collectionView(_:numberOfItemsInSection:)"
             landmarkType = "7">
             <Locations>
@@ -2314,11 +2314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341926.31061"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "BtnFollowTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2330,11 +2330,169 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "508341932.917411"
+            timestampString = "508419503.822786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "BtnFollowTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/EditProfile.swift"
+            timestampString = "508397688.947691"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "BTnDOBtapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "508419503.822786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "getProfile()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "508419503.822786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "480"
+            endingLineNumber = "480"
+            landmarkName = "press(button:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "508419503.822786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "press(button:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Tooli.ProfileFeed.press (button : __ObjC.UIButton) -&gt; ()"
+                  moduleName = "Tooli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/tooli/Tooli/ProfileFeed.swift"
+                  timestampString = "508427180.9293"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "486"
+                  endingLineNumber = "486"
+                  offsetFromSymbolStart = "1413">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Tooli.ProfileFeed.(press (button : __ObjC.UIButton) -&gt; ()).(closure #1)"
+                  moduleName = "Tooli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/tooli/Tooli/ProfileFeed.swift"
+                  timestampString = "508427180.932354"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "491"
+                  endingLineNumber = "491"
+                  offsetFromSymbolStart = "111">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "508428235.483044"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "911"
+            endingLineNumber = "911"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = ""
+            moduleName = "">
+            <Locations>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "508427166.952315"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
             landmarkName = "BtnFollowTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>

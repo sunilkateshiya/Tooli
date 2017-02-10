@@ -58,6 +58,7 @@ struct Constants {
         
         static let ContractorTradeUpdate = BASE_URL + "ContractorTradeUpdate"
         static let FollowUserToggle = BASE_URL + "FollowUserToggle"
+        static let FollowContractorToggle = BASE_URL + "FollowContractorToggle"
         static let ForgotPassword = BASE_URL + "ForgotPassword"
         
         static let JobInfo = BASE_URL + "JobInfo"

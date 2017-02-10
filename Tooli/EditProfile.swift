@@ -26,7 +26,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var BtnDob: UIButton!
     @IBAction func BTnDOBtapped(_ sender: UIButton) {
         
-        var selectedDate : Date!
+        //var selectedDate : Date!
         
         let secondsInMinYear: TimeInterval = 18 * 365 * 24 * 60 * 60;
         if selectedDate == nil {
@@ -285,6 +285,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let sdate = dateFormatter.date(from: sharedManager.currentUser.DOB)
+        selectedDate = sdate;
         self.DobWebString = sdate?.toWebString()
         
         selectedSkills = []
@@ -352,9 +353,9 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     @IBAction func BtnBackTapped(_ sender: Any) {
         
-        let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        app.moveToDashboard()
+//        let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//        app.moveToDashboard()
+        self.navigationController?.popViewController(animated: true)
         
     }
     @IBAction func BtnEditProfileTapped(_ sender: Any) {

@@ -260,6 +260,7 @@ class Portfolio : NSObject, Mappable {
     var PortfolioImageList : [PortfolioImages] = []
     var TotalPortfolio = 1
     var Caption = ""
+    var IsSaved : Bool = false
     override init() {
         
     }
@@ -280,7 +281,7 @@ class Portfolio : NSObject, Mappable {
         PortfolioImageList <- map["PortfolioImageList"]
         TotalPortfolio <- map["TotalPortfolio"]
         Caption <- map["Caption"]
-        
+        IsSaved <- map["IsSaved"]
     }
     func mapping(map: Map) {
         UserID <- map["UserID"]
@@ -299,6 +300,7 @@ class Portfolio : NSObject, Mappable {
         PortfolioImageList <- map["PortfolioImageList"]
         TotalPortfolio <- map["TotalPortfolio"]
         Caption <- map["Caption"]
+        IsSaved <- map["IsSaved"]
     }
 }
 
@@ -328,7 +330,6 @@ class CertificateFileListM : NSObject, Mappable {
     var IshaveFile : Bool = false
     var IsImage : Bool = false
     var FileLink = ""
-    var IsPDF : Bool = false
     
     override init() {
         
@@ -341,7 +342,7 @@ class CertificateFileListM : NSObject, Mappable {
         IshaveFile <- map["IshaveFile"]
         IsImage <- map["IsImage"]
         FileLink <- map["FileLink"]
-        IsPDF <- map["IsPDF"]
+        IsImage <- map["IsImage"]
         
     }
     func mapping(map: Map) {
@@ -351,7 +352,7 @@ class CertificateFileListM : NSObject, Mappable {
         IshaveFile <- map["IshaveFile"]
         IsImage <- map["IsImage"]
         FileLink <- map["FileLink"]
-        IsPDF <- map["IsPDF"]
+        IsImage <- map["IsImage"]
     }
 }
 

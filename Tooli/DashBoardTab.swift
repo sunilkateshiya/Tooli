@@ -33,7 +33,6 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         // Do any additional setup after loading the view.
     }
     
-    
     func onLoadDetail(){
         
         
@@ -54,7 +53,6 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {        self.vwnolist?.isHidden = true
-
                     self.dashlist = self.sharedManager.dashBoard.DataList
                     self.tvdashb.reloadData()
                    }
@@ -145,12 +143,12 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-           // layout.itemSize = CGSize(width: screenWidth/3, height: screenWidth/3)
-            layout.minimumInteritemSpacing = 5
-            layout.minimumLineSpacing = 2
-            layout.scrollDirection = .vertical
+            layout.itemSize = CGSize(width: (Constants.ScreenSize.SCREEN_WIDTH-46)/3, height: (Constants.ScreenSize.SCREEN_WIDTH-46)/3)
+//            layout.minimumInteritemSpacing = 5
+//            layout.minimumLineSpacing = 2
+//            layout.scrollDirection = .vertical
             cell.cvheightconst.constant = 0
-            //cell.cvport.collectionViewLayout = layout
+           // cell.cvport!.collectionViewLayout = layout
             
         }
             
@@ -158,12 +156,12 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-            layout.itemSize = CGSize(width: screenWidth/2, height: screenWidth/2)
-            layout.minimumInteritemSpacing = 5
-            layout.minimumLineSpacing = 2
-            layout.scrollDirection = .vertical
-            cell.cvheightconst.constant = screenWidth
-            //cell.cvport.collectionViewLayout = layout
+            layout.itemSize = CGSize(width: (Constants.ScreenSize.SCREEN_WIDTH-46)/2, height: (Constants.ScreenSize.SCREEN_WIDTH-46)/2)
+//            layout.minimumInteritemSpacing = 5
+//            layout.minimumLineSpacing = 2
+//            layout.scrollDirection = .vertical
+            cell.cvheightconst.constant = (Constants.ScreenSize.SCREEN_WIDTH-46)
+            //cell.cvport!.collectionViewLayout = layout
             
         }
             
@@ -171,12 +169,12 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-            layout.itemSize = CGSize(width: screenWidth/2, height: screenWidth/2)
-            layout.minimumInteritemSpacing = 5
-            layout.minimumLineSpacing = 2
-            layout.scrollDirection = .vertical
-            cell.cvheightconst.constant = screenWidth/2
-            //cell.cvport.collectionViewLayout = layout
+            layout.itemSize = CGSize(width: (Constants.ScreenSize.SCREEN_WIDTH-46)/2, height: screenWidth/2)
+//            layout.minimumInteritemSpacing = 5
+//            layout.minimumLineSpacing = 2
+//            layout.scrollDirection = .vertical
+            cell.cvheightconst.constant = (Constants.ScreenSize.SCREEN_WIDTH-46)/2
+            //cell.cvport!.collectionViewLayout = layout
             
             
         }
@@ -184,12 +182,12 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
             layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-            layout.itemSize = CGSize(width: screenWidth/3, height: screenWidth/3)
-            layout.minimumInteritemSpacing = 5
-            layout.minimumLineSpacing = 2
-            layout.scrollDirection = .vertical
-            cell.cvheightconst.constant = screenWidth/3
-            //cell.cvport.collectionViewLayout = layout
+            layout.itemSize = CGSize(width: (Constants.ScreenSize.SCREEN_WIDTH-46)/3, height: (Constants.ScreenSize.SCREEN_WIDTH-46)/3)
+//            layout.minimumInteritemSpacing = 5
+//            layout.minimumLineSpacing = 2
+//            layout.scrollDirection = .vertical
+            cell.cvheightconst.constant = (Constants.ScreenSize.SCREEN_WIDTH-46)/3
+            //cell.cvport!.collectionViewLayout = layout
             
         }
 

@@ -15,13 +15,14 @@ import Kingfisher
 
 class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, NVActivityIndicatorViewable{
     var popover = Popover()
+    let sharedManager : Globals = Globals.sharedInstance
     var contractorId = 0;
     var isPortFolio : Bool = false;
     var screenSize: CGRect!
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     var profile  : SignIn!
-    let sharedManager : Globals = Globals.sharedInstance
+
     @IBOutlet weak var AboutCollectionView: UICollectionView!
     @IBOutlet weak var TblAboutus: UITableView!
     @IBOutlet weak var ObjScrollview: UIScrollView!
@@ -29,6 +30,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var ImgProfilePic: UIImageView!
     @IBOutlet weak var ImgStar: UIImageView!
     @IBOutlet weak var ImgOnOff: UIImageView!
+    @IBOutlet weak var ImgAvailable : UIImageView!
+    @IBOutlet weak var ImgAvailableProfile : UIImageView!
     @IBOutlet weak var AboutviewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var BtnNotification: UIButton!
@@ -47,7 +50,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var PortfolioView: UIView!
     @IBOutlet weak var lblLocation: UILabel!
     @IBOutlet weak var AboutView: UIView!
-    
+    @IBOutlet weak var BtnEditProfile: UIButton!
     @IBOutlet weak var BtnFollow: UIButton!
     
     @IBOutlet weak var BtnMessage: UIButton!
@@ -79,8 +82,17 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        if  contractorId == 0 {
+            contractorId = (sharedManager.currentUser.ContractorID)
+            self.BtnFollow.isHidden = true;
+            self.BtnMessage.isHidden = true;
+            self.BtnEditProfile.isHidden = false;
+        }
+        else {
+            self.BtnFollow.isHidden = false;
+            self.BtnMessage.isHidden = false;
+            self.BtnEditProfile.isHidden = true;
+        }
         self.TblAboutus.delegate = self
         self.TblAboutus.dataSource = self
         TblTimeline.delegate = self
@@ -89,7 +101,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         TblTimeline.estimatedRowHeight = 450
         TblTimeline.tableFooterView = UIView()
         ObjScrollview.delegate = self
-        
         
         self.TblHeightConstraints.constant = 265 * 10
         self.AboutviewHeight.constant = 265 * 10
@@ -114,6 +125,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         getProfile()
     }
+    override func viewWillAppear(_ animated: Bool) {
+         getProfile()
+    }
+    
     func getProfile(){
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
@@ -201,8 +216,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let imgURL = self.profile.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             self.ImgProfilePic?.kf.indicatorType = .activity
-            self.ImgProfilePic?.kf.setImage(with: urlPro)
-            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink)
+             //self.ImgProfilePic?.kf.setImage(with: urlPro)
+            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "Main")
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
                 .transition(ImageTransition.fade(1)),
@@ -214,17 +229,44 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             //ImgProfilePic?.clipsToBounds = true
             //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
         }
+        
+        if  self.contractorId == self.sharedManager.currentUser.ContractorID {
+            self.BtnNotification.isHidden = false
+            self.ImgAvailable.isHidden = false
+            
+            if self.profile.AvailableStatusID == 1 {
+                self.ImgAvailable.image = #imageLiteral(resourceName: "ic_circle_green")
+                self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_circle_green")
+            }
+            else if self.profile.AvailableStatusID == 2 {
+                self.ImgAvailable.image = #imageLiteral(resourceName: "ic_CircleYellow")
+                self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_CircleYellow")
+            }
+            else if self.profile.AvailableStatusID == 3 {
+                self.ImgAvailable.image = #imageLiteral(resourceName: "ic_circle_red")
+                self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_circle_red")
+            }
+
+        }
+        else {
+            self.BtnNotification.isHidden = true
+            self.ImgAvailable.isHidden = true
+        }
+        
     }
     
-    
+    @IBAction func BtnEditTapped(_ sender: UIButton) {
+        let editProfile : EditProfile = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EditProfile") as! EditProfile
+        self.navigationController?.pushViewController(editProfile, animated: true)
+    }
     @IBAction func BtnFollowTapped(_ sender: Any) {
         
         self.startAnimating()
-        let param = ["FollowUserID": self.profile.ContractorID,
+        let param = ["FollowContractorID": self.profile.ContractorID,
                      "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
         
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.FollowUserToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.FollowContractorToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
             
             // self.stopAnimating()
@@ -239,10 +281,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     if self.profile.IsFollow == true {
                         self.profile.IsFollow = false
-                        self.BtnFollow.setTitle("Following", for: UIControlState.normal)
+                        self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
                     } else {
                         self.profile.IsFollow = true
-                        self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
+                        self.BtnFollow.setTitle("Following", for: UIControlState.normal)
                     }
                 }
                 else
@@ -376,6 +418,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         Share.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         Share.contentHorizontalAlignment = .left
         Share.setTitleColor(UIColor.darkGray, for: .normal)
+        Share.tag = 20001
         Share.addTarget(self, action: #selector(press(button:)), for: .touchUpInside)
         
         
@@ -394,6 +437,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         Delete.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         Delete.setTitleColor(UIColor.darkGray, for: .normal)
         Delete.contentHorizontalAlignment = .left
+        Delete.tag = 20002
         Delete.addTarget(self, action: #selector(press(button:)), for: .touchUpInside)
         let borderDelete = CALayer()
         let widthDelete = CGFloat(1.0)
@@ -410,6 +454,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         MonthAvailiblity.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         MonthAvailiblity.setTitleColor(UIColor.darkGray, for: .normal)
         MonthAvailiblity.contentHorizontalAlignment = .left
+        MonthAvailiblity.tag = 20003
         MonthAvailiblity.addTarget(self, action: #selector(press(button:)), for: .touchUpInside)
         
         
@@ -433,7 +478,58 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     func press(button: UIButton) {
         
-        popover.dismiss()
+        self.startAnimating()
+        let param = ["AvailableStatusID": button.tag - 20000,
+                     "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ContractorChangeStatus, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            // self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    self.popover.dismiss()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.profile.AvailableStatusID = button.tag - 20000
+                    
+                    if self.profile.AvailableStatusID == 1 {
+                        self.ImgAvailable.image = #imageLiteral(resourceName: "ic_circle_green")
+                        self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_circle_green")
+                    }
+                    else if self.profile.AvailableStatusID == 2 {
+                        self.ImgAvailable.image = #imageLiteral(resourceName: "ic_CircleYellow")
+                        self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_CircleYellow")
+                    }
+                    else if self.profile.AvailableStatusID == 3 {
+                        self.ImgAvailable.image = #imageLiteral(resourceName: "ic_circle_red")
+                        self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_circle_red")
+                    }
+                    
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.popover.dismiss()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            self.popover.dismiss()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+        
+        
         
     }
     
@@ -458,7 +554,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         else
         {
             if  self.profile != nil {
-                self.AboutviewHeight.constant = CGFloat(Float(Float(160) * Float((self.profile.ExperienceList?.count)!)))
+                self.AboutviewHeight.constant = CGFloat(Float(Float(110) * Float((self.profile.ExperienceList?.count)!)))
                 self.HeightAboutView.constant = 867 + self.AboutviewHeight.constant
                 return  (self.profile.ExperienceList?.count)!
                 
@@ -486,13 +582,18 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let cell : TimelineCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TimelineCell
             let tmpPortfolio : Portfolio = self.profile.PortfolioList![indexPath.row]
             // Set Image of user
-            
+            if tmpPortfolio.IsSaved == true {
+                cell.imgFav.image = #imageLiteral(resourceName: "ic_fav_selected")
+            }
+            else {
+                cell.imgFav.image = #imageLiteral(resourceName: "ic_fav")
+            }
             if self.profile.ProfileImageLink != "" {
                 let imgURL = self.profile.ProfileImageLink as String
                 let urlPro = URL(string: imgURL)
                 cell.imgProfile?.kf.indicatorType = .activity
                 cell.imgProfile?.kf.setImage(with: urlPro)
-                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink)
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "ProfileCell")
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),
                     .transition(ImageTransition.fade(1)),
@@ -623,9 +724,13 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         count = count + 1
                     }
                 }
+                cell.imgHeight.constant = 0
+                cell.portfolioHeight.constant = 0
             }
             else {
                 // Reduce height constraint of table by views height
+                cell.imgHeight.constant = 0
+                cell.portfolioHeight.constant = 0
             }
             
             
@@ -680,6 +785,12 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
+                    if self.profile.PortfolioList?[btn.tag].IsSaved  == false {
+                        self.profile.PortfolioList?[btn.tag].IsSaved = true
+                    }
+                    else {
+                        self.profile.PortfolioList?[btn.tag].IsSaved = false
+                    }
                     self.TblTimeline.reloadData()
                 }
                 else
@@ -768,13 +879,23 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             ]
             Collectcell.PortfolioImage?.kf.indicatorType = .activity
             
+            if  self.contractorId == sharedManager.currentUser.ContractorID {
+                Collectcell.btnRemove.isHidden = false
+                Collectcell.imgRemove.isHidden = false
+                Collectcell.btnRemove.tag = indexPath.row
+                Collectcell.btnRemove.addTarget(self, action: #selector(removePortfolio(sender:)), for: UIControlEvents.touchUpInside)
+            }
+            else {
+                Collectcell.btnRemove.isHidden = true
+                Collectcell.imgRemove.isHidden = true
+            }
+
             
             Collectcell.PortfolioImage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: { (img1, err, cacheType, url1) in
                 //
                 if (err != nil) {
-                    Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_pdf")
+                    Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_placeholder")
                     //self.profile.CertificateFileList?[indexPath.row].IsPDF=true
-                    
                 }
                 else {
                     Collectcell.PortfolioImage.image = img1
@@ -787,7 +908,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         {
             let Collectcell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PortfolioCell
             
-            if  self.profile.CertificateFileList?[indexPath.row].IsPDF == true {
+            if  self.profile.CertificateFileList?[indexPath.row].IsImage == false {
                  Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_pdf")
             }
             else {
@@ -808,17 +929,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             Collectcell.PortfolioImage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: { (img1, err, cacheType, url1) in
                 //
                 if (err != nil) {
-                    Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_pdf")
-                    self.profile.CertificateFileList?[indexPath.row].IsPDF=true
+                    Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_placeholder")
+                    
                     
                 }
                 else {
                     Collectcell.PortfolioImage.image = img1
                 }
             })
-  
             }
-
             
             return Collectcell
             
@@ -831,6 +950,64 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
     }
+    
+    @IBAction func removePortfolio(sender : UIButton) {
+        //PortfolioDelete
+        
+        let alert = UIAlertController(title: "Delete Album ?", message: "Are you sure you want to delete the album ? ", preferredStyle: UIAlertControllerStyle.alert);
+        
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.destructive, handler: { (UIAlertAction) in
+            self.startAnimating()
+            let param = ["PortfolioID": self.profile.PortfolioList![sender.tag].PrimaryID,
+                         "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
+            print(param)
+            AFWrapper.requestPOSTURL(Constants.URLS.PortfolioDelete, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                (JSONResponse) -> Void in
+                
+                // self.stopAnimating()
+                
+                print(JSONResponse["status"].rawValue as! String)
+                
+                if JSONResponse != nil {
+                    
+                    if JSONResponse["status"].rawString()! == "1"
+                    {
+                        self.stopAnimating()
+                        
+                        self.profile = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                        self.setProfile()
+                        
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        
+                    }
+                    else
+                    {
+                        self.stopAnimating()
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    }
+                }
+                
+            }) {
+                (error) -> Void in
+                self.stopAnimating()
+                print(error.localizedDescription)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            }
+
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: { (UIAlertAction) in
+            
+        }))
+        
+        
+        self.present(alert, animated: true) { 
+            
+        }
+        
+        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.ObjCollectionView {
             let itemsPerRow:CGFloat = 2
@@ -863,20 +1040,37 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsPDF == true {
+        if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsImage == false {
             let url = URL(string: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             if (UIApplication.shared.canOpenURL(url!)){
                 UIApplication.shared.openURL(url!)
             }
         } else if collectionView == self.ObjCollectionView {
-            let port : PortfolioDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
-            port.portfolio = self.profile.PortfolioList?[indexPath.row]
-            self.navigationController?.pushViewController(port, animated: true)
+            
+            if  self.contractorId == sharedManager.currentUser.ContractorID {
+                // Redirect to edit portfolio
+                let port : Editportfolio = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Editportfolio") as! Editportfolio
+                port.portfolioId = (self.profile.PortfolioList?[indexPath.row].PrimaryID)!
+                self.navigationController?.pushViewController(port, animated: true)
+                
+            }
+            else {
+                let port : PortfolioDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+                port.portfolio = self.profile.PortfolioList?[indexPath.row]
+                self.navigationController?.pushViewController(port, animated: true)
+            }
         }
     }
     
     @IBAction func btnBack(_ sender: Any) {
-        
-        _ = self.navigationController?.popViewController(animated: true)
+        if contractorId == (sharedManager.currentUser.ContractorID) {
+            let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            app.moveToDashboard()
+
+        }
+        else {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
 }

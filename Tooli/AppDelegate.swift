@@ -153,9 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.navigationController?.viewControllers = [initialViewController]
         self.window?.rootViewController = self.navigationController
 
-        
-        
-      }
+    }
     func moveToInfo()
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

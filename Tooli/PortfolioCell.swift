@@ -12,5 +12,6 @@ class PortfolioCell: UICollectionViewCell {
     
      @IBOutlet weak var PortfolioImage: UIImageView!
      @IBOutlet weak var btnRemove : UIButton!
+    @IBOutlet var imgRemove : UIImageView!
     @IBOutlet var lblTitle : UILabel!
 }

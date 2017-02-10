@@ -199,6 +199,8 @@ class Login: UIViewController, NVActivityIndicatorViewable {
     }
     
     @IBAction func btnforgotpass(_ sender: Any) {
+        let obj : Forgot = self.storyboard?.instantiateViewController(withIdentifier: "Forgot") as! Forgot
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     
     /*

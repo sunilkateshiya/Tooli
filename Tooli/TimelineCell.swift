@@ -20,6 +20,8 @@ class TimelineCell: UITableViewCell {
     @IBOutlet var imgFav : UIImageView!
     @IBOutlet var btnProfile : UIButton!
     @IBOutlet var btnPortfolio : UIButton!
+    @IBOutlet var imgHeight : NSLayoutConstraint!
+    @IBOutlet var portfolioHeight : NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

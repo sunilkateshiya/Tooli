@@ -119,7 +119,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
           var destViewController : UIViewController
           switch (indexPath.row) {
           case 0:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "EditProfile")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ProfileFeed")
                break
           case 1:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
@@ -129,6 +129,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                break
           case 3:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
+               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
                break
           case 4:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
@@ -147,7 +148,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        if indexPath.row != 5 && indexPath.row != 4 {
+        if indexPath.row != 5 && indexPath.row != 4 && indexPath.row != 3 {
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }

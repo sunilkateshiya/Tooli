@@ -25,7 +25,7 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
     var imagePicker: UIImagePickerController!
     var isImageSelected : Bool = false
     // Make this dynamic
-    var portfolioId = 32
+    var portfolioId = 0
     override func viewWillAppear(_ animated: Bool) {
         self.startAnimating()
         var param = [:] as [String : Any]

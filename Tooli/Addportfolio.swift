@@ -11,6 +11,7 @@ import Toast_Swift
 import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
+import ENSwiftSideMenu
 class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,NVActivityIndicatorViewable , UIImagePickerControllerDelegate,UINavigationControllerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var TxtDescription: UITextView!
@@ -25,7 +26,8 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
     var imagePicker: UIImagePickerController!
     var isImageSelected : Bool = false
     @IBAction func actionBack(sender : UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        toggleSideMenuView()
+        //self.navigationController?.popViewController(animated: true)
     }
     @IBAction func actionPost(sender : UIButton) {
         var isValid : Bool = true
@@ -81,7 +83,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                         userDefaults.synchronize()
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                         
                         self.TxtDescription.text = ""
                         self.TxtLocation.text = ""
@@ -93,7 +95,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                     else
                     {
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                     }
                     
                 }
@@ -101,7 +103,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
             }) {
                 (error) -> Void in
                 self.stopAnimating()
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
             }
             
         }

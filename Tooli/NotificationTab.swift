@@ -207,10 +207,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             cell.imguser.cornerRadius = cell.imguser.frame.width / 2
             
             return cell
-     
-        
-       
-        
+  
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -226,6 +223,8 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
         print(url)
+        
+        
         
     }
     
