@@ -24,24 +24,39 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     var sharedManager : Globals = Globals.sharedInstance
 
     var connlist : [FollowerModel]?
-    
+    var templist : [FollowerModel]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        btncontractor.isSelected = true
+        btnfollowing.isSelected = true
+        
+        onLoadDetail()
+        
+        
+        if self.sharedManager.connectionList != nil{
+            
+            self.templist = self.sharedManager.connectionList.FollowingList
+            self.connlist = self.sharedManager.connectionList.FollowingList
+            
+        }
         tvconnections.delegate = self
         tvconnections.dataSource = self
         tvconnections.rowHeight = UITableViewAutomaticDimension
         tvconnections.estimatedRowHeight = 100
         tvconnections.tableFooterView = UIView()
         
-        btncontractor.isSelected = true
-        btnfollowing.isSelected = true
-        
-        onLoadDetail()
         // Do any additional setup after loading the view.
     }
 
+    
+
+     override func viewWillAppear(_ animated: Bool) {
+
+    }
+    
     func onLoadDetail(){
         
         self.startAnimating()
@@ -62,7 +77,15 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     
-                    self.connlist = self.sharedManager.connectionList.FollowingList
+                    self.templist = self.sharedManager.connectionList.FollowingList
+                    self.connlist = []
+                    for i in (0..<self.templist!.count)
+                    {
+                        if (self.templist?[i].IsContractor == true)
+                        {
+                            self.connlist?.append((self.templist?[i])!)
+                        }
+                    }
                     self.tvconnections.reloadData()
                 }
                 else
@@ -92,22 +115,129 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
    
     @IBAction func btnFollowing(_ sender: Any) {
-        self.connlist = self.sharedManager.connectionList.FollowingList
+        
+        btnfollowing.isSelected = true
+        btnfollower.isSelected = false
+        
+        guard  ((sharedManager.connectionList) != nil) else {
+            return
+        }
+        templist = self.sharedManager.connectionList.FollowingList
+            
+        
+        self.connlist = []
+        
+        if self.btncompany.isSelected == true {
+            
+            for i in (0..<templist!.count)
+            {
+                if (templist?[i].IsContractor == false)
+                {
+                    self.connlist?.append((templist?[i])!)
+                }
+            }
+        }
+        else{
+            for i in (0..<templist!.count)
+            {
+                if (templist?[i].IsContractor == true)
+                {
+                    self.connlist?.append((templist?[i])!)
+                }
+            }
+        }
+
+        //  self.connlist = self.sharedManager.connectionList.FollowingList
         tvconnections.reloadData()
 
     }
    
     @IBAction func btnFollowers(_ sender: Any) {
-        self.connlist = self.sharedManager.connectionList.FollowerList
+        
+        btnfollowing.isSelected = false
+        btnfollower.isSelected = true
+        
+        guard  ((sharedManager.connectionList) != nil) else {
+            return
+        }
+        templist = self.sharedManager.connectionList.FollowerList
+      
+        self.connlist = []
+        
+        if self.btncompany.isSelected == true {
+            
+            for i in (0..<templist!.count)
+            {
+                if (templist?[i].IsContractor == false)
+                {
+                    self.connlist?.append((templist?[i])!)
+                }
+            }
+        }
+        else{
+            for i in (0..<templist!.count)
+            {
+                if (templist?[i].IsContractor == true)
+                {
+                    self.connlist?.append((templist?[i])!)
+                }
+            }
+        }
+
         tvconnections.reloadData()
 
     }
     
     @IBAction func btnContractor(_ sender: Any) {
         
+        btncontractor.isSelected = true
+        btncompany.isSelected = false
+        
+        guard  ((sharedManager.connectionList) != nil) else {
+            return
+        }
+        if btnfollower.isSelected == true {
+            templist = self.sharedManager.connectionList.FollowerList
+        }
+        else{
+            templist = self.sharedManager.connectionList.FollowingList
+            
+        }
+        self.connlist = []
+        for i in (0..<templist!.count)
+        {
+            if (templist?[i].IsContractor == true)
+            {
+                self.connlist?.append((templist?[i])!)
+            }
+        }
+        self.tvconnections.reloadData()
     }
     
     @IBAction func btnCompany(_ sender: Any) {
+        
+        btncontractor.isSelected = false
+        btncompany.isSelected = true
+        
+        guard  ((sharedManager.connectionList) != nil) else {
+            return
+        }
+        if btnfollower.isSelected == true {
+             templist = self.sharedManager.connectionList.FollowerList
+        }
+        else{
+             templist = self.sharedManager.connectionList.FollowingList
+
+        }
+        self.connlist = []
+        for i in (0..<templist!.count)
+        {
+            if (templist?[i].IsContractor == false)
+            {
+                self.connlist?.append((templist?[i])!)
+            }
+        }
+        self.tvconnections.reloadData()
         
     }
     
@@ -137,18 +267,37 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         let imgURL = self.connlist?[indexPath.row].ProfileImageLink as String!
         let url = URL(string: imgURL!)
-        cell.imguser.kf.indicatorType = .activity
         cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        if self.connlist?[indexPath.row].IsContractor == true {
+            
+            let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+            obj.contractorId = (self.connlist?[indexPath.row].PrimaryID)!
+            obj.isPortFolio = false
+            self.navigationController?.pushViewController(obj, animated: true)
+            
+        }
+        else{
+            let obj : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            obj.companyId = (self.connlist?[indexPath.row].PrimaryID)!
+            self.navigationController?.pushViewController(obj, animated: true)
+        }
+        
+    }
+    
     func btnfav(btn : UIButton)  {
         
         self.startAnimating()
+        
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
                      "PrimaryID":self.connlist?[btn.tag].PrimaryID ?? "",
-                     "PageType":"job"] as [String : Any]
+                     "PageType":self.btncompany.isSelected == true ? "1" : "2"] as [String : Any]
         
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
@@ -163,6 +312,12 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
+                    if btn.isSelected == true{
+                        self.connlist?[btn.tag].IsSaved = false
+                    }
+                    else{
+                        self.connlist?[btn.tag].IsSaved = true
+                    }
                     self.tvconnections.reloadData()
                 }
                 else

@@ -628,7 +628,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             for view in cell.imgView.subviews {
                 view.removeFromSuperview()
             }
-            
+            cell.imgHeight.constant = 160
+            cell.portfolioHeight.constant = 160
             // Set Image for Album Images
             if tmpPortfolio.PortfolioImageList.count >= 3 {
                 var count = 0
@@ -724,8 +725,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         count = count + 1
                     }
                 }
-                cell.imgHeight.constant = 0
-                cell.portfolioHeight.constant = 0
+                cell.imgHeight.constant = 160
+                cell.portfolioHeight.constant = 160
             }
             else {
                 // Reduce height constraint of table by views height

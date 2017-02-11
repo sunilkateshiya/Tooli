@@ -9,14 +9,18 @@
 import UIKit
 import Cosmos
 
-class DashBoardTvCell: UITableViewCell {
+class DashBoardTv1Cell: UITableViewCell{
 
     @IBOutlet var lbltitle: UILabel!
     @IBOutlet var lbldate: UILabel!
     @IBOutlet var lblhtml: UILabel!
     @IBOutlet var btnfav: UIButton!
     @IBOutlet var btnProfile: UIButton!
+    @IBOutlet var btnPortfolio: UIButton!
     @IBOutlet var imguser: UIImageView!
+    
+    @IBOutlet var img1: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

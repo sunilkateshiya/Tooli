@@ -19,6 +19,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
     var sharedManager : Globals = Globals.sharedInstance
     var joblist : [JobListM]?
     var speciallist : [OfferListM]?
+    var companyId = 0;
 
     
     var screenSize: CGRect!
@@ -106,7 +107,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "CompanyID":"1"] as [String : Any]
+                     "CompanyID":self.companyId] as [String : Any]
         
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.CompanyProfileView, params :param as [String : AnyObject]? ,headers : nil  ,  success: {

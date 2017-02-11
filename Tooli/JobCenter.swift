@@ -14,8 +14,7 @@ import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
 
-
-class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable{
+class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable {
 
     @IBOutlet var tvjobs : UITableView!
     @IBOutlet var btnSortby : UIButton!
@@ -23,6 +22,9 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     var sharedManager : Globals = Globals.sharedInstance
     var joblist : [JobCenterM]?
     
+    var currentPage = 1
+    var isFirstTime : Bool = true
+
     var popover = Popover()
 
     override func viewDidLoad() {
@@ -35,17 +37,30 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         tvjobs.tableFooterView = UIView()
      
         FilterOption = "Default"
-        onLoadDetail(withfilter: FilterOption)
+        //onLoadDetail(withfilter: FilterOption, page: self.currentPage)
 
         btnSortby.setTitle("Sort by : Default", for: .normal)
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        onLoadDetail(withfilter: FilterOption, page: self.currentPage)
+
     }
 
-    func onLoadDetail(withfilter: NSString){
-        
-        self.startAnimating()
+
+    func onLoadDetail(withfilter: NSString, page: Int){
+        if self.isFirstTime {
+            self.startAnimating()
+        }
+        else {
+            let view : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 80))
+            let activity : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            activity.startAnimating()
+            view.addSubview(activity)
+            self.tvjobs.tableFooterView = view
+        }
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "PageIndex":"1",
+                     "PageIndex":page,
                      "FilterOption":FilterOption] as [String : Any]
         
         print(param)
@@ -59,6 +74,38 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    if self.isFirstTime {
+                        self.joblist = self.sharedManager.jobList.DataList
+                        self.isFirstTime = false;
+                    }
+                    else {
+
+                        for tmpJobs in self.sharedManager.jobList.DataList! {
+                            self.joblist?.append(tmpJobs)
+                        }
+                    }
+                    self.currentPage = self.currentPage + 1
+                    self.tvjobs.reloadData()
+                    //self.setValues()
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.isFirstTime = false;
+                    //self.currentPage = 1
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    //self.tvnoti.reloadData()
+                }
+
+                
+                
+                
+                
+                
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
@@ -153,7 +200,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             btnSortby.setTitle("Sort by : Nearest", for: .normal)
 
         }
-        onLoadDetail(withfilter: FilterOption)
+        onLoadDetail(withfilter: FilterOption, page: currentPage)
         popover.dismiss()
 
     }
@@ -182,6 +229,10 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        
+        if indexPath.row == (joblist?.count)!-1  {
+            self.onLoadDetail(withfilter: FilterOption, page: currentPage)
+        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileFeedCell
         
@@ -219,7 +270,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
                      "PrimaryID":self.joblist?[btn.tag].PrimaryID ?? "",
-                     "PageType":"job"] as [String : Any]
+                     "PageType":"4"] as [String : Any]
         
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
@@ -234,8 +285,17 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
-                    self.joblist = self.sharedManager.jobList.DataList
+                    
+                    if btn.isSelected == true{
+                        self.joblist?[btn.tag].IsSaved = false
+                      //  self.sharedManager.jobList.DataList?[btn.tag].IsSaved = false
+                    }
+                    else{
+                        self.joblist?[btn.tag].IsSaved = true
+                    //    self.sharedManager.jobList.DataList?[btn.tag].IsSaved = true
+                    }
                     self.tvjobs.reloadData()
+                    
                 }
                 else
                 {

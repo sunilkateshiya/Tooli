@@ -78,6 +78,9 @@
 		41AEF2D84B3232A0334CE548 /* Pods_Tooli.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEF153FAE8C921DB8201C28D /* Pods_Tooli.framework */; };
 		B8010AC31E3C5F1B00961C8D /* EditCertificate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */; };
 		B83AA1E51E3C5BF2004FD90F /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83AA1E41E3C5BF2004FD90F /* SkillCell.swift */; };
+		B84322311E4F200000C379EF /* DashBoardTv1Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B843222E1E4F200000C379EF /* DashBoardTv1Cell.swift */; };
+		B84322321E4F200000C379EF /* DashBoardTv2Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B843222F1E4F200000C379EF /* DashBoardTv2Cell.swift */; };
+		B84322331E4F200000C379EF /* DashBoardTv3Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84322301E4F200000C379EF /* DashBoardTv3Cell.swift */; };
 		FDB6D16A9DFEA54312FF9CCB /* Pods_TooliUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 534A386BB0DEF1795088B19F /* Pods_TooliUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -179,6 +182,9 @@
 		A9AFEDC52344310C4170358D /* Pods-Tooli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tooli.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tooli/Pods-Tooli.debug.xcconfig"; sourceTree = "<group>"; };
 		B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCertificate.swift; sourceTree = "<group>"; };
 		B83AA1E41E3C5BF2004FD90F /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCell.swift; sourceTree = "<group>"; };
+		B843222E1E4F200000C379EF /* DashBoardTv1Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTv1Cell.swift; sourceTree = "<group>"; };
+		B843222F1E4F200000C379EF /* DashBoardTv2Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTv2Cell.swift; sourceTree = "<group>"; };
+		B84322301E4F200000C379EF /* DashBoardTv3Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTv3Cell.swift; sourceTree = "<group>"; };
 		C2733AA69E73BBB45A6610AA /* Pods-TooliTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TooliTests/Pods-TooliTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TooliTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF153FAE8C921DB8201C28D /* Pods_Tooli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tooli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +238,9 @@
 		31663C881E24CA4100D5DD3C /* Custom Cell */ = {
 			isa = PBXGroup;
 			children = (
+				B843222E1E4F200000C379EF /* DashBoardTv1Cell.swift */,
+				B843222F1E4F200000C379EF /* DashBoardTv2Cell.swift */,
+				B84322301E4F200000C379EF /* DashBoardTv3Cell.swift */,
 				31663C821E24C20A00D5DD3C /* NotificationTabCell.swift */,
 				31663C841E24C55900D5DD3C /* MessageTabCell.swift */,
 				31663C8C1E25083000D5DD3C /* DashBoardTvCell.swift */,
@@ -698,6 +707,7 @@
 				3171AC6F1E3396320063198C /* CompnayProfilefeed.swift in Sources */,
 				319329941E1A7C9400456DDF /* CALayer.swift in Sources */,
 				31691C761E3091C40029CDB6 /* Certificates.swift in Sources */,
+				B84322331E4F200000C379EF /* DashBoardTv3Cell.swift in Sources */,
 				31691C741E307E620029CDB6 /* RatesTravel.swift in Sources */,
 				3118664C1E274C18008A4C74 /* Connections.swift in Sources */,
 				204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */,
@@ -724,6 +734,7 @@
 				319329981E1A7C9400456DDF /* Reachability.swift in Sources */,
 				3118664E1E274C32008A4C74 /* ConnectionCell.swift in Sources */,
 				2025C34A1E49D47B00615DFE /* Editportfolio.swift in Sources */,
+				B84322311E4F200000C379EF /* DashBoardTv1Cell.swift in Sources */,
 				20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */,
 				314A44CB1E1B73A600401F49 /* CustomCategories.swift in Sources */,
 				319329961E1A7C9400456DDF /* CreditCardFormatter.swift in Sources */,
@@ -731,6 +742,7 @@
 				31663C8F1E25085500D5DD3C /* DashBoardCvCell.swift in Sources */,
 				200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */,
 				3171AC791E3396470063198C /* Addcell.swift in Sources */,
+				B84322321E4F200000C379EF /* DashBoardTv2Cell.swift in Sources */,
 				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
 				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
 				206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */,
