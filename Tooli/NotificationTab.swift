@@ -209,7 +209,21 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             return cell
   
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        if(notificationList.DataList[indexPath.row].IsContractor == false)
+        {
+            let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            companyVC.companyId = notificationList.DataList[indexPath.row].PrimaryID
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
+        else
+        {
+            let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+            companyVC.contractorId = notificationList.DataList[indexPath.row].PrimaryID
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
+    }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         let tblheight = self.notificationList.DataList.count * 80

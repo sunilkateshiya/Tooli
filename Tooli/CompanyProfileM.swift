@@ -102,6 +102,7 @@ class JobListM : NSObject, Mappable {
     var Location = ""
     var CityName = ""
     var TradeCategoryName = ""
+    var IsSaved = false
     
     required init?(map: Map) {
         
@@ -117,7 +118,7 @@ class JobListM : NSObject, Mappable {
         Location <- map["Location"]
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
-        
+        IsSaved <- map["IsSaved"]
     }
     func mapping(map: Map) {
         
@@ -133,6 +134,7 @@ class JobListM : NSObject, Mappable {
         Location <- map["Location"]
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
+        IsSaved <- map["IsSaved"]
     }
 }
 
@@ -148,7 +150,10 @@ class OfferListM : NSObject, Mappable {
     var Title = ""
     var Description = ""
     var RedirectLink = ""
-    
+    var AddedOn = ""
+    var PriceTag = ""
+    var TradeCategoryName = ""
+    var IsSaved = false
     required init?(map: Map) {
         
         UserID <- map["UserID"]
@@ -160,7 +165,10 @@ class OfferListM : NSObject, Mappable {
         Description <- map["Description"]
         RedirectLink <- map["RedirectLink"]
         OfferImageLink <- map["OfferImageLink"]
-        
+        AddedOn <- map["AddedOn"]
+        PriceTag <- map["PriceTag"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        IsSaved <- map["IsSaved"]
     }
     func mapping(map: Map) {
         
@@ -173,6 +181,9 @@ class OfferListM : NSObject, Mappable {
         Description <- map["Description"]
         RedirectLink <- map["RedirectLink"]
         OfferImageLink <- map["OfferImageLink"]
-        
+        AddedOn <- map["AddedOn"]
+        PriceTag <- map["PriceTag"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        IsSaved <- map["IsSaved"]
     }
 }

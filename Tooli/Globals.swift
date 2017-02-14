@@ -14,6 +14,7 @@ class Globals {
     var masters : Masters!
     var selectedCompany : CompanyProfileM!
     var dashBoard : ContractorDashBoard!
+    var SearchdashBoard : SearchContractoreList!
     var jobList : JobList!
     var connectionList : ConnectionList!
     private init() {

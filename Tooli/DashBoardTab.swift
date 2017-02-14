@@ -13,27 +13,96 @@ import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
 
-class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable{
-
+class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable,UISearchBarDelegate
+{
+    @IBOutlet weak var SearchbarView: UISearchBar!
     @IBOutlet var tvdashb : UITableView!
     var sharedManager : Globals = Globals.sharedInstance
     var dashlist : [DashBoardM]?
     @IBOutlet var vwnolist : UIView?
-
+    @IBOutlet var TBLSearchView:UITableView!
+    @IBOutlet var viewSearch:UIView!
+    var Searchdashlist : [SerachDashBoardM]?
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        SearchbarView.delegate = self
+    
+        
         tvdashb.delegate = self
         tvdashb.dataSource = self
         tvdashb.rowHeight = UITableViewAutomaticDimension
         tvdashb.estimatedRowHeight = 100
         tvdashb.tableFooterView = UIView()
         self.vwnolist?.isHidden = true
+        
+        
+        
+        let textFieldInsideSearchBar = SearchbarView.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor.white
+        
+        let textFieldInsideSearchBarLabel = textFieldInsideSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+        textFieldInsideSearchBarLabel?.textColor = UIColor.white
+        
         onLoadDetail()
+        
         // Do any additional setup after loading the view.
     }
     
-    
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
+        var strUpdated:NSString =  searchBar.text! as NSString
+        strUpdated = strUpdated.replacingCharacters(in: range, with: text) as NSString
+        onSerach(str: strUpdated as String)
+        return true
+    }
+    func onSerach(str:String)
+    {
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,"SearchQuery":str] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.GetUserSearchByQuery, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {        self.vwnolist?.isHidden = true
+                    
+                    self.Searchdashlist = self.sharedManager.SearchdashBoard.DataList
+                    if(self.Searchdashlist!.count > 0)
+                    {
+                        self.viewSearch.isHidden = false
+                        self.TBLSearchView.reloadData()
+                    }
+                    else
+                    {
+                        self.viewSearch.isHidden = true
+                    }
+                }
+                else
+                {
+                    self.vwnolist?.isHidden = false
+                    
+                }
+                
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+            }
+            
+        }) {
+            (error) -> Void in
+            print(error.localizedDescription)
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
     func onLoadDetail(){
         
         
@@ -81,18 +150,37 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        SearchbarView.text = ""
+        viewSearch.isHidden = true
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard  ((sharedManager.dashBoard) != nil) else {
-            
-            return 0
+        if(tableView == TBLSearchView)
+        {
+            guard  ((sharedManager.SearchdashBoard) != nil) else {
+                
+                return 0
+            }
+            if  (self.Searchdashlist == nil){
+                self.Searchdashlist = sharedManager.SearchdashBoard.DataList
+                return  (self.Searchdashlist?.count)!;
+            }
+            return  (self.Searchdashlist?.count)!;
         }
-        if  (self.dashlist == nil){
-            self.dashlist = sharedManager.dashBoard.DataList
+        else
+        {
+            guard  ((sharedManager.dashBoard) != nil) else {
+                
+                return 0
+            }
+            if  (self.dashlist == nil){
+                self.dashlist = sharedManager.dashBoard.DataList
+                return  (self.dashlist?.count)!;
+            }
             return  (self.dashlist?.count)!;
         }
-        return  (self.dashlist?.count)!;
     }
     
     @IBAction func btnMenu(button: AnyObject)
@@ -106,169 +194,175 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        let cvimgcnt : Int = (self.dashlist?[indexPath.row].PortfolioImageList?.count)!
-        if cvimgcnt == 0 {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DashBoardTvCell
-            cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-            cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-            cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
-            
-            let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
-            let url = URL(string: imgURL!)
-            cell.imguser.kf.indicatorType = .activity
-            cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            cell.btnProfile!.tag=indexPath.row
-            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
-            
-
-            cell.btnfav!.tag=indexPath.row
-            cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
-            
-            if self.dashlist?[indexPath.row].IsSaved == true {
-                cell.btnfav.isSelected = true
-            }
-            else{
-                cell.btnfav.isSelected = false
-                
-            }
-            return cell
-            
-        }
-            
-        else if cvimgcnt == 1{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! DashBoardTv1Cell
-            cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-            cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-            cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
-            
-            let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
-            let url = URL(string: imgURL!)
-            cell.imguser.kf.indicatorType = .activity
-            cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            cell.btnProfile!.tag=indexPath.row
-            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnPortfolio!.tag=indexPath.row
-            cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnfav!.tag=indexPath.row
-            cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
-            
-            if self.dashlist?[indexPath.row].IsSaved == true {
-                cell.btnfav.isSelected = true
-            }
-            else{
-                cell.btnfav.isSelected = false
-                
-            }
-            
-            let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
-            let url1 = URL(string: imgURL1!)
-            cell.img1.kf.indicatorType = .activity
-            cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            return cell
-            
-        }
-            
-        else if cvimgcnt == 2{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! DashBoardTv2Cell
-            cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-            cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-            cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
-            
-            let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
-            let url = URL(string: imgURL!)
-            cell.imguser.kf.indicatorType = .activity
-            cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            cell.btnProfile!.tag=indexPath.row
-            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnPortfolio!.tag=indexPath.row
-            cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnfav!.tag=indexPath.row
-            cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
-            
-            if self.dashlist?[indexPath.row].IsSaved == true {
-                cell.btnfav.isSelected = true
-            }
-            else{
-                cell.btnfav.isSelected = false
-                
-            }
-            
-            
-            let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
-            let url1 = URL(string: imgURL1!)
-            cell.img1.kf.indicatorType = .activity
-            cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            let imgURL2 = self.dashlist?[indexPath.row].PortfolioImageList?[1].PortfolioImageLink as String!
-            let url2 = URL(string: imgURL2!)
-            cell.img2.kf.indicatorType = .activity
-            cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            
+        if(tableView == TBLSearchView)
+        {
+             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = self.Searchdashlist?[indexPath.row].displayvalue
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
             return cell
         }
-        else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell3", for: indexPath) as! DashBoardTv3Cell
-            cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-            cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-            cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
-            
-            let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
-            let url = URL(string: imgURL!)
-            cell.imguser.kf.indicatorType = .activity
-            cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            cell.btnProfile!.tag=indexPath.row
-            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnPortfolio!.tag=indexPath.row
-            cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnfav!.tag=indexPath.row
-            cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
-            
-            if self.dashlist?[indexPath.row].IsSaved == true {
-                cell.btnfav.isSelected = true
-            }
-            else{
-                cell.btnfav.isSelected = false
+        else
+        {
+            let cvimgcnt : Int = (self.dashlist?[indexPath.row].PortfolioImageList?.count)!
+            if cvimgcnt == 0{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DashBoardTvCell
+                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
+                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                
+                let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.dashlist?[indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                return cell
                 
             }
-            
-            let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
-            let url1 = URL(string: imgURL1!)
-            cell.img1.kf.indicatorType = .activity
-            cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            let imgURL2 = self.dashlist?[indexPath.row].PortfolioImageList?[1].PortfolioImageLink as String!
-            let url2 = URL(string: imgURL2!)
-            cell.img2.kf.indicatorType = .activity
-            cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            let imgURL3 = self.dashlist?[indexPath.row].PortfolioImageList?[2].PortfolioImageLink as String!
-            let url3 = URL(string: imgURL3!)
-            cell.img3.kf.indicatorType = .activity
-            cell.img3.kf.setImage(with: url3, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            return cell
-            
+                
+            else if cvimgcnt == 1{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! DashBoardTv1Cell
+                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
+                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                
+                let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnPortfolio!.tag=indexPath.row
+                cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.dashlist?[indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                
+                let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
+                let url1 = URL(string: imgURL1!)
+                cell.img1.kf.indicatorType = .activity
+                cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                return cell
+                
+            }
+                
+            else if cvimgcnt == 2{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! DashBoardTv2Cell
+                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
+                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                
+                let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnPortfolio!.tag=indexPath.row
+                cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.dashlist?[indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                
+                
+                let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
+                let url1 = URL(string: imgURL1!)
+                cell.img1.kf.indicatorType = .activity
+                cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                let imgURL2 = self.dashlist?[indexPath.row].PortfolioImageList?[1].PortfolioImageLink as String!
+                let url2 = URL(string: imgURL2!)
+                cell.img2.kf.indicatorType = .activity
+                cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                
+                return cell
+            }
+            else {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell3", for: indexPath) as! DashBoardTv3Cell
+                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
+                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                
+                let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnPortfolio!.tag=indexPath.row
+                cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.dashlist?[indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                
+                let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
+                let url1 = URL(string: imgURL1!)
+                cell.img1.kf.indicatorType = .activity
+                cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                let imgURL2 = self.dashlist?[indexPath.row].PortfolioImageList?[1].PortfolioImageLink as String!
+                let url2 = URL(string: imgURL2!)
+                cell.img2.kf.indicatorType = .activity
+                cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                let imgURL3 = self.dashlist?[indexPath.row].PortfolioImageList?[2].PortfolioImageLink as String!
+                let url3 = URL(string: imgURL3!)
+                cell.img3.kf.indicatorType = .activity
+                cell.img3.kf.setImage(with: url3, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                return cell
+                
+            }
         }
-        
-        
-       
-       
     }
     
     func btnProfile (btn : UIButton) {
@@ -346,9 +440,32 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         }
     }
     
-    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    {
+        SearchbarView.text = ""
+        viewSearch.isHidden = true
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if(searchText == "")
+        {
+            viewSearch.isHidden = true
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if tableView == self.TBLSearchView {
+            if(self.Searchdashlist?[indexPath.row].IsContractor == false)
+            {
+                let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = self.Searchdashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            else
+            {
+                let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                companyVC.contractorId = self.Searchdashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+        }
 //        let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
 //        obj.ContractorID = 
 //        self.navigationController?.pushViewController(obj, animated: true)

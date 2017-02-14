@@ -32,9 +32,7 @@ class ContractorDashBoard: NSObject, Mappable  {
 
 
 class DashBoardM : NSObject, Mappable {
-    
-    
-    
+
     var AddedOn = ""
     var PrimaryID = 0
     var IsPortfolio : Bool = false

@@ -70,6 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         registerForRemoteNotification()
         UIApplication.shared.applicationIconBadgeNumber = 0
 
+       
+        
         
          FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         

@@ -55,7 +55,8 @@ struct Constants {
         static let ContractorRateTravelUpdate = BASE_URL + "ContractorRateTravelUpdate"
         static let ContractorSignIn = BASE_URL + "ContractorSignIn"
         static let ContractorSignUp = BASE_URL + "ContractorSignUp"
-        
+        static let FollowCompanyToggle = BASE_URL + "FollowCompanyToggle"
+        static let GetUserSearchByQuery = BASE_URL + "GetUserSearchByQuery"
         static let ContractorTradeUpdate = BASE_URL + "ContractorTradeUpdate"
         static let FollowUserToggle = BASE_URL + "FollowUserToggle"
         static let FollowContractorToggle = BASE_URL + "FollowContractorToggle"

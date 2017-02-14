@@ -17,6 +17,9 @@
 		205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D19111E4C4250009CF5BD /* TimelineCell.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
 		206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206AC5431E4DEA0C00A20341 /* Forgot.swift */; };
+		207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */; };
+		207B1B831E51DE2700C5F664 /* JodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */; };
+		207B1B851E51EA9200C5F664 /* OfferDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
 		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
@@ -113,6 +116,9 @@
 		205D19111E4C4250009CF5BD /* TimelineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineCell.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
 		206AC5431E4DEA0C00A20341 /* Forgot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forgot.swift; sourceTree = "<group>"; };
+		207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContractoreList.swift; sourceTree = "<group>"; };
+		207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JodDetailViewController.swift; sourceTree = "<group>"; };
+		207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferDetailViewController.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
 		3118664B1E274C18008A4C74 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
@@ -290,6 +296,8 @@
 				31A6ED761E31D2F40039A780 /* MyNavigationController.swift */,
 				3171AC6A1E3396320063198C /* Addportfolio.swift */,
 				2025C3491E49D47B00615DFE /* Editportfolio.swift */,
+				207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */,
+				207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -302,6 +310,7 @@
 				204CF79E1E4AEB0D00C35938 /* JobList.swift */,
 				3171AC651E3335610063198C /* SignIn.swift */,
 				311428831E35BDF10032F8FB /* CompanyProfileM.swift */,
+				207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -480,8 +489,8 @@
 				TargetAttributes = {
 					319329571E1A614100456DDF = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = MX72VKK3GC;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = WCX7454T4W;
+						ProvisioningStyle = Manual;
 					};
 					3193296B1E1A614200456DDF = {
 						CreatedOnToolsVersion = 8.1;
@@ -698,6 +707,7 @@
 				31663C851E24C55900D5DD3C /* MessageTabCell.swift in Sources */,
 				31A6ED791E31D3470039A780 /* SlidingMenu.swift in Sources */,
 				3193295E1E1A614200456DDF /* Experience.swift in Sources */,
+				207B1B831E51DE2700C5F664 /* JodDetailViewController.swift in Sources */,
 				204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */,
 				3171AC781E3396470063198C /* PortfolioCell.swift in Sources */,
 				206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */,
@@ -721,10 +731,12 @@
 				3193295C1E1A614200456DDF /* AppDelegate.swift in Sources */,
 				31A6ED771E31D2F40039A780 /* MyNavigationController.swift in Sources */,
 				3171AC661E3335610063198C /* SignIn.swift in Sources */,
+				207B1B851E51EA9200C5F664 /* OfferDetailViewController.swift in Sources */,
 				31663C871E24C5AB00D5DD3C /* MessageTab.swift in Sources */,
 				3171AC6D1E3396320063198C /* ProfileFeed.swift in Sources */,
 				311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */,
 				31663C811E24C18400D5DD3C /* NotificationTab.swift in Sources */,
+				207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */,
 				31663C8D1E25083000D5DD3C /* DashBoardTvCell.swift in Sources */,
 				205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */,
 				31691C7C1E30A25A0029CDB6 /* Info.swift in Sources */,
@@ -901,13 +913,16 @@
 			baseConfigurationReference = A9AFEDC52344310C4170358D /* Pods-Tooli.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = MX72VKK3GC;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
+				DEVELOPMENT_TEAM = WCX7454T4W;
 				INFOPLIST_FILE = Tooli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Tooli;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blush.Tooli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "829472f3-4885-410e-bfa7-370f842e28a9";
+				PROVISIONING_PROFILE_SPECIFIER = "Tooli iOS Distribution 13-02-2017";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -917,13 +932,16 @@
 			baseConfigurationReference = 4DFE142C56485ACA542709FF /* Pods-Tooli.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = MX72VKK3GC;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
+				DEVELOPMENT_TEAM = WCX7454T4W;
 				INFOPLIST_FILE = Tooli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Tooli;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blush.Tooli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "829472f3-4885-410e-bfa7-370f842e28a9";
+				PROVISIONING_PROFILE_SPECIFIER = "Tooli iOS Distribution 13-02-2017";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

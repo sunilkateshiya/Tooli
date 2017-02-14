@@ -19,7 +19,9 @@ class SpecialOfferCell: UITableViewCell {
      @IBOutlet weak var ImgCompanyPic: UIImageView!
      
      @IBOutlet weak var lblLocation: UILabel!
-     
+    
+     @IBOutlet var btnfav: UIButton!
+    
      @IBOutlet weak var lblCompanyDescription: UILabel!
      override func awakeFromNib() {
         super.awakeFromNib()
