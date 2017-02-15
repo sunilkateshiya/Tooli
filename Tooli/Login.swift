@@ -47,7 +47,6 @@ class Login: UIViewController, NVActivityIndicatorViewable {
             
             if validflag == 0 {
                 
-                
                     self.startAnimating()
                     let param = ["EmailID": self.txtemail.text!,
                                  "Password": self.txtpassword.text!,

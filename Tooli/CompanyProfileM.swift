@@ -103,6 +103,7 @@ class JobListM : NSObject, Mappable {
     var CityName = ""
     var TradeCategoryName = ""
     var IsSaved = false
+    var ServiceList:[ServiceListListM]? = []
     
     required init?(map: Map) {
         
@@ -119,6 +120,7 @@ class JobListM : NSObject, Mappable {
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
+        ServiceList <- map["ServiceList"]
     }
     func mapping(map: Map) {
         
@@ -135,9 +137,22 @@ class JobListM : NSObject, Mappable {
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
+        ServiceList <- map["ServiceList"]
     }
 }
-
+class ServiceListListM:NSObject,Mappable
+{
+    var  Service = ""
+    
+    required init?(map: Map)
+    {
+      Service <- map["ServiceName"]
+    }
+    func mapping(map: Map)
+    {
+       Service <- map["ServiceName"]
+    }
+}
 class OfferListM : NSObject, Mappable {
     
     
@@ -152,7 +167,6 @@ class OfferListM : NSObject, Mappable {
     var RedirectLink = ""
     var AddedOn = ""
     var PriceTag = ""
-    var TradeCategoryName = ""
     var IsSaved = false
     required init?(map: Map) {
         
@@ -167,7 +181,6 @@ class OfferListM : NSObject, Mappable {
         OfferImageLink <- map["OfferImageLink"]
         AddedOn <- map["AddedOn"]
         PriceTag <- map["PriceTag"]
-        TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
     }
     func mapping(map: Map) {
@@ -183,7 +196,73 @@ class OfferListM : NSObject, Mappable {
         OfferImageLink <- map["OfferImageLink"]
         AddedOn <- map["AddedOn"]
         PriceTag <- map["PriceTag"]
-        TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
     }
 }
+class OfferDetailM : NSObject, Mappable {
+    
+    
+    var CompanyID = 0
+    var IsSaved = false
+    var IsCompanySaved = false
+    var CompanyImageLink = ""
+    var CompanyName = ""
+    var CompanyTradeCategoryName = ""
+    var CompanyCityName = ""
+    var Title = ""
+    var Description = ""
+    var DistanceRadius = ""
+    var EmailID = ""
+    var RedirectLink = ""
+    var Zipcode = ""
+    var PriceTag = ""
+    var IsFollow = false
+    var AddedOn = ""
+    
+    required init?(map: Map) {
+        
+        CompanyID <- map["CompanyID"]
+        IsSaved <- map["IsSaved"]
+        IsCompanySaved <- map["IsCompanySaved"]
+        CompanyImageLink <- map["CompanyImageLink"]
+        CompanyName <- map["CompanyName"]
+        CompanyTradeCategoryName <- map["CompanyTradeCategoryName"]
+        CompanyCityName <- map["CompanyCityName"]
+        Title <- map["Title"]
+        Description <- map["Description"]
+        DistanceRadius <- map["DistanceRadius"]
+        EmailID <- map["EmailID"]
+        RedirectLink <- map["RedirectLink"]
+        Zipcode <- map["Zipcode"]
+        PriceTag <- map["PriceTag"]
+        IsFollow <- map["IsFollow"]
+        AddedOn <- map["AddedOn"]
+    }
+    func mapping(map: Map) {
+        
+        CompanyID <- map["CompanyID"]
+        IsSaved <- map["IsSaved"]
+        IsCompanySaved <- map["IsCompanySaved"]
+        CompanyImageLink <- map["CompanyImageLink"]
+        CompanyName <- map["CompanyName"]
+        CompanyTradeCategoryName <- map["CompanyTradeCategoryName"]
+        CompanyCityName <- map["CompanyCityName"]
+        Title <- map["Title"]
+        Description <- map["Description"]
+        DistanceRadius <- map["DistanceRadius"]
+        EmailID <- map["EmailID"]
+        RedirectLink <- map["RedirectLink"]
+        Zipcode <- map["Zipcode"]
+        PriceTag <- map["PriceTag"]
+        IsFollow <- map["IsFollow"]
+        AddedOn <- map["AddedOn"]
+    }
+}
+/*
+
+ "EmailID": "Sales@jelelectrical.co.uk",
+ "PriceTag": "£5",
+ "RedirectLink": "https://ak0.scstatic.net/1/cdn2-cont3.sweetcouch.com/2979682-fenix-tk75-led-searchlight-powerful-flashlight.jpg",
+ "Zipcode": "",
+ "IsFollow": true
+ */

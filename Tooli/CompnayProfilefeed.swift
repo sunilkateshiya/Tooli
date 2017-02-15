@@ -126,8 +126,10 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
                         self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
                     }
                 }
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                else
+                {
+                     self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
             }
             
         }) {
@@ -205,6 +207,8 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
                     
                     self.TblTimeline.reloadData()
                     self.TBLSpecialOffer.reloadData()
+                     self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    self.PortCollectionHeight.constant = self.TBLSpecialOffer.contentSize.height
                 }
                 else
                 {
@@ -231,8 +235,8 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
     }
     @IBAction func BtnJobsTapped(_ sender: Any)
     {
-        
-        self.TblHeightConstraints.constant = CGFloat(Float(Float(185) * Float((self.joblist!.count))))
+
+        self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
         self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
         
         
@@ -260,7 +264,6 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
     
     @IBAction func BtnAboutTapped(_ sender: Any) {
         
-        
         self.ObjScrollview.contentSize.height = 237 + 456
         
         self.BtnPortfolio.isSelected = false
@@ -281,8 +284,8 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         
         self.TblTimeline.tag = 1
     }
-    @IBAction func BtnPortfolioTapped(_ sender: Any) {
-        
+    @IBAction func BtnPortfolioTapped(_ sender: Any)
+    {
         self.PortCollectionHeight.constant = self.TBLSpecialOffer.contentSize.height
         self.ObjScrollview.contentSize.height = 237 + self.PortCollectionHeight.constant
     
@@ -320,8 +323,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         Availableinmonth.image = #imageLiteral(resourceName: "ic_circle_red")
         
         
-        
-        
+    
         let Share = UIButton(frame: CGRect(x: 40, y: 0, width: width - 30, height: 40))
         Share.setTitle("I am availabale immediately", for: .normal)
         Share.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
@@ -386,13 +388,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         popover.dismiss()
         
     }
-    
-    
-    
-    
-    
-    
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if AboutView.isHidden == true {
         }
@@ -436,7 +432,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             cell.lblexperience.text = self.joblist?[indexPath.row].Title as String!
             cell.lblwork.text = self.joblist?[indexPath.row].TradeCategoryName as String!
             cell.btnfav!.tag=indexPath.row
-           //  cell.btnfav?.addTarget(self, action: #selector(CompnayProfilefeed.btnfavTimeline(btn:)), for: UIControlEvents.touchUpInside)
+            cell.btnfav?.addTarget(self, action: #selector(CompnayProfilefeed.btnfavTimeline(btn:)), for: UIControlEvents.touchUpInside)
             if self.joblist?[indexPath.row].IsSaved == true {
                 cell.btnfav.isSelected = true
             }
@@ -457,12 +453,11 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         else
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SpecialOfferCell
-             cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
             cell.lblCompanyDescription.text = self.speciallist?[indexPath.row].Description as String!
             cell.lblWork.text = self.speciallist?[indexPath.row].Title as String!
             cell.lblCompanyName.text = self.sharedManager.selectedCompany.CompanyName
             cell.btnfav!.tag=indexPath.row
-           // cell.btnfav?.addTarget(self, action: #selector(CompnayProfilefeed.btnfavSpecialOffer(btn:)), for: UIControlEvents.touchUpInside)
+            cell.btnfav?.addTarget(self, action: #selector(CompnayProfilefeed.btnfavSpecialOffer(btn:)), for: UIControlEvents.touchUpInside)
             if self.speciallist?[indexPath.row].IsSaved == true {
                 cell.btnfav.isSelected = true
             }
@@ -508,7 +503,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
                      "PrimaryID":self.speciallist?[btn.tag].PrimaryID ?? "",
-                     "PageType":btn.isSelected == true ? "1" : "2"] as [String : Any]
+                     "PageType":"5"] as [String : Any]
     
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
@@ -553,7 +548,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
                      "PrimaryID":self.joblist?[btn.tag].PrimaryID ?? "",
-                     "PageType":btn.isSelected == true ? "1" : "2"] as [String : Any]
+                     "PageType":"4"] as [String : Any]
         
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {

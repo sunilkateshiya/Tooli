@@ -17,6 +17,9 @@ class Globals {
     var SearchdashBoard : SearchContractoreList!
     var jobList : JobList!
     var connectionList : ConnectionList!
+    var OfferDetail : OfferListM!
+    var OfferDetail1 : OfferDetailM!
+    
     private init() {
 
         

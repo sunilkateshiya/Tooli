@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
+import ObjectMapper
 
-class OfferDetailViewController: UIViewController
+
+class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
 {
+    
     @IBOutlet weak var lblCatagory: UILabel!
     @IBOutlet weak var ViewWidthConstrain: NSLayoutConstraint!
     @IBOutlet var lblcompany: UILabel!
@@ -20,8 +24,17 @@ class OfferDetailViewController: UIViewController
     
     @IBOutlet weak var txtJobDetail: UITextView!
     @IBOutlet weak var ScrollView: UIScrollView!
-
+    var sharedManager : Globals = Globals.sharedInstance
     var OfferDetail:OfferListM!
+    var OfferId = 0
+    @IBOutlet weak var imgOffer: UIImageView!
+    
+    @IBOutlet weak var txtViewContantSize: NSLayoutConstraint!
+    @IBOutlet weak var secondViewContranit: NSLayoutConstraint!
+    
+    var isNotification:Bool =  false
+    
+    var OfferDetail1:OfferDetailM!
     
     override func viewDidLoad()
     {
@@ -29,23 +42,44 @@ class OfferDetailViewController: UIViewController
 
         self.ViewWidthConstrain.constant = self.view.frame.width
         
-        lblcompany.text = self.OfferDetail.Title as String!
-        lblstart.text = self.OfferDetail.PriceTag as String!
-        lblfinish.text = self.OfferDetail.AddedOn as String!
-//        lblwork.text = self.OfferDetail.TradeCategoryName as String!
-        lblCatagory.text = self.OfferDetail.TradeCategoryName as String!
-//        //  cell.lbldatetime = self.
-        
-        let imgURL = self.OfferDetail.ProfileImageLink as String!
-        
-        let url = URL(string: imgURL!)
-        imguser.kf.indicatorType = .activity
-        imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-        txtJobDetail.text = self.OfferDetail.Description
+        if(isNotification)
+        {
+            getSpecialOfferDetail()
+        }
+        else
+        {
+             fillDatatoConttroller()
+        }
         
         // Do any additional setup after loading the view.
     }
 
+    func fillDatatoConttroller()
+    {
+        lblcompany.text = self.sharedManager.selectedCompany.CompanyName as String!
+        lblstart.text = self.OfferDetail.PriceTag as String!
+        lblfinish.text = self.OfferDetail.AddedOn as String!
+        lblwork.text = self.sharedManager.selectedCompany.TradeCategoryName as String!
+        lblCatagory.text = self.OfferDetail.Title as String!
+        //        //  cell.lbldatetime = self.
+        
+        let imgURL = self.sharedManager.selectedCompany.ProfileImageLink as String!
+        
+        let url = URL(string: imgURL!)
+        imguser.kf.indicatorType = .activity
+        imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+        
+        
+        let imgURL1 = self.OfferDetail.OfferImageLink as String!
+        let url1 = URL(string: imgURL1!)
+        imgOffer.kf.indicatorType = .activity
+        imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+        
+        txtJobDetail.text = self.OfferDetail.Description
+        txtJobDetail.sizeToFit()
+        txtViewContantSize.constant = txtJobDetail.frame.height
+        secondViewContranit.constant = lblfinish.frame.origin.y + lblfinish.frame.height + 20
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -53,5 +87,69 @@ class OfferDetailViewController: UIViewController
 
     @IBAction func btnBackAction(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    func getSpecialOfferDetail()
+    {
+        
+        self.startAnimating()
+        
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "OfferID":OfferId] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.OfferInfo, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+        
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+             self.sharedManager.OfferDetail1 = Mapper<OfferDetailM>().map(JSONObject: JSONResponse.rawValue)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                   self.fillDatatoConttrollerFromApi()
+                }
+                else
+                {
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            print(error.localizedDescription)
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    func fillDatatoConttrollerFromApi()
+    {
+        lblcompany.text = self.sharedManager.selectedCompany.CompanyName as String!
+        lblstart.text = self.OfferDetail1.PriceTag as String!
+        lblfinish.text = self.OfferDetail1.AddedOn as String!
+        lblwork.text = self.sharedManager.selectedCompany.TradeCategoryName as String!
+        lblCatagory.text = self.OfferDetail1.Title as String!
+        //        //  cell.lbldatetime = self.
+        
+        let imgURL = self.sharedManager.selectedCompany.ProfileImageLink as String!
+        
+        let url = URL(string: imgURL!)
+        imguser.kf.indicatorType = .activity
+        imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+        
+        
+        let imgURL1 = self.OfferDetail1.CompanyImageLink as String!
+        let url1 = URL(string: imgURL1!)
+        imgOffer.kf.indicatorType = .activity
+        imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+        
+        txtJobDetail.text = self.OfferDetail1.Description
+        txtJobDetail.sizeToFit()
+        txtViewContantSize.constant = txtJobDetail.frame.height
+        secondViewContranit.constant = lblfinish.frame.origin.y + lblfinish.frame.height + 20
     }
 }

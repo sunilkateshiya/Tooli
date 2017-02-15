@@ -26,7 +26,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     var isFirstTime : Bool = true
 
     var popover = Popover()
-
+    var isFull:Bool =  false
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -96,17 +96,12 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 {
                     self.stopAnimating()
                     self.isFirstTime = false;
+                    self.isFull = true
                     //self.currentPage = 1
                     self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     //self.tvnoti.reloadData()
                 }
 
-                
-                
-                
-                
-                
-                
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     self.joblist = self.sharedManager.jobList.DataList
@@ -116,8 +111,10 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 {
                     
                 }
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                if(self.joblist?.count == 0 && self.isFirstTime)
+                {
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
             }
             
         }) {
@@ -164,9 +161,8 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             Delete.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
             Delete.setTitleColor(UIColor.darkGray, for: .normal)
             Delete.contentHorizontalAlignment = .left
-        Delete.tag = 2
+            Delete.tag = 2
             Delete.addTarget(self, action: #selector(press(button:)), for: .touchUpInside)
-        
         
             aView.addSubview(Delete)
             aView.addSubview(Share)
@@ -230,8 +226,12 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        if indexPath.row == (joblist?.count)!-1  {
-            self.onLoadDetail(withfilter: FilterOption, page: currentPage)
+        if indexPath.row == (joblist?.count)!-1
+        {
+            if(!isFull)
+            {
+                self.onLoadDetail(withfilter: FilterOption, page: currentPage)
+            }
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileFeedCell

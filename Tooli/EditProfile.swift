@@ -71,6 +71,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     var isVisible : Bool = false;
     
     
+    @IBOutlet weak var aboutMeHeightConstraints: NSLayoutConstraint!
     @IBOutlet var slider : UISlider!
     
     @IBOutlet weak var TblSelectSkill: UITableView!
@@ -232,13 +233,11 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         self.BtnSkill.isUserInteractionEnabled = false
         SkillHeightConstraints.constant = 0
-        
+        aboutMeHeightConstraints.constant = 0
         
         
         TblSelectSkill.delegate = self
         TblSelectSkill.dataSource = self
-        //     TblSelectSkill.rowHeight = UITableViewAutomaticDimension
-        //     TblSelectSkill.estimatedRowHeight = 450
         TblSelectSkill.tableFooterView = UIView()
         
         if self.sharedManager.currentUser.ProfileImageLink != "" {
@@ -266,6 +265,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.lblDistance.text = strString + " Miles"
         self.slider.value = Float(iString)
         self.TxtViewAboutme.text = self.sharedManager.currentUser.Aboutme as String
+        
         self.TxtReferalCode.text = self.sharedManager.currentUser.Zipcode as String
         self.TxtPerhourRate.text = self.sharedManager.currentUser.PerHourRate as String
         self.TxtPerDayRate.text = self.sharedManager.currentUser.PerDayRate as String
@@ -293,7 +293,8 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             selectedSkills.append(String(skill.ServiceID))
         }
         
-        
+        self.TxtViewAboutme.sizeToFit()
+        self.aboutMeHeightConstraints.constant = self.TxtViewAboutme.contentSize.height
         
         
         self.BtnDob.setTitleColor(Color.black, for: .normal)
@@ -425,16 +426,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     @IBAction func BtnTradeTapped(_ sender: Any) {
         
-        //          if BtnTrade.isSelected {
-        //               TradeHeightConstraints.constant = 0
-        //               BtnTrade.isSelected = false
-        //          }
-        //          else{
-        //               BtnTrade.isSelected = true
-        //               TradeHeightConstraints.constant = 44 * 10
-        //
-        //               TblSelectTrade.reloadData()
-        //          }
         
         var trades : [String] = []
         for trade in  sharedManager.masters.DataList! {
@@ -478,8 +469,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let One = self.integerCount * 44 as NSInteger
             self.SkillHeightConstraints.constant = CGFloat(One)
             isVisible = true
-            
-            
         }
     }
     

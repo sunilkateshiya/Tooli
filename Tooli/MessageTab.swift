@@ -13,7 +13,7 @@ import ENSwiftSideMenu
 class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate   {
 
     @IBOutlet var tvmsg : UITableView!
-    
+    @IBOutlet weak var SearchbarView: UISearchBar!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,6 +23,7 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         tvmsg.estimatedRowHeight = 450
         tvmsg.tableFooterView = UIView()
         
+         AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
         // Do any additional setup after loading the view.
     }
 

@@ -61,13 +61,15 @@ struct Constants {
         static let FollowUserToggle = BASE_URL + "FollowUserToggle"
         static let FollowContractorToggle = BASE_URL + "FollowContractorToggle"
         static let ForgotPassword = BASE_URL + "ForgotPassword"
+        static let ChangePassword = BASE_URL + "ChangePassword"
+        static let InviteReferral = BASE_URL + "InviteReferral"
         
         static let JobInfo = BASE_URL + "JobInfo"
         static let JobList = BASE_URL + "JobList"
-        
+        static let ContractorList = BASE_URL + "ContractorList"
         static let NotificationList = BASE_URL + "NotificationList"
         static let PageSaveToggle = BASE_URL + "PageSaveToggle"
-        
+        static let OfferInfo = BASE_URL + "OfferInfo"
         static let PortfolioAdd = BASE_URL + "PortfolioAdd"
         static let PortfolioDelete = BASE_URL + "PortfolioDelete"
         static let PortfolioEdit = BASE_URL + "PortfolioEdit"

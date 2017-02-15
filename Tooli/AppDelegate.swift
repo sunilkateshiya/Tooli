@@ -26,7 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     override init() {
         coordinate=CLLocationCoordinate2DMake(0, 0)
     }
-    
+    class func sharedInstance() -> (AppDelegate)
+    {
+        let sharedinstance = UIApplication.shared.delegate as! AppDelegate
+        return sharedinstance
+    }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -111,8 +115,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     @available(iOS 10.0, *)
+    
+    @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
+        print(response.notification.request.content.userInfo)
+        let CompanyID = response.notification.request.content.userInfo["CompanyID"]
+        let PrimaryID = response.notification.request.content.userInfo["PrimaryID"]
+        let NotificationStatusID = response.notification.request.content.userInfo["NotificationStatusID"] as! Int
+        let ContractorID = response.notification.request.content.userInfo["ContractorID"]
+        let IsContractor : Bool = (response.notification.request.content.userInfo["IsContractor"]) as! Bool
+        let tab : CustomTabBarC = self.navigationController!.viewControllers[0] as! CustomTabBarC;
+        if NotificationStatusID == 1 {
+            // MESSAGE VC
+            if  (self.navigationController?.viewControllers.count)! > 1 {
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+            if (tab.selectedIndex != 4){
+                tab.selectedIndex = 4;
+            }
+            
+        } else if NotificationStatusID == 2 {
+            // Applied to JOb --> Notification VC
+            if  (self.navigationController?.viewControllers.count)! > 1 {
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+            if (tab.selectedIndex != 3){
+                tab.selectedIndex = 3;
+            }
+        } else if NotificationStatusID == 3 {
+            
+            var pid = 0
+            if  IsContractor {
+                pid = ContractorID as! Int
+            }
+            else {
+                pid = CompanyID as! Int
+            }
+            
+            let profile : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+            profile.contractorId = pid
+            self.navigationController?.pushViewController(profile, animated: true)
+
+        } else if NotificationStatusID == 4 {
+            // Followed via shared link -> Profile VC
+            if  IsContractor {
+                let profile : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                profile.contractorId = ContractorID as! Int
+                self.navigationController?.pushViewController(profile, animated: true)
+            }
+            else {
+                let companyVC : CompnayProfilefeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = CompanyID as! Int
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            
+        } else if NotificationStatusID == 5
+        {
+            // Posted New offeer -> Offer VC
+            let companyVC : OfferDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OfferDetailViewController") as! OfferDetailViewController
+            companyVC.OfferId = PrimaryID as! Int
+            companyVC.isNotification = true
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
     }
     
     @available(iOS 10.0, *)
@@ -211,8 +275,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
     }
     
-
-    
-
+    func setSearchBarWhiteColor(SearchbarView:UISearchBar){
+        
+        let textFieldInsideSearchBar = SearchbarView.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor.white
+        let textFieldInsideSearchBarLabel = textFieldInsideSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+        textFieldInsideSearchBarLabel?.textColor = UIColor.white
+        let glassIconView = textFieldInsideSearchBar?.leftView as! UIImageView
+        glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        glassIconView.tintColor = UIColor.white
+        let clearButton = textFieldInsideSearchBar?.value(forKey: "clearButton") as! UIButton
+        clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: .normal)
+        clearButton.tintColor = UIColor.white
+    }
 }
 

@@ -36,14 +36,8 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         tvdashb.tableFooterView = UIView()
         self.vwnolist?.isHidden = true
         
-        
-        
-        let textFieldInsideSearchBar = SearchbarView.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = UIColor.white
-        
-        let textFieldInsideSearchBarLabel = textFieldInsideSearchBar!.value(forKey: "placeholderLabel") as? UILabel
-        textFieldInsideSearchBarLabel?.textColor = UIColor.white
-        
+        AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
+
         onLoadDetail()
         
         // Do any additional setup after loading the view.
@@ -152,6 +146,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
+        SearchbarView.resignFirstResponder()
         SearchbarView.text = ""
         viewSearch.isHidden = true
     }
@@ -443,11 +438,14 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
     {
         SearchbarView.text = ""
+        SearchbarView.resignFirstResponder()
         viewSearch.isHidden = true
     }
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if(searchText == "")
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        if(searchBar.text == "")
         {
+            SearchbarView.resignFirstResponder()
             viewSearch.isHidden = true
         }
     }

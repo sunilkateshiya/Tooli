@@ -67,7 +67,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           // Return the number of rows in the section.
-          return 6
+          return 8
      }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,13 +97,19 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                cell!.textLabel?.text = "   JOBS"
           }
           else if indexPath.row == 3 {
-               cell!.textLabel?.text = "   SAVED"
+            cell!.textLabel?.text = "   CONTRACTOR SEARCH"
           }
           else if indexPath.row == 4 {
-               cell!.textLabel?.text = "   MESSAGES"
+               cell!.textLabel?.text = "   SAVED"
           }
           else if indexPath.row == 5 {
-               cell!.textLabel?.text = "   LOGOUT"
+               cell!.textLabel?.text = "   MESSAGES"
+          }
+          else if indexPath.row == 6 {
+               cell!.textLabel?.text = "   REFERRAL"
+            }
+          else if indexPath.row == 7 {
+            cell!.textLabel?.text = "   LOGOUT"
         }
        
           return cell!
@@ -128,14 +134,20 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
                break
           case 3:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
-               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
-               break
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorSearch")
+            break
           case 4:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SavedView")
                self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
                break
           case 5:
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
+               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
+               break
+          case 6:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Referrals")
+            break
+          case 7:
                callWSSignOut()
                let userDefaults = UserDefaults.standard
                userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
@@ -148,12 +160,10 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        if indexPath.row != 5 && indexPath.row != 4 && indexPath.row != 3 {
+        if indexPath.row != 7 && indexPath.row != 5{
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }
-        
-        
      }
      
 

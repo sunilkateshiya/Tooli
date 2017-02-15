@@ -110,7 +110,12 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         
     }
     
-    
+    @IBAction func btnBack(_ sender: UIButton) {
+        
+        let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        app.moveToDashboard()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.PortCollectionView.delegate = self

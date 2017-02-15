@@ -21,6 +21,9 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
     var notificationList : AppNotificationsList = AppNotificationsList();
     var isFull : Bool = false
     var isFirstTime : Bool = true
+    
+    @IBOutlet weak var SearchbarView: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,7 +33,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         tvnoti.estimatedRowHeight = 450
         tvnoti.tableFooterView = UIView()
         
-       
+       AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
         // Do any additional setup after loading the view.
     }
 
@@ -51,7 +54,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         }
         var param = [:] as [String : Any]
         param["ContractorID"] = sharedManager.currentUser.ContractorID
-        param["ContractorID"] = "1"
+       // param["ContractorID"] = "1"
         param["PageIndex"] = page
         
         print(param)
@@ -173,7 +176,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         let range1 = nsString.range(of: "message")
         let range3 = nsString.range(of: notificationList.DataList[indexPath.row].JobTitle);
         let range4 = nsString.range(of: "offer");
-        let keyID = notificationList.DataList[indexPath.row].IsContractor ? notificationList.DataList[indexPath.row].ContractorID : notificationList.DataList[indexPath.row].CompanyID
+        let keyID : String = notificationList.DataList[indexPath.row].IsContractor ? ("action://users/" + String(notificationList.DataList[indexPath.row].ContractorID)) : ("action://company/" + String(notificationList.DataList[indexPath.row].CompanyID))
         
         cell.lbltitle.setText(finalText) { (mutableAttributedString) -> NSMutableAttributedString? in
             var boldSystemFont : UIFont = UIFont.boldSystemFont(ofSize: 16)
@@ -192,7 +195,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             
             return mutableAttributedString;
         }
-        let url1 = NSURL(string: "action://users/\(keyID)")!
+        let url1 = NSURL(string: keyID)!
         let url2 = NSURL(string: "action://message/\(notificationList.DataList[indexPath.row].PrimaryID)")!
         cell.lbltitle.addLink(to: url1 as URL!, with: range)
         cell.lbltitle.addLink(to: url2 as URL!, with: range1)
@@ -211,17 +214,29 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        if(notificationList.DataList[indexPath.row].IsContractor == false)
-        {
-            let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-            companyVC.companyId = notificationList.DataList[indexPath.row].PrimaryID
-            self.navigationController?.pushViewController(companyVC, animated: true)
+        // Check for Message 
+        
+        if (notificationList.DataList[indexPath.row].NotificationStatusID != 1 && notificationList.DataList[indexPath.row].NotificationStatusID != 2 ) {
+            
+            if(notificationList.DataList[indexPath.row].IsContractor == false)
+            {
+                let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = notificationList.DataList[indexPath.row].CompanyID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            else
+            {
+                let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                companyVC.contractorId = notificationList.DataList[indexPath.row].ContractorID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
         }
-        else
-        {
-            let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-            companyVC.contractorId = notificationList.DataList[indexPath.row].PrimaryID
-            self.navigationController?.pushViewController(companyVC, animated: true)
+        else if (notificationList.DataList[indexPath.row].NotificationStatusID == 1) {
+            // Redirect to Message Screen
+            
+        }
+        else if (notificationList.DataList[indexPath.row].NotificationStatusID == 2) {
+            // Redirect to Job Screen
         }
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -237,9 +252,22 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
     
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
         print(url)
-        
-        
-        
+        if url.absoluteString.contains("action://users/") {
+            let userId = url.absoluteString.replacingOccurrences(of: "action://users/", with: "")
+            print(userId)
+            
+            let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+            companyVC.contractorId = Int(userId)!
+            self.navigationController?.pushViewController(companyVC, animated: true)
+            
+        }
+        else if url.absoluteString.contains("action://company/") {
+            let userId = url.absoluteString.replacingOccurrences(of: "action://company/", with: "")
+            print(userId)
+            let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            companyVC.companyId = Int(userId)!
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
     }
     
     /*

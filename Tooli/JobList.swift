@@ -33,9 +33,9 @@ class JobList: NSObject, Mappable  {
 class JobCenterM : NSObject, Mappable {
     
    
-     var AddedOn = ""
-     var DistanceInMiles = 0
-     var DistanceText = ""
+    var AddedOn = ""
+    var DistanceInMiles = 0
+    var DistanceText = ""
     var UserID = 0
     var PrimaryID = 0
     var PageTypeID = 0

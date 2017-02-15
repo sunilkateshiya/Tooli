@@ -123,6 +123,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         flow1.minimumInteritemSpacing = 3
         flow1.minimumLineSpacing = 3
         
+        self.BtnActivty.isSelected = true
+        self.BtnActivty.tintColor = UIColor.white
+        self.BtnActivty.setTitleColor(UIColor.red, for: UIControlState.selected)
+        
         getProfile()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -253,6 +257,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.ImgAvailable.isHidden = true
         }
         
+        
     }
     
     @IBAction func BtnEditTapped(_ sender: UIButton) {
@@ -278,7 +283,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                  //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     if self.profile.IsFollow == true {
                         self.profile.IsFollow = false
                         self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
@@ -1041,11 +1046,16 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsImage == false {
-            let url = URL(string: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
-            if (UIApplication.shared.canOpenURL(url!)){
-                UIApplication.shared.openURL(url!)
-            }
+        if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsImage == false
+        {
+            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+            port.strUrl = (self.profile.CertificateFileList?[indexPath.row].FileLink)!
+            self.navigationController?.pushViewController(port, animated: true)
+            
+//            let url = URL(string: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
+//            if (UIApplication.shared.canOpenURL(url!)){
+//                UIApplication.shared.openURL(url!)
+//            }
         } else if collectionView == self.ObjCollectionView {
             
             if  self.contractorId == sharedManager.currentUser.ContractorID {
