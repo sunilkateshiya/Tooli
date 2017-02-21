@@ -32,11 +32,15 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
     var isFirstTime : Bool = true
      var isFull : Bool = false
     //var notificationList : FollowerModel = FollowerModel();
-    
+     var refreshControl:UIRefreshControl!
     @IBAction func btnBackAction(_ sender: UIButton)
     {
         
         self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
     }
     override func viewDidLoad()
     {
@@ -51,7 +55,20 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
         
          self.vwnolist?.isHidden = true
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ContractorResult.refreshPage), for: UIControlEvents.valueChanged)
+        tvconnections.addSubview(refreshControl)
+
+        
         // Do any additional setup after loading the view.
+    }
+    func refreshPage()
+    {
+        isFirstTime = true
+        isFull = false
+        
+        currentPage = 1
+        onLoadDetail(page : currentPage)
     }
     func onLoadDetail(page : Int){
         
@@ -75,7 +92,7 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
             self.sharedManager.connectionList = Mapper<ConnectionList>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+            self.refreshControl.endRefreshing()
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
@@ -83,10 +100,11 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
                 if JSONResponse["status"].rawString()! == "1"
                 {
                      self.vwnolist?.isHidden = false
-                    self.tvconnections.isHidden = false
+                     self.tvconnections.isHidden = false
                      self.stopAnimating()
                     print(JSONResponse)
                     if self.isFirstTime {
+                        self.connlist  = FilterContractoreList()
                         self.connlist = Mapper<FilterContractoreList>().map(JSONObject: JSONResponse.rawValue)!
                         self.isFirstTime = false;
                     }

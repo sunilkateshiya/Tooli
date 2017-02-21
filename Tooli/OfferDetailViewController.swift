@@ -13,7 +13,7 @@ import ObjectMapper
 
 class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
 {
-    
+    @IBOutlet weak var buttomConstraints: NSLayoutConstraint!
     @IBOutlet weak var lblCatagory: UILabel!
     @IBOutlet weak var ViewWidthConstrain: NSLayoutConstraint!
     @IBOutlet var lblcompany: UILabel!
@@ -21,16 +21,14 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     @IBOutlet var lblstart: UILabel!
     @IBOutlet var lblfinish: UILabel!
     @IBOutlet var imguser: UIImageView!
-    
-    @IBOutlet weak var txtJobDetail: UITextView!
+
+    @IBOutlet weak var lblDiscription: UILabel!
     @IBOutlet weak var ScrollView: UIScrollView!
     var sharedManager : Globals = Globals.sharedInstance
     var OfferDetail:OfferListM!
     var OfferId = 0
     @IBOutlet weak var imgOffer: UIImageView!
-    
-    @IBOutlet weak var txtViewContantSize: NSLayoutConstraint!
-    @IBOutlet weak var secondViewContranit: NSLayoutConstraint!
+
     
     var isNotification:Bool =  false
     
@@ -50,7 +48,7 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         {
              fillDatatoConttroller()
         }
-        
+        buttomConstraints.constant = 10
         // Do any additional setup after loading the view.
     }
 
@@ -75,18 +73,21 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         imgOffer.kf.indicatorType = .activity
         imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         
-        txtJobDetail.text = self.OfferDetail.Description
-        txtJobDetail.sizeToFit()
-        txtViewContantSize.constant = txtJobDetail.frame.height
-        secondViewContranit.constant = lblfinish.frame.origin.y + lblfinish.frame.height + 20
+        lblDiscription.text = self.OfferDetail.Description
+    
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func btnBackAction(_ sender: UIButton) {
+    @IBAction func btnBackAction(_ sender: UIButton)
+    {
         self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func btnBackToMainMenuAction(_ sender: UIButton)
+    {
+       AppDelegate.sharedInstance().moveToDashboard()
     }
     func getSpecialOfferDetail()
     {
@@ -128,14 +129,14 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     }
     func fillDatatoConttrollerFromApi()
     {
-        lblcompany.text = self.sharedManager.selectedCompany.CompanyName as String!
+        lblcompany.text = self.OfferDetail1.CompanyName as String!
         lblstart.text = self.OfferDetail1.PriceTag as String!
         lblfinish.text = self.OfferDetail1.AddedOn as String!
-        lblwork.text = self.sharedManager.selectedCompany.TradeCategoryName as String!
+        lblwork.text = self.OfferDetail1.CompanyTradeCategoryName as String!
         lblCatagory.text = self.OfferDetail1.Title as String!
         //        //  cell.lbldatetime = self.
         
-        let imgURL = self.sharedManager.selectedCompany.ProfileImageLink as String!
+        let imgURL = self.OfferDetail1.CompanyImageLink as String!
         
         let url = URL(string: imgURL!)
         imguser.kf.indicatorType = .activity
@@ -147,9 +148,6 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         imgOffer.kf.indicatorType = .activity
         imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         
-        txtJobDetail.text = self.OfferDetail1.Description
-        txtJobDetail.sizeToFit()
-        txtViewContantSize.constant = txtJobDetail.frame.height
-        secondViewContranit.constant = lblfinish.frame.origin.y + lblfinish.frame.height + 20
+        lblDiscription.text = self.OfferDetail1.Description
     }
 }

@@ -103,6 +103,7 @@ class JobListM : NSObject, Mappable {
     var CityName = ""
     var TradeCategoryName = ""
     var IsSaved = false
+    var IsApplied = false
     var ServiceList:[ServiceListListM]? = []
     
     required init?(map: Map) {
@@ -120,6 +121,7 @@ class JobListM : NSObject, Mappable {
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
+        IsApplied <- map["IsApplied"]
         ServiceList <- map["ServiceList"]
     }
     func mapping(map: Map) {
@@ -137,6 +139,7 @@ class JobListM : NSObject, Mappable {
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
+        IsApplied <- map["IsApplied"]
         ServiceList <- map["ServiceList"]
     }
 }

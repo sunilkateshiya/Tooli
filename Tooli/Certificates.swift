@@ -53,7 +53,10 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
         // Do any additional setup after loading the view.
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.updateUserInfo()
     }

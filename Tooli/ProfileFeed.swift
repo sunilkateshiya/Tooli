@@ -12,16 +12,20 @@ import ObjectMapper
 import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
+import SafariServices
 
 class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, NVActivityIndicatorViewable{
     var popover = Popover()
     let sharedManager : Globals = Globals.sharedInstance
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var contractorId = 0;
     var isPortFolio : Bool = false;
     var screenSize: CGRect!
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     var profile  : SignIn!
+    @IBOutlet weak var viewMsg: UIView!
+    @IBOutlet weak var txtMSG: UITextField!
 
     @IBOutlet weak var AboutCollectionView: UICollectionView!
     @IBOutlet weak var TblAboutus: UITableView!
@@ -102,7 +106,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         TblTimeline.tableFooterView = UIView()
         ObjScrollview.delegate = self
         
-        self.TblHeightConstraints.constant = 265 * 10
+        self.TblHeightConstraints.constant = 0
         self.AboutviewHeight.constant = 265 * 10
         
         //self.PortCollectionHeight.constant = 265 * 10
@@ -128,6 +132,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.BtnActivty.setTitleColor(UIColor.red, for: UIControlState.selected)
         
         getProfile()
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
     }
     override func viewWillAppear(_ animated: Bool) {
          getProfile()
@@ -185,8 +193,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
         if self.profile.IsFollow == true {
+            self.BtnMessage.isHidden = false
             self.BtnFollow.setTitle("Following", for: UIControlState.normal)
         } else {
+            self.BtnMessage.isHidden = true
             self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
         }
         
@@ -197,8 +207,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.lblAbtHourly.text = self.profile.PerDayRate
         self.lblAbtEmail.text = self.profile.EmailID
         self.txtAbtViewAbout.text = self.profile.Aboutme
-        self.txtAbtViewAbout.isSelectable = false
-        self.txtAbtViewAbout.isEditable = false
         self.lblAbtPostCode.text = self.profile.Zipcode
         self.lblAbtDistanceCovered.text = String(self.profile.DistanceRadius)
         self.lblAbtTrade.text = self.profile.TradeCategoryName
@@ -215,12 +223,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblTimeline.reloadData()
         self.AboutCollectionView.reloadData()
         self.ObjCollectionView.reloadData()
+        
+        self.TblHeightConstraints.constant = TblTimeline.contentSize.height
+        self.POrCollectionHeightConstraints.constant = ObjCollectionView.contentSize.height
+        self.ObjCollectionView.frame = CGRect(x: self.ObjCollectionView.frame.origin.x, y: self.ObjCollectionView.frame.origin.y, width: self.ObjCollectionView.frame.width, height: self.ObjCollectionView.contentSize.height)
         //set Image
         if self.profile.ProfileImageLink != "" {
             let imgURL = self.profile.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             self.ImgProfilePic?.kf.indicatorType = .activity
-             //self.ImgProfilePic?.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "Main")
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -257,7 +268,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.ImgAvailable.isHidden = true
         }
         
-        
+
     }
     
     @IBAction func BtnEditTapped(_ sender: UIButton) {
@@ -286,9 +297,11 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                   //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     if self.profile.IsFollow == true {
                         self.profile.IsFollow = false
+                         self.BtnMessage.isHidden = true
                         self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
                     } else {
                         self.profile.IsFollow = true
+                         self.BtnMessage.isHidden = false
                         self.BtnFollow.setTitle("Following", for: UIControlState.normal)
                     }
                 }
@@ -308,8 +321,30 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
     }
     
-    @IBAction func BtnMessageTapped(_ sender: Any) {
+    @IBAction func BtnMessageTapped(_ sender: Any)
+    {
+        viewMsg.isHidden = false
     }
+    @IBAction func btnSendMSGAction(_ sender: UIButton)
+    {
+        
+        if(txtMSG.text != "")
+        {
+            if self.appDelegate!.persistentConnection.state == .connected {
+                appDelegate?.persistentConnection.send(Command.messageSendCommand(friendId: String(self.profile.UserID), msg: txtMSG.text!))
+            }
+            viewMsg.isHidden = true
+        }
+        else
+        {
+           self.view.makeToast("Please enter msg", duration: 3, position: .bottom)
+        }
+    }
+    @IBAction func btnCancelAction(_ sender: UIButton)
+    {
+        viewMsg.isHidden = true
+    }
+    
     @IBAction func BtnActivtyTapped(_ sender: Any) {
 //        if self.profile != nil {
 //            self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
@@ -533,9 +568,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             print(error.localizedDescription)
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
-        
-        
-        
     }
     
     
@@ -597,7 +629,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let imgURL = self.profile.ProfileImageLink as String
                 let urlPro = URL(string: imgURL)
                 cell.imgProfile?.kf.indicatorType = .activity
-                cell.imgProfile?.kf.setImage(with: urlPro)
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "ProfileCell")
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),
@@ -858,7 +889,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             else {
                 return 0
             }
-            
         }
         else {
             return 10
@@ -877,7 +907,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             
             let imgURL = (self.profile.PortfolioList?[indexPath.row].ThumbnailImageLink)! as String
             let urlPro = URL(string: imgURL)
-            Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
+            
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.PortfolioList?[indexPath.row].ThumbnailImageLink)!)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -922,7 +952,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let imgURL = (self.profile.CertificateFileList?[indexPath.row].FileLink)! as String
             let urlPro = URL(string: imgURL)
             Collectcell.PortfolioImage?.kf.indicatorType = .activity
-            Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
+
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -1014,12 +1044,13 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
         if collectionView == self.ObjCollectionView {
             let itemsPerRow:CGFloat = 2
             let hardCodedPadding:CGFloat = 5
             let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
-            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding + (self.profile.PortfolioList![indexPath.row].Title).heightWithWidth(width: itemWidth, font: UIFont(name: "Oxygen-Bold", size: 14)!)
+            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
             return CGSize(width: itemWidth, height: itemHeight)
         }
         
@@ -1048,14 +1079,18 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsImage == false
         {
-            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-            port.strUrl = (self.profile.CertificateFileList?[indexPath.row].FileLink)!
-            self.navigationController?.pushViewController(port, animated: true)
             
-//            let url = URL(string: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
-//            if (UIApplication.shared.canOpenURL(url!)){
-//                UIApplication.shared.openURL(url!)
-//            }
+            let openLink = NSURL(string : (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
+            
+            if #available(iOS 9.0, *) {
+                let svc = SFSafariViewController(url: openLink as! URL)
+                present(svc, animated: true, completion: nil)
+            } else {
+                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                port.strUrl = (self.profile.CertificateFileList?[indexPath.row].FileLink)!
+                self.navigationController?.pushViewController(port, animated: true)
+
+            }
         } else if collectionView == self.ObjCollectionView {
             
             if  self.contractorId == sharedManager.currentUser.ContractorID {

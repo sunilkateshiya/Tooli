@@ -93,6 +93,10 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         let obj : EditCertificate = self.storyboard?.instantiateViewController(withIdentifier: "EditCertificate") as! EditCertificate
         self.navigationController?.pushViewController(obj, animated: true)
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func BtnUpdateProfileTapped(_ sender: Any) {
         var isValid : Bool = true
         if TxtName.text == "" {
@@ -233,8 +237,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         self.BtnSkill.isUserInteractionEnabled = false
         SkillHeightConstraints.constant = 0
-        aboutMeHeightConstraints.constant = 0
-        
         
         TblSelectSkill.delegate = self
         TblSelectSkill.dataSource = self
@@ -244,7 +246,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             ImgProfilePic.kf.indicatorType = .activity
-            ImgProfilePic.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -292,9 +293,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         for skill in sharedManager.currentUser.ServiceList! {
             selectedSkills.append(String(skill.ServiceID))
         }
-        
-        self.TxtViewAboutme.sizeToFit()
-        self.aboutMeHeightConstraints.constant = self.TxtViewAboutme.contentSize.height
+    
         
         
         self.BtnDob.setTitleColor(Color.black, for: .normal)
@@ -399,13 +398,12 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         }
                     }
                     
-                    self.integerCount = (self.sharedManager.masters.DataList![index].ServiceList?.count)! as NSInteger
+                    self.integerCount = (self.sharedManager.masters.DataList![self.selectedTrade].ServiceList?.count)! as NSInteger
                     let One = self.integerCount * 44 as NSInteger
                     self.SkillHeightConstraints.constant = CGFloat(One)
-                    self.TblSelectSkill.reloadData()
-                    self.BtnTrade.setTitle(String(describing: self.sharedManager.masters.DataList![index].TradeCategoryName), for: UIControlState.normal)
-
                     
+                    self.TblSelectSkill.reloadData()
+
                 }
                 else
                 {

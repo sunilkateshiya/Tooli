@@ -20,7 +20,10 @@ class CustomTabBarC: UITabBarController {
        
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func setTabBarItems(){
     
         let myTabBarItem1 = (self.tabBar.items?[0])! as UITabBarItem

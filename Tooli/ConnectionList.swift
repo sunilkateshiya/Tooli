@@ -73,7 +73,5 @@ class FollowerModel : NSObject, Mappable{
         CompanyName <- map["CompanyName"]
         
     }
-
-
 }
 

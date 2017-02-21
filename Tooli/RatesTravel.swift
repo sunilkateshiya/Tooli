@@ -37,7 +37,10 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
         setValue()
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func setValue(){
         
         self.txtfrom.text = self.sharedManager.currentUser.PerDayRate

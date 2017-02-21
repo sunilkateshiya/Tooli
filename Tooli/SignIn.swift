@@ -43,12 +43,13 @@ class SignIn: NSObject, Mappable  {
     var PerHourRate = ""
     var IsSaved : Bool = false
     var IsFollow : Bool = false
+    var ReferralLink = ""
     var AvailableStatusList : [AvailableStatusListM]? = []
     var CertificateFileList : [CertificateFileListM]? = []
     var ServiceList : [ServiceListM]? = []
     var ExperienceList : [Experiences]? = []
     var PortfolioList : [Portfolio]? = []
- 
+    
     required init?(map: Map){
         status <- map["status"]
         message <- map["message"]
@@ -87,7 +88,7 @@ class SignIn: NSObject, Mappable  {
         LastName <- map["LastName"]
         PerDayRate <- map["PerDayRate"]
         CertificateFileList <- map["CertificateFileList"]
-        
+        ReferralLink <- map["ReferralLink"]
     }
     func mapping(map: Map) {
         status <- map["status"]
@@ -127,6 +128,7 @@ class SignIn: NSObject, Mappable  {
         LastName <- map["LastName"]
         PerDayRate <- map["PerDayRate"]
         CertificateFileList <- map["CertificateFileList"]
+        ReferralLink <- map["ReferralLink"]
     }
 }
 

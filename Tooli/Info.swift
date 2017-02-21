@@ -58,7 +58,6 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
                 let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
                 let urlPro = URL(string: imgURL)
                 self.imguser.kf.indicatorType = .activity
-                self.imguser.kf.setImage(with: urlPro)
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),

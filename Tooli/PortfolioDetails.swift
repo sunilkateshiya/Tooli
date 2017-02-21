@@ -34,6 +34,10 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         self.lblLocation.text = self.portfolio.Location
         self.lblDescription.text = self.portfolio.Description
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func pushButton(_ sender: AnyObject) {
         let browser = SKPhotoBrowser(photos: createWebPhotos())
         browser.initializePageIndex(0)
@@ -64,7 +68,6 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         let imgURL = (portfolio.PortfolioImageList[indexPath.row].PortfolioImageLink)
         let urlPro = URL(string: imgURL)
         cell.PortfolioImage?.kf.indicatorType = .activity
-        cell.PortfolioImage?.kf.setImage(with: urlPro)
         let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: imgURL)
         let optionInfo: KingfisherOptionsInfo = [
             .downloadPriority(0.5),
@@ -89,8 +92,6 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         
         _ = self.navigationController?.popViewController(animated: true)
     }
-
-    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -135,7 +136,13 @@ private extension PortfolioDetails {
     func createWebPhotos() -> [SKPhotoProtocol] {
         return (0..<portfolio.PortfolioImageList.count).map { (i: Int) -> SKPhotoProtocol in
             //            let photo = SKPhoto.photoWithImageURL("https://placehold.jp/150\(i)x150\(i).png", holder: UIImage(named: "image0.jpg")!)
-            let photo = SKPhoto.photoWithImageURL(portfolio.PortfolioImageList[i].PortfolioImageLink)
+//            let photo = SKPhoto.photoWithImageURL(portfolio.PortfolioImageList[i].PortfolioImageLink)
+            let img:UIImageView = UIImageView()
+            let imgURL = portfolio.PortfolioImageList[i].PortfolioImageLink as String!
+            
+            let url = URL(string: imgURL!)
+            img.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+            let photo = SKPhoto.photoWithImage(img.image!)
             photo.caption = ("")
             photo.shouldCachePhotoURLImage = true
             return photo

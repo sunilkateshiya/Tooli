@@ -25,7 +25,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
             let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             ivimage?.kf.indicatorType = .activity
-            ivimage?.kf.setImage(with: urlPro)
+           
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -51,7 +51,10 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Do any additional setup after loading the view.
     }
     
-   
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
  
 
     override func didReceiveMemoryWarning() {
@@ -85,31 +88,44 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
           }
         
         cell!.textLabel?.textAlignment = .right
-
-          cell?.selectionStyle = .none
+        cell?.selectionStyle = .none
+        let imgView:UIImageView = UIImageView()
+        imgView.frame = CGRect(x: 0, y: ((cell?.frame.height)!/2)-10, width: 25, height: 20)
+       
+        cell?.accessoryView = imgView
+        
           if indexPath.row == 0 {
-               cell!.textLabel?.text = "   PROFILE"
+               cell!.textLabel?.text = "   PROFILE "
+               imgView.image = #imageLiteral(resourceName: "NProfile")
           }
           else if indexPath.row == 1 {
-               cell!.textLabel?.text = "   CONNECTIONS"
+            cell!.textLabel?.text = "   MESSAGES"
+            imgView.image = #imageLiteral(resourceName: "NMessage")
           }
           else if indexPath.row == 2 {
-               cell!.textLabel?.text = "   JOBS"
+             cell!.textLabel?.text = "   JOBS"
+             imgView.image = #imageLiteral(resourceName: "NSettings")
           }
           else if indexPath.row == 3 {
-            cell!.textLabel?.text = "   CONTRACTOR SEARCH"
+             cell!.textLabel?.text = "   CONTRACTOR SEARCH"
+             imgView.image = #imageLiteral(resourceName: "NContractor")
           }
           else if indexPath.row == 4 {
-               cell!.textLabel?.text = "   SAVED"
+             cell!.textLabel?.text = "   SAVED"
+             imgView.image = #imageLiteral(resourceName: "NSaved")
           }
+          
           else if indexPath.row == 5 {
-               cell!.textLabel?.text = "   MESSAGES"
+            cell!.textLabel?.text = "   CONNECTIONS"
+            imgView.image = #imageLiteral(resourceName: "Nconnections")
           }
           else if indexPath.row == 6 {
-               cell!.textLabel?.text = "   REFERRAL"
+             cell!.textLabel?.text = "   REFERRAL"
+             imgView.image = #imageLiteral(resourceName: "Nconnections")
             }
           else if indexPath.row == 7 {
-            cell!.textLabel?.text = "   LOGOUT"
+             cell!.textLabel?.text = "   LOGOUT"
+             imgView.image = #imageLiteral(resourceName: "Nconnections")
         }
        
           return cell!
@@ -128,8 +144,8 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ProfileFeed")
                break
           case 1:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
-               break
+                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
+                break
           case 2:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
                break
@@ -138,19 +154,21 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
             break
           case 4:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SavedView")
-               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
+               
                break
           case 5:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
-               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
-               break
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
+            break
+            
           case 6:
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Referrals")
             break
           case 7:
                callWSSignOut()
+               
                let userDefaults = UserDefaults.standard
                userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
+               userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
                userDefaults.synchronize()
                let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                app.moveToLogin()
@@ -160,7 +178,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        if indexPath.row != 7 && indexPath.row != 5{
+        if indexPath.row != 7{
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }

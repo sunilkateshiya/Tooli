@@ -24,7 +24,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     
     var currentPage = 1
     var isFirstTime : Bool = true
-
+    var refreshControl:UIRefreshControl!
     var popover = Popover()
     var isFull:Bool =  false
     override func viewDidLoad() {
@@ -36,19 +36,31 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         tvjobs.estimatedRowHeight = 100
         tvjobs.tableFooterView = UIView()
      
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(JobCenter.refreshPage) , for: UIControlEvents.valueChanged)
+        tvjobs.addSubview(refreshControl)
+        
         FilterOption = "Default"
         //onLoadDetail(withfilter: FilterOption, page: self.currentPage)
 
         btnSortby.setTitle("Sort by : Default", for: .normal)
     }
-    
+    func refreshPage()
+    {
+        isFirstTime = true
+        isFull = false
+        currentPage = 1
+        onLoadDetail(withfilter: FilterOption, page: currentPage)
+    }
     override func viewWillAppear(_ animated: Bool) {
-        onLoadDetail(withfilter: FilterOption, page: self.currentPage)
+        onLoadDetail(withfilter: FilterOption, page: currentPage)
 
     }
 
 
     func onLoadDetail(withfilter: NSString, page: Int){
+        
         if self.isFirstTime {
             self.startAnimating()
         }
@@ -72,7 +84,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             self.stopAnimating()
             
             print(JSONResponse["status"].rawValue as! String)
-            
+            self.refreshControl.endRefreshing()
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
@@ -97,19 +109,6 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                     self.stopAnimating()
                     self.isFirstTime = false;
                     self.isFull = true
-                    //self.currentPage = 1
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                    //self.tvnoti.reloadData()
-                }
-
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.joblist = self.sharedManager.jobList.DataList
-                    self.tvjobs.reloadData()
-                }
-                else
-                {
-                    
                 }
                 if(self.joblist?.count == 0 && self.isFirstTime)
                 {
@@ -264,7 +263,10 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         let obj : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
         self.navigationController?.pushViewController(obj, animated: true)
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func btnfav(btn : UIButton)  {
         
         self.startAnimating()

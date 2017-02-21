@@ -28,6 +28,10 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
        NotificationCenter.default.addObserver(self, selector: #selector(removeRows(notiffy:)), name: NSNotification.Name(rawValue: "RemoveCell"), object: nil)
 
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     override func viewWillAppear(_ animated: Bool) {
         tvBlogList.delegate = self
         tvBlogList.dataSource = self

@@ -22,7 +22,7 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet var btnfollower : UIButton!
     
     var sharedManager : Globals = Globals.sharedInstance
-
+    var refreshControl:UIRefreshControl!
     var connlist : [FollowerModel]?
     var templist : [FollowerModel]?
     
@@ -48,16 +48,28 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         tvconnections.estimatedRowHeight = 100
         tvconnections.tableFooterView = UIView()
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(Connections.refreshPage) , for: UIControlEvents.valueChanged)
+        tvconnections.addSubview(refreshControl)
+
+        
         // Do any additional setup after loading the view.
     }
-
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+    func refreshPage()
+    {
+        onLoadDetail()
+    }
 
      override func viewWillAppear(_ animated: Bool) {
 
     }
     
     func onLoadDetail(){
+        
         
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
@@ -71,7 +83,7 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.stopAnimating()
             
             print(JSONResponse["status"].rawValue as! String)
-            
+            self.refreshControl.endRefreshing()
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
@@ -291,7 +303,8 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
     }
     
-    func btnfav(btn : UIButton)  {
+    func btnfav(btn : UIButton)
+    {
         
         self.startAnimating()
         

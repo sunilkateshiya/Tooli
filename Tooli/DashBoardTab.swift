@@ -22,10 +22,18 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     @IBOutlet var vwnolist : UIView?
     @IBOutlet var TBLSearchView:UITableView!
     @IBOutlet var viewSearch:UIView!
+    var refreshControl:UIRefreshControl!
     var Searchdashlist : [SerachDashBoardM]?
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if(UserDefaults.standard.object(forKey: Constants.KEYS.ISINITSIGNALR) as! Bool == false)
+        {
+            self.dashlist = []
+            UserDefaults.standard.set(true, forKey: Constants.KEYS.ISINITSIGNALR)
+            UserDefaults.standard.set(true, forKey: Constants.KEYS.LOGINKEY)
+           AppDelegate.sharedInstance().initSignalR();
+        }
         SearchbarView.delegate = self
     
         
@@ -36,19 +44,40 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         tvdashb.tableFooterView = UIView()
         self.vwnolist?.isHidden = true
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(DashBoardTab.refreshPage), for: UIControlEvents.valueChanged)
+        tvdashb.addSubview(refreshControl)
+        
         AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
 
         onLoadDetail()
         
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer()
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.addTarget(self, action: #selector(DashBoardTab.tapTableView(_:)))
+        tvdashb.addGestureRecognizer(tapGesture)
+        
         // Do any additional setup after loading the view.
     }
-    
+    func tapTableView(_ sender:UITapGestureRecognizer)
+    {
+        SearchbarView.resignFirstResponder()
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+    func refreshPage()
+    {
+        onLoadDetail()
+    }
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
         var strUpdated:NSString =  searchBar.text! as NSString
         strUpdated = strUpdated.replacingCharacters(in: range, with: text) as NSString
         onSerach(str: strUpdated as String)
         return true
     }
+    
     func onSerach(str:String)
     {
         self.startAnimating()
@@ -61,14 +90,13 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+           
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
-                {        self.vwnolist?.isHidden = true
-                    
+                {
                     self.Searchdashlist = self.sharedManager.SearchdashBoard.DataList
                     if(self.Searchdashlist!.count > 0)
                     {
@@ -82,7 +110,6 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 }
                 else
                 {
-                    self.vwnolist?.isHidden = false
                     
                 }
                 
@@ -110,21 +137,20 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             self.sharedManager.dashBoard = Mapper<ContractorDashBoard>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+             self.refreshControl.endRefreshing()
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
-                {        self.vwnolist?.isHidden = true
-
+                {
+                    self.vwnolist?.isHidden = true
                     self.dashlist = self.sharedManager.dashBoard.DataList
                     self.tvdashb.reloadData()
                    }
                 else
                 {
                     self.vwnolist?.isHidden = false
-
                 }
                 
                 self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
@@ -445,7 +471,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     {
         if(searchBar.text == "")
         {
-            SearchbarView.resignFirstResponder()
+            searchBar.resignFirstResponder()
             viewSearch.isHidden = true
         }
     }
@@ -462,7 +488,12 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
                 companyVC.contractorId = self.Searchdashlist![indexPath.row].PrimaryID
                 self.navigationController?.pushViewController(companyVC, animated: true)
+                
             }
+            SearchbarView.text = ""
+            SearchbarView.resignFirstResponder()
+            viewSearch.isHidden = true
+
         }
 //        let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
 //        obj.ContractorID = 

@@ -63,7 +63,8 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.ObjScrollview.contentSize.height = 247 + AboutView.frame.size.height
+       //self.ObjScrollview.contentSize.height = 247 + AboutView.frame.size.height
+       //  self.ObjScrollview.contentSize.height = 237 + 456
         
         self.BtnPortfolio.isSelected = false
         self.BtnPortfolio.tintColor = UIColor.white
@@ -97,6 +98,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         
         
         onLoadDetail()
+         self.ObjScrollview.contentSize.height = 237 + 456
         
     }
     
@@ -142,7 +144,6 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func onLoadDetail(){
-        
         
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
@@ -203,12 +204,18 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
                         //ImgProfilePic?.clipsToBounds = true
                         //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
                     }
-                    
-                    
+                
                     self.TblTimeline.reloadData()
                     self.TBLSpecialOffer.reloadData()
-                     self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
                     self.PortCollectionHeight.constant = self.TBLSpecialOffer.contentSize.height
+                    //self.ObjScrollview.contentSize.height = 247 + self.AboutView.frame.size.height
+
+                    DispatchQueue.main.async{
+                      self.ObjScrollview.contentSize.height = 237 + 456
+                    }
+                   
+                    self.TblTimeline.tag = 1
                 }
                 else
                 {
@@ -225,9 +232,6 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         }
         
     }
-    
-    
-    
     
     @IBAction func BtnNotificationTapped(_ sender: Any) {
         
@@ -475,8 +479,6 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             
             let url1 = URL(string: imgURL1!)
             cell.ImgCompanyPic.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            
             return cell
             
         }

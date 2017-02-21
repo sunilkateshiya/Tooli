@@ -72,7 +72,10 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         //setValues()
         
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func setValues() {
         if (sharedManager.currentUser != nil) {
             self.txtAdderess.text = sharedManager.currentUser.StreetAddress

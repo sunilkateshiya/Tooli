@@ -109,7 +109,10 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         }
         
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func btnBack(_ sender: UIButton) {
         
         let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate

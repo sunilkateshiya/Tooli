@@ -283,7 +283,10 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
           //        selectedCertificates.remove(at: selectedCertificates.index(of: certificates[indexPath.row])! )
           //        selectedCell = nil
           //    }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
           func takePhoto() {
                self.view.endEditing(true)
                imagePicker =  UIImagePickerController()

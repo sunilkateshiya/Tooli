@@ -63,7 +63,7 @@ struct Constants {
         static let ForgotPassword = BASE_URL + "ForgotPassword"
         static let ChangePassword = BASE_URL + "ChangePassword"
         static let InviteReferral = BASE_URL + "InviteReferral"
-        
+        static let GetSavePageList = BASE_URL + "GetSavePageList"
         static let JobInfo = BASE_URL + "JobInfo"
         static let JobList = BASE_URL + "JobList"
         static let ContractorList = BASE_URL + "ContractorList"
@@ -128,6 +128,7 @@ struct Constants {
         static let BUSINESSNAME = "businessName"
         static let BUSINESSID = "businessId"
         static let TABLEUSERID = "tableUserId"
+        static let ISINITSIGNALR = "isCallSignalR"
     }
     struct NoData {
         static let FRIEND_BLOCK_TITLE = "Blocked Users"
