@@ -16,7 +16,7 @@ import GooglePlaces
 import Toast_Swift
 import Alamofire
 
-class SavedView: UIViewController, NVActivityIndicatorViewable {
+class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var BtnType: UIButton!
     var popover = Popover()
@@ -29,6 +29,12 @@ class SavedView: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        tvdashb.delegate = self
+        tvdashb.dataSource = self
+        tvdashb.rowHeight = UITableViewAutomaticDimension
+        tvdashb.estimatedRowHeight = 100
+        tvdashb.tableFooterView = UIView()
         
       //  onLoadDetail()
         // Do any additional setup after loading the view.
@@ -192,7 +198,8 @@ class SavedView: UIViewController, NVActivityIndicatorViewable {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        let cvimgcnt : Int = (self.dashlist?[indexPath.row].PortfolioImageList?.count)!
+        let cvimgcnt : Int = 1
+       // let cvimgcnt : Int = (self.dashlist?[indexPath.row].PortfolioImageList?.count)!
         if cvimgcnt == 0{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DashBoardTvCell

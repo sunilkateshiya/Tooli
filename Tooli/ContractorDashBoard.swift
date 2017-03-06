@@ -120,4 +120,68 @@ class PortfolioImageL: NSObject, Mappable {
         
     }
 }
+class SavedPageList:NSObject,Mappable{
+
+    var UserID = ""
+    var PrimaryID = 0
+    var PageTypeID : Bool = false
+    var CompanyName = ""
+    var UserFullName : Bool = false
+    var SavePageStarImageLink = ""
+    var ProfileImageLink = 0
+    var Name = 0
+    var TradeCategoryName = ""
+    var CityName = ""
+    var Description = ""
+    var UserProfileLink = ""
+    var AvailableStatusIcon = ""
+    var Aboutme = ""
+    var Date = ""
+    var Time = ""
+    var Location = ""
+    var ThumbnailImageLink = ""
+    var Caption = ""
+    var StartOn = ""
+    var EndOn = ""
+    var JobViewLink = ""
+    var OfferImageLink = ""
+    var RedirectLink = ""
+    var ViewImageClass = ""
+    var PortfolioImageList : [PortfolioImageL]? = []
+    
+
+    required init?(map: Map) {
+        
+        UserID <- map["UserID"]
+        PrimaryID <- map["PrimaryID"]
+        PageTypeID <- map["PageTypeID"]
+        CompanyName <- map["CompanyName"]
+        UserFullName <- map["UserFullName"]
+        SavePageStarImageLink <- map["SavePageStarImageLink"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CityName <- map["CityName"]
+        Description <- map["Description"]
+        UserProfileLink <- map["UserProfileLink"]
+        AvailableStatusIcon <- map["TradeCategoryName"]
+        Aboutme <- map["StartOn"]
+        Date <- map["EndOn"]
+        Time <- map["ThumbnailImageLink"]
+        Location <- map["Description"]
+        ThumbnailImageLink <- map["Location"]
+        Caption <- map["PortfolioImageList"]
+        StartOn <- map["PortfolioImageList"]
+        EndOn <- map["PortfolioImageList"]
+        JobViewLink <- map["PortfolioImageList"]
+        OfferImageLink <- map["PortfolioImageList"]
+        RedirectLink <- map["PortfolioImageList"]
+        ViewImageClass <- map["PortfolioImageList"]
+        PortfolioImageList <- map["PortfolioImageList"]
+    }
+    func mapping(map: Map)
+    {
+       
+    }
+}
 

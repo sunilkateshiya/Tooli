@@ -28,15 +28,12 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
     var integerCountCertificate = NSInteger()
     var postcode : String = ""
     @IBOutlet var txtPostCode:UITextField!
-    
     @IBOutlet weak var TblSelectSkill: UITableView!
     @IBOutlet weak var TblSelectCertificate: UITableView!
     @IBOutlet weak var SkillHeightConstraints: NSLayoutConstraint!
     @IBOutlet weak var CertificateHeightConstraints: NSLayoutConstraint!
     @IBOutlet weak var BtnSkill: UIButton!
-
     @IBOutlet weak var BtnCertificate: UIButton!
-    
     @IBOutlet weak var BtnTrade: UIButton!
     
     var isVisible : Bool = false;

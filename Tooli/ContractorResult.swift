@@ -83,7 +83,7 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
                 if JSONResponse["status"].rawString()! == "1"
                 {
                      self.vwnolist?.isHidden = false
-                    self.tvconnections.isHidden = false
+                     self.tvconnections.isHidden = false
                      self.stopAnimating()
                     print(JSONResponse)
                     if self.isFirstTime {
