@@ -64,6 +64,10 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
     @IBAction func actionBack(sender : UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func actionPost(sender : UIButton) {
         var isValid : Bool = true
         if TxtProjectTitle.text == "" {
@@ -202,7 +206,6 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                 let imgURL = portfolio.PortfolioImageList[indexPath.row].PortfolioImageLink
                 let urlPro = URL(string: imgURL)
                 Collectcell.PortfolioImage.kf.indicatorType = .activity
-                Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),

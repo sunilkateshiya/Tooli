@@ -18,7 +18,11 @@ class ConnectionCell : UITableViewCell {
     @IBOutlet var btnfav: UIButton!
     @IBOutlet var imguser: UIImageView!
 
+    @IBOutlet weak var lbldate: UILabel!
+    @IBOutlet weak var lblTitle1: UILabel!
 
+    @IBOutlet weak var lbltitle: UILabel!
+    @IBOutlet weak var lblhtml: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

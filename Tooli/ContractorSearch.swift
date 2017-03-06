@@ -139,17 +139,17 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
                             i = i + 1;
                         }
                     }
-                    
-                    self.SkillHeightConstraints.constant = 0
-                    self.CertificateHeightConstraints.constant = 0
-                    
-                    self.integerCount = (self.sharedManager.masters.DataList![index].ServiceList?.count)! as NSInteger
+                
+                    self.integerCount = (self.sharedManager.masters.DataList![self.selectedTrade].ServiceList?.count)! as NSInteger
                     let One = self.integerCount * 44 as NSInteger
                     self.SkillHeightConstraints.constant = CGFloat(One)
                     
-                    self.integerCountCertificate = (self.sharedManager.masters.DataList![index].CertificateCategoryList?.count)! as NSInteger
+                    self.integerCountCertificate = (self.sharedManager.masters.DataList![self.selectedTrade].CertificateCategoryList?.count)! as NSInteger
                     let Two = self.integerCountCertificate * 44 as NSInteger
                     self.CertificateHeightConstraints.constant = CGFloat(Two)
+                    
+                    
+                    
                     self.selectedSkills = []
                     self.selectedCertificate = []
                     self.TblSelectSkill.reloadData()
@@ -220,7 +220,10 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
         let Two = self.integerCountCertificate * 44 as NSInteger
         self.CertificateHeightConstraints.constant = CGFloat(Two)
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         if(tableView  == TblSelectSkill)

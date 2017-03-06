@@ -37,7 +37,10 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
         setValue()
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func setValue(){
         
         self.txtfrom.text = self.sharedManager.currentUser.PerDayRate
@@ -156,7 +159,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     else
                     {
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                     }
                     
                 }
@@ -164,7 +167,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
             }) {
                 (error) -> Void in
                 self.stopAnimating()
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
             }
 
         }

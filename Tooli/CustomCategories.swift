@@ -230,12 +230,12 @@ extension UIViewController {
 extension Date {
     func toWebString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         return dateFormatter.string(from: self)
     }
     func toDisplayString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         return dateFormatter.string(from: self)
     }
     

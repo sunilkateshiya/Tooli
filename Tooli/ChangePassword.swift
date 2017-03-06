@@ -24,6 +24,10 @@ class ChangePassword: UIViewController, NVActivityIndicatorViewable {
     @IBAction func btnBack (_sender : UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func btnChangePassword (_sender : UIButton) {
         var isValid = true
         if  self.txtCurrentPassword.text == "" {

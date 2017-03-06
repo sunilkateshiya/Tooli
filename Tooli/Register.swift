@@ -41,6 +41,11 @@ class Register: UIViewController, NVActivityIndicatorViewable {
             validflag = 1
         }
         else if (self.txtemail?.text?.characters.count)! == 0  {
+            self.view.makeToast("Please enter email address", duration: 3, position: .bottom)
+            validflag = 1
+        }
+        else if(self.isValidEmail(testStr: self.txtemail.text!) == false)
+        {
             self.view.makeToast("Please enter valid email address", duration: 3, position: .bottom)
             validflag = 1
         }
@@ -106,7 +111,13 @@ class Register: UIViewController, NVActivityIndicatorViewable {
         }
 
     }
-    
+    func isValidEmail(testStr:String) -> Bool {
+        // print("validate calendar: \(testStr)")
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
     @IBAction func btnBack(_ sender: Any) {
         
       _ = self.navigationController?.popViewController(animated: true)

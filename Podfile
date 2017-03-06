@@ -30,8 +30,11 @@ pod 'FacebookLogin'
 pod 'FacebookShare'
 #pod 'ActiveLabel'
 pod 'TTTAttributedLabel'
+pod 'JSQMessagesViewController'
+pod 'SwiftR'
 #pod 'GooglePlacesAutocomplete'
 pod 'ActionSheetPicker-3.0'
+pod 'FSCalendar'
   # Pods for Tooli
 
   target 'TooliTests' do

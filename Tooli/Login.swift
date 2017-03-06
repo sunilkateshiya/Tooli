@@ -72,6 +72,7 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                                     userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
                                 
                                     userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                    userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
                                     userDefaults.synchronize()
                                 
                                     

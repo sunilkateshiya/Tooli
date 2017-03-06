@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AEADFAB57A51CC4A5647E4E0DE34D809"
+               BlueprintIdentifier = "C6BA05B3D6F17BED0A77A91F944B7AB8"
                BuildableName = "Pods_Tooli.framework"
                BlueprintName = "Pods-Tooli"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AEADFAB57A51CC4A5647E4E0DE34D809"
+            BlueprintIdentifier = "C6BA05B3D6F17BED0A77A91F944B7AB8"
             BuildableName = "Pods_Tooli.framework"
             BlueprintName = "Pods-Tooli"
             ReferencedContainer = "container:Pods.xcodeproj">

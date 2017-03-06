@@ -25,6 +25,9 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
     var selectedImage : UIImage?
     var imagePicker: UIImagePickerController!
     var isImageSelected : Bool = false
+     var placeholderLabel:UILabel!
+    
+    
     @IBAction func actionBack(sender : UIButton) {
         toggleSideMenuView()
         //self.navigationController?.popViewController(animated: true)
@@ -109,7 +112,10 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         }
         
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func btnBack(_ sender: UIButton) {
         
         let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -124,27 +130,28 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         flow.sectionInset = UIEdgeInsetsMake(0, 3, 0, 3)
         flow.minimumInteritemSpacing = 1
         flow.minimumLineSpacing = 1
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "Enter Description"
+        //     placeholderLabel.font = UIFont(name: "BabasNeue", size: 106)
+        placeholderLabel.font = UIFont.systemFont(ofSize: (TxtDescription.font?.pointSize)!)
+        placeholderLabel.sizeToFit()
+        TxtDescription.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (TxtDescription.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.lightGray
+        placeholderLabel.isHidden = !TxtDescription.text.isEmpty
+        
+        
     }
-    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView.text == "Enter Description" {
-            textView.text = ""
-        }
-        return true
-    }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        if textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == "" {
-            textView.text = "Enter Description"
-        }
-        return true
-    }
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }

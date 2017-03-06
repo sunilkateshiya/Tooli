@@ -29,6 +29,10 @@ class PDFViewer: UIViewController,UIWebViewDelegate, NVActivityIndicatorViewable
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func btnBackAction(_ sender: UIButton)
     {
         self.navigationController?.popViewController(animated: true)
