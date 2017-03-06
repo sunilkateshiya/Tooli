@@ -28,6 +28,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
     var isImageSelected : Bool = false
     var sharedManager : Globals = Globals.sharedInstance
     var selectedDate : Date!
+    var placeholderLabel:UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +37,24 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
         imguser.isUserInteractionEnabled = true
         imguser.addGestureRecognizer(tapGestureRecognizer)
         
+        txtabout.delegate = self
+       
+        
+        setValues()
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "About me"
+        //     placeholderLabel.font = UIFont(name: "BabasNeue", size: 106)
+        placeholderLabel.font = UIFont.systemFont(ofSize: (txtabout.font?.pointSize)!)
+        placeholderLabel.sizeToFit()
+        txtabout.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (txtabout.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.lightGray
+        placeholderLabel.isHidden = !txtabout.text.isEmpty
+    
+
         // Do any additional setup after loading the view.
-       setValues()
+     
     }
 
     
@@ -48,7 +65,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             self.txtmobile.text = sharedManager.currentUser.MobileNumber
             self.txtdateofbirth.text = sharedManager.currentUser.DOB
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateFormat = "dd-MM-yyyy"
             self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
             if (self.selectedDate != nil) {
                 self.txtdateofbirth.text = self.selectedDate.toDisplayString()
@@ -77,24 +94,25 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
         // Dispose of any resources that can be recreated.
     }
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView.text == "About me" {
-            textView.text = ""
-        }
-        return true
-    }
+//    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+//        if textView.text == "About me" {
+//            textView.text = ""
+//            textView.textColor = UIColor.black
+//        }
+//        return true
+//    }
     
     func textViewDidChange(_ textView: UITextView) {
-        
+        placeholderLabel.isHidden = !textView.text.isEmpty
     }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        if textView.text == "" {
-            textView.text = "About me"
-        }
-        return true
-    }
-    
+//       func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+//        if textView.text == "" {
+//            textView.text = "About me"
+//             textView.textColor = UIColor.darkGray
+//        }
+//        return true
+//    }
+//    
     @IBAction func btnnext(_ sender: Any) {
         self.view.endEditing(true)
         var validflag = 0
@@ -102,7 +120,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             self.view.makeToast("Please enter mobile number.", duration: 3, position: .bottom)
             validflag = 1
         }
-        else if (self.txtabout?.text?.characters.count)! == 0  || self.txtabout.text == "About me" {
+        else if (self.txtabout?.text?.characters.count)! == 0  || self.txtabout.text == "" {
             self.view.makeToast("Please enter about me.", duration: 3, position: .bottom)
             validflag = 1
         }
@@ -110,16 +128,19 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
 //            self.view.makeToast("Please select image.", duration: 3, position: .bottom)
 //            validflag = 1
 //        }
-        
-        
-        
+    
         if validflag == 0 {
             
+            var Dob = ""
+            if(self.selectedDate != nil)
+            {
+              Dob = self.selectedDate.toWebString()
+            }
             self.startAnimating()
             let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
                          "LandlineNumber": self.txtphone.text!,
                          "MobileNumber": self.txtmobile.text!,
-                         "DOB":self.selectedDate.toWebString(),
+                         "DOB":Dob,
                          "Aboutme":self.txtabout.text!] as [String : Any]
             
             print(param)
@@ -312,17 +333,6 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
         
         datePicker?.show()
         
-//        let autocompleteController = GMSAutocompleteViewController()
-//        autocompleteController.delegate = self
-//        autocompleteController.tintColor = UIColor.red
-//        let header : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 60))
-//        header.backgroundColor=UIColor.red
-//        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
-//        autocompleteController.view.addSubview(header)
-//        
-//        self.navigationController?.setToolbarHidden(false, animated: true)
-//        autocompleteController.navigationController?.setToolbarHidden(false, animated: true)
-//        present(autocompleteController, animated: true, completion: nil)
     }
 
     /*

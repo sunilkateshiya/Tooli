@@ -50,6 +50,7 @@ class DashBoardM : NSObject, Mappable {
     var CompanyName = ""
     var CityName = ""
     var Name = ""
+    var isStatus = false
     var PortfolioImageList : [PortfolioImageL]? = []
     
     required init?(map: Map) {
@@ -75,6 +76,7 @@ class DashBoardM : NSObject, Mappable {
         PortfolioImageList <- map["PortfolioImageList"]
         CompanyName <- map["CompanyName"]
         CityName <- map["CityName"]
+        isStatus <- map["IsStatus"]
         Name <- map["Name"]
     }
     func mapping(map: Map) {
@@ -100,6 +102,7 @@ class DashBoardM : NSObject, Mappable {
         PortfolioImageList <- map["PortfolioImageList"]
         CompanyName <- map["CompanyName"]
         CityName <- map["CityName"]
+        isStatus <- map["IsStatus"]
         Name <- map["Name"]
     }
 }

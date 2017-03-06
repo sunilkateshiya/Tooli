@@ -69,6 +69,8 @@ struct Constants {
         static let ContractorList = BASE_URL + "ContractorList"
         static let NotificationList = BASE_URL + "NotificationList"
         static let PageSaveToggle = BASE_URL + "PageSaveToggle"
+        static let ContractorStatisticsReport = BASE_URL + "ContractorStatisticsReport"
+        static let ConctractorUpdateStatus = BASE_URL + "ConctractorUpdateStatus"
         static let OfferInfo = BASE_URL + "OfferInfo"
         static let PortfolioAdd = BASE_URL + "PortfolioAdd"
         static let PortfolioDelete = BASE_URL + "PortfolioDelete"

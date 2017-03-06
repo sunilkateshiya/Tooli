@@ -21,6 +21,8 @@ class Globals {
     var OfferDetail1 : OfferDetailM!
     var savedPageList:SavedPageList!
     var portFolio:Portfolio!
+    var stastics:StatisticsModal!
+    
     private init() {
 
         

@@ -95,7 +95,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                 else
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
                 
             }
@@ -104,7 +104,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
             (error) -> Void in
             self.stopAnimating()
             print(error.localizedDescription)
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
         
         
@@ -327,11 +327,11 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                         }
                         else
                         {
-                            self.view.makeToast("\(response1.object(forKey: "message")!)", duration: 3, position: .bottom)
+                            self.view.makeToast("\(response1.object(forKey: "message")!)", duration: 3, position: .center)
                         }
                         
                     case .failure(let error):
-                        self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .bottom)
+                        self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .center)
                         
                     }
                     
@@ -371,7 +371,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                 else
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
                 
             }
@@ -380,7 +380,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
             (error) -> Void in
             self.stopAnimating()
             print(error.localizedDescription)
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     @IBAction func btnNext(_ sender: Any) {

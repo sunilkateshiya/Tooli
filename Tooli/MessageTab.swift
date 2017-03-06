@@ -21,7 +21,7 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     let sharedManager : Globals = Globals.sharedInstance
     var selectedSenderId = 0
     var app : AppDelegate!
-
+    var isNext:Bool = false
     @IBOutlet var TBLSearchView:UITableView!
     @IBOutlet var viewSearch:UIView!
     var Searchdashlist : [SerachDashBoardM]?
@@ -51,10 +51,10 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
          SearchbarView.delegate = self
          AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
         
-        if  selectedSenderId != 0  {
-            self.navigateUser()
-            
-        }
+//        if  selectedSenderId != 0  {
+//            self.navigateUser()
+//            
+//        }
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(MessageTab.refreshPage), for: UIControlEvents.valueChanged)
@@ -111,7 +111,7 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                     
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
             }
             
         }) {
@@ -119,7 +119,7 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             print(error.localizedDescription)
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -161,15 +161,17 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     func reloadTable(){
+        refreshPage()
         if app.buddyList != nil {
             if  app.buddyList.Users.count > 0 {
                 self.noMessageView.isHidden = true;
                 self.tvmsg.reloadData();
                 
-//                if  selectedSenderId != 0  {
-//                    self.navigateUser()
-//                    
-//                }
+                if(isNext == true)
+                {
+                    isNext = false
+                    self.navigateUser()
+                }
             }
         }
         self.tvmsg.reloadData()

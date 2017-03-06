@@ -15,6 +15,8 @@ import CoreLocation
 import Fabric
 import Crashlytics
 import SwiftR
+import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
@@ -44,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+         GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
         IsMapFirst = true
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -133,6 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             // MESSAGE VC
             let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
             msgVC.selectedSenderId = PrimaryID as! Int
+            msgVC.isNext = true
             self.navigationController?.pushViewController(msgVC, animated: true)
             
         } else if NotificationStatusID == 2 {
@@ -200,6 +203,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             // MESSAGE VC
             let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
             msgVC.selectedSenderId = PrimaryID as! Int
+            msgVC.isNext = true
             self.navigationController?.pushViewController(msgVC, animated: true)
             
         } else if NotificationStatusID == 2 {

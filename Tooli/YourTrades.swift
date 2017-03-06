@@ -63,7 +63,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         tvskills.estimatedRowHeight = 450
         tvskills.tableFooterView = UIView()
         getMasters()
-        GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
+       
         
         self.tvskills.allowsMultipleSelection = true
 
@@ -81,7 +81,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             self.txtAdderess.text = sharedManager.currentUser.StreetAddress
             self.txtPostcode.text = sharedManager.currentUser.Zipcode
             self.slider.value = Float(Int(sharedManager.currentUser.DistanceRadius))
-            self.btntrades.setTitle(String(describing: self.sharedManager.currentUser.TradeCategoryName), for: UIControlState.normal)
+           
             self.postcode=sharedManager.currentUser.Zipcode
             self.city = sharedManager.currentUser.CityName
             
@@ -89,6 +89,8 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             self.long = sharedManager.currentUser.Longitude
             
             if sharedManager.currentUser.TradeCategoryID == 0 && sharedManager.currentUser.TradeCategoryName == "" {
+                 self.btntrades.setTitle(String(describing: "Select Trade"), for: UIControlState.normal)
+                
                 return;
             }
             
@@ -142,7 +144,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 else
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
                 
             }
@@ -151,7 +153,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             (error) -> Void in
             self.stopAnimating()
             print(error.localizedDescription)
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
         
         
@@ -301,15 +303,15 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         var isValid : Bool = true
         if txtPostcode.text == "" {
             isValid = false
-            self.view.makeToast("Please enter valid postcode", duration: 3, position: .bottom)
+            self.view.makeToast("Please enter valid postcode", duration: 3, position: .center)
         }
         else if txtAdderess.text == "" {
             isValid = false
-            self.view.makeToast("Please enter valid address", duration: 3, position: .bottom)
+            self.view.makeToast("Please enter valid address", duration: 3, position: .center)
         }
         else if selectedSkills.count == 0 {
             isValid = false
-            self.view.makeToast("Please select at least one skill", duration: 3, position: .bottom)
+            self.view.makeToast("Please select at least one skill", duration: 3, position: .center)
         }
         
         if  isValid {
@@ -350,7 +352,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                     else
                     {
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                     }
                     
                 }
@@ -358,7 +360,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             }) {
                 (error) -> Void in
                 self.stopAnimating()
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
             }
         }
     }

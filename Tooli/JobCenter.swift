@@ -112,7 +112,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 }
                 if(self.joblist?.count == 0 && self.isFirstTime)
                 {
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
             }
             
@@ -121,7 +121,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             print(error.localizedDescription)
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     
@@ -304,7 +304,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                     
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
             }
             
         }) {
@@ -312,17 +312,8 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             print(error.localizedDescription)
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

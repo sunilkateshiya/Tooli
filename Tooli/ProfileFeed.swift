@@ -24,9 +24,9 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     var profile  : SignIn!
-    @IBOutlet weak var viewMsg: UIView!
-    @IBOutlet weak var txtMSG: UITextField!
-
+    var isFollowing:Bool = true
+    
+    @IBOutlet weak var noListView: UIView!
     @IBOutlet weak var AboutCollectionView: UICollectionView!
     @IBOutlet weak var TblAboutus: UITableView!
     @IBOutlet weak var ObjScrollview: UIScrollView!
@@ -39,6 +39,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var AboutviewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var BtnNotification: UIButton!
+    
+    
+    @IBOutlet weak var btnCountFollower: UIButton!
+    @IBOutlet weak var tblFollowers: UITableView!
+    @IBOutlet weak var btnFollowing: UIButton!
+    @IBOutlet weak var btnFollwer: UIButton!
+    @IBOutlet weak var tblFollowerHeight: NSLayoutConstraint!
+    
     @IBAction func BtnNotificationTapped(_ sender: Any) {
         
         self .popOver()
@@ -105,14 +113,17 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         TblTimeline.estimatedRowHeight = 450
         TblTimeline.tableFooterView = UIView()
         ObjScrollview.delegate = self
-        
+        self.tblFollowerHeight.constant = 0
         self.TblHeightConstraints.constant = 0
+        self.POrCollectionHeightConstraints.constant = 0
+        
         self.AboutviewHeight.constant = 265 * 10
         
         //self.PortCollectionHeight.constant = 265 * 10
         self.ObjScrollview.contentSize.height = self.PortCollectionHeight.constant
         self.AboutCollectionView.delegate = self
         self.AboutCollectionView.dataSource = self
+        
         
         ObjCollectionView.delegate = self
         ObjCollectionView.dataSource =  self
@@ -138,9 +149,129 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         AppDelegate.sharedInstance().moveToDashboard()
     }
     override func viewWillAppear(_ animated: Bool) {
+    
+        
          getProfile()
     }
-    
+    @IBAction func btnOpenFollowerAction(_ sender: UIButton)
+    {
+        if(tblFollowers.isHidden)
+        {
+            if(isFollowing)
+            {
+                if(self.profile.FollowingList?.count == 0)
+                {
+                    noListView.isHidden = false
+                }
+                else
+                {
+                    noListView.isHidden = true
+                }
+
+            }
+            else
+            {
+                if(self.profile.FollowerList?.count == 0)
+                {
+                    noListView.isHidden = false
+                }
+                else
+                {
+                    noListView.isHidden = true
+                }
+            }
+            
+            let myRange = NSRange(location: 0, length: 16)
+            let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+            let myAttrString = NSMutableAttributedString(string: "Back to Timeline")
+            myAttrString.addAttributes(anotherAttribute, range: myRange)
+            btnCountFollower.setAttributedTitle(myAttrString, for: UIControlState.normal)
+        
+            self.TblTimeline.isHidden = true
+            self.PortfolioView.isHidden = true
+            self.AboutView.isHidden = true
+            
+            tblFollowers.isHidden = false
+            tblFollowers.reloadData()
+            tblFollowerHeight.constant = 237 + self.tblFollowers.contentSize.height
+            self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+        }
+        else
+        {
+            noListView.isHidden = true
+             btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
+            
+            tblFollowers.isHidden = true
+            tblFollowerHeight.constant = 0
+            self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+            if(self.BtnAbout.isSelected)
+            {
+                self.AboutView.isHidden =  false
+                self.ObjScrollview.contentSize.height = 237 + AboutView.frame.size.height
+            }
+            if(self.BtnActivty.isSelected)
+            {
+                 self.TblTimeline.isHidden = false
+                self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                self.TblTimeline.reloadData()
+                self.POrCollectionHeightConstraints.constant = self.TblTimeline.contentSize.height
+                self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
+            }
+            if(self.BtnPortfolio.isSelected)
+            {
+                 self.PortfolioView.isHidden = false
+                DispatchQueue.main.async
+                    {
+                        self.TblHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+                        self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+                        self.ObjScrollview.contentSize.height = 237 + self.POrCollectionHeightConstraints.constant + 20
+                        
+                }
+            }
+        }
+    }
+    @IBAction func btnFollowingAction(_ sender: UIButton)
+    {
+        if(self.profile.FollowingList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+        
+        btnFollwer.isSelected = false
+        btnFollowing.isSelected = true
+        
+        btnFollwer.backgroundColor = UIColor.clear
+        btnFollowing.backgroundColor = UIColor.white
+        isFollowing = true
+        tblFollowers.reloadData()
+        
+        tblFollowerHeight.constant = 217 + self.tblFollowers.contentSize.height
+        self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+    }
+    @IBAction func btnFollowersAction(_ sender: UIButton)
+    {
+        if(self.profile.FollowerList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+        btnFollwer.isSelected = true
+        btnFollowing.isSelected = false
+        
+        btnFollwer.backgroundColor = UIColor.white
+        btnFollowing.backgroundColor = UIColor.clear
+        isFollowing = false
+        tblFollowers.reloadData()
+        tblFollowerHeight.constant = 217 + self.tblFollowers.contentSize.height
+        self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+    }
     func getProfile(){
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
@@ -193,13 +324,25 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
         if self.profile.IsFollow == true {
-            self.BtnMessage.isHidden = false
             self.BtnFollow.setTitle("Following", for: UIControlState.normal)
         } else {
-            self.BtnMessage.isHidden = true
             self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
         }
-        
+        if  contractorId == sharedManager.currentUser.ContractorID
+        {
+            self.BtnFollow.isHidden = true;
+            self.BtnMessage.isHidden = true;
+            self.BtnEditProfile.isHidden = false;
+        }
+        else
+        {
+            if self.profile.IsFollowing == true {
+                self.BtnMessage.isHidden = false
+            } else {
+                self.BtnMessage.isHidden = true
+            }
+            self.BtnEditProfile.isHidden = true;
+        }
         self.lblAbtDOb.text = self.profile.DOB
         self.lblAbtMob.text = self.profile.MobileNumber
         self.lblAbtTel.text = self.profile.LandlineNumber
@@ -223,10 +366,16 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblTimeline.reloadData()
         self.AboutCollectionView.reloadData()
         self.ObjCollectionView.reloadData()
+        self.tblFollowers.reloadData()
         
-        self.TblHeightConstraints.constant = TblTimeline.contentSize.height
-        self.POrCollectionHeightConstraints.constant = ObjCollectionView.contentSize.height
-        self.ObjCollectionView.frame = CGRect(x: self.ObjCollectionView.frame.origin.x, y: self.ObjCollectionView.frame.origin.y, width: self.ObjCollectionView.frame.width, height: self.ObjCollectionView.contentSize.height)
+        btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
+       
+        self.TblTimeline.reloadData()
+        self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+        self.POrCollectionHeightConstraints.constant = 0
+        self.AboutviewHeight.constant = 0
+        self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
+        
         //set Image
         if self.profile.ProfileImageLink != "" {
             let imgURL = self.profile.ProfileImageLink as String
@@ -267,8 +416,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.BtnNotification.isHidden = true
             self.ImgAvailable.isHidden = true
         }
-        
-
+    
     }
     
     @IBAction func BtnEditTapped(_ sender: UIButton) {
@@ -294,16 +442,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     self.stopAnimating()
-                  //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     if self.profile.IsFollow == true {
                         self.profile.IsFollow = false
-                         self.BtnMessage.isHidden = true
                         self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
                     } else {
                         self.profile.IsFollow = true
-                         self.BtnMessage.isHidden = false
                         self.BtnFollow.setTitle("Following", for: UIControlState.normal)
                     }
+                    
                 }
                 else
                 {
@@ -323,35 +469,24 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     @IBAction func BtnMessageTapped(_ sender: Any)
     {
-        viewMsg.isHidden = false
-    }
-    @IBAction func btnSendMSGAction(_ sender: UIButton)
-    {
-        
-        if(txtMSG.text != "")
-        {
-            if self.appDelegate!.persistentConnection.state == .connected {
-                appDelegate?.persistentConnection.send(Command.messageSendCommand(friendId: String(self.profile.UserID), msg: txtMSG.text!))
-            }
-            viewMsg.isHidden = true
-        }
-        else
-        {
-           self.view.makeToast("Please enter msg", duration: 3, position: .bottom)
+        if self.appDelegate!.persistentConnection.state == .connected {
+            appDelegate?.persistentConnection.send(Command.messageSendCommand(friendId: String(self.profile.UserID), msg: ""))
+             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
+            let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = self.profile.UserID
+            msgVC.isNext = true
+            self.navigationController?.pushViewController(msgVC, animated: true)
         }
     }
-    @IBAction func btnCancelAction(_ sender: UIButton)
-    {
-        viewMsg.isHidden = true
-    }
-    
+
     @IBAction func BtnActivtyTapped(_ sender: Any) {
 //        if self.profile != nil {
-//            self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+        
 //        }
+        self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
         self.TblTimeline.reloadData()
+        self.POrCollectionHeightConstraints.constant = self.TblTimeline.contentSize.height
         self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
-        //self.ObjScrollview.contentSize.height = self.TblTimeline.contentSize.height
         self.BtnPortfolio.isSelected = false
         self.BtnPortfolio.tintColor = UIColor.white
         self.BtnPortfolio.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
@@ -379,10 +514,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     @IBAction func BtnAboutTapped(_ sender: Any) {
         
-        //self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
-        //self.ObjScrollview.contentSize.height = 237 + self.PortCollectionHeight.constant
-        
-        self.ObjScrollview.contentSize.height = 217 + AboutView.frame.size.height
+        self.ObjScrollview.contentSize.height = 237 + AboutView.frame.size.height
         
         self.BtnPortfolio.isSelected = false
         self.BtnPortfolio.tintColor = UIColor.white
@@ -408,11 +540,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         //          self.HeightConstraints.constant = 0
         //          self.PortCollectionHeight.constant = 0
     }
-    @IBAction func BtnPortfolioTapped(_ sender: Any) {
-        //self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height + 20
-        //self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
-        self.ObjScrollview.contentSize.height = 237 + self.ObjCollectionView.contentSize.height + 20
-        
+    @IBAction func BtnPortfolioTapped(_ sender: Any)
+    {
+        DispatchQueue.main.async
+            {
+            self.TblHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+            self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+            self.ObjScrollview.contentSize.height = 237 + self.POrCollectionHeightConstraints.constant + 20
+        }
         self.BtnAbout.isSelected = false
         self.BtnAbout.tintColor = UIColor.white
         self.BtnAbout.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
@@ -454,7 +589,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         let Share = UIButton(frame: CGRect(x: 40, y: 0, width: width - 30, height: 40))
-        Share.setTitle("I am availabale immediately", for: .normal)
+        Share.setTitle("I am available immediately", for: .normal)
         Share.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         Share.contentHorizontalAlignment = .left
         Share.setTitleColor(UIColor.darkGray, for: .normal)
@@ -473,7 +608,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         let Delete = UIButton(frame: CGRect(x: 40, y: 40, width: width - 30, height: 40))
-        Delete.setTitle("I am Available in 2-4 weeks", for: .normal)
+        Delete.setTitle("I am available in 2-4 weeks", for: .normal)
         Delete.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         Delete.setTitleColor(UIColor.darkGray, for: .normal)
         Delete.contentHorizontalAlignment = .left
@@ -490,7 +625,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         let MonthAvailiblity = UIButton(frame: CGRect(x: 40, y: 80, width: width - 30, height: 40))
-        MonthAvailiblity.setTitle("I am Available in 1-3 months", for: .normal)
+        MonthAvailiblity.setTitle("I am available in 1-3 months", for: .normal)
         MonthAvailiblity.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         MonthAvailiblity.setTitleColor(UIColor.darkGray, for: .normal)
         MonthAvailiblity.contentHorizontalAlignment = .left
@@ -516,6 +651,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
     }
+   
     func press(button: UIButton) {
         
         self.startAnimating()
@@ -588,6 +724,29 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 return 0
             }
         }
+        else if(tableView == self.tblFollowers)
+        {
+            if(isFollowing)
+            {
+                if self.profile != nil {
+                    //self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    return (self.profile.FollowingList?.count)!
+                }
+                else {
+                    return 0
+                }
+            }
+            else
+            {
+                if self.profile != nil {
+                    //self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    return (self.profile.FollowerList?.count)!
+                }
+                else {
+                    return 0
+                }
+            }
+        }
         else
         {
             if  self.profile != nil {
@@ -609,10 +768,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
             }
         }
+//        if tableView == tblFollowers
+//        {
+//            let lastRowIndex = tableView.numberOfRows(inSection: 0)
+//            if indexPath.row == lastRowIndex - 1 {
+//                self.tblFollowerHeight.constant = self.tblFollowers.contentSize.height
+//            }
+//        }
     }
-    
-    
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         if tableView == self.TblTimeline {
@@ -775,6 +939,71 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             return cell
             
         }
+        else if(tableView == self.tblFollowers)
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FollowingListCell
+            if(isFollowing)
+            {
+                cell.imgProfile?.kf.indicatorType = .activity
+                let urlPro = URL(string: (self.profile.FollowingList?[indexPath.row].ProfileImageLink)!)
+                cell.imgProfile?.kf.indicatorType = .activity
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "FollowingCell")
+                let optionInfo: KingfisherOptionsInfo = [
+                    .downloadPriority(0.5),
+                    .transition(ImageTransition.fade(1)),
+                    
+                    ]
+                cell.imgProfile?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                cell.lblName.text = self.profile.FollowingList?[indexPath.row].Name
+                cell.lblCategory.text = "\(self.profile.FollowingList![indexPath.row].TradeCategoryName),\(self.profile.FollowingList![indexPath.row].CityName)"
+                cell.lblCategory.numberOfLines  = 2
+                cell.btnFollowButton.isHidden = false
+                cell.btnFollowButton.tag = indexPath.row
+                cell.btnFollowButton.addTarget(self, action: #selector(ProfileFeed.FollowUnfollowTapped(_:)), for: UIControlEvents.touchUpInside)
+                
+                if(self.profile.FollowingList![indexPath.row].IsFollow)
+                {
+                      cell.btnFollowButton.backgroundColor = UIColor(red: 236.0/255.0, green: 169.0/255.0, blue: 8.0/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = true
+                   
+                }
+                else
+                {
+                     cell.btnFollowButton.backgroundColor = UIColor(red: 192.0/255.0, green: 129.0/255.0, blue: 1/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = false
+                }
+            }
+            else
+            {
+                cell.imgProfile?.kf.indicatorType = .activity
+                let urlPro = URL(string: (self.profile.FollowerList?[indexPath.row].ProfileImageLink)!)
+                cell.imgProfile?.kf.indicatorType = .activity
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "FollowerCell")
+                let optionInfo: KingfisherOptionsInfo = [
+                    .downloadPriority(0.5),
+                    .transition(ImageTransition.fade(1)),
+                    
+                    ]
+                
+                cell.imgProfile?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                cell.lblName.text = self.profile.FollowerList?[indexPath.row].Name
+                cell.lblCategory.text = "\(self.profile.FollowerList![indexPath.row].TradeCategoryName),\(self.profile.FollowerList![indexPath.row].CityName)"
+                cell.btnFollowButton.tag = indexPath.row
+                cell.btnFollowButton.addTarget(self, action: #selector(ProfileFeed.FollowUnfollowTapped(_:)), for: UIControlEvents.touchUpInside)
+                cell.btnFollowButton.tag = indexPath.row
+                if(self.profile.FollowerList![indexPath.row].IsFollow)
+                {
+                     cell.btnFollowButton.backgroundColor = UIColor(red: 236.0/255.0, green: 169.0/255.0, blue: 8.0/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = true
+                }
+                else
+                {
+                     cell.btnFollowButton.backgroundColor = UIColor(red: 192.0/255.0, green: 129.0/255.0, blue: 1.0/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = false
+                }
+            }
+            return cell
+        }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ExperienceCell
             cell.lblJobTitle.text = self.profile.ExperienceList?[indexPath.row].Title
@@ -846,26 +1075,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
-    
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if  tableView == self.TblTimeline {
-//        let tmpPortfolio : Portfolio = self.profile.PortfolioList![indexPath.row]
-//        let str1 = self.profile.FirstName + " " + self.profile.LastName
-//        let str2 = tmpPortfolio.Caption
-//        let str3 = tmpPortfolio.Description
-//        let str4 = tmpPortfolio.Date + " at " + tmpPortfolio.Time + " - " + tmpPortfolio.Location
-//        
-//        let height = (str1 + str2 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 15, font: UIFont(name: "Oxygen", size: 16)!) + (str3 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 125, font: UIFont(name: "Oxygen", size: 14)!) + (str4 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 60, font: UIFont(name: "Oxygen", size: 16)!) + 20 + 180
-//        
-//        return CGFloat(height)
-//        }
-//        else {
-//            
-//            return 95
-//        }
-//        
-//    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -946,12 +1156,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             
             if  self.profile.CertificateFileList?[indexPath.row].IsImage == false {
                  Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_pdf")
+                Collectcell.lblTitle.text =  (self.profile.CertificateFileList?[indexPath.row].CertificateCategoryName)! as String
             }
             else {
             
             let imgURL = (self.profile.CertificateFileList?[indexPath.row].FileLink)! as String
             let urlPro = URL(string: imgURL)
             Collectcell.PortfolioImage?.kf.indicatorType = .activity
+                Collectcell.lblTitle.text =  (self.profile.CertificateFileList?[indexPath.row].CertificateCategoryName)! as String
 
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             let optionInfo: KingfisherOptionsInfo = [
@@ -984,7 +1196,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             return Collectcell
 
         }
-        
     }
     
     @IBAction func removePortfolio(sender : UIButton) {
@@ -1061,6 +1272,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
             return CGSize(width: itemWidth, height: itemHeight)
         }
+        else if(collectionView == AboutCollectionView)
+        {
+            let itemsPerRow:CGFloat = 2
+            let hardCodedPadding:CGFloat = 0
+            let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
+            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - 30
+            return CGSize(width: itemWidth, height: itemHeight)
+        }
         else
         {
             let itemsPerRow:CGFloat = 2
@@ -1069,8 +1288,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
             return CGSize(width: itemWidth, height: itemHeight)
         }
-        
-        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
@@ -1118,5 +1335,109 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         else {
             _ = self.navigationController?.popViewController(animated: true)
         }
+    }
+    func FollowUnfollowTapped(_ sender: UIButton) {
+        
+        self.startAnimating()
+        
+        var FollowContractorID = 0
+        var strUrlTogaling = ""
+        
+        if(self.profile.FollowingList![sender.tag].IsContractor)
+        {
+            strUrlTogaling = Constants.URLS.FollowContractorToggle
+            if(isFollowing)
+            {
+                FollowContractorID = self.profile.FollowingList![sender.tag].ContractorID
+            }
+            else
+            {
+                FollowContractorID = self.profile.FollowerList![sender.tag].ContractorID
+            }
+        }
+        else
+        {
+            strUrlTogaling = Constants.URLS.FollowContractorToggle
+            if(isFollowing)
+            {
+                FollowContractorID = self.profile.FollowingList![sender.tag].CompanyID
+            }
+            else
+            {
+                FollowContractorID = self.profile.FollowerList![sender.tag].CompanyID
+            }
+        }
+        
+        let param = ["FollowContractorID": FollowContractorID,
+                     "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(strUrlTogaling, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            // self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    if(self.isFollowing)
+                    {
+                        if(self.profile.FollowingList![sender.tag].IsFollow)
+                        {
+                            self.profile.FollowingList![sender.tag].IsFollow = false
+                        }
+                        else
+                        {
+                            self.profile.FollowingList![sender.tag].IsFollow = true
+                        }
+
+                    }
+                    else
+                    {
+                        if(self.profile.FollowerList![sender.tag].IsFollow)
+                        {
+                            self.profile.FollowerList![sender.tag].IsFollow = false
+                        }
+                        else
+                        {
+                            self.profile.FollowerList![sender.tag].IsFollow = true
+                        }
+
+                    }
+                    self.tblFollowers.reloadData()
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+            print(error.localizedDescription)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    func DisPlayCountInLabel(FollowingCount:String,followerCount:String) -> NSMutableAttributedString
+    {
+        let myString = "\(FollowingCount)Following \(followerCount)Followers"
+        let myRange = NSRange(location: 0, length: FollowingCount.length)
+        let myRange2 = NSRange(location: FollowingCount.length, length: 10)
+        let myRange3 = NSRange(location: FollowingCount.length+10+followerCount.length, length: 9)
+        let myRange1 = NSRange(location: followerCount.length+10, length: followerCount.length)
+        let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+         let anotherAttribute1 = [ NSForegroundColorAttributeName: UIColor.lightGray]
+        let myAttrString = NSMutableAttributedString(string: myString)
+        myAttrString.addAttributes(anotherAttribute, range: myRange)
+        myAttrString.addAttributes(anotherAttribute, range: myRange1)
+         myAttrString.addAttributes(anotherAttribute1, range: myRange2)
+         myAttrString.addAttributes(anotherAttribute1, range: myRange3)
+        return myAttrString
     }
 }

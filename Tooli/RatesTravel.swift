@@ -159,7 +159,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     else
                     {
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                     }
                     
                 }
@@ -167,7 +167,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
             }) {
                 (error) -> Void in
                 self.stopAnimating()
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
             }
 
         }

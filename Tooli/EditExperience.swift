@@ -76,6 +76,7 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
             cell.txtExperience.delegate = self
           cell.txtJobTitle.tag = 200000 + indexPath.row
           cell.txtExperience.tag = 300000 + indexPath.row
+          cell.txtExperience.keyboardType = .numberPad
           cell.btnClose.tag = indexPath.row + 100
         
         
@@ -215,7 +216,21 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
      }
     
     // Delegate
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if(textField.tag >= 300000)
+        {
+            var strUpdated:NSString =  textField.text! as NSString
+            strUpdated = strUpdated.replacingCharacters(in: range, with: string) as NSString
+            if(strUpdated.length > 2)
+            {
+                return false
+            }
+        }
+        
+        return true
+    }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField.tag >= 100000 && textField.tag < 200000  {

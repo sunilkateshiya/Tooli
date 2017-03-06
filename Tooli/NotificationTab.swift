@@ -14,8 +14,8 @@ import Alamofire
 import Kingfisher
 import TTTAttributedLabel
 
-class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable, TTTAttributedLabelDelegate,UISearchBarDelegate  {
-
+class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable, TTTAttributedLabelDelegate,UISearchBarDelegate {
+   
     @IBOutlet var tvnoti : UITableView!
     var sharedManager : Globals = Globals.sharedInstance
     var currentPage = 1
@@ -115,10 +115,16 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
                     else
                     {
                         self.viewSearch.isHidden = true
+                        self.view.makeToast("You have no new notifications.", duration: 3, position: .center)
                     }
+                    
+                }
+                else
+                {
+                    
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+               
             }
             
         }) {
@@ -126,7 +132,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             print(error.localizedDescription)
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     func getNotifications(page : Int){
@@ -169,7 +175,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
                             self.notificationList.DataList.append(tmpNotifcation)
                         }
                     }
-                     self.currentPage = self.currentPage + 1
+                    self.currentPage = self.currentPage + 1
                     self.tvnoti.reloadData()
                     //self.setValues()
                 }
@@ -179,17 +185,16 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
                     self.isFull = true
                     self.isFirstTime = false;
                     //self.currentPage = 1
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast("You have no new notifications.", duration: 3, position: .center)
                     //self.tvnoti.reloadData()
                 }
-                
             }
             
         }) {
             (error) -> Void in
             self.stopAnimating()
             print(error.localizedDescription)
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     
@@ -360,6 +365,7 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
                 
                 let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
                 msgVC.selectedSenderId = userId
+                msgVC.isNext = true
                 self.navigationController?.pushViewController(msgVC, animated: true)
                 
             }
@@ -399,15 +405,4 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             self.navigationController?.pushViewController(companyVC, animated: true)
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

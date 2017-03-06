@@ -70,7 +70,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           // Return the number of rows in the section.
-          return 8
+          return 9
      }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -124,6 +124,10 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
              imgView.image = #imageLiteral(resourceName: "Nconnections")
             }
           else if indexPath.row == 7 {
+            cell!.textLabel?.text = "   STATISTICS"
+            imgView.image = #imageLiteral(resourceName: "Nconnections")
+          }
+          else if indexPath.row == 8 {
              cell!.textLabel?.text = "   LOGOUT"
              imgView.image = #imageLiteral(resourceName: "Nconnections")
         }
@@ -164,6 +168,9 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Referrals")
             break
           case 7:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Statistics")
+            break
+          case 8:
                callWSSignOut()
                
                let userDefaults = UserDefaults.standard
@@ -178,7 +185,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        if indexPath.row != 7{
+        if indexPath.row != 8{
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }
