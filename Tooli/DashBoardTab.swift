@@ -639,7 +639,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     func AddStatus()
     {
         self.startAnimating()
-        let param = ["UserID": self.sharedManager.currentUser.ContractorID,
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
                      "StatusText":"\(txtabout.text!)"] as [String : Any]
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.ConctractorUpdateStatus, params :param as [String : AnyObject]? ,headers : nil  ,  success: {

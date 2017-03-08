@@ -142,10 +142,21 @@ private extension PortfolioDetails {
             
             let url = URL(string: imgURL!)
             img.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            let photo = SKPhoto.photoWithImage(img.image!)
-            photo.caption = ("")
-            photo.shouldCachePhotoURLImage = true
-            return photo
+            
+            if(img.image != nil)
+            {
+                let photo = SKPhoto.photoWithImage(img.image!)
+                photo.caption = ("")
+                photo.shouldCachePhotoURLImage = true
+                return photo
+            }
+            else
+            {
+                let photo = SKPhoto.photoWithImageURL(imgURL!)
+                photo.caption = ("")
+                photo.shouldCachePhotoURLImage = true
+                return photo
+            }
         }
     }
 }

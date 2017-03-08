@@ -117,10 +117,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblHeightConstraints.constant = 0
         self.POrCollectionHeightConstraints.constant = 0
         
-        self.AboutviewHeight.constant = 265 * 10
+        self.AboutviewHeight.constant = 0
         
         //self.PortCollectionHeight.constant = 265 * 10
-        self.ObjScrollview.contentSize.height = self.PortCollectionHeight.constant
+        self.ObjScrollview.contentSize.height = 0
         self.AboutCollectionView.delegate = self
         self.AboutCollectionView.dataSource = self
         
@@ -149,8 +149,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         AppDelegate.sharedInstance().moveToDashboard()
     }
     override func viewWillAppear(_ animated: Bool) {
-    
-        
+
          getProfile()
     }
     @IBAction func btnOpenFollowerAction(_ sender: UIButton)
@@ -369,12 +368,38 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.tblFollowers.reloadData()
         
         btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
-       
+    
+        
         self.TblTimeline.reloadData()
-        self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
-        self.POrCollectionHeightConstraints.constant = 0
-        self.AboutviewHeight.constant = 0
-        self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
+        tblFollowerHeight.constant = 0
+        self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+        if(self.BtnAbout.isSelected)
+        {
+            self.AboutView.isHidden =  false
+            self.ObjScrollview.contentSize.height = 237 + AboutView.frame.size.height
+        }
+        if(self.BtnActivty.isSelected)
+        {
+            self.TblTimeline.isHidden = false
+            DispatchQueue.main.async
+                {
+                    self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    self.TblTimeline.reloadData()
+                    self.POrCollectionHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
+            }
+        }
+        if(self.BtnPortfolio.isSelected)
+        {
+            self.PortfolioView.isHidden = false
+            DispatchQueue.main.async
+                {
+                    self.TblHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+                    self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+                    self.ObjScrollview.contentSize.height = 237 + self.POrCollectionHeightConstraints.constant + 20
+                    
+            }
+        }
         
         //set Image
         if self.profile.ProfileImageLink != "" {

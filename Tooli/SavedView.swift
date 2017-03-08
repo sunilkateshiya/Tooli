@@ -37,11 +37,7 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
         tvdashb.estimatedRowHeight = 100
         tvdashb.tableFooterView = UIView()
         
-<<<<<<< HEAD
-      //  onLoadDetail()
-=======
         onLoadDetail()
->>>>>>> d31ed6ae3cd1775c2e4a31dbc3042673c6b29c3f
         // Do any additional setup after loading the view.
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
@@ -264,11 +260,6 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-<<<<<<< HEAD
-        let cvimgcnt : Int = 1
-       // let cvimgcnt : Int = (self.dashlist?[indexPath.row].PortfolioImageList?.count)!
-        if cvimgcnt == 0{
-=======
         
         if strType == 0
         {
@@ -499,7 +490,6 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
             }
         }
         else if strType == 1{
->>>>>>> d31ed6ae3cd1775c2e4a31dbc3042673c6b29c3f
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectionCell
             cell.lbltitle.text = self.savelist.CompanieList![indexPath.row].UserFullName as String!
