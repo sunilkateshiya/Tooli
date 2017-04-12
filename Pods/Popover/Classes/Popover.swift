@@ -19,6 +19,8 @@ public enum PopoverOption {
   case overlayBlur(UIBlurEffectStyle)
   case type(PopoverType)
   case color(UIColor)
+  case dismissOnBlackOverlayTap(Bool)
+  case showBlackOverlay(Bool)
 }
 
 @objc public enum PopoverType: Int {
@@ -38,10 +40,16 @@ open class Popover: UIView {
   open var blackOverlayColor: UIColor = UIColor(white: 0.0, alpha: 0.2)
   open var overlayBlur: UIBlurEffect?
   open var popoverColor: UIColor = UIColor.white
+  open var dismissOnBlackOverlayTap: Bool = true
+  open var showBlackOverlay: Bool = true
+  open var highlightFromView: Bool = false
+  open var highlightCornerRadius: CGFloat = 0
 
   // custom closure
-  fileprivate var didShowHandler: (() -> ())?
-  fileprivate var didDismissHandler: (() -> ())?
+  open var willShowHandler: (() -> ())?
+  open var willDismissHandler: (() -> ())?
+  open var didShowHandler: (() -> ())?
+  open var didDismissHandler: (() -> ())?
 
   fileprivate var blackOverlay: UIControl = UIControl()
   fileprivate var containerView: UIView!
@@ -94,6 +102,10 @@ open class Popover: UIView {
           self.popoverType = value
         case let .color(value):
           self.popoverColor = value
+        case let .dismissOnBlackOverlayTap(value):
+          self.dismissOnBlackOverlayTap = value
+        case let .showBlackOverlay(value):
+            self.showBlackOverlay = value
         }
       }
     }
@@ -123,7 +135,7 @@ open class Popover: UIView {
     self.frame = frame
 
     let arrowPoint = self.containerView.convert(self.arrowShowPoint, to: self)
-    let anchorPoint: CGPoint
+    var anchorPoint: CGPoint
     switch self.popoverType {
     case .up:
       frame.origin.y = self.arrowShowPoint.y - frame.height - self.arrowSize.height
@@ -131,6 +143,10 @@ open class Popover: UIView {
     case .down:
       frame.origin.y = self.arrowShowPoint.y
       anchorPoint = CGPoint(x: arrowPoint.x / frame.size.width, y: 0)
+    }
+
+    if self.arrowSize == .zero {
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
     }
 
     let lastAnchor = self.layer.anchorPoint
@@ -143,8 +159,33 @@ open class Popover: UIView {
     self.frame = frame
   }
 
+  fileprivate func createHighlightLayer(fromView: UIView, inView: UIView) {
+    let path = UIBezierPath(rect: inView.bounds)
+    let highlightRect = inView.convert(fromView.frame, from: fromView.superview)
+    let highlightPath = UIBezierPath(roundedRect: highlightRect, cornerRadius: self.highlightCornerRadius)
+    path.append(highlightPath)
+    path.usesEvenOddFillRule = true
+
+    let fillLayer = CAShapeLayer()
+    fillLayer.path = path.cgPath
+    fillLayer.fillRule = kCAFillRuleEvenOdd
+    fillLayer.fillColor = self.blackOverlayColor.cgColor
+    self.blackOverlay.layer.addSublayer(fillLayer)
+  }
+
+  open func showAsDialog(_ contentView: UIView) {
+    self.showAsDialog(contentView, inView: UIApplication.shared.windows.first!)
+  }
+
+  open func showAsDialog(_ contentView: UIView, inView: UIView) {
+    self.arrowSize = .zero
+    let point = CGPoint(x: inView.center.x,
+                        y: inView.center.y - contentView.frame.height / 2)
+    self.show(contentView, point: point, inView: inView)
+  }
+
   open func show(_ contentView: UIView, fromView: UIView) {
-    self.show(contentView, fromView: fromView, inView: UIApplication.shared.keyWindow!)
+    self.show(contentView, fromView: fromView, inView: UIApplication.shared.windows.first!)
   }
 
   open func show(_ contentView: UIView, fromView: UIView, inView: UIView) {
@@ -155,29 +196,41 @@ open class Popover: UIView {
     case .down:
         point = inView.convert(CGPoint(x: fromView.frame.origin.x + (fromView.frame.size.width / 2), y: fromView.frame.origin.y + fromView.frame.size.height), from: fromView.superview)
     }
+
+    if self.highlightFromView {
+        self.createHighlightLayer(fromView: fromView, inView: inView)
+    }
+
     self.show(contentView, point: point, inView: inView)
   }
 
   open func show(_ contentView: UIView, point: CGPoint) {
-    self.show(contentView, point: point, inView: UIApplication.shared.keyWindow!)
+    self.show(contentView, point: point, inView: UIApplication.shared.windows.first!)
   }
 
   open func show(_ contentView: UIView, point: CGPoint, inView: UIView) {
-    self.blackOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    self.blackOverlay.frame = inView.bounds
+    if showBlackOverlay {
+        self.blackOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.blackOverlay.frame = inView.bounds
 
-    if let overlayBlur = self.overlayBlur {
-      let effectView = UIVisualEffectView(effect: overlayBlur)
-      effectView.frame = self.blackOverlay.bounds
-      effectView.isUserInteractionEnabled = false
-      self.blackOverlay.addSubview(effectView)
-    } else {
-      self.blackOverlay.backgroundColor = self.blackOverlayColor
-      self.blackOverlay.alpha = 0
+        if let overlayBlur = self.overlayBlur {
+          let effectView = UIVisualEffectView(effect: overlayBlur)
+          effectView.frame = self.blackOverlay.bounds
+          effectView.isUserInteractionEnabled = false
+          self.blackOverlay.addSubview(effectView)
+        } else {
+          if !self.highlightFromView {
+            self.blackOverlay.backgroundColor = self.blackOverlayColor
+          }
+          self.blackOverlay.alpha = 0
+        }
+
+        inView.addSubview(self.blackOverlay)
+        
+        if self.dismissOnBlackOverlayTap {
+            self.blackOverlay.addTarget(self, action: #selector(Popover.dismiss), for: .touchUpInside)
+        }
     }
-
-    inView.addSubview(self.blackOverlay)
-    self.blackOverlay.addTarget(self, action: #selector(Popover.dismiss), for: .touchUpInside)
 
     self.containerView = inView
     self.contentView = contentView
@@ -201,6 +254,7 @@ open class Popover: UIView {
 
     self.create()
     self.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+	self.willShowHandler?()
     UIView.animate(withDuration: self.animationIn, delay: 0,
       usingSpringWithDamping: 0.7,
       initialSpringVelocity: 3,
@@ -226,6 +280,7 @@ open class Popover: UIView {
 
   open func dismiss() {
     if self.superview != nil {
+      self.willDismissHandler?()
       UIView.animate(withDuration: self.animationOut, delay: 0,
         options: UIViewAnimationOptions(),
         animations: {
@@ -235,6 +290,7 @@ open class Popover: UIView {
           self.contentView.removeFromSuperview()
           self.blackOverlay.removeFromSuperview()
           self.removeFromSuperview()
+          self.transform = CGAffineTransform.identity
           self.didDismissHandler?()
       }
     }
@@ -370,6 +426,6 @@ open class Popover: UIView {
   }
 
   fileprivate func radians(_ degrees: CGFloat) -> CGFloat {
-    return (CGFloat(M_PI) * degrees / 180)
+    return CGFloat.pi * degrees / 180
   }
 }

@@ -12,6 +12,10 @@ import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
 import ENSwiftSideMenu
+import BSImagePicker
+import Photos
+
+
 class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,NVActivityIndicatorViewable , UIImagePickerControllerDelegate,UINavigationControllerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var TxtDescription: UITextView!
@@ -25,6 +29,9 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
     var selectedImage : UIImage?
     var imagePicker: UIImagePickerController!
     var isImageSelected : Bool = false
+     var placeholderLabel:UILabel!
+    var assets: [PHAsset]!
+    var imageArr:NSMutableArray = NSMutableArray()
     @IBAction func actionBack(sender : UIButton) {
         toggleSideMenuView()
         //self.navigationController?.popViewController(animated: true)
@@ -83,7 +90,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                         userDefaults.synchronize()
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                         
                         self.TxtDescription.text = ""
                         self.TxtLocation.text = ""
@@ -97,7 +104,6 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                         self.stopAnimating()
                         self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                     }
-                    
                 }
                 
             }) {
@@ -109,7 +115,10 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         }
         
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func btnBack(_ sender: UIButton) {
         
         let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -124,27 +133,28 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         flow.sectionInset = UIEdgeInsetsMake(0, 3, 0, 3)
         flow.minimumInteritemSpacing = 1
         flow.minimumLineSpacing = 1
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "Enter Description"
+        //     placeholderLabel.font = UIFont(name: "BabasNeue", size: 106)
+        placeholderLabel.font = UIFont.systemFont(ofSize: (TxtDescription.font?.pointSize)!)
+        placeholderLabel.sizeToFit()
+        TxtDescription.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (TxtDescription.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.lightGray
+        placeholderLabel.isHidden = !TxtDescription.text.isEmpty
+        
+        
     }
-    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView.text == "Enter Description" {
-            textView.text = ""
-        }
-        return true
-    }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        if textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == "" {
-            textView.text = "Enter Description"
-        }
-        return true
-    }
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -184,7 +194,13 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         self.portfolio.PortfolioImageList.remove(at: index)
         self.PortCollectionView.reloadData();
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Add portfolio Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let lastRowIndex = collectionView.numberOfItems(inSection: collectionView.numberOfSections-1)
@@ -197,7 +213,29 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
             }))
             
             alert.addAction(UIAlertAction(title: "Use Gallery", style: UIAlertActionStyle.default, handler: { (UIAlertAction) in
-                self.selectFromGallery()
+                let vc = BSImagePickerViewController()
+                vc.maxNumberOfSelections = 50
+                
+                self.bs_presentImagePickerController(vc, animated: true,
+                                                select: { (asset: PHAsset) -> Void in
+                                                    print("Selected: \(asset)")
+                }, deselect: { (asset: PHAsset) -> Void in
+                    print("Deselected: \(asset)")
+                }, cancel: { (assets: [PHAsset]) -> Void in
+                    print("Cancel: \(assets)")
+                }, finish: { (assets: [PHAsset]) -> Void in
+                    print("Finish: \(assets)")
+        
+                    if(assets.count != 0)
+                    {
+                        for assat in assets
+                        {
+                            self.imageArr.add(self.getAssetThumbnail(asset: assat))
+                        }
+                      self.uploadphoto()
+                    }
+                }, completion: nil)
+                //self.selectFromGallery()
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (UIAlertAction) in
                 
@@ -227,7 +265,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         imagePicker =  UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = true
+        imagePicker.allowsEditing = false
         
         present(imagePicker, animated: true, completion: nil)
     }
@@ -244,6 +282,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             selectedImage = image
+            self.imageArr.add(image)
             uploadphoto()
             isImageSelected=true
         } else{
@@ -265,14 +304,17 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
             "PageType" : "Portfolio"
             ] as [String : Any]
         
-        self.selectedImage = Globals.compressForUpload(original: self.selectedImage!, withHeightLimit: 1100, andWidthLimit: 800)
+       // self.selectedImage = Globals.compressForUpload(original: self.selectedImage!, withHeightLimit: 1100, andWidthLimit: 800)
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append(UIImageJPEGRepresentation(self.selectedImage!, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
+            for assat in self.imageArr
+            {
+                multipartFormData.append(UIImageJPEGRepresentation(assat as! UIImage, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
+            }
             for (key, value) in parameters {
                 multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
             }
-        }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=Portfolio")
+        }, to:Constants.URLS.Base_Url+"/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=Portfolio")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -289,13 +331,21 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                     case .success(let JSON):
                         let response1 = JSON as! NSDictionary
                         if String(describing: response1.object(forKey: "status")!) == "1" {
-                            
-                            let tmpPortfolio = PortfolioImages();
-                            tmpPortfolio.PortfolioImageLink = response1.object(forKey: "FileLink") as! String
-                            tmpPortfolio.img = self.selectedImage!
-                            tmpPortfolio.imgName = response1.object(forKey: "FileLink") as! String
-                            self.portfolio.PortfolioImageList.append(tmpPortfolio)
-                            self.PortCollectionView.reloadData()
+                            var arrList:NSArray = NSArray()
+                            arrList = response1.object(forKey: "FileNameList")! as! NSArray
+                            var index:Int = 0
+                            print(response1.object(forKey: "FileNameList")!)
+                            for str in arrList
+                            {
+                                let tmpPortfolio = PortfolioImages();
+                                tmpPortfolio.PortfolioImageLink = response1.object(forKey: "FileLink") as! String
+                                tmpPortfolio.img = self.imageArr[index] as? UIImage
+                                tmpPortfolio.imgName = str as! String
+                                self.portfolio.PortfolioImageList.append(tmpPortfolio)
+                                self.PortCollectionView.reloadData()
+                                index+=1
+                            }
+                            self.imageArr = NSMutableArray()
                             self.selectedImage = nil
                         }
                         else
@@ -313,9 +363,19 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                 
             case .failure(let encodingError):
                 print(encodingError.localizedDescription)
+                self.stopAnimating()
                 break
             }
         }
     }
-    
+    func getAssetThumbnail(asset: PHAsset) -> UIImage {
+        let manager = PHImageManager.default()
+        let option = PHImageRequestOptions()
+        var thumbnail = UIImage()
+        option.isSynchronous = true
+        manager.requestImage(for: asset, targetSize: CGSize(width: 800, height: 1100), contentMode: .aspectFit, options: option, resultHandler: {(result, info)->Void in
+            thumbnail = result!
+        })
+        return thumbnail
+    }
 }

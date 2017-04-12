@@ -32,8 +32,12 @@ class AFWrapper: NSObject {
         print(strURL)
         print(params!)
           Alamofire.request(strURL, method: .post, parameters: params, headers: headers).responseJSON { (responseObject) -> Void in
-               
-               print(responseObject)
+               guard responseObject.result.isSuccess else {
+                
+                failure(NSError())
+                return;
+                }
+            
                
                if responseObject.result.isSuccess {
                     let resJson = JSON(responseObject.result.value!)

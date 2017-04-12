@@ -22,6 +22,7 @@ class TimelineCell: UITableViewCell {
     @IBOutlet var btnPortfolio : UIButton!
     @IBOutlet var imgHeight : NSLayoutConstraint!
     @IBOutlet var portfolioHeight : NSLayoutConstraint!
+    var isReload:Bool = true
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -32,5 +33,4 @@ class TimelineCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

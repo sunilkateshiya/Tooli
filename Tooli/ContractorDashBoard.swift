@@ -9,28 +9,34 @@
 import UIKit
 import ObjectMapper
 
-class ContractorDashBoard: NSObject, Mappable  {
-    
+class ContractorDashBoard: NSObject, Mappable{
     
     var status = ""
     var message = ""
     var DataList : [DashBoardM]? = []
-  
+    
+    var UnreadMessageNotificationCount = 0
+    var UnreadOfferNotificationCount = 0
+    var UnreadNotificationCount = 0
+    
     required init?(map: Map){
         status <- map["status"]
         message <- map["message"]
         DataList <- map["DataList"]
+        UnreadMessageNotificationCount <- map["UnreadMessageGroupCount"]
+        UnreadOfferNotificationCount <- map["UnreadOfferNotificationCount"]
+        UnreadNotificationCount <- map["UnreadNotificationCount"]
        
     }
     func mapping(map: Map) {
         status <- map["status"]
         message <- map["message"]
         DataList <- map["DataList"]
+        UnreadMessageNotificationCount <- map["UnreadMessageGroupCount"]
+        UnreadOfferNotificationCount <- map["UnreadOfferNotificationCount"]
+        UnreadNotificationCount <- map["UnreadNotificationCount"]
     }
 }
-
-
-
 class DashBoardM : NSObject, Mappable {
 
     var AddedOn = ""
@@ -40,6 +46,7 @@ class DashBoardM : NSObject, Mappable {
     var IsSaved : Bool = false
     var Title = ""
     var ContractorID = 0
+    var IsContractor = false
     var CompanyID = 0
     var TitleCaption = ""
     var DatetimeCaption = ""
@@ -51,6 +58,11 @@ class DashBoardM : NSObject, Mappable {
     var ThumbnailImageLink = ""
     var Description = ""
     var Location = ""
+    var CompanyName = ""
+    var CityName = ""
+    var Name = ""
+    var IsJob = false
+    var isStatus = false
     var PortfolioImageList : [PortfolioImageL]? = []
     
     required init?(map: Map) {
@@ -59,7 +71,9 @@ class DashBoardM : NSObject, Mappable {
         PrimaryID <- map["PrimaryID"]
         IsPortfolio <- map["IsPortfolio"]
         ProfileImageLink <- map["ProfileImageLink"]
+        IsJob <- map["IsJob"]
         IsSaved <- map["IsSaved"]
+        IsContractor <- map["IsContractor"]
         Title <- map["Title"]
         ContractorID <- map["ContractorID"]
         CompanyID <- map["CompanyID"]
@@ -74,6 +88,10 @@ class DashBoardM : NSObject, Mappable {
         Description <- map["Description"]
         Location <- map["Location"]
         PortfolioImageList <- map["PortfolioImageList"]
+        CompanyName <- map["CompanyName"]
+        CityName <- map["CityName"]
+        isStatus <- map["IsStatus"]
+        Name <- map["Name"]
     }
     func mapping(map: Map) {
         
@@ -82,6 +100,8 @@ class DashBoardM : NSObject, Mappable {
         IsPortfolio <- map["IsPortfolio"]
         ProfileImageLink <- map["ProfileImageLink"]
         IsSaved <- map["IsSaved"]
+        IsJob <- map["IsJob"]
+        IsContractor <- map["IsContractor"]
         Title <- map["Title"]
         ContractorID <- map["ContractorID"]
         CompanyID <- map["CompanyID"]
@@ -96,7 +116,10 @@ class DashBoardM : NSObject, Mappable {
         Description <- map["Description"]
         Location <- map["Location"]
         PortfolioImageList <- map["PortfolioImageList"]
-
+        CompanyName <- map["CompanyName"]
+        CityName <- map["CityName"]
+        isStatus <- map["IsStatus"]
+        Name <- map["Name"]
     }
 }
 
@@ -120,4 +143,127 @@ class PortfolioImageL: NSObject, Mappable {
         
     }
 }
+class SavedPageList:NSObject,Mappable
+{
+    var status = ""
+    var message = ""
+    
+    var OfferList :[OfferListM]? = []
+    var JobList :[JobListM]? = []
+    var PostList :[Portfolio]? = []
+    var CompanieList :[FollowerModel]? = []
+    var ContractorList:[DashBoardM]? = []
+    
+    required init?(map: Map) {
+        
+         status <- map["status"]
+         message <- map["message"]
+         OfferList <- map["OfferList"]
+         JobList <- map["JobList"]
+         PostList <- map["PortfolioList"]
+         CompanieList <- map["CompanyList"]
+         ContractorList <- map["ContractorList"]
+    }
+    
+    func mapping(map: Map) {
+        
+        status <- map["status"]
+        message <- map["message"]
+        OfferList <- map["OfferList"]
+        JobList <- map["JobList"]
+        PostList <- map["PortfolioList"]
+        CompanieList <- map["CompanyList"]
+        ContractorList <- map["ContractorList"]
+    }
 
+}
+
+class SavedPage:NSObject,Mappable{
+
+    var UserID = 0
+    var PrimaryID = 0
+    var PageTypeID = 0
+    var CompanyName = ""
+    var UserFullName = ""
+    var SavePageStarImageLink = ""
+    var ProfileImageLink = ""
+    var Name = ""
+    var TradeCategoryName = ""
+    var CityName = ""
+    var Description = ""
+    var UserProfileLink = ""
+    var AvailableStatusIcon = ""
+    var Aboutme = ""
+    var Date = ""
+    var Time = ""
+    var Location = ""
+    var ThumbnailImageLink = ""
+    var Caption = ""
+    var StartOn = ""
+    var EndOn = ""
+    var JobViewLink = ""
+    var OfferImageLink = ""
+    var RedirectLink = ""
+    var ViewImageClass = ""
+    var PortfolioImageList : [PortfolioImageL]? = []
+    
+
+    required init?(map: Map) {
+        
+        UserID <- map["UserID"]
+        PrimaryID <- map["PrimaryID"]
+        PageTypeID <- map["PageTypeID"]
+        CompanyName <- map["CompanyName"]
+        UserFullName <- map["UserFullName"]
+        SavePageStarImageLink <- map["SavePageStarImageLink"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CityName <- map["CityName"]
+        Description <- map["Description"]
+        UserProfileLink <- map["UserProfileLink"]
+        AvailableStatusIcon <- map["AvailableStatusIcon"]
+        Aboutme <- map["Aboutme"]
+        Date <- map["Date"]
+        Time <- map["Time"]
+        Location <- map["Location"]
+        ThumbnailImageLink <- map["ThumbnailImageLink"]
+        Caption <- map["Caption"]
+        StartOn <- map["StartOn"]
+        EndOn <- map["EndOn"]
+        JobViewLink <- map["JobViewLink"]
+        OfferImageLink <- map["OfferImageLink"]
+        RedirectLink <- map["RedirectLink"]
+        ViewImageClass <- map["ViewImageClass"]
+        PortfolioImageList <- map["PortfolioImageList"]
+    }
+    func mapping(map: Map)
+    {
+        UserID <- map["UserID"]
+        PrimaryID <- map["PrimaryID"]
+        PageTypeID <- map["PageTypeID"]
+        CompanyName <- map["CompanyName"]
+        UserFullName <- map["UserFullName"]
+        SavePageStarImageLink <- map["SavePageStarImageLink"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CityName <- map["CityName"]
+        Description <- map["Description"]
+        UserProfileLink <- map["UserProfileLink"]
+        AvailableStatusIcon <- map["AvailableStatusIcon"]
+        Aboutme <- map["Aboutme"]
+        Date <- map["Date"]
+        Time <- map["Time"]
+        Location <- map["Location"]
+        ThumbnailImageLink <- map["ThumbnailImageLink"]
+        Caption <- map["Caption"]
+        StartOn <- map["StartOn"]
+        EndOn <- map["EndOn"]
+        JobViewLink <- map["JobViewLink"]
+        OfferImageLink <- map["OfferImageLink"]
+        RedirectLink <- map["RedirectLink"]
+        ViewImageClass <- map["ViewImageClass"]
+        PortfolioImageList <- map["PortfolioImageList"]
+    }
+}

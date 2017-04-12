@@ -16,6 +16,7 @@ class CompanyProfileM: NSObject, Mappable  {
     var status = ""
     var message = ""
     var UserID = 0
+    var FollowUserID = 0
     var PrimaryID = 0
     var PageTypeID = 0
     var ProfileImageLink = ""
@@ -26,6 +27,7 @@ class CompanyProfileM: NSObject, Mappable  {
     var SavePageStarImageLink = ""
     var Description = ""
     var IsFollow : Bool = false
+     var IsFollowing : Bool = false
     var EmailID = ""
     var StreetAddress = ""
     var CityName = ""
@@ -41,6 +43,7 @@ class CompanyProfileM: NSObject, Mappable  {
         message <- map["message"]
         UserID <- map["UserID"]
         PrimaryID <- map["PrimaryID"]
+         FollowUserID <- map["FollowUserID"]
         PageTypeID <- map["PageTypeID"]
         ProfileImageLink <- map["ProfileImageLink"]
         Name <- map["Name"]
@@ -51,12 +54,13 @@ class CompanyProfileM: NSObject, Mappable  {
         SavePageStarImageLink <- map["SavePageStarImageLink"]
         Description <- map["Description"]
         IsFollow <- map["IsFollow"]
+        IsFollowing <- map["IsFollowing"]
         StreetAddress <- map["StreetAddress"]
         EmailID <- map["EmailID"]
         ContactNumber <- map["ContactNumber"]
         Zipcode <- map["Zipcode"]
         FolowText <- map["FolowText"]
-        ServiceGroup <- map["ServiceGroup"]
+        ServiceGroup <- map["ServiceIDGroup"]
         JobList <- map["JobList"]
         OfferList <- map["OfferList"]
     }
@@ -64,7 +68,8 @@ class CompanyProfileM: NSObject, Mappable  {
         status <- map["status"]
         message <- map["message"]
         UserID <- map["UserID"]
-        PrimaryID <- map["PrimaryID"]
+         PrimaryID <- map["PrimaryID"]
+        FollowUserID <- map["FollowUserID"]
         PageTypeID <- map["PageTypeID"]
         ProfileImageLink <- map["ProfileImageLink"]
         Name <- map["Name"]
@@ -75,25 +80,46 @@ class CompanyProfileM: NSObject, Mappable  {
         SavePageStarImageLink <- map["SavePageStarImageLink"]
         Description <- map["Description"]
         IsFollow <- map["IsFollow"]
+        IsFollowing <- map["IsFollowing"]
         StreetAddress <- map["StreetAddress"]
         EmailID <- map["EmailID"]
         ContactNumber <- map["ContactNumber"]
         Zipcode <- map["Zipcode"]
         FolowText <- map["FolowText"]
-        ServiceGroup <- map["ServiceGroup"]
+        ServiceGroup <- map["ServiceIDGroup"]
         JobList <- map["JobList"]
         OfferList <- map["OfferList"]
     }
 }
 
-
+class SpecialOfferListM : NSObject, Mappable {
+    
+    var status = ""
+    var message = ""
+    var OfferList : [OfferDetailM]? = []
+    
+    required init?(map: Map) {
+        
+        status <- map["status"]
+        message <- map["message"]
+         OfferList <- map["DataList"]
+    }
+    func mapping(map: Map) {
+        
+        status <- map["status"]
+        message <- map["message"]
+        OfferList <- map["DataList"]
+    }
+}
 
 class JobListM : NSObject, Mappable {
     
     var UserID = 0
     var PrimaryID = 0
     var PageTypeID = 0
+    var DistanceText = ""
     var ProfileImageLink = ""
+     var CompanyImageLink = ""
     var SavePageStarImageLink = ""
     var Title = ""
     var Description = ""
@@ -102,25 +128,35 @@ class JobListM : NSObject, Mappable {
     var Location = ""
     var CityName = ""
     var TradeCategoryName = ""
+    var CompanyName = ""
     var IsSaved = false
+    var IsApplied = false
     var ServiceList:[ServiceListListM]? = []
-    
+    var CompanyTradeCategoryName = ""
+    override init() {
+        
+    }
     required init?(map: Map) {
         
         UserID <- map["UserID"]
         PrimaryID <- map["PrimaryID"]
         PageTypeID <- map["PageTypeID"]
         ProfileImageLink <- map["ProfileImageLink"]
+        CompanyImageLink <- map["CompanyImageLink"]
         SavePageStarImageLink <- map["SavePageStarImageLink"]
         Title <- map["Title"]
+        CompanyName <- map["CompanyName"]
         Description <- map["Description"]
+        DistanceText <- map["DistanceText"]
         StartOn <- map["StartOn"]
         EndOn <- map["EndOn"]
         Location <- map["Location"]
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
+        IsApplied <- map["IsApplied"]
         ServiceList <- map["ServiceList"]
+         CompanyTradeCategoryName <- map["CompanyTradeCategoryName"]
     }
     func mapping(map: Map) {
         
@@ -128,8 +164,11 @@ class JobListM : NSObject, Mappable {
         PrimaryID <- map["PrimaryID"]
         PageTypeID <- map["PageTypeID"]
         ProfileImageLink <- map["ProfileImageLink"]
+        CompanyImageLink <- map["CompanyImageLink"]
         SavePageStarImageLink <- map["SavePageStarImageLink"]
         Title <- map["Title"]
+         CompanyName <- map["CompanyName"]
+         DistanceText <- map["DistanceText"]
         Description <- map["Description"]
         StartOn <- map["StartOn"]
         EndOn <- map["EndOn"]
@@ -137,7 +176,9 @@ class JobListM : NSObject, Mappable {
         CityName <- map["CityName"]
         TradeCategoryName <- map["TradeCategoryName"]
         IsSaved <- map["IsSaved"]
+        IsApplied <- map["IsApplied"]
         ServiceList <- map["ServiceList"]
+         CompanyTradeCategoryName <- map["CompanyTradeCategoryName"]
     }
 }
 class ServiceListListM:NSObject,Mappable
@@ -165,8 +206,12 @@ class OfferListM : NSObject, Mappable {
     var Title = ""
     var Description = ""
     var RedirectLink = ""
+    var RedirectWebsitelink = ""
     var AddedOn = ""
     var PriceTag = ""
+    var CompanyName = ""
+    var TradeCategoryName = ""
+    var CompanyTradeCategoryName = ""
     var IsSaved = false
     required init?(map: Map) {
         
@@ -178,10 +223,14 @@ class OfferListM : NSObject, Mappable {
         Title <- map["Title"]
         Description <- map["Description"]
         RedirectLink <- map["RedirectLink"]
+         RedirectWebsitelink <- map["RedirectWebsitelink"]
         OfferImageLink <- map["OfferImageLink"]
         AddedOn <- map["AddedOn"]
         PriceTag <- map["PriceTag"]
         IsSaved <- map["IsSaved"]
+        CompanyName <- map["CompanyName"]
+        TradeCategoryName <- map["TradeCategoryName"]
+         CompanyTradeCategoryName <- map["CompanyTradeCategoryName"]
     }
     func mapping(map: Map) {
         
@@ -193,10 +242,14 @@ class OfferListM : NSObject, Mappable {
         Title <- map["Title"]
         Description <- map["Description"]
         RedirectLink <- map["RedirectLink"]
+         RedirectWebsitelink <- map["RedirectWebsitelink"]
         OfferImageLink <- map["OfferImageLink"]
         AddedOn <- map["AddedOn"]
         PriceTag <- map["PriceTag"]
         IsSaved <- map["IsSaved"]
+        CompanyName <- map["CompanyName"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CompanyTradeCategoryName <- map["CompanyTradeCategoryName"]
     }
 }
 class OfferDetailM : NSObject, Mappable {
@@ -209,6 +262,7 @@ class OfferDetailM : NSObject, Mappable {
     var CompanyName = ""
     var CompanyTradeCategoryName = ""
     var CompanyCityName = ""
+    var OfferImageLink = ""
     var Title = ""
     var Description = ""
     var DistanceRadius = ""
@@ -218,6 +272,13 @@ class OfferDetailM : NSObject, Mappable {
     var PriceTag = ""
     var IsFollow = false
     var AddedOn = ""
+    
+    
+    var PageTypeID = 0
+    var PrimaryID = 0
+    var RedirectWebsitelink = ""
+    var UserID = 0
+    var ProfileImageLink = ""
     
     required init?(map: Map) {
         
@@ -237,6 +298,13 @@ class OfferDetailM : NSObject, Mappable {
         PriceTag <- map["PriceTag"]
         IsFollow <- map["IsFollow"]
         AddedOn <- map["AddedOn"]
+        
+         OfferImageLink <- map["OfferImageLink"]
+         PageTypeID <- map["PageTypeID"]
+         PrimaryID <- map["PrimaryID"]
+         RedirectWebsitelink <- map["RedirectWebsitelink"]
+         UserID <- map["UserID"]
+         ProfileImageLink <- map["ProfileImageLink"]
     }
     func mapping(map: Map) {
         
@@ -256,6 +324,13 @@ class OfferDetailM : NSObject, Mappable {
         PriceTag <- map["PriceTag"]
         IsFollow <- map["IsFollow"]
         AddedOn <- map["AddedOn"]
+        OfferImageLink <- map["OfferImageLink"]
+        PageTypeID <- map["PageTypeID"]
+        PrimaryID <- map["PrimaryID"]
+        RedirectWebsitelink <- map["RedirectWebsitelink"]
+        UserID <- map["UserID"]
+        ProfileImageLink <- map["ProfileImageLink"]
+
     }
 }
 /*

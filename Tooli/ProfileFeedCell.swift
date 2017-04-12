@@ -18,7 +18,7 @@ class ProfileFeedCell: UITableViewCell {
     @IBOutlet var lblcity: UILabel!
     @IBOutlet var lbldatetime: UILabel!
     
-    
+      @IBOutlet var btnProfile: UIButton!
     @IBOutlet var btnfav: UIButton!
     @IBOutlet var imguser: UIImageView!
     

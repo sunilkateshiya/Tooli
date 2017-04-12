@@ -18,7 +18,10 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
 
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     
     @IBAction func btnForgot(_ sender: Any) {
         
@@ -50,7 +53,8 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
                 
             }) {
                 (error) -> Void in
-                print(error.localizedDescription)
+                 
+                self.stopAnimating()
                 self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
             }
             
@@ -66,6 +70,13 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
         
         self.navigationController?.popViewController(animated: true)
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Forgot Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
 
     /*

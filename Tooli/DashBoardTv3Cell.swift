@@ -11,6 +11,8 @@ import Cosmos
 
 class DashBoardTv3Cell: UITableViewCell{
 
+    @IBOutlet weak var lblPhotoCount: UILabel!
+    @IBOutlet weak var overlayView: UIView!
     @IBOutlet var lbltitle: UILabel!
     @IBOutlet var lbldate: UILabel!
     @IBOutlet var lblhtml: UILabel!

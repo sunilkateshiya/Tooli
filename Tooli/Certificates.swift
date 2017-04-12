@@ -53,9 +53,17 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
         // Do any additional setup after loading the view.
     }
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.updateUserInfo()
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Certificates Data Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     func getMasters(){
@@ -92,7 +100,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                 else
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
                 
             }
@@ -100,8 +108,8 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         }) {
             (error) -> Void in
             self.stopAnimating()
-            print(error.localizedDescription)
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+             
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
         
         
@@ -228,7 +236,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         imagePicker =  UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = true
+        imagePicker.allowsEditing = false
         
         present(imagePicker, animated: true, completion: nil)
     }
@@ -238,7 +246,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         imagePicker =  UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
+        imagePicker.allowsEditing = false
         present(imagePicker, animated: true, completion: nil)
     }
 //    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
@@ -283,7 +291,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
             for (key, value) in parameters {
                 multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
             }
-        }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&CertificateCategoryID=" +  String(selectedCertificates.PrimaryID) + "&PageType=certificate")
+        }, to:Constants.URLS.Base_Url+"/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&CertificateCategoryID=" +  String(selectedCertificates.PrimaryID) + "&PageType=certificate")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -324,11 +332,12 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                         }
                         else
                         {
-                            self.view.makeToast("\(response1.object(forKey: "message")!)", duration: 3, position: .bottom)
+                            self.view.makeToast("\(response1.object(forKey: "message")!)", duration: 3, position: .center)
                         }
                         
                     case .failure(let error):
-                        self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .bottom)
+                        self.stopAnimating()
+                        self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .center)
                         
                     }
                     
@@ -336,6 +345,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                 }
                 
             case .failure(let encodingError):
+                self.stopAnimating()
                 print(encodingError.localizedDescription)
                 break
             }
@@ -368,7 +378,7 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
                 else
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
                 
             }
@@ -376,8 +386,8 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
         }) {
             (error) -> Void in
             self.stopAnimating()
-            print(error.localizedDescription)
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+             
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     @IBAction func btnNext(_ sender: Any) {
@@ -391,15 +401,4 @@ class Certificates: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBAction func btnBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

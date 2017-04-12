@@ -28,6 +28,10 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
           // Do any additional setup after loading the view, typically from a nib.
       
      }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
      override func viewWillAppear(_ animated: Bool) {
           experiences = []
           tvBlogList.delegate = self
@@ -37,7 +41,12 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
           self.tvBlogList.reloadData()
           NotificationCenter.default.addObserver(self, selector: #selector(removeRows(notiffy:)), name: NSNotification.Name(rawValue: "RemoveCell"), object: nil)
           GetUserInfo()
-          
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Edit Experience Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+        
      }
      
      override func didReceiveMemoryWarning() {
@@ -72,6 +81,7 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
             cell.txtExperience.delegate = self
           cell.txtJobTitle.tag = 200000 + indexPath.row
           cell.txtExperience.tag = 300000 + indexPath.row
+          cell.txtExperience.keyboardType = .numberPad
           cell.btnClose.tag = indexPath.row + 100
         
         
@@ -121,7 +131,7 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
           }) {
                (error) -> Void in
                self.stopAnimating()
-               print(error.localizedDescription)
+                
                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
           }
           
@@ -192,9 +202,9 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
                          else
                          {
                               self.stopAnimating()
-                              self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                              
                          }
-                         
+                          self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     }
                     
                }) {
@@ -211,7 +221,21 @@ class EditExperience:UIViewController,UITableViewDelegate, UITableViewDataSource
      }
     
     // Delegate
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if(textField.tag >= 300000)
+        {
+            var strUpdated:NSString =  textField.text! as NSString
+            strUpdated = strUpdated.replacingCharacters(in: range, with: string) as NSString
+            if(strUpdated.length > 2)
+            {
+                return false
+            }
+        }
+        
+        return true
+    }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField.tag >= 100000 && textField.tag < 200000  {

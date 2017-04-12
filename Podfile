@@ -17,7 +17,6 @@ pod 'SwiftHEXColors'
 pod 'Toast-Swift', '~> 2.0.0'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
-pod 'JTAppleCalendar'
 pod 'ObjectMapper'
 pod 'NVActivityIndicatorView'
 pod 'Cosmos'
@@ -28,20 +27,14 @@ pod 'ENSwiftSideMenu', '~> 0.1.1'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'FacebookShare'
-#pod 'ActiveLabel'
 pod 'TTTAttributedLabel'
+pod 'JSQMessagesViewController'
+pod 'SwiftR'
 #pod 'GooglePlacesAutocomplete'
 pod 'ActionSheetPicker-3.0'
-  # Pods for Tooli
+pod 'GLNotificationBar'
+pod "BSImagePicker", "~> 2.4"
+pod 'Google/Analytics'
 
-  target 'TooliTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'TooliUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
 
 end

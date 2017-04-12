@@ -174,3 +174,41 @@ extension UITextField {
     }
 }
 
+extension UITableView
+{
+    func SetTableViewBlankLable(count:Int,str:String)
+    {
+        if(count==0)
+        {
+            removeOldLable()
+            let lblText:UILabel = UILabel()
+            lblText.frame = self.frame
+            lblText.numberOfLines = 0
+            lblText.text = str
+            lblText.textAlignment = .center
+            lblText.textColor = UIColor.lightGray
+            self.backgroundColor = UIColor.clear
+            self.separatorStyle = .none
+            lblText.tag = 987654
+            self.superview!.insertSubview(lblText, belowSubview: self)
+        }
+        else
+        {
+            removeOldLable()
+            self.separatorStyle = .singleLine
+        }
+    }
+    func removeOldLable()
+    {
+        for view in self.superview!.subviews
+        {
+            if(view is UILabel)
+            {
+                if(view.tag == 987654)
+                {
+                    view.removeFromSuperview()
+                }
+            }
+        }
+    }
+}

@@ -9,7 +9,7 @@
 import UIKit
 class Globals {
     static let sharedInstance = Globals()
-    var deviceToken : String!
+    var deviceToken : String = ""
     var currentUser : SignIn!
     var masters : Masters!
     var selectedCompany : CompanyProfileM!
@@ -19,6 +19,13 @@ class Globals {
     var connectionList : ConnectionList!
     var OfferDetail : OfferListM!
     var OfferDetail1 : OfferDetailM!
+    var portFolio:Portfolio!
+    var stastics:StatisticsModal!
+    var OfferList : SpecialOfferListM!
+    
+    var unreadMessage:Int = 0
+    var unreadSpecialOffer:Int = 0
+    var unreadNotification:Int = 0
     
     private init() {
 
@@ -47,5 +54,15 @@ class Globals {
         UIGraphicsEndImageContext();
         
         return compressedImage!
+    }
+    class func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                 
+            }
+        }
+        return nil
     }
 }

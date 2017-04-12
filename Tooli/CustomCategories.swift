@@ -14,7 +14,7 @@ extension UITextView {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!-1)
         }
         if Constants.DeviceType.IS_IPHONE_6P {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+3)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+2)
         }
         if Constants.DeviceType.IS_IPAD {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
@@ -32,7 +32,7 @@ extension UITextField {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!-1)
         }
         if Constants.DeviceType.IS_IPHONE_6P {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+3)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+2)
         }
         if Constants.DeviceType.IS_IPAD {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
@@ -101,7 +101,7 @@ extension UILabel {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!-1)
         }
         if Constants.DeviceType.IS_IPHONE_6P {
-            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+3)
+            self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+2)
         }
         if Constants.DeviceType.IS_IPAD {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
@@ -141,7 +141,7 @@ extension UIButton {
             self.titleLabel?.font=UIFont(name: (self.titleLabel!.font?.fontName)!, size: (self.titleLabel!.font?.pointSize)!-1)
         }
         if Constants.DeviceType.IS_IPHONE_6P {
-            self.titleLabel?.font=UIFont(name: (self.titleLabel!.font?.fontName)!, size: (self.titleLabel!.font?.pointSize)!+4)
+            self.titleLabel?.font=UIFont(name: (self.titleLabel!.font?.fontName)!, size: (self.titleLabel!.font?.pointSize)!+3)
         }
         else if Constants.DeviceType.IS_IPAD {
             self.titleLabel?.font=UIFont(name: (self.titleLabel!.font?.fontName)!, size: (self.titleLabel!.font?.pointSize)!+7)
@@ -230,12 +230,12 @@ extension UIViewController {
 extension Date {
     func toWebString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         return dateFormatter.string(from: self)
     }
     func toDisplayString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         return dateFormatter.string(from: self)
     }
     

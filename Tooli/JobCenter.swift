@@ -14,7 +14,20 @@ import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
 
-class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable {
+class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable,UISearchBarDelegate {
+
+    @IBOutlet weak var btnAgain: UIButton!
+    @IBOutlet weak var imgError: UIImageView!
+    @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var viewError: UIView!
+    @IBAction func btnAgainErrorAction(_ sender: UIButton)
+    {
+        self.imgError.isHidden = true
+        self.btnAgain.isHidden = true
+        self.lblError.isHidden = true
+         self.startAnimating()
+       onLoadDetail(withfilter: FilterOption, page: currentPage)  
+    }
 
     @IBOutlet var tvjobs : UITableView!
     @IBOutlet var btnSortby : UIButton!
@@ -24,33 +37,65 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     
     var currentPage = 1
     var isFirstTime : Bool = true
-
+    var refreshControl:UIRefreshControl!
     var popover = Popover()
     var isFull:Bool =  false
+    
+    @IBOutlet var TBLSearchView:UITableView!
+    @IBOutlet var viewSearch:UIView!
+    var Searchdashlist : [SerachDashBoardM]?
+     @IBOutlet weak var SearchbarView: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        SearchbarView.delegate = self
         tvjobs.delegate = self
         tvjobs.dataSource = self
         tvjobs.rowHeight = UITableViewAutomaticDimension
         tvjobs.estimatedRowHeight = 100
         tvjobs.tableFooterView = UIView()
      
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(JobCenter.refreshPage) , for: UIControlEvents.valueChanged)
+        tvjobs.addSubview(refreshControl)
+        
         FilterOption = "Default"
         //onLoadDetail(withfilter: FilterOption, page: self.currentPage)
 
         btnSortby.setTitle("Sort by : Default", for: .normal)
+        
+        TBLSearchView.delegate = self
+        TBLSearchView.dataSource = self
+        
+        AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
     }
-    
+    func refreshPage()
+    {
+        isFirstTime = true
+        isFull = false
+        currentPage = 1
+        onLoadDetail(withfilter: FilterOption, page: currentPage)
+    }
     override func viewWillAppear(_ animated: Bool) {
-        onLoadDetail(withfilter: FilterOption, page: self.currentPage)
-
+        self.startAnimating()
+        self.viewError.isHidden = false
+        isFirstTime = true
+        isFull = false
+        currentPage = 1
+        
+        onLoadDetail(withfilter: FilterOption, page: currentPage)
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Job Center Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
-
-
     func onLoadDetail(withfilter: NSString, page: Int){
+        
         if self.isFirstTime {
-            self.startAnimating()
+            
+            
         }
         else {
             let view : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 80))
@@ -70,13 +115,18 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             self.sharedManager.jobList = Mapper<JobList>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+            self.refreshControl.endRefreshing()
             print(JSONResponse["status"].rawValue as! String)
-            
+            self.refreshControl.endRefreshing()
             if JSONResponse != nil{
+                self.viewError.isHidden = true
+                self.imgError.isHidden = true
+                self.btnAgain.isHidden = true
+                self.lblError.isHidden = true
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
+                    print(JSONResponse.rawValue)
                     self.stopAnimating()
                     if self.isFirstTime {
                         self.joblist = self.sharedManager.jobList.DataList
@@ -90,6 +140,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                     }
                     self.currentPage = self.currentPage + 1
                     self.tvjobs.reloadData()
+                    
                     //self.setValues()
                 }
                 else
@@ -97,35 +148,111 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                     self.stopAnimating()
                     self.isFirstTime = false;
                     self.isFull = true
-                    //self.currentPage = 1
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                    //self.tvnoti.reloadData()
-                }
-
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.joblist = self.sharedManager.jobList.DataList
-                    self.tvjobs.reloadData()
-                }
-                else
-                {
+                    if(self.joblist == nil)
+                    {
+                        self.lblError.text  =  "No Jobs found."
+                        self.viewError.isHidden = false
+                        self.imgError.isHidden = false
+                        self.btnAgain.isHidden = false
+                        self.lblError.isHidden = false
+                    }
                     
                 }
                 if(self.joblist?.count == 0 && self.isFirstTime)
                 {
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
+            self.refreshControl.endRefreshing()
+            self.viewError.isHidden = false
+            self.imgError.isHidden = false
+            self.btnAgain.isHidden = false
+            self.lblError.isHidden = false
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+         //   self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
+        }
+    }
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
+        var strUpdated:NSString =  searchBar.text! as NSString
+        strUpdated = strUpdated.replacingCharacters(in: range, with: text) as NSString
+        if(Reachability.isConnectedToNetwork())
+        {
+            onSerach(str: strUpdated as String)
+        }
+        return true
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    {
+        SearchbarView.text = ""
+        SearchbarView.resignFirstResponder()
+        viewSearch.isHidden = true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        if(searchBar.text == "")
+        {
+            SearchbarView.resignFirstResponder()
+            viewSearch.isHidden = true
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        SearchbarView.resignFirstResponder()
+        SearchbarView.text = ""
+        viewSearch.isHidden = true
+    }
+    func onSerach(str:String)
+    {
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,"SearchQuery":str] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.GetUserSearchByQuery, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.Searchdashlist = self.sharedManager.SearchdashBoard.DataList
+                    if(self.Searchdashlist!.count > 0)
+                    {
+                        self.viewSearch.isHidden = false
+                        self.TBLSearchView.reloadData()
+                    }
+                    else
+                    {
+                        self.viewSearch.isHidden = true
+                    }
+                    
+                }
+                else
+                {
+                    
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+             
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
+        }
+    }
     @IBAction func btnMenu(button: AnyObject)
     {
         toggleSideMenuView()
@@ -196,6 +323,9 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             btnSortby.setTitle("Sort by : Nearest", for: .normal)
 
         }
+        isFirstTime = true
+        isFull = false
+        currentPage = 1
         onLoadDetail(withfilter: FilterOption, page: currentPage)
         popover.dismiss()
 
@@ -215,56 +345,151 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
         //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
-        guard  ((sharedManager.jobList) != nil) else {
-            return 0
+        
+        if(tableView == TBLSearchView)
+        {
+            guard  ((sharedManager.SearchdashBoard) != nil) else {
+                
+                return 0
+            }
+            if  (self.Searchdashlist == nil){
+                self.Searchdashlist = sharedManager.SearchdashBoard.DataList
+                return  (self.Searchdashlist?.count)!;
+            }
+            return  (self.Searchdashlist?.count)!;
         }
-        if self.joblist == nil {
-            self.joblist = sharedManager.jobList.DataList
+        else
+        {
+            guard  ((sharedManager.jobList) != nil) else {
+                return 0
+            }
+            if self.joblist == nil {
+                self.joblist = sharedManager.jobList.DataList
+            }
+            tableView.SetTableViewBlankLable(count: (self.joblist?.count)!, str: "No job found.")
+            return  (self.joblist?.count)!;
         }
-        return  (self.joblist?.count)!;
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        
-        if indexPath.row == (joblist?.count)!-1
+        if(tableView == TBLSearchView)
         {
-            if(!isFull)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = self.Searchdashlist?[indexPath.row].displayvalue
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
+            return cell
+        }
+        else
+        {
+            if indexPath.row == (joblist?.count)!-1
             {
-                self.onLoadDetail(withfilter: FilterOption, page: currentPage)
+                if(!isFull)
+                {
+                    self.onLoadDetail(withfilter: FilterOption, page: currentPage)
+                }
             }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileFeedCell
+            
+            cell.lblcity.text = self.joblist?[indexPath.row].CityName as String!
+            cell.lblcompany.text = self.joblist?[indexPath.row].Title as String!
+            cell.lbldatetime.text = self.joblist?[indexPath.row].DistanceText as String!
+            
+            if(self.joblist?[indexPath.row].StartOn as String! != "")
+            {
+                cell.lblstart.attributedText = DisPlayCountInLabel(strTitle:"Start Date:", value: (self.joblist?[indexPath.row].StartOn)!)
+            }
+            if(self.joblist?[indexPath.row].EndOn as String! != "")
+            {
+                cell.lblfinish.attributedText = DisPlayCountInLabel(strTitle:"Finish Date:", value: (self.joblist?[indexPath.row].EndOn)!)
+            }
+            
+            cell.lblexperience.text = self.joblist?[indexPath.row].Description as String!
+            cell.lblwork.text = self.joblist?[indexPath.row].TradeCategoryName as String!
+            
+            cell.btnfav!.tag=indexPath.row
+            cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+            if self.joblist?[indexPath.row].IsSaved == true {
+                cell.btnfav.isSelected = true
+            }
+            else{
+                cell.btnfav.isSelected = false
+            }
+            
+            cell.lblcompany.tag  = indexPath.row
+            let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(lblImagheProfile(tapGestureRecognizer:)))
+            cell.lblcompany.isUserInteractionEnabled = true
+            cell.lblcompany.addGestureRecognizer(tapGestureRecognizer1)
+            
+            cell.imguser.tag = indexPath.row
+            let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(lblImagheProfile(tapGestureRecognizer:)))
+            cell.imguser.isUserInteractionEnabled = true
+            cell.imguser.addGestureRecognizer(tapGestureRecognizer2)
+            
+            
+            let imgURL = self.joblist?[indexPath.row].ProfileImageLink as String!
+            let url = URL(string: imgURL!)
+            cell.imguser.kf.indicatorType = .activity
+            cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+            
+            return cell  
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileFeedCell
-        
-        cell.lblcity.text = self.joblist?[indexPath.row].CityName as String!
-        cell.lblcompany.text = self.joblist?[indexPath.row].Description as String!
-        cell.lblstart.text = self.joblist?[indexPath.row].StartOn as String!
-        cell.lblfinish.text = self.joblist?[indexPath.row].EndOn as String!
-        cell.lblexperience.text = self.joblist?[indexPath.row].Title as String!
-        cell.lblwork.text = self.joblist?[indexPath.row].TradeCategoryName as String!
 
-        cell.btnfav!.tag=indexPath.row
-        cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
-        if self.joblist?[indexPath.row].IsSaved == true {
-            cell.btnfav.isSelected = true
-        }
-        else{
-            cell.btnfav.isSelected = false
-        }
-        let imgURL = self.joblist?[indexPath.row].ProfileImageLink as String!
-        let url = URL(string: imgURL!)
-        cell.imguser.kf.indicatorType = .activity
-        cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-        
-        return cell
     }
-
+    func lblImagheProfile(tapGestureRecognizer:UIGestureRecognizer)
+    {
+        let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+        companyVC.companyId = (self.joblist?[(tapGestureRecognizer.view?.tag)!].CompanyID)!
+        self.navigationController?.pushViewController(companyVC, animated: true)
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let obj : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-        self.navigationController?.pushViewController(obj, animated: true)
+        if(tableView == TBLSearchView)
+        {
+            if(self.Searchdashlist?[indexPath.row].IsContractor == false)
+            {
+                let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = self.Searchdashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            else
+            {
+                let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                companyVC.contractorId = self.Searchdashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+                
+            }
+            SearchbarView.text = ""
+            SearchbarView.resignFirstResponder()
+            viewSearch.isHidden = true
+        }
+        else
+        {
+            let obj : JodDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "JodDetailViewController") as! JodDetailViewController
+            let joblisttmp : JobListM = JobListM();
+            joblisttmp.CityName=(self.joblist?[indexPath.row].CityName)!
+            joblisttmp.Description=(self.joblist?[indexPath.row].Description)!
+            joblisttmp.EndOn=(self.joblist?[indexPath.row].EndOn)!
+            joblisttmp.StartOn=(self.joblist?[indexPath.row].StartOn)!
+            joblisttmp.IsApplied=(self.joblist?[indexPath.row].IsApplied)!
+            joblisttmp.Location=(self.joblist?[indexPath.row].Location)!
+            joblisttmp.PageTypeID=(self.joblist?[indexPath.row].PageTypeID)!
+            joblisttmp.PrimaryID=(self.joblist?[indexPath.row].PrimaryID)!
+            joblisttmp.CompanyName=(self.joblist?[indexPath.row].CompanyName)!
+            joblisttmp.TradeCategoryName=(self.joblist?[indexPath.row].TradeCategoryName)!
+            joblisttmp.ProfileImageLink=(self.joblist?[indexPath.row].ProfileImageLink)!
+            joblisttmp.ServiceList=(self.joblist?[indexPath.row].ServiceList)!
+            obj.jobDetail = joblisttmp
+            obj.JobId = (self.joblist?[indexPath.row].PrimaryID)!
+            self.navigationController?.pushViewController(obj, animated: true)
+        }
+       
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func btnfav(btn : UIButton)  {
         
         self.startAnimating()
@@ -301,26 +526,27 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 {
                     
                 }
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func DisPlayCountInLabel(strTitle:String,value:String) -> NSMutableAttributedString
+    {
+        let myString = "\(strTitle)\(value)"
+        let myRange = NSRange(location: 0, length: strTitle.length)
+        let myRange1 = NSRange(location: strTitle.length, length: value.length)
+        
+        let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+        let anotherAttribute1 = [ NSForegroundColorAttributeName: UIColor.lightGray]
+        let myAttrString = NSMutableAttributedString(string: myString)
+        myAttrString.addAttributes(anotherAttribute, range: myRange)
+        myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+        return myAttrString
     }
-    */
-
 }

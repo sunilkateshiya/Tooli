@@ -10,7 +10,7 @@ import UIKit
 import Cosmos
 
 class MessageTabCell: UITableViewCell {
-
+    @IBOutlet var viewBack: UIView!
     
     @IBOutlet var lblname: UILabel!
     @IBOutlet var lblmsg: UILabel!

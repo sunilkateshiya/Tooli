@@ -43,12 +43,15 @@ class SignIn: NSObject, Mappable  {
     var PerHourRate = ""
     var IsSaved : Bool = false
     var IsFollow : Bool = false
+    var IsFollowing : Bool = false
+    var ReferralLink = ""
     var AvailableStatusList : [AvailableStatusListM]? = []
     var CertificateFileList : [CertificateFileListM]? = []
     var ServiceList : [ServiceListM]? = []
     var ExperienceList : [Experiences]? = []
     var PortfolioList : [Portfolio]? = []
- 
+    var FollowerList :[Follower]? = []
+    var FollowingList : [ Following]? = []
     required init?(map: Map){
         status <- map["status"]
         message <- map["message"]
@@ -79,6 +82,7 @@ class SignIn: NSObject, Mappable  {
         PerHourRate <- map["PerHourRate"]
         IsSaved <- map["IsSaved"]
         IsFollow <- map["IsFollow"]
+        IsFollowing <- map["IsFollowing"]
         AvailableStatusList <- map["AvailableStatusList"]
         ServiceList <- map["ServiceList"]
         ExperienceList <- map["ExperienceList"]
@@ -87,7 +91,9 @@ class SignIn: NSObject, Mappable  {
         LastName <- map["LastName"]
         PerDayRate <- map["PerDayRate"]
         CertificateFileList <- map["CertificateFileList"]
-        
+        ReferralLink <- map["ReferralLink"]
+        FollowingList <- map["IFollowingList"]
+        FollowerList <- map["MyFollowerList"]
     }
     func mapping(map: Map) {
         status <- map["status"]
@@ -119,6 +125,7 @@ class SignIn: NSObject, Mappable  {
         PerHourRate <- map["PerHourRate"]
         IsSaved <- map["IsSaved"]
         IsFollow <- map["IsFollow"]
+        IsFollowing <- map["IsFollowing"]
         AvailableStatusList <- map["AvailableStatusList"]
         ServiceList <- map["ServiceList"]
         ExperienceList <- map["ExperienceList"]
@@ -127,6 +134,9 @@ class SignIn: NSObject, Mappable  {
         LastName <- map["LastName"]
         PerDayRate <- map["PerDayRate"]
         CertificateFileList <- map["CertificateFileList"]
+        ReferralLink <- map["ReferralLink"]
+        FollowingList <- map["IFollowingList"]
+        FollowerList <- map["MyFollowerList"]
     }
 }
 
@@ -246,6 +256,7 @@ class ExperienceListM : NSObject, Mappable {
 class Portfolio : NSObject, Mappable {
     var UserID = 0;
     var PrimaryID = 0;
+    var ContractorID = 0
     var PageTypeID = 0;
     var UserFullName = "";
     var ProfileImageLink = "";
@@ -253,6 +264,7 @@ class Portfolio : NSObject, Mappable {
     var Time = ""
     var Description = ""
     var Location = ""
+    var DateTimeCaption = ""
     var CustomerName = ""
     var Title = ""
     var ThumbnailImageLink = ""
@@ -268,11 +280,13 @@ class Portfolio : NSObject, Mappable {
         UserID <- map["UserID"]
         PrimaryID <- map["PrimaryID"]
         PageTypeID <- map["PageTypeID"]
+        ContractorID <- map["ContractorID"]
         UserFullName <- map["UserFullName"]
         ProfileImageLink <- map["ProfileImageLink"]
         Date <- map["Date"]
         Time <- map["Time"]
         Description <- map["Description"]
+         DateTimeCaption <- map["DateTimeCaption"]
         Location <- map["Location"]
         CustomerName <- map["CustomerName"]
         Title <- map["Title"]
@@ -288,9 +302,11 @@ class Portfolio : NSObject, Mappable {
         PrimaryID <- map["PrimaryID"]
         PageTypeID <- map["PageTypeID"]
         UserFullName <- map["UserFullName"]
+        ContractorID <- map["ContractorID"]
         ProfileImageLink <- map["ProfileImageLink"]
         Date <- map["Date"]
         Time <- map["Time"]
+         DateTimeCaption <- map["DateTimeCaption"]
         Description <- map["Description"]
         Location <- map["Location"]
         CustomerName <- map["CustomerName"]
@@ -421,6 +437,7 @@ class NotificationDetail: NSObject, Mappable {
     var FullName = ""
     var NotificationText = ""
     var AddedOn = ""
+    var DateTimeCaption = ""
     var IsRead = false
     var JobTitle = ""
     var RedirectLink = ""
@@ -436,6 +453,7 @@ class NotificationDetail: NSObject, Mappable {
         PrimaryID <- map["PrimaryID"]
         CompanyID <- map["CompanyID"]
         IsContractor <- map["IsContractor"]
+        DateTimeCaption <- map["DateTimeCaption"]
         ContractorID <- map["ContractorID"]
         ProfileImageLink <- map["ProfileImageLink"]
         UserProfileLink <- map["UserProfileLink"]
@@ -447,4 +465,165 @@ class NotificationDetail: NSObject, Mappable {
         RedirectLink <- map["RedirectLink"]
     }
     
+}
+class StatisticsModal:NSObject,Mappable
+{
+    var TotalProfileView = 0
+    var TotalProfileSave = 0
+    var TotalFollowing = 0
+    var TotalFollowers = 0
+    var TotalMessage = 0
+    var TotalPostView = 0
+    var TotalPostSave = 0
+    var TotalPortfolioView = 0
+    var TotalPortfolioSave = 0
+    var PortfolioList:[TopsView] = []
+    var PostList:[TopsView] = []
+
+    override init(){
+        
+    }
+    required init?(map : Map) {
+        TotalProfileView <- map["TotalProfileView"]
+        TotalProfileSave <- map["TotalProfileSave"]
+        TotalFollowing <- map["TotalFollowing"]
+        TotalFollowers <- map["TotalFollowers"]
+        TotalMessage <- map["TotalMessage"]
+        TotalPostView <- map["TotalPostView"]
+        TotalPostSave <- map["TotalPostSave"]
+        TotalPortfolioView <- map["TotalPortfolioView"]
+        TotalPortfolioSave <- map["TotalPortfolioSave"]
+        PortfolioList <- map["PortfolioList"]
+        PostList <- map["PostList"]
+        
+    }
+     func mapping(map: Map) {
+        TotalProfileView <- map["TotalProfileView"]
+        TotalProfileSave <- map["TotalProfileSave"]
+        TotalFollowing <- map["TotalFollowing"]
+        TotalFollowers <- map["TotalFollowers"]
+        TotalMessage <- map["TotalMessage"]
+        TotalPostView <- map["TotalPostView"]
+        TotalPostSave <- map["TotalPostSave"]
+        TotalPortfolioView <- map["TotalPortfolioView"]
+        TotalPortfolioSave <- map["TotalPortfolioSave"]
+        PortfolioList <- map["PortfolioList"]
+        PostList <- map["PostList"]
+    }
+}
+class TopsView:NSObject,Mappable
+{
+    
+    var TotalPageView = 0
+    var TotalPageSave = 0
+    var Title = ""
+    override init(){
+        
+    }
+    required init?(map : Map) {
+        TotalPageView <- map["TotalPageView"]
+        TotalPageSave <- map["TotalPageSave"]
+        Title <- map["Title"]
+    }
+    func mapping(map: Map) {
+        TotalPageView <- map["TotalPageView"]
+        TotalPageSave <- map["TotalPageSave"]
+         Title <- map["Title"]
+    }
+
+}
+class Follower:NSObject,Mappable
+{
+    var PrimaryID = 0
+    var UserID  = 0
+    var Name = ""
+    var ContractorID = 0
+    var CompanyID = 0
+    var ProfileImageLink = ""
+    var TradeCategoryName = ""
+    var CityName = ""
+    var IsSaved : Bool = false
+    var IsFollow : Bool = false
+    var IsContractor : Bool = false
+    
+    override init(){
+        
+    }
+    required init?(map : Map)
+    {
+         PrimaryID <- map["PrimaryID"]
+         UserID <- map["UserID"]
+         ProfileImageLink <- map["ProfileImageLink"]
+         IsSaved <- map["IsSaved"]
+         Name <- map["Name"]
+         TradeCategoryName <- map["TradeCategoryName"]
+         CityName <- map["CityName"]
+         ContractorID <- map["ContractorID"]
+         CompanyID <- map["CompanyID"]
+         IsFollow <- map["IsFollow"]
+        IsContractor <- map["IsContractor"]
+
+
+    }
+    func mapping(map: Map)
+    {
+        PrimaryID <- map["PrimaryID"]
+        UserID <- map["UserID"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        IsSaved <- map["IsSaved"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CityName <- map["CityName"]
+        ContractorID <- map["ContractorID"]
+        CompanyID <- map["CompanyID"]
+        IsFollow <- map["IsFollow"]
+        IsContractor <- map["IsContractor"]
+
+    }
+}
+class Following:NSObject,Mappable
+{
+    var PrimaryID = 0
+    var UserID  = 0
+    var Name = ""
+    var ContractorID = 0
+    var CompanyID = 0
+    var ProfileImageLink = ""
+    var TradeCategoryName = ""
+    var CityName = ""
+    var IsSaved : Bool = false
+    var IsFollow : Bool = false
+    var IsContractor : Bool = false
+    
+    override init(){
+        
+    }
+    required init?(map : Map)
+    {
+        PrimaryID <- map["PrimaryID"]
+        UserID <- map["UserID"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        IsSaved <- map["IsSaved"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CityName <- map["CityName"]
+        ContractorID <- map["ContractorID"]
+        CompanyID <- map["CompanyID"]
+        IsFollow <- map["IsFollow"]
+        IsContractor <- map["IsContractor"]
+    }
+    func mapping(map: Map)
+    {
+        PrimaryID <- map["PrimaryID"]
+        UserID <- map["UserID"]
+        ProfileImageLink <- map["ProfileImageLink"]
+        IsSaved <- map["IsSaved"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        CityName <- map["CityName"]
+        ContractorID <- map["ContractorID"]
+        CompanyID <- map["CompanyID"]
+        IsFollow <- map["IsFollow"]
+        IsContractor <- map["IsContractor"]
+    }
 }

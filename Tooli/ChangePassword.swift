@@ -24,6 +24,17 @@ class ChangePassword: UIViewController, NVActivityIndicatorViewable {
     @IBAction func btnBack (_sender : UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "ChangePassword Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func btnChangePassword (_sender : UIButton) {
         var isValid = true
         if  self.txtCurrentPassword.text == "" {

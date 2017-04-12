@@ -28,6 +28,10 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
        NotificationCenter.default.addObserver(self, selector: #selector(removeRows(notiffy:)), name: NSNotification.Name(rawValue: "RemoveCell"), object: nil)
 
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     override func viewWillAppear(_ animated: Bool) {
         tvBlogList.delegate = self
         tvBlogList.dataSource = self
@@ -37,6 +41,12 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
         
         experiences = []
         self.tvBlogList.reloadData()
+        
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Experience Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -83,7 +93,7 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
         cell.txtJobTitle.tag = 200000 + indexPath.row
         cell.txtExperience.tag = 300000 + indexPath.row
         cell.btnClose.tag = indexPath.row + 100
-
+        cell.txtExperience.keyboardType = .numberPad
         return cell
 
     }
@@ -183,7 +193,20 @@ class Experience: UIViewController,UITableViewDelegate, UITableViewDataSource ,N
         self.navigationController?.popViewController(animated: true)
     }
     // Delegate
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if(textField.tag >= 300000)
+        {
+            var strUpdated:NSString =  textField.text! as NSString
+            strUpdated = strUpdated.replacingCharacters(in: range, with: string) as NSString
+            if(strUpdated.length > 2)
+            {
+                return false
+            }
+        }
+        
+        return true
+    }
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField.tag >= 100000 && textField.tag < 200000  {

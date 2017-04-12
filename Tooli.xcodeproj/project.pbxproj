@@ -13,25 +13,35 @@
 		201F553F1E548E240009EFFF /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201F553E1E548E240009EFFF /* ChangePassword.swift */; };
 		201F55411E548EC40009EFFF /* Referrals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201F55401E548EC40009EFFF /* Referrals.swift */; };
 		2025C34A1E49D47B00615DFE /* Editportfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2025C3491E49D47B00615DFE /* Editportfolio.swift */; };
+		20303D081E5D7C4D00FCF08B /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20303D071E5D7C4D00FCF08B /* Statistics.swift */; };
+		20303D0E1E5D876E00FCF08B /* StatsticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */; };
+		203A2AEA1E71930400A01D69 /* SpecialOfferList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A2AE91E71930300A01D69 /* SpecialOfferList.swift */; };
 		204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */; };
 		204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79E1E4AEB0D00C35938 /* JobList.swift */; };
 		204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */; };
 		204E008B1E5316BF0099C111 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E008A1E5316BF0099C111 /* TagListView.swift */; };
 		204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E71DD1E3B235D00E971E0 /* EditExperience.swift */; };
+		2053CCB01E9D17B100D0F9D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2053CCAF1E9D17B100D0F9D6 /* GoogleService-Info.plist */; };
 		205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */; };
 		205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D19111E4C4250009CF5BD /* TimelineCell.swift */; };
 		206910E91E541F5B009CED53 /* ContractorSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910E81E541F5B009CED53 /* ContractorSearch.swift */; };
-		206910EB1E5431F8009CED53 /* NotificationTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910EA1E5431F8009CED53 /* NotificationTab.swift */; };
 		206910ED1E54320C009CED53 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910EC1E54320C009CED53 /* Login.swift */; };
 		206910EF1E543223009CED53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910EE1E543223009CED53 /* AppDelegate.swift */; };
 		206910F21E5439D7009CED53 /* ContractorResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910F11E5439D7009CED53 /* ContractorResult.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
 		206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206AC5431E4DEA0C00A20341 /* Forgot.swift */; };
+		20744CED1E5AAD2D007D91D4 /* CompnayProfilefeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20744CEC1E5AAD2D007D91D4 /* CompnayProfilefeed.swift */; };
 		207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */; };
 		207B1B831E51DE2700C5F664 /* JodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */; };
 		207B1B851E51EA9200C5F664 /* OfferDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
-		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
+		209533361E5C55710036D6C0 /* NProfileFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533351E5C55710036D6C0 /* NProfileFeed.swift */; };
+		209533381E5C608E0036D6C0 /* FollowingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533371E5C608E0036D6C0 /* FollowingListCell.swift */; };
+		20FADD091E5AE3FE005ABBF1 /* MessageTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */; };
+		20FADD0B1E5AE40A005ABBF1 /* MessageDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */; };
+		20FADD0D1E5AE418005ABBF1 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0C1E5AE418005ABBF1 /* ChatList.swift */; };
+		20FADD0F1E5AE51C005ABBF1 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0E1E5AE51C005ABBF1 /* Globals.swift */; };
+		20FADD111E5AEFFB005ABBF1 /* NotificationTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD101E5AEFFB005ABBF1 /* NotificationTab.swift */; };
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
 		3118664C1E274C18008A4C74 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664B1E274C18008A4C74 /* Connections.swift */; };
 		3118664E1E274C32008A4C74 /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664D1E274C32008A4C74 /* ConnectionCell.swift */; };
@@ -40,7 +50,6 @@
 		314A44CB1E1B73A600401F49 /* CustomCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A44CA1E1B73A600401F49 /* CustomCategories.swift */; };
 		31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31663C821E24C20A00D5DD3C /* NotificationTabCell.swift */; };
 		31663C851E24C55900D5DD3C /* MessageTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31663C841E24C55900D5DD3C /* MessageTabCell.swift */; };
-		31663C871E24C5AB00D5DD3C /* MessageTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31663C861E24C5AB00D5DD3C /* MessageTab.swift */; };
 		31663C8B1E24CAB400D5DD3C /* DashBoardTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */; };
 		31663C8D1E25083000D5DD3C /* DashBoardTvCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31663C8C1E25083000D5DD3C /* DashBoardTvCell.swift */; };
 		31663C8F1E25085500D5DD3C /* DashBoardCvCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31663C8E1E25085500D5DD3C /* DashBoardCvCell.swift */; };
@@ -52,7 +61,6 @@
 		3171AC6C1E3396320063198C /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC681E3396320063198C /* EditProfile.swift */; };
 		3171AC6D1E3396320063198C /* ProfileFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC691E3396320063198C /* ProfileFeed.swift */; };
 		3171AC6E1E3396320063198C /* Addportfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC6A1E3396320063198C /* Addportfolio.swift */; };
-		3171AC6F1E3396320063198C /* CompnayProfilefeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */; };
 		3171AC761E3396470063198C /* ProfileFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC701E3396470063198C /* ProfileFeedCell.swift */; };
 		3171AC781E3396470063198C /* PortfolioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC721E3396470063198C /* PortfolioCell.swift */; };
 		3171AC791E3396470063198C /* Addcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3171AC731E3396470063198C /* Addcell.swift */; };
@@ -63,13 +71,10 @@
 		319329611E1A614200456DDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3193295F1E1A614200456DDF /* Main.storyboard */; };
 		319329631E1A614200456DDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 319329621E1A614200456DDF /* Assets.xcassets */; };
 		319329661E1A614200456DDF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 319329641E1A614200456DDF /* LaunchScreen.storyboard */; };
-		319329711E1A614200456DDF /* TooliTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319329701E1A614200456DDF /* TooliTests.swift */; };
-		3193297C1E1A614200456DDF /* TooliUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3193297B1E1A614200456DDF /* TooliUITests.swift */; };
 		319329931E1A7C9400456DDF /* AFWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3193298B1E1A7C9400456DDF /* AFWrapper.swift */; };
 		319329941E1A7C9400456DDF /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3193298C1E1A7C9400456DDF /* CALayer.swift */; };
 		319329951E1A7C9400456DDF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3193298D1E1A7C9400456DDF /* Constants.swift */; };
 		319329961E1A7C9400456DDF /* CreditCardFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3193298E1E1A7C9400456DDF /* CreditCardFormatter.swift */; };
-		319329971E1A7C9400456DDF /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3193298F1E1A7C9400456DDF /* Globals.swift */; };
 		319329981E1A7C9400456DDF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319329901E1A7C9400456DDF /* Reachability.swift */; };
 		319329991E1A7C9400456DDF /* UITextField_Inset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319329911E1A7C9400456DDF /* UITextField_Inset.swift */; };
 		3193299A1E1A7C9400456DDF /* UIView_Borders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319329921E1A7C9400456DDF /* UIView_Borders.swift */; };
@@ -91,25 +96,15 @@
 		B84322311E4F200000C379EF /* DashBoardTv1Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B843222E1E4F200000C379EF /* DashBoardTv1Cell.swift */; };
 		B84322321E4F200000C379EF /* DashBoardTv2Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B843222F1E4F200000C379EF /* DashBoardTv2Cell.swift */; };
 		B84322331E4F200000C379EF /* DashBoardTv3Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84322301E4F200000C379EF /* DashBoardTv3Cell.swift */; };
-		FDB6D16A9DFEA54312FF9CCB /* Pods_TooliUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 534A386BB0DEF1795088B19F /* Pods_TooliUITests.framework */; };
+		B851BF5C1E8D25ED00378D24 /* Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF541E8D25ED00378D24 /* Duration.swift */; };
+		B851BF5D1E8D25ED00378D24 /* Int+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF551E8D25ED00378D24 /* Int+Timepiece.swift */; };
+		B851BF5E1E8D25ED00378D24 /* NSCalendar+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF561E8D25ED00378D24 /* NSCalendar+Timepiece.swift */; };
+		B851BF5F1E8D25ED00378D24 /* NSDate+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF571E8D25ED00378D24 /* NSDate+Timepiece.swift */; };
+		B851BF601E8D25ED00378D24 /* NSDateComponents+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF581E8D25ED00378D24 /* NSDateComponents+Timepiece.swift */; };
+		B851BF611E8D25ED00378D24 /* String+Timepiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF591E8D25ED00378D24 /* String+Timepiece.swift */; };
+		B851BF621E8D25ED00378D24 /* WWCalendarTimeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851BF5A1E8D25ED00378D24 /* WWCalendarTimeSelector.swift */; };
+		B851BF631E8D25ED00378D24 /* WWCalendarTimeSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B851BF5B1E8D25ED00378D24 /* WWCalendarTimeSelector.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		3193296D1E1A614200456DDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 319329501E1A614100456DDF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 319329571E1A614100456DDF;
-			remoteInfo = Tooli;
-		};
-		319329781E1A614200456DDF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 319329501E1A614100456DDF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 319329571E1A614100456DDF;
-			remoteInfo = Tooli;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		188DC577411309CBD8F4498A /* Pods-TooliUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,25 +114,37 @@
 		201F553E1E548E240009EFFF /* ChangePassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		201F55401E548EC40009EFFF /* Referrals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Referrals.swift; sourceTree = "<group>"; };
 		2025C3491E49D47B00615DFE /* Editportfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editportfolio.swift; sourceTree = "<group>"; };
+		20303D071E5D7C4D00FCF08B /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsticsCell.swift; sourceTree = "<group>"; };
+		203A2AE91E71930300A01D69 /* SpecialOfferList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialOfferList.swift; sourceTree = "<group>"; };
 		204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionList.swift; sourceTree = "<group>"; };
 		204CF79E1E4AEB0D00C35938 /* JobList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobList.swift; sourceTree = "<group>"; };
 		204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorDashBoard.swift; sourceTree = "<group>"; };
 		204E008A1E5316BF0099C111 /* TagListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		204E71DD1E3B235D00E971E0 /* EditExperience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditExperience.swift; sourceTree = "<group>"; };
+		2053CCAF1E9D17B100D0F9D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioDetails.swift; sourceTree = "<group>"; };
 		205D19111E4C4250009CF5BD /* TimelineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineCell.swift; sourceTree = "<group>"; };
 		206910E81E541F5B009CED53 /* ContractorSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorSearch.swift; sourceTree = "<group>"; };
-		206910EA1E5431F8009CED53 /* NotificationTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTab.swift; sourceTree = "<group>"; };
 		206910EC1E54320C009CED53 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		206910EE1E543223009CED53 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		206910F01E54324F009CED53 /* Tooli.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tooli.entitlements; sourceTree = "<group>"; };
 		206910F11E5439D7009CED53 /* ContractorResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorResult.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
 		206AC5431E4DEA0C00A20341 /* Forgot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forgot.swift; sourceTree = "<group>"; };
+		206EF0F61E99005A00938012 /* Tooli-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tooli-Bridging-Header.h"; sourceTree = "<group>"; };
+		20744CEC1E5AAD2D007D91D4 /* CompnayProfilefeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompnayProfilefeed.swift; sourceTree = "<group>"; };
 		207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContractoreList.swift; sourceTree = "<group>"; };
 		207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JodDetailViewController.swift; sourceTree = "<group>"; };
 		207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferDetailViewController.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		209533351E5C55710036D6C0 /* NProfileFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NProfileFeed.swift; sourceTree = "<group>"; };
+		209533371E5C608E0036D6C0 /* FollowingListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingListCell.swift; sourceTree = "<group>"; };
+		20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTab.swift; sourceTree = "<group>"; };
+		20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetails.swift; sourceTree = "<group>"; };
+		20FADD0C1E5AE418005ABBF1 /* ChatList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
+		20FADD0E1E5AE51C005ABBF1 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		20FADD101E5AEFFB005ABBF1 /* NotificationTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTab.swift; sourceTree = "<group>"; };
 		311428831E35BDF10032F8FB /* CompanyProfileM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileM.swift; sourceTree = "<group>"; };
 		3118664B1E274C18008A4C74 /* Connections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
 		3118664D1E274C32008A4C74 /* ConnectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
@@ -146,7 +153,6 @@
 		314A44CA1E1B73A600401F49 /* CustomCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCategories.swift; sourceTree = "<group>"; };
 		31663C821E24C20A00D5DD3C /* NotificationTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTabCell.swift; sourceTree = "<group>"; };
 		31663C841E24C55900D5DD3C /* MessageTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTabCell.swift; sourceTree = "<group>"; };
-		31663C861E24C5AB00D5DD3C /* MessageTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTab.swift; sourceTree = "<group>"; };
 		31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTab.swift; sourceTree = "<group>"; };
 		31663C8C1E25083000D5DD3C /* DashBoardTvCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTvCell.swift; sourceTree = "<group>"; };
 		31663C8E1E25085500D5DD3C /* DashBoardCvCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardCvCell.swift; sourceTree = "<group>"; };
@@ -158,7 +164,6 @@
 		3171AC681E3396320063198C /* EditProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
 		3171AC691E3396320063198C /* ProfileFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileFeed.swift; sourceTree = "<group>"; };
 		3171AC6A1E3396320063198C /* Addportfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addportfolio.swift; sourceTree = "<group>"; };
-		3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompnayProfilefeed.swift; sourceTree = "<group>"; };
 		3171AC701E3396470063198C /* ProfileFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileFeedCell.swift; sourceTree = "<group>"; };
 		3171AC721E3396470063198C /* PortfolioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioCell.swift; sourceTree = "<group>"; };
 		3171AC731E3396470063198C /* Addcell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addcell.swift; sourceTree = "<group>"; };
@@ -171,17 +176,14 @@
 		319329621E1A614200456DDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		319329651E1A614200456DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		319329671E1A614200456DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3193296C1E1A614200456DDF /* TooliTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TooliTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		319329701E1A614200456DDF /* TooliTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooliTests.swift; sourceTree = "<group>"; };
 		319329721E1A614200456DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		319329771E1A614200456DDF /* TooliUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TooliUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3193297B1E1A614200456DDF /* TooliUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooliUITests.swift; sourceTree = "<group>"; };
 		3193297D1E1A614200456DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3193298B1E1A7C9400456DDF /* AFWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFWrapper.swift; sourceTree = "<group>"; };
 		3193298C1E1A7C9400456DDF /* CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		3193298D1E1A7C9400456DDF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3193298E1E1A7C9400456DDF /* CreditCardFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditCardFormatter.swift; sourceTree = "<group>"; };
-		3193298F1E1A7C9400456DDF /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		319329901E1A7C9400456DDF /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		319329911E1A7C9400456DDF /* UITextField_Inset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField_Inset.swift; sourceTree = "<group>"; };
 		319329921E1A7C9400456DDF /* UIView_Borders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_Borders.swift; sourceTree = "<group>"; };
@@ -206,6 +208,14 @@
 		B843222E1E4F200000C379EF /* DashBoardTv1Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTv1Cell.swift; sourceTree = "<group>"; };
 		B843222F1E4F200000C379EF /* DashBoardTv2Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTv2Cell.swift; sourceTree = "<group>"; };
 		B84322301E4F200000C379EF /* DashBoardTv3Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardTv3Cell.swift; sourceTree = "<group>"; };
+		B851BF541E8D25ED00378D24 /* Duration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Duration.swift; sourceTree = "<group>"; };
+		B851BF551E8D25ED00378D24 /* Int+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Timepiece.swift"; sourceTree = "<group>"; };
+		B851BF561E8D25ED00378D24 /* NSCalendar+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSCalendar+Timepiece.swift"; sourceTree = "<group>"; };
+		B851BF571E8D25ED00378D24 /* NSDate+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Timepiece.swift"; sourceTree = "<group>"; };
+		B851BF581E8D25ED00378D24 /* NSDateComponents+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDateComponents+Timepiece.swift"; sourceTree = "<group>"; };
+		B851BF591E8D25ED00378D24 /* String+Timepiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Timepiece.swift"; sourceTree = "<group>"; };
+		B851BF5A1E8D25ED00378D24 /* WWCalendarTimeSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WWCalendarTimeSelector.swift; sourceTree = "<group>"; };
+		B851BF5B1E8D25ED00378D24 /* WWCalendarTimeSelector.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WWCalendarTimeSelector.storyboard; sourceTree = "<group>"; };
 		C2733AA69E73BBB45A6610AA /* Pods-TooliTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TooliTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TooliTests/Pods-TooliTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TooliTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF153FAE8C921DB8201C28D /* Pods_Tooli.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tooli.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,22 +231,6 @@
 				31E947CB1E32447B0005184D /* FBSDKLoginKit.framework in Frameworks */,
 				31E947C91E3244750005184D /* FBSDKCoreKit.framework in Frameworks */,
 				41AEF2D84B3232A0334CE548 /* Pods_Tooli.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		319329691E1A614200456DDF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		319329741E1A614200456DDF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FDB6D16A9DFEA54312FF9CCB /* Pods_TooliUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +272,8 @@
 				206A08701E39D2A3004C6036 /* CertificateCell.swift */,
 				20898A3C1E3B690F009498DD /* LoadingCell.swift */,
 				205D19111E4C4250009CF5BD /* TimelineCell.swift */,
+				209533371E5C608E0036D6C0 /* FollowingListCell.swift */,
+				20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */,
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -299,27 +295,31 @@
 				204E71DD1E3B235D00E971E0 /* EditExperience.swift */,
 				B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */,
 				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
-				31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */,
 				3171AC691E3396320063198C /* ProfileFeed.swift */,
 				205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */,
-				31663C861E24C5AB00D5DD3C /* MessageTab.swift */,
-				206910EA1E5431F8009CED53 /* NotificationTab.swift */,
+				20FADD101E5AEFFB005ABBF1 /* NotificationTab.swift */,
+				31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */,
+				20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */,
+				20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */,
+				20FADD0C1E5AE418005ABBF1 /* ChatList.swift */,
 				31B6BE711E265C37009C03C7 /* JobCenter.swift */,
 				3118664B1E274C18008A4C74 /* Connections.swift */,
 				31FB339A1E27791000157820 /* JobDetail.swift */,
 				312297DE1E2F6FDD00EC48F7 /* ContractorDetail.swift */,
 				31A6ED781E31D3470039A780 /* SlidingMenu.swift */,
-				3171AC6B1E3396320063198C /* CompnayProfilefeed.swift */,
+				20744CEC1E5AAD2D007D91D4 /* CompnayProfilefeed.swift */,
 				31A6ED761E31D2F40039A780 /* MyNavigationController.swift */,
 				3171AC6A1E3396320063198C /* Addportfolio.swift */,
 				2025C3491E49D47B00615DFE /* Editportfolio.swift */,
 				207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */,
 				207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */,
-				204E008A1E5316BF0099C111 /* TagListView.swift */,
 				206910E81E541F5B009CED53 /* ContractorSearch.swift */,
 				206910F11E5439D7009CED53 /* ContractorResult.swift */,
 				201F553A1E5465B20009EFFF /* PDFViewer.swift */,
 				201F553C1E546F590009EFFF /* SavedView.swift */,
+				209533351E5C55710036D6C0 /* NProfileFeed.swift */,
+				20303D071E5D7C4D00FCF08B /* Statistics.swift */,
+				203A2AE91E71930300A01D69 /* SpecialOfferList.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -353,8 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				319329581E1A614200456DDF /* Tooli.app */,
-				3193296C1E1A614200456DDF /* TooliTests.xctest */,
-				319329771E1A614200456DDF /* TooliUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -362,6 +360,7 @@
 		3193295A1E1A614200456DDF /* Tooli */ = {
 			isa = PBXGroup;
 			children = (
+				206EF0F61E99005A00938012 /* Tooli-Bridging-Header.h */,
 				206910F01E54324F009CED53 /* Tooli.entitlements */,
 				206910EE1E543223009CED53 /* AppDelegate.swift */,
 				3193295F1E1A614200456DDF /* Main.storyboard */,
@@ -373,6 +372,7 @@
 				319329621E1A614200456DDF /* Assets.xcassets */,
 				319329641E1A614200456DDF /* LaunchScreen.storyboard */,
 				319329671E1A614200456DDF /* Info.plist */,
+				2053CCAF1E9D17B100D0F9D6 /* GoogleService-Info.plist */,
 			);
 			path = Tooli;
 			sourceTree = "<group>";
@@ -398,12 +398,14 @@
 		3193299B1E1A7CB000456DDF /* Custom & Utility */ = {
 			isa = PBXGroup;
 			children = (
+				B851BF531E8D25D700378D24 /* Calendar */,
+				204E008A1E5316BF0099C111 /* TagListView.swift */,
 				3193298B1E1A7C9400456DDF /* AFWrapper.swift */,
 				314A44CA1E1B73A600401F49 /* CustomCategories.swift */,
 				3193298C1E1A7C9400456DDF /* CALayer.swift */,
 				3193298D1E1A7C9400456DDF /* Constants.swift */,
+				20FADD0E1E5AE51C005ABBF1 /* Globals.swift */,
 				3193298E1E1A7C9400456DDF /* CreditCardFormatter.swift */,
-				3193298F1E1A7C9400456DDF /* Globals.swift */,
 				319329901E1A7C9400456DDF /* Reachability.swift */,
 				319329911E1A7C9400456DDF /* UITextField_Inset.swift */,
 				319329921E1A7C9400456DDF /* UIView_Borders.swift */,
@@ -435,6 +437,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B851BF531E8D25D700378D24 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				B851BF541E8D25ED00378D24 /* Duration.swift */,
+				B851BF551E8D25ED00378D24 /* Int+Timepiece.swift */,
+				B851BF561E8D25ED00378D24 /* NSCalendar+Timepiece.swift */,
+				B851BF571E8D25ED00378D24 /* NSDate+Timepiece.swift */,
+				B851BF581E8D25ED00378D24 /* NSDateComponents+Timepiece.swift */,
+				B851BF591E8D25ED00378D24 /* String+Timepiece.swift */,
+				B851BF5A1E8D25ED00378D24 /* WWCalendarTimeSelector.swift */,
+				B851BF5B1E8D25ED00378D24 /* WWCalendarTimeSelector.storyboard */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -448,6 +465,7 @@
 				319329561E1A614100456DDF /* Resources */,
 				D9D8893132F2340815884ECC /* [CP] Embed Pods Frameworks */,
 				9E7B46CF83CDC9C33718D268 /* [CP] Copy Pods Resources */,
+				205074F11E56FAD100D75292 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -457,48 +475,6 @@
 			productName = Tooli;
 			productReference = 319329581E1A614200456DDF /* Tooli.app */;
 			productType = "com.apple.product-type.application";
-		};
-		3193296B1E1A614200456DDF /* TooliTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 319329831E1A614200456DDF /* Build configuration list for PBXNativeTarget "TooliTests" */;
-			buildPhases = (
-				E5678140C0872C6AABA2FBAF /* [CP] Check Pods Manifest.lock */,
-				319329681E1A614200456DDF /* Sources */,
-				319329691E1A614200456DDF /* Frameworks */,
-				3193296A1E1A614200456DDF /* Resources */,
-				A770DC5AAC75899EEEC68485 /* [CP] Embed Pods Frameworks */,
-				81EB92C1A8524E602E9985E6 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3193296E1E1A614200456DDF /* PBXTargetDependency */,
-			);
-			name = TooliTests;
-			productName = TooliTests;
-			productReference = 3193296C1E1A614200456DDF /* TooliTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		319329761E1A614200456DDF /* TooliUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 319329861E1A614200456DDF /* Build configuration list for PBXNativeTarget "TooliUITests" */;
-			buildPhases = (
-				96D61F548D0B4BC842A02FDC /* [CP] Check Pods Manifest.lock */,
-				319329731E1A614200456DDF /* Sources */,
-				319329741E1A614200456DDF /* Frameworks */,
-				319329751E1A614200456DDF /* Resources */,
-				6213931AE82241C1F71EA33F /* [CP] Embed Pods Frameworks */,
-				8BCB514137D65D7ACD626A6B /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				319329791E1A614200456DDF /* PBXTargetDependency */,
-			);
-			name = TooliUITests;
-			productName = TooliUITests;
-			productReference = 319329771E1A614200456DDF /* TooliUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -520,16 +496,6 @@
 							};
 						};
 					};
-					3193296B1E1A614200456DDF = {
-						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 319329571E1A614100456DDF;
-					};
-					319329761E1A614200456DDF = {
-						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 319329571E1A614100456DDF;
-					};
 				};
 			};
 			buildConfigurationList = 319329531E1A614100456DDF /* Build configuration list for PBXProject "Tooli" */;
@@ -546,8 +512,6 @@
 			projectRoot = "";
 			targets = (
 				319329571E1A614100456DDF /* Tooli */,
-				3193296B1E1A614200456DDF /* TooliTests */,
-				319329761E1A614200456DDF /* TooliUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -557,94 +521,35 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B851BF631E8D25ED00378D24 /* WWCalendarTimeSelector.storyboard in Resources */,
 				319329661E1A614200456DDF /* LaunchScreen.storyboard in Resources */,
 				319329A41E1A84D300456DDF /* Oxygen-Light.ttf in Resources */,
 				319329631E1A614200456DDF /* Assets.xcassets in Resources */,
 				319329A31E1A84D300456DDF /* Oxygen-Bold.ttf in Resources */,
 				319329A21E1A84D300456DDF /* OFL.txt in Resources */,
 				319329A51E1A84D300456DDF /* Oxygen-Regular.ttf in Resources */,
+				2053CCB01E9D17B100D0F9D6 /* GoogleService-Info.plist in Resources */,
 				319329611E1A614200456DDF /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3193296A1E1A614200456DDF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		319329751E1A614200456DDF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6213931AE82241C1F71EA33F /* [CP] Embed Pods Frameworks */ = {
+		205074F11E56FAD100D75292 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "./Fabric.framework/run 0b5d2d3dda7c1e1fc5063210da75c7f408670a9c 946063ef553efb5c7b1a100352abc11a47f8b5e815186a50dab48b06727dc01b\n";
 		};
 		7DEAE42240655E9D86221269 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		81EB92C1A8524E602E9985E6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TooliTests/Pods-TooliTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8BCB514137D65D7ACD626A6B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TooliUITests/Pods-TooliUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		96D61F548D0B4BC842A02FDC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -674,21 +579,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tooli/Pods-Tooli-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A770DC5AAC75899EEEC68485 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TooliTests/Pods-TooliTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D9D8893132F2340815884ECC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -702,21 +592,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tooli/Pods-Tooli-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E5678140C0872C6AABA2FBAF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -738,26 +613,29 @@
 				206910EF1E543223009CED53 /* AppDelegate.swift in Sources */,
 				3193295E1E1A614200456DDF /* Experience.swift in Sources */,
 				207B1B831E51DE2700C5F664 /* JodDetailViewController.swift in Sources */,
+				20303D0E1E5D876E00FCF08B /* StatsticsCell.swift in Sources */,
 				204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */,
 				3171AC781E3396470063198C /* PortfolioCell.swift in Sources */,
 				206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */,
 				3171AC6E1E3396320063198C /* Addportfolio.swift in Sources */,
 				31B6BE741E265C56009C03C7 /* JobCenterCell.swift in Sources */,
 				31691C781E30A2430029CDB6 /* Register.swift in Sources */,
-				3171AC6F1E3396320063198C /* CompnayProfilefeed.swift in Sources */,
 				319329941E1A7C9400456DDF /* CALayer.swift in Sources */,
+				B851BF5F1E8D25ED00378D24 /* NSDate+Timepiece.swift in Sources */,
 				31691C761E3091C40029CDB6 /* Certificates.swift in Sources */,
 				206910E91E541F5B009CED53 /* ContractorSearch.swift in Sources */,
 				B84322331E4F200000C379EF /* DashBoardTv3Cell.swift in Sources */,
+				B851BF601E8D25ED00378D24 /* NSDateComponents+Timepiece.swift in Sources */,
 				31691C741E307E620029CDB6 /* RatesTravel.swift in Sources */,
 				3118664C1E274C18008A4C74 /* Connections.swift in Sources */,
 				204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */,
 				318694CB1E1F746D000E8349 /* CustomTabBarC.swift in Sources */,
 				B83AA1E51E3C5BF2004FD90F /* SkillCell.swift in Sources */,
+				209533361E5C55710036D6C0 /* NProfileFeed.swift in Sources */,
 				206910F21E5439D7009CED53 /* ContractorResult.swift in Sources */,
 				3171AC7A1E3396470063198C /* CompanyprofileJobsCell.swift in Sources */,
+				20FADD091E5AE3FE005ABBF1 /* MessageTab.swift in Sources */,
 				31663C8B1E24CAB400D5DD3C /* DashBoardTab.swift in Sources */,
-				206910EB1E5431F8009CED53 /* NotificationTab.swift in Sources */,
 				319329931E1A7C9400456DDF /* AFWrapper.swift in Sources */,
 				319329991E1A7C9400456DDF /* UITextField_Inset.swift in Sources */,
 				31B6BE721E265C37009C03C7 /* JobCenter.swift in Sources */,
@@ -766,69 +644,51 @@
 				207B1B851E51EA9200C5F664 /* OfferDetailViewController.swift in Sources */,
 				201F553F1E548E240009EFFF /* ChangePassword.swift in Sources */,
 				201F553B1E5465B20009EFFF /* PDFViewer.swift in Sources */,
-				31663C871E24C5AB00D5DD3C /* MessageTab.swift in Sources */,
 				3171AC6D1E3396320063198C /* ProfileFeed.swift in Sources */,
 				311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */,
 				207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */,
 				31663C8D1E25083000D5DD3C /* DashBoardTvCell.swift in Sources */,
+				20FADD0F1E5AE51C005ABBF1 /* Globals.swift in Sources */,
 				206910ED1E54320C009CED53 /* Login.swift in Sources */,
+				20FADD0B1E5AE40A005ABBF1 /* MessageDetails.swift in Sources */,
+				B851BF611E8D25ED00378D24 /* String+Timepiece.swift in Sources */,
+				B851BF621E8D25ED00378D24 /* WWCalendarTimeSelector.swift in Sources */,
 				201F553D1E546F590009EFFF /* SavedView.swift in Sources */,
 				205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */,
+				209533381E5C608E0036D6C0 /* FollowingListCell.swift in Sources */,
 				31691C7C1E30A25A0029CDB6 /* Info.swift in Sources */,
 				312297DF1E2F6FDD00EC48F7 /* ContractorDetail.swift in Sources */,
-				319329971E1A7C9400456DDF /* Globals.swift in Sources */,
 				319329981E1A7C9400456DDF /* Reachability.swift in Sources */,
 				3118664E1E274C32008A4C74 /* ConnectionCell.swift in Sources */,
 				2025C34A1E49D47B00615DFE /* Editportfolio.swift in Sources */,
 				B84322311E4F200000C379EF /* DashBoardTv1Cell.swift in Sources */,
 				20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */,
 				314A44CB1E1B73A600401F49 /* CustomCategories.swift in Sources */,
+				203A2AEA1E71930400A01D69 /* SpecialOfferList.swift in Sources */,
 				319329961E1A7C9400456DDF /* CreditCardFormatter.swift in Sources */,
 				314676C01E23C51600B01108 /* YourTrades.swift in Sources */,
 				31663C8F1E25085500D5DD3C /* DashBoardCvCell.swift in Sources */,
 				200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */,
+				B851BF5E1E8D25ED00378D24 /* NSCalendar+Timepiece.swift in Sources */,
+				20FADD0D1E5AE418005ABBF1 /* ChatList.swift in Sources */,
 				3171AC791E3396470063198C /* Addcell.swift in Sources */,
+				20FADD111E5AEFFB005ABBF1 /* NotificationTab.swift in Sources */,
 				B84322321E4F200000C379EF /* DashBoardTv2Cell.swift in Sources */,
 				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
+				B851BF5C1E8D25ED00378D24 /* Duration.swift in Sources */,
+				20744CED1E5AAD2D007D91D4 /* CompnayProfilefeed.swift in Sources */,
 				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
 				206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */,
 				3171AC6C1E3396320063198C /* EditProfile.swift in Sources */,
 				31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */,
 				205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */,
+				20303D081E5D7C4D00FCF08B /* Statistics.swift in Sources */,
+				B851BF5D1E8D25ED00378D24 /* Int+Timepiece.swift in Sources */,
 				204E008B1E5316BF0099C111 /* TagListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		319329681E1A614200456DDF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				319329711E1A614200456DDF /* TooliTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		319329731E1A614200456DDF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3193297C1E1A614200456DDF /* TooliUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		3193296E1E1A614200456DDF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 319329571E1A614100456DDF /* Tooli */;
-			targetProxy = 3193296D1E1A614200456DDF /* PBXContainerItemProxy */;
-		};
-		319329791E1A614200456DDF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 319329571E1A614100456DDF /* Tooli */;
-			targetProxy = 319329781E1A614200456DDF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3193295F1E1A614200456DDF /* Main.storyboard */ = {
@@ -871,7 +731,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Colin Jervis (29K7UXZ765)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Colin Jervis (29K7UXZ765)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -921,7 +782,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -951,15 +813,22 @@
 				CODE_SIGN_ENTITLEMENTS = Tooli/Tooli.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Colin Jervis (29K7UXZ765)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Colin Jervis (29K7UXZ765)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = WCX7454T4W;
 				INFOPLIST_FILE = Tooli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Tooli/GoogleAnalytics",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.blush.Tooli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dcc08f6b-28bb-48a1-a35e-e96bbf85b7bb";
-				PROVISIONING_PROFILE_SPECIFIER = Development;
+				PROVISIONING_PROFILE = "707d4220-33a6-47f9-a183-bce5cb48370c";
+				PROVISIONING_PROFILE_SPECIFIER = "Tooli Development New";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tooli/Tooli-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -969,75 +838,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Tooli/Tooli.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Colin Jervis (29K7UXZ765)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Colin Jervis (29K7UXZ765)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tooli Ltd (WCX7454T4W)";
 				DEVELOPMENT_TEAM = WCX7454T4W;
 				INFOPLIST_FILE = Tooli/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Tooli/GoogleAnalytics",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.blush.Tooli;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dcc08f6b-28bb-48a1-a35e-e96bbf85b7bb";
-				PROVISIONING_PROFILE_SPECIFIER = Development;
+				PROVISIONING_PROFILE = "829472f3-4885-410e-bfa7-370f842e28a9";
+				PROVISIONING_PROFILE_SPECIFIER = "Tooli iOS Distribution 13-02-2017";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tooli/Tooli-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		319329841E1A614200456DDF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2733AA69E73BBB45A6610AA /* Pods-TooliTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = TooliTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tooli.app/Tooli";
-			};
-			name = Debug;
-		};
-		319329851E1A614200456DDF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE54D64DF0A07434B5860A20 /* Pods-TooliTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = TooliTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tooli.app/Tooli";
-			};
-			name = Release;
-		};
-		319329871E1A614200456DDF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58553292CE7B94A7F9B486DF /* Pods-TooliUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = TooliUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Tooli;
-			};
-			name = Debug;
-		};
-		319329881E1A614200456DDF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 188DC577411309CBD8F4498A /* Pods-TooliUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = TooliUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Tooli;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1058,24 +875,6 @@
 			buildConfigurations = (
 				319329811E1A614200456DDF /* Debug */,
 				319329821E1A614200456DDF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		319329831E1A614200456DDF /* Build configuration list for PBXNativeTarget "TooliTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				319329841E1A614200456DDF /* Debug */,
-				319329851E1A614200456DDF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		319329861E1A614200456DDF /* Build configuration list for PBXNativeTarget "TooliUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				319329871E1A614200456DDF /* Debug */,
-				319329881E1A614200456DDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

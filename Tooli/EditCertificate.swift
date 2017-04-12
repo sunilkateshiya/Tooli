@@ -56,6 +56,11 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
           }
     override func viewWillAppear(_ animated: Bool) {
         updateUserInfo()
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Edit Certificate Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
           func getMasters(){
@@ -92,15 +97,14 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                          else
                          {
                               self.stopAnimating()
-                              self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                          }
-                         
+                          self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     }
                     
                }) {
                     (error) -> Void in
                     self.stopAnimating()
-                    print(error.localizedDescription)
+                     
                     self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
                }
                
@@ -163,17 +167,6 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                 cell.btnRemove.isHidden = true;
                 cell.btnUpload.isHidden = false;
             }
-            
-//               for certificates in self.sharedManager.currentUser.CertificateFileList! {
-//                    if  certificates.PrimaryID == self.sharedManager.currentUser.CertificateFileList?[indexPath.row].PrimaryID {
-//                         
-//                         
-//
-//                         }
-//                    }
-               
-//
-//
                return cell
           }
     
@@ -188,8 +181,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                         param["PrimaryID"] = tmpcert.PrimaryID
                     }
                 }
-                
-                
+            
                 print(param)
                 AFWrapper.requestPOSTURL(Constants.URLS.ContractorCertificateDelete, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
                     (JSONResponse) -> Void in
@@ -221,7 +213,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                 }) {
                     (error) -> Void in
                     self.stopAnimating()
-                    print(error.localizedDescription)
+                     
                     self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
                 }
             }
@@ -283,13 +275,16 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
           //        selectedCertificates.remove(at: selectedCertificates.index(of: certificates[indexPath.row])! )
           //        selectedCell = nil
           //    }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
           func takePhoto() {
                self.view.endEditing(true)
                imagePicker =  UIImagePickerController()
                imagePicker.delegate = self
                imagePicker.sourceType = .camera
-               imagePicker.allowsEditing = true
+               imagePicker.allowsEditing = false
                
                present(imagePicker, animated: true, completion: nil)
           }
@@ -299,7 +294,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                imagePicker =  UIImagePickerController()
                imagePicker.delegate = self
                imagePicker.sourceType = .photoLibrary
-               imagePicker.allowsEditing = true
+               imagePicker.allowsEditing = false
                present(imagePicker, animated: true, completion: nil)
           }
           
@@ -348,7 +343,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
         }) {
             (error) -> Void in
             self.stopAnimating()
-            print(error.localizedDescription)
+             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
@@ -371,7 +366,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                     for (key, value) in parameters {
                          multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
                     }
-               }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&CertificateCategoryID=" +  String(selectedCertificates.PrimaryID) + "&PageType=certificate")
+               }, to:Constants.URLS.Base_Url+"/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&CertificateCategoryID=" +  String(selectedCertificates.PrimaryID) + "&PageType=certificate")
                { (result) in
                     switch result {
                     case .success(let upload, _, _):
@@ -382,7 +377,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                          
                          upload.responseJSON { response in
                             
-                              
+                              self.stopAnimating()
                               
                               print(response.result)
                               switch  response.result  {
@@ -399,6 +394,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                                    }
                                    
                               case .failure(let error):
+                                self.stopAnimating()
                                    self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .bottom)
                                    
                               }
@@ -407,6 +403,7 @@ class EditCertificate:  UIViewController, UITableViewDelegate, UITableViewDataSo
                          }
                          
                     case .failure(let encodingError):
+                        self.stopAnimating()
                          print(encodingError.localizedDescription)
                          break
                     }

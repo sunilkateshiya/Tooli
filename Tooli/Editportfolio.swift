@@ -12,6 +12,9 @@ import NVActivityIndicatorView
 import ObjectMapper
 import Alamofire
 import Kingfisher
+import BSImagePicker
+import Photos
+
 class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,NVActivityIndicatorViewable , UIImagePickerControllerDelegate,UINavigationControllerDelegate, UITextViewDelegate {
     @IBOutlet weak var TxtDescription: UITextView!
     @IBOutlet weak var TxtLocation: UITextField!
@@ -24,6 +27,9 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
     var selectedImage : UIImage?
     var imagePicker: UIImagePickerController!
     var isImageSelected : Bool = false
+    var assets: [PHAsset]!
+    var imageArr:NSMutableArray = NSMutableArray()
+    
     // Make this dynamic
     var portfolioId = 0
     override func viewWillAppear(_ animated: Bool) {
@@ -60,9 +66,19 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
             self.stopAnimating()
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
+        
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Edit portfolio Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     @IBAction func actionBack(sender : UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
     }
     @IBAction func actionPost(sender : UIButton) {
         var isValid : Bool = true
@@ -120,7 +136,7 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                         userDefaults.synchronize()
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+            
                         
                         
                         self.PortCollectionView.reloadData()
@@ -202,7 +218,6 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                 let imgURL = portfolio.PortfolioImageList[indexPath.row].PortfolioImageLink
                 let urlPro = URL(string: imgURL)
                 Collectcell.PortfolioImage.kf.indicatorType = .activity
-                Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),
@@ -242,10 +257,10 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                     
                     if JSONResponse["status"].rawString()! == "1"
                     {
-                        
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.stopAnimating()
                         self.portfolio.PortfolioImageList.remove(at: index)
                         self.PortCollectionView.reloadData()
+                         self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     }
                     else
                     {
@@ -276,7 +291,28 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
             }))
             
             alert.addAction(UIAlertAction(title: "Use Gallery", style: UIAlertActionStyle.default, handler: { (UIAlertAction) in
-                self.selectFromGallery()
+                let vc = BSImagePickerViewController()
+                vc.maxNumberOfSelections = 50
+                
+                self.bs_presentImagePickerController(vc, animated: true,
+                                                     select: { (asset: PHAsset) -> Void in
+                                                        print("Selected: \(asset)")
+                }, deselect: { (asset: PHAsset) -> Void in
+                    print("Deselected: \(asset)")
+                }, cancel: { (assets: [PHAsset]) -> Void in
+                    print("Cancel: \(assets)")
+                }, finish: { (assets: [PHAsset]) -> Void in
+                    print("Finish: \(assets)")
+                    
+                    if(assets.count != 0)
+                    {
+                        for assat in assets
+                        {
+                            self.imageArr.add(self.getAssetThumbnail(asset: assat))
+                        }
+                        self.uploadphoto()
+                    }
+                }, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (UIAlertAction) in
                 
@@ -344,14 +380,18 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
             "PageType" : "Portfolio"
             ] as [String : Any]
         
-        self.selectedImage = Globals.compressForUpload(original: self.selectedImage!, withHeightLimit: 1100, andWidthLimit: 800)
+      //  self.selectedImage = Globals.compressForUpload(original: self.selectedImage!, withHeightLimit: 1100, andWidthLimit: 800)
         
         Alamofire.upload(multipartFormData: { (multipartFormData) in
-            multipartFormData.append(UIImageJPEGRepresentation(self.selectedImage!, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
+            for assat in self.imageArr
+            {
+                multipartFormData.append(UIImageJPEGRepresentation(assat as! UIImage, 0.3)!, withName: "file", fileName: "toolicontractor.png", mimeType: "image/png")
+            }
+
             for (key, value) in parameters {
                 multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
             }
-        }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=Portfolio")
+        }, to:Constants.URLS.Base_Url+"/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=Portfolio")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -369,13 +409,22 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                         let response1 = JSON as! NSDictionary
                         if String(describing: response1.object(forKey: "status")!) == "1" {
                             
-                            let tmpPortfolio = PortfolioImages();
-                            tmpPortfolio.PortfolioImageLink = response1.object(forKey: "FileLink") as! String
-                            tmpPortfolio.img = self.selectedImage!
-                            tmpPortfolio.imgName = response1.object(forKey: "FileLink") as! String
-                            tmpPortfolio.isCreatedbyMe = true
-                            self.portfolio.PortfolioImageList.append(tmpPortfolio)
-                            self.PortCollectionView.reloadData()
+                            var arrList:NSArray = NSArray()
+                            arrList = response1.object(forKey: "FileNameList")! as! NSArray
+                            var index:Int = 0
+                            print(response1.object(forKey: "FileNameList")!)
+                            for str in arrList
+                            {
+                                let tmpPortfolio = PortfolioImages();
+                                tmpPortfolio.PortfolioImageLink = response1.object(forKey: "FileLink") as! String
+                                tmpPortfolio.img = self.imageArr[index] as? UIImage
+                                tmpPortfolio.imgName = str as! String
+                                tmpPortfolio.isCreatedbyMe = true
+                                self.portfolio.PortfolioImageList.append(tmpPortfolio)
+                                self.PortCollectionView.reloadData()
+                                index+=1
+                            }
+                            self.imageArr = NSMutableArray()
                             self.selectedImage = nil
                         }
                         else
@@ -397,6 +446,17 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
             }
         }
     }
+    func getAssetThumbnail(asset: PHAsset) -> UIImage {
+        let manager = PHImageManager.default()
+        let option = PHImageRequestOptions()
+        var thumbnail = UIImage()
+        option.isSynchronous = true
+        manager.requestImage(for: asset, targetSize: CGSize(width: 800, height: 1100), contentMode: .aspectFit, options: option, resultHandler: {(result, info)->Void in
+            thumbnail = result!
+        })
+        return thumbnail
+    }
+
     /*
     // MARK: - Navigation
 

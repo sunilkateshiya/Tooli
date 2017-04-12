@@ -13,19 +13,50 @@ import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
 
-class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable,UISearchBarDelegate
+class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable,UISearchBarDelegate,UITextViewDelegate
 {
+    @IBOutlet weak var viewError: UIView!
+    @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var btnAgain: UIButton!
+    @IBOutlet weak var imgError: UIImageView!
+    
+    @IBAction func btnAgainErrorAction(_ sender: UIButton)
+    {
+        self.imgError.isHidden = true
+        self.btnAgain.isHidden = true
+        self.lblError.isHidden = true
+         onLoadDetail(index: "\(currentPage)")
+    }
+    
     @IBOutlet weak var SearchbarView: UISearchBar!
     @IBOutlet var tvdashb : UITableView!
     var sharedManager : Globals = Globals.sharedInstance
-    var dashlist : [DashBoardM]?
+    var dashlist : [DashBoardM]? = []
     @IBOutlet var vwnolist : UIView?
     @IBOutlet var TBLSearchView:UITableView!
     @IBOutlet var viewSearch:UIView!
+    var refreshControl:UIRefreshControl!
     var Searchdashlist : [SerachDashBoardM]?
+    var placeholderLabel:UILabel!
+    @IBOutlet var txtabout : UITextView!
+    @IBOutlet weak var ivimage: UIImageView!
+    var isFull : Bool = false
+    var isFirstTime : Bool = true
+    var currentPage = 1
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        if(UserDefaults.standard.object(forKey: Constants.KEYS.ISINITSIGNALR) != nil)
+        {
+            if(UserDefaults.standard.object(forKey: Constants.KEYS.ISINITSIGNALR) as! Bool == false)
+            {
+                self.dashlist = []
+                UserDefaults.standard.set(true, forKey: Constants.KEYS.ISINITSIGNALR)
+                UserDefaults.standard.set(true, forKey: Constants.KEYS.LOGINKEY)
+            }
+        }
+        txtabout.delegate = self
         SearchbarView.delegate = self
     
         
@@ -36,19 +67,111 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         tvdashb.tableFooterView = UIView()
         self.vwnolist?.isHidden = true
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(DashBoardTab.refreshPage), for: UIControlEvents.valueChanged)
+        tvdashb.addSubview(refreshControl)
+        
         AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
 
-        onLoadDetail()
+        onLoadDetail(index: "\(currentPage)")
+        self.startAnimating()
+        self.viewError.isHidden = false
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer()
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.addTarget(self, action: #selector(DashBoardTab.tapTableView(_:)))
+        tvdashb.addGestureRecognizer(tapGesture)
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "What are you working on today?"
+        //     placeholderLabel.font = UIFont(name: "BabasNeue", size: 106)
+        placeholderLabel.font = UIFont.systemFont(ofSize: (txtabout.font?.pointSize)!)
+        placeholderLabel.sizeToFit()
+        txtabout.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (txtabout.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.lightGray
+        placeholderLabel.isHidden = !txtabout.text.isEmpty
+        
+        
+        if (self.sharedManager.currentUser != nil) {
+            if self.sharedManager.currentUser.ProfileImageLink != "" {
+                let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
+                let urlPro = URL(string: imgURL)
+                ivimage?.kf.indicatorType = .activity
+                
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
+                let optionInfo: KingfisherOptionsInfo = [
+                    .downloadPriority(0.5),
+                    .transition(ImageTransition.fade(1)),
+                    .forceRefresh
+                ]
+                
+                ivimage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                
+                ivimage?.clipsToBounds = true
+            }
+        }
         
         // Do any additional setup after loading the view.
     }
-    
+    func tapTableView(_ sender:UITapGestureRecognizer)
+    {
+        SearchbarView.resignFirstResponder()
+        txtabout.resignFirstResponder()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.sideMenuController()?.sideMenu?.allowLeftSwipe = false
+        self.sideMenuController()?.sideMenu?.allowPanGesture = true
+        self.sideMenuController()?.sideMenu?.allowRightSwipe = true
+
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "DashBorad Data Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    @IBAction func btnSendTodayPostAction(_ sender: UIButton)
+    {
+        if(txtabout.text != "")
+        {
+            AddStatus()
+        }
+        else
+        {
+         self.view.makeToast("Status can not be empty.", duration: 3, position: .center)
+        }
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+    func refreshPage()
+    {
+        isFirstTime = true
+        currentPage = 1
+        onLoadDetail(index: "\(currentPage)")
+    }
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
         var strUpdated:NSString =  searchBar.text! as NSString
         strUpdated = strUpdated.replacingCharacters(in: range, with: text) as NSString
-        onSerach(str: strUpdated as String)
+        if(Reachability.isConnectedToNetwork())
+        {
+            onSerach(str: strUpdated as String)
+        }
+        
         return true
     }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        let tblheight = self.tvdashb.contentSize.height-50
+        
+        if scrollView.contentOffset.y > CGFloat(tblheight) {
+          // onLoadDetail(index: "\(currentPage)")
+        }
+    }
+
     func onSerach(str:String)
     {
         self.startAnimating()
@@ -61,14 +184,13 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+           
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
-                {        self.vwnolist?.isHidden = true
-                    
+                {
                     self.Searchdashlist = self.sharedManager.SearchdashBoard.DataList
                     if(self.Searchdashlist!.count > 0)
                     {
@@ -82,60 +204,89 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 }
                 else
                 {
-                    self.vwnolist?.isHidden = false
                     
                 }
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
-    func onLoadDetail(){
+    func onLoadDetail(index:String){
         
-        
-        self.startAnimating()
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,"PageIndex":index] as [String : Any]
         
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.ContractorDashboard, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
             
-            self.sharedManager.dashBoard = Mapper<ContractorDashBoard>().map(JSONObject: JSONResponse.rawValue)
-            
+           
+            self.refreshControl.endRefreshing()
             self.stopAnimating()
             
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
                 
+                self.viewError.isHidden = true
+                self.imgError.isHidden = true
+                self.btnAgain.isHidden = true
+                self.lblError.isHidden = true
+                
                 if JSONResponse["status"].rawString()! == "1"
-                {        self.vwnolist?.isHidden = true
-
-                    self.dashlist = self.sharedManager.dashBoard.DataList
+                {
+                    if(self.isFirstTime)
+                    {
+                        self.isFirstTime = false
+                        self.sharedManager.dashBoard = Mapper<ContractorDashBoard>().map(JSONObject: JSONResponse.rawValue)
+                        self.sharedManager.unreadSpecialOffer = self.sharedManager.dashBoard.UnreadOfferNotificationCount
+                        self.sharedManager.unreadNotification = self.sharedManager.dashBoard.UnreadNotificationCount
+                         self.sharedManager.unreadMessage = self.sharedManager.dashBoard.UnreadMessageNotificationCount
+                        UIApplication.shared.applicationIconBadgeNumber =  self.sharedManager.unreadSpecialOffer + self.sharedManager.unreadNotification + self.sharedManager.unreadMessage
+                    
+                         NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
+                        
+                        self.dashlist = self.sharedManager.dashBoard.DataList
+                    }
+                    else
+                    {
+                        let tmpList : ContractorDashBoard = Mapper<ContractorDashBoard>().map(JSONObject: JSONResponse.rawValue)!
+                        for tmpDashborad in tmpList.DataList! {
+                            self.dashlist?.append(tmpDashborad)
+                        }
+                    }
+                    self.currentPage = self.currentPage + 1
+                    self.vwnolist?.isHidden = true
                     self.tvdashb.reloadData()
                    }
                 else
                 {
-                    self.vwnolist?.isHidden = false
-
+                    if(self.isFirstTime)
+                    {
+                        
+                    }
+                    if(self.dashlist?.count == 0)
+                    {
+                           self.vwnolist?.isHidden = false
+                    }
+                    self.isFull = true
+                    self.isFirstTime = false
                 }
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
-
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.refreshControl.endRefreshing()
+            self.viewError.isHidden = false
+            self.imgError.isHidden = false
+            self.btnAgain.isHidden = false
+            self.lblError.isHidden = false
         }
     }
     
@@ -180,6 +331,8 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     @IBAction func btnMenu(button: AnyObject)
     {
+        SearchbarView.resignFirstResponder()
+        txtabout.resignFirstResponder()
         toggleSideMenuView()
     }
     
@@ -188,7 +341,14 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     var screenHeight: CGFloat!
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        
+        if(!isFull)
+        {
+            if(indexPath.row == (self.dashlist?.count)!-2)
+            {
+                onLoadDetail(index: "\(currentPage)")
+            }  
+        }
+       
         if(tableView == TBLSearchView)
         {
              let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -196,15 +356,90 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
             return cell
         }
+        else if(self.dashlist?[indexPath.row].isStatus == true)
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DashBoardTvCell
+            
+            
+            let myString = "\(self.dashlist![indexPath.row].Title)-\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)"
+            var myRange = NSRange(location:((self.dashlist![indexPath.row].Title)).length+1, length: "\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)".length)
+            let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+            
+            cell.lbltitle.tag = indexPath.row
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
+            cell.lbltitle.isUserInteractionEnabled = true
+            cell.lbltitle.addGestureRecognizer(tapGestureRecognizer)
+            
+            
+            cell.lblhtml.tag = indexPath.row
+            let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(lblJobTaped(tapGestureRecognizer:)))
+            cell.lblhtml.isUserInteractionEnabled = true
+            cell.lblhtml.addGestureRecognizer(tapGestureRecognizer1)
+
+            
+            let myAttrString = NSMutableAttributedString(string: myString)
+            let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+            var myRange1 = NSRange(location:0, length: ((self.dashlist![indexPath.row].Title)).length)
+            myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+            myAttrString.addAttributes(anotherAttribute, range: myRange)
+            cell.lbltitle.attributedText = myAttrString
+            
+            cell.lbldate.text = self.dashlist?[indexPath.row].DatetimeCaption as String!
+            cell.lblhtml.text = self.dashlist?[indexPath.row].Description as String!
+            
+            let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
+            let url = URL(string: imgURL!)
+            cell.imguser.kf.indicatorType = .activity
+            cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+            
+            cell.btnProfile!.tag=indexPath.row
+            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+            
+            cell.btnfav!.tag=indexPath.row
+            cell.btnfav?.addTarget(self, action: #selector(DashBoardTab.btnSaveStatus(btn:)), for: UIControlEvents.touchUpInside)
+            
+            if self.dashlist?[indexPath.row].IsSaved == true {
+                cell.btnfav.isSelected = true
+            }
+            else{
+                cell.btnfav.isSelected = false
+                
+            }
+            cell.btnfav.isHidden = true
+            return cell
+        }
         else
         {
             let cvimgcnt : Int = (self.dashlist?[indexPath.row].PortfolioImageList?.count)!
+            
             if cvimgcnt == 0{
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DashBoardTvCell
-                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+
+                
+                let myString = "\(self.dashlist![indexPath.row].Title)-\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)"
+                var myRange = NSRange(location:((self.dashlist![indexPath.row].Title)).length+1, length: "\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.dashlist![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
+                cell.lbltitle.isUserInteractionEnabled = true
+                cell.lbltitle.addGestureRecognizer(tapGestureRecognizer)
+                
+                cell.lbldate.text = self.dashlist?[indexPath.row].DatetimeCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].Description as String!
+                
+                cell.lblhtml.tag = indexPath.row
+                let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(lblJobTaped(tapGestureRecognizer:)))
+                cell.lblhtml.isUserInteractionEnabled = true
+                cell.lblhtml.addGestureRecognizer(tapGestureRecognizer1)
                 
                 let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
                 let url = URL(string: imgURL!)
@@ -216,7 +451,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 
                 
                 cell.btnfav!.tag=indexPath.row
-                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                cell.btnfav?.addTarget(self, action: #selector(DashBoardTab.btnfav(btn:)), for: UIControlEvents.touchUpInside)
                 
                 if self.dashlist?[indexPath.row].IsSaved == true {
                     cell.btnfav.isSelected = true
@@ -226,15 +461,29 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                     
                 }
                 return cell
-                
             }
                 
             else if cvimgcnt == 1{
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! DashBoardTv1Cell
-                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                let myString = "\(self.dashlist![indexPath.row].Title)-\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)"
+                var myRange = NSRange(location:((self.dashlist![indexPath.row].Title)).length+1, length: "\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.dashlist![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
+                cell.lbltitle.isUserInteractionEnabled = true
+                cell.lbltitle.addGestureRecognizer(tapGestureRecognizer)
+                
+                cell.lbldate.text = self.dashlist?[indexPath.row].DatetimeCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].Description as String!
                 
                 let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
                 let url = URL(string: imgURL!)
@@ -248,7 +497,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
                 
                 cell.btnfav!.tag=indexPath.row
-                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                cell.btnfav?.addTarget(self, action: #selector(DashBoardTab.btnfav(btn:)), for: UIControlEvents.touchUpInside)
                 
                 if self.dashlist?[indexPath.row].IsSaved == true {
                     cell.btnfav.isSelected = true
@@ -261,18 +510,41 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
                 let url1 = URL(string: imgURL1!)
                 cell.img1.kf.indicatorType = .activity
-                cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-                
+                cell.img1.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
+                    if(image != nil)
+                    {
+                        cell.setCustomImage(image : image!)
+                        if(cell.isReload)
+                        {
+                            cell.isReload = false
+                            tableView.reloadData()
+                        }
+                    }
+                })
                 return cell
-                
             }
                 
             else if cvimgcnt == 2{
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! DashBoardTv2Cell
-                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                let myString = "\(self.dashlist![indexPath.row].Title)-\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)"
+                var myRange = NSRange(location:((self.dashlist![indexPath.row].Title)).length+1, length: "\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.dashlist![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
+                cell.lbltitle.isUserInteractionEnabled = true
+                cell.lbltitle.addGestureRecognizer(tapGestureRecognizer)
+                
+                cell.lbldate.text = self.dashlist?[indexPath.row].DatetimeCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].Description as String!
                 
                 let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
                 let url = URL(string: imgURL!)
@@ -286,7 +558,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
                 
                 cell.btnfav!.tag=indexPath.row
-                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                cell.btnfav?.addTarget(self, action: #selector(DashBoardTab.btnfav(btn:)), for: UIControlEvents.touchUpInside)
                 
                 if self.dashlist?[indexPath.row].IsSaved == true {
                     cell.btnfav.isSelected = true
@@ -295,7 +567,6 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                     cell.btnfav.isSelected = false
                     
                 }
-                
                 
                 let imgURL1 = self.dashlist?[indexPath.row].PortfolioImageList?[0].PortfolioImageLink as String!
                 let url1 = URL(string: imgURL1!)
@@ -313,9 +584,24 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
             else {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell3", for: indexPath) as! DashBoardTv3Cell
-                cell.lbltitle.text = self.dashlist?[indexPath.row].Title as String!
-                cell.lbldate.text = self.dashlist?[indexPath.row].TitleCaption as String!
-                cell.lblhtml.text = self.dashlist?[indexPath.row].JobTitle as String!
+                let myString = "\(self.dashlist![indexPath.row].Title)-\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)"
+                var myRange = NSRange(location:((self.dashlist![indexPath.row].Title)).length+1, length: "\(self.dashlist![indexPath.row].TradeCategoryName) \(self.dashlist![indexPath.row].TitleCaption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.dashlist![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
+                cell.lbltitle.isUserInteractionEnabled = true
+                cell.lbltitle.addGestureRecognizer(tapGestureRecognizer)
+                
+                cell.lbldate.text = self.dashlist?[indexPath.row].DatetimeCaption as String!
+                cell.lblhtml.text = self.dashlist?[indexPath.row].Description as String!
                 
                 let imgURL = self.dashlist?[indexPath.row].ProfileImageLink as String!
                 let url = URL(string: imgURL!)
@@ -329,7 +615,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
                 
                 cell.btnfav!.tag=indexPath.row
-                cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                cell.btnfav?.addTarget(self, action: #selector(DashBoardTab.btnfav(btn:)), for: UIControlEvents.touchUpInside)
                 
                 if self.dashlist?[indexPath.row].IsSaved == true {
                     cell.btnfav.isSelected = true
@@ -353,26 +639,68 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 let url3 = URL(string: imgURL3!)
                 cell.img3.kf.indicatorType = .activity
                 cell.img3.kf.setImage(with: url3, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-                
+                 cell.overlayView.isHidden = true
+                if(cvimgcnt > 3)
+                {
+                     cell.overlayView.isHidden = false
+                    cell.lblPhotoCount.text = "+\(cvimgcnt - 3)\nView All"
+                }
                 return cell
-                
             }
         }
     }
-    
-    func btnProfile (btn : UIButton) {
+    func lblNamedTaped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+          let lbl = tapGestureRecognizer.view as! UILabel
         
-        
-        let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-        obj.contractorId = (self.dashlist?[btn.tag].ContractorID)!
-        self.navigationController?.pushViewController(obj, animated: true)
+        if(self.dashlist?[lbl.tag].IsContractor == false)
+        {
+            let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            companyVC.companyId = self.dashlist![lbl.tag].CompanyID
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
+        else
+        {
+            let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+            companyVC.contractorId = self.dashlist![lbl.tag].ContractorID
+            self.navigationController?.pushViewController(companyVC, animated: true)
+            
+        }
+    }
+    func lblJobTaped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let lbl = tapGestureRecognizer.view as! UILabel
+        if(self.dashlist![lbl.tag].IsJob)
+        {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "JodDetailViewController") as! JodDetailViewController
+            vc.JobId = self.dashlist![lbl.tag].PrimaryID
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 
+    func btnProfile (btn : UIButton)
+    {
+        if(self.dashlist?[btn.tag].IsContractor == false)
+        {
+            let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            companyVC.companyId = self.dashlist![btn.tag].CompanyID
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
+        else
+        {
+            let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+            companyVC.contractorId = self.dashlist![btn.tag].ContractorID
+            self.navigationController?.pushViewController(companyVC, animated: true)
+            
+        }
     }
     
     func btnPortfolio (btn : UIButton) {
+        
         let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
         obj.contractorId = (self.dashlist?[btn.tag].ContractorID)!
         obj.isPortFolio = true
+        obj.protfolioId = (self.dashlist?[btn.tag].PrimaryID)!
         self.navigationController?.pushViewController(obj, animated: true)
         
     }
@@ -393,45 +721,36 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
         AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
             
-            self.sharedManager.jobList = Mapper<JobList>().map(JSONObject: JSONResponse.rawValue)
-            
-            self.stopAnimating()
-            
+
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
-                    
-                    
-                    if btn.isSelected == true{
+                    if self.dashlist![btn.tag].IsSaved{
                         self.dashlist?[btn.tag].IsSaved = false
-                        self.sharedManager.dashBoard.DataList?[btn.tag].IsSaved = false
-                       // btn.isSelected = false
                     }
                     else{
                         self.dashlist?[btn.tag].IsSaved = true
-                        self.sharedManager.dashBoard.DataList?[btn.tag].IsSaved = true
-
-                      //  btn.isSelected = true
                     }
                     self.tvdashb.reloadData()
+                    self.stopAnimating()
                 }
                 else
                 {
-                    
+                  self.stopAnimating()
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+              //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     
@@ -445,7 +764,7 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
     {
         if(searchBar.text == "")
         {
-            SearchbarView.resignFirstResponder()
+            searchBar.resignFirstResponder()
             viewSearch.isHidden = true
         }
     }
@@ -462,13 +781,117 @@ class DashBoardTab: UIViewController, UITableViewDataSource, UITableViewDelegate
                 let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
                 companyVC.contractorId = self.Searchdashlist![indexPath.row].PrimaryID
                 self.navigationController?.pushViewController(companyVC, animated: true)
+                
+            }
+            SearchbarView.text = ""
+            SearchbarView.resignFirstResponder()
+            viewSearch.isHidden = true
+        }
+        else
+        {
+            if(self.dashlist![indexPath.row].IsJob)
+            {
+                
+                let obj : JodDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "JodDetailViewController") as! JodDetailViewController
+                obj.JobId = self.dashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(obj, animated: true)
+
             }
         }
-//        let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-//        obj.ContractorID = 
-//        self.navigationController?.pushViewController(obj, animated: true)
+    }
+    @IBAction func btnHomeScreenAction(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+
+    func AddStatus()
+    {
+        txtabout.resignFirstResponder()
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "StatusText":"\(txtabout.text!)"] as [String : Any]
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ConctractorUpdateStatus, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.jobList = Mapper<JobList>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.txtabout.text = ""
+                    self.placeholderLabel.isHidden = false
+                    self.refreshPage()
+                }
+                else
+                {
+                    
+                }
+                
+            //    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
+            }
+            
+        }) {
+            (error) -> Void in
+             
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
+        }
+    }
+    func btnSaveStatus(btn : UIButton)  {
         
+        var pagetype = 3
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "PrimaryID":self.dashlist?[btn.tag].PrimaryID ?? "-1",
+                     "PageType":pagetype] as [String : Any]
         
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    if btn.isSelected == true{
+                        self.dashlist?[btn.tag].IsSaved = false
+                        self.sharedManager.dashBoard.DataList?[btn.tag].IsSaved = false
+                        // btn.isSelected = false
+                    }
+                    else{
+                        self.dashlist?[btn.tag].IsSaved = true
+                        self.sharedManager.dashBoard.DataList?[btn.tag].IsSaved = true
+                        
+                        //  btn.isSelected = true
+                    }
+                    self.tvdashb.reloadData()
+                }
+                else
+                {
+                    
+                }
+                
+               // self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
+            }
+            
+        }) {
+            (error) -> Void in
+             
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
+        }
     }
 }
 

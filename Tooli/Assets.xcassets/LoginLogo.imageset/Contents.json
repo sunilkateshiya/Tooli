@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Tooli-logo-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "LoginLogo.png",
+      "filename" : "Tooli-logo-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Tooli-logo.png",
       "scale" : "3x"
     }
   ],

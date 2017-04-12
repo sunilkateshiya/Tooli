@@ -37,7 +37,10 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
         setValue()
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     func setValue(){
         
         self.txtfrom.text = self.sharedManager.currentUser.PerDayRate
@@ -52,7 +55,13 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "RatesTravel Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
     @IBAction func btntrades(_ sender: Any) {
         
         if btntrades.isSelected {
@@ -122,6 +131,11 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
             isValid = false
             self.view.makeToast("Please enter valid Dayily rates", duration: 3, position: .bottom)
         }
+        else if Int(txtuntil.text!)! < Int(txtfrom.text!)!
+        {
+            isValid = false
+            self.view.makeToast("The hourly rates should be smaller than the day rates!", duration: 3, position: .bottom)
+        }
         if isValid {
             self.startAnimating()
             var param = [:] as [String : Any]
@@ -156,7 +170,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
                     else
                     {
                         self.stopAnimating()
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                     }
                     
                 }
@@ -164,7 +178,7 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
             }) {
                 (error) -> Void in
                 self.stopAnimating()
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
             }
 
         }

@@ -32,15 +32,21 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
     var isFirstTime : Bool = true
      var isFull : Bool = false
     //var notificationList : FollowerModel = FollowerModel();
-    
+     var refreshControl:UIRefreshControl!
+    var isCallService:Bool = false
     @IBAction func btnBackAction(_ sender: UIButton)
     {
         
         self.navigationController?.popViewController(animated: true)
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.startAnimating()
         onLoadDetail(page: currentPage)
         
         tvconnections.delegate = self
@@ -51,12 +57,40 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
         
          self.vwnolist?.isHidden = true
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ContractorResult.refreshPage), for: UIControlEvents.valueChanged)
+        tvconnections.addSubview(refreshControl)
+
+        
         // Do any additional setup after loading the view.
+    }
+    func refreshPage()
+    {
+        isFirstTime = true
+        isFull = false
+        
+        currentPage = 1
+        onLoadDetail(page : currentPage)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Contractor Result Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     func onLoadDetail(page : Int){
         
+        if(isCallService)
+        {
+            return
+        }
+        else
+        {
+            isCallService = true
+        }
         if self.isFirstTime {
-            self.startAnimating()
+           
         }
         else {
             let view : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 80))
@@ -75,20 +109,22 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
             self.sharedManager.connectionList = Mapper<ConnectionList>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+            self.refreshControl.endRefreshing()
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil{
-                
+                 self.isCallService = false
                 if JSONResponse["status"].rawString()! == "1"
                 {
                      self.vwnolist?.isHidden = false
-                    self.tvconnections.isHidden = false
+                     self.tvconnections.isHidden = false
                      self.stopAnimating()
                     print(JSONResponse)
                     if self.isFirstTime {
+                        self.connlist  = FilterContractoreList()
                         self.connlist = Mapper<FilterContractoreList>().map(JSONObject: JSONResponse.rawValue)!
                         self.isFirstTime = false;
+                        self.currentPage = self.currentPage + 1
                     }
                     else {
                         let tmpList : FilterContractoreList = Mapper<FilterContractoreList>().map(JSONObject: JSONResponse.rawValue)!
@@ -114,13 +150,12 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
                     self.stopAnimating()
                     self.isFull = true
                     self.isFirstTime = false;
-                    //self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                 }
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
@@ -138,10 +173,10 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectionCell
-        cell.lbllocatn.text = self.connlist.DataList[indexPath.row].CityName as String!
+        cell.lbllocatn.text = self.connlist.DataList[indexPath.row].Aboutme as String!
         cell.lblcompany.text = self.connlist.DataList[indexPath.row].Name as String!
-        cell.lblwork.text = self.connlist.DataList[indexPath.row].TradeCategoryName as String!
-        
+        cell.lblwork.text = "\(self.connlist.DataList[indexPath.row].TradeCategoryName),\(self.connlist.DataList[indexPath.row].CityName)"
+        cell.lblAway.text = "\(self.connlist.DataList[indexPath.row].DistanceText)"
         cell.btnfav!.tag=indexPath.row
         cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
         if self.connlist.DataList[indexPath.row].IsSaved == true
@@ -200,12 +235,12 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
                     
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+              //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)

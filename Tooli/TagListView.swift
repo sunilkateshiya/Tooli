@@ -14,11 +14,11 @@ class TagListView:UIScrollView
     var currentRow = 0
     var tags = [UILabel]()
 
-    var hashtagsOffset:UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 0)
-    var rowHeight:CGFloat = 40 //height of rows
+    var hashtagsOffset:UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 25, right: 0)
+    var rowHeight:CGFloat = 30 //height of rows
     var tagHorizontalPadding:CGFloat = 5.0 // padding between tags horizontally
     var tagVerticalPadding:CGFloat = 5.0 // padding between tags vertically
-    var tagCombinedMargin:CGFloat = 10.0 // margin of left and right combined, text in tags are by default centered.
+    var tagCombinedMargin:CGFloat = 5.0 // margin of left and right combined, text in tags are by default centered.
     override init(frame:CGRect)
     {
         super.init(frame: frame)

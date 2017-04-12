@@ -24,6 +24,9 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet var lblDistance : UILabel!
     @IBOutlet var txtAddress : UITextField!
     @IBOutlet weak var BtnDob: UIButton!
+    
+    @IBOutlet weak var txtPhone: UITextField!
+    @IBOutlet weak var txtMobile: UITextField!
     @IBAction func BTnDOBtapped(_ sender: UIButton) {
         
         //var selectedDate : Date!
@@ -93,6 +96,10 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         let obj : EditCertificate = self.storyboard?.instantiateViewController(withIdentifier: "EditCertificate") as! EditCertificate
         self.navigationController?.pushViewController(obj, animated: true)
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func BtnUpdateProfileTapped(_ sender: Any) {
         var isValid : Bool = true
         if TxtName.text == "" {
@@ -103,10 +110,25 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             isValid = false
             self.view.makeToast("Please enter your surname", duration: 3, position: .bottom)
         }
-            
+        else if txtMobile.text == "" {
+            isValid = false
+            self.view.makeToast("Please enter your phone", duration: 3, position: .bottom)
+        }
+        else if txtPhone.text == "" {
+            isValid = false
+            self.view.makeToast("Please enter your mobile", duration: 3, position: .bottom)
+        }
+        else if (txtPhone.text?.characters.count)! >= 12 || (txtPhone.text?.characters.count)! < 9 {
+            isValid = false
+            self.view.makeToast("Please enter valid MobileNumber", duration: 3, position: .bottom)
+        }
+        else if (txtMobile.text?.characters.count)! >=  9 {
+            isValid = false
+            self.view.makeToast("Please enter your valid LandlineNumber", duration: 3, position: .bottom)
+        }
         else if TxtViewAboutme.text == "" {
             isValid = false
-            self.view.makeToast("Please enter your details", duration: 3, position: .bottom)
+            self.view.makeToast("Please enter About me details", duration: 3, position: .bottom)
         }
         else if TxtPerDayRate.text == "" {
             isValid = false
@@ -118,7 +140,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         else if TxtReferalCode.text == "" {
             isValid = false
-            self.view.makeToast("Please enter zip code", duration: 3, position: .bottom)
+            self.view.makeToast("Please enter Postcode", duration: 3, position: .bottom)
         }
         else if selectedSkills.count == 0 {
             isValid = false
@@ -128,19 +150,27 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             isValid = false
             self.view.makeToast("Please enter valid", duration: 3, position: .bottom)
         }
-        
+        else if Float(TxtPerDayRate.text!)! < Float(TxtPerhourRate.text!)!
+        {
+             isValid = false
+            self.view.makeToast("The hourly rates should be smaller than the day rates!", duration: 3, position: .bottom)
+        }
         if  isValid {
             self.startAnimating()
             var param = [:] as [String : Any]
+            param["FirstName"] = TxtName.text!
+            param["LastName"] = self.TxtSurname.text!
             param["ContractorID"] = sharedManager.currentUser.ContractorID
             param["TradeCategoryID"] = sharedManager.masters.DataList?[selectedTrade].PrimaryID
             param["Aboutme"] = self.TxtViewAboutme.text
             param["Latitude"] = self.lat
+            param["MobileNumber"] = self.txtPhone.text!
+            param["LandlineNumber"] = self.txtMobile.text!
             param["Longitude"] = self.long
             param["FullAddress"] = self.FullAddress
             param["StreetAddress"] = self.FullAddress
             param["CityName"] = self.city
-            param["Zipcode"] = self.postcode
+            param["Zipcode"] = self.TxtReferalCode.text
             param["DOB"] = self.DobWebString
             param["strPerHourRate"] = self.TxtPerhourRate.text
             param["strPerDayRate"] = self.TxtPerDayRate.text
@@ -149,7 +179,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             param["DistanceRadius"] = Int(self.slider.value)
             param["CompanyName"] = Int(self.slider.value)
             param["ServiceIDGroup"] = self.selectedSkills.joined(separator: ",")
-            
             
             print(param)
             AFWrapper.requestPOSTURL(Constants.URLS.ContractorProfileUpdate, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
@@ -169,10 +198,8 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         userDefaults.synchronize()
                         
                         self.stopAnimating()
+                        self.sharedManager.currentUser.TradeCategoryID = self.sharedManager.masters.DataList![self.selectedTrade].PrimaryID
                         self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                       // let obj : EditExperience = self.storyboard?.instantiateViewController(withIdentifier: "EditExperience") as! EditExperience
-                       // self.navigationController?.pushViewController(obj, animated: true)
-                        
                         
                     }
                     else
@@ -233,8 +260,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         self.BtnSkill.isUserInteractionEnabled = false
         SkillHeightConstraints.constant = 0
-        aboutMeHeightConstraints.constant = 0
-        
         
         TblSelectSkill.delegate = self
         TblSelectSkill.dataSource = self
@@ -244,7 +269,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             ImgProfilePic.kf.indicatorType = .activity
-            ImgProfilePic.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -265,7 +289,8 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.lblDistance.text = strString + " Miles"
         self.slider.value = Float(iString)
         self.TxtViewAboutme.text = self.sharedManager.currentUser.Aboutme as String
-        
+        self.txtPhone.text = self.sharedManager.currentUser.MobileNumber as String
+        self.txtMobile.text = self.sharedManager.currentUser.LandlineNumber as String
         self.TxtReferalCode.text = self.sharedManager.currentUser.Zipcode as String
         self.TxtPerhourRate.text = self.sharedManager.currentUser.PerHourRate as String
         self.TxtPerDayRate.text = self.sharedManager.currentUser.PerDayRate as String
@@ -274,16 +299,24 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.FullAddress = self.sharedManager.currentUser.FullAddress as String
         }
         self.lat = self.sharedManager.currentUser.Latitude
-        self.lat = self.sharedManager.currentUser.Longitude
+        self.long = self.sharedManager.currentUser.Longitude
         self.postcode = self.sharedManager.currentUser.Zipcode as String
         self.city = self.sharedManager.currentUser.CityName as String
         self.TxtReferalCode.text = self.sharedManager.currentUser.Zipcode as String
         self.BtnTrade.setTitle(self.sharedManager.currentUser.TradeCategoryName as String,for: .normal)
-        self.BtnDob.setTitle(self.sharedManager.currentUser.DOB as String,for: .normal)
+        if(self.sharedManager.currentUser.DOB == "")
+        {
+             self.BtnDob.setTitle("DOB" as String,for: .normal)
+        }
+        else
+        {
+           self.BtnDob.setTitle(self.sharedManager.currentUser.DOB as String,for: .normal)
+        }
+       //
         
         // Set DOB
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         let sdate = dateFormatter.date(from: sharedManager.currentUser.DOB)
         selectedDate = sdate;
         self.DobWebString = sdate?.toWebString()
@@ -292,22 +325,13 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         for skill in sharedManager.currentUser.ServiceList! {
             selectedSkills.append(String(skill.ServiceID))
         }
-        
-        self.TxtViewAboutme.sizeToFit()
-        self.aboutMeHeightConstraints.constant = self.TxtViewAboutme.contentSize.height
+    
         
         
         self.BtnDob.setTitleColor(Color.black, for: .normal)
         
         
         self.BtnTrade.setTitleColor(Color.black, for: .normal)
-        if  self.sharedManager.currentUser.ServiceList?.count == 0 {
-            self.BtnSkill.setTitle("Select ", for: .normal);
-        }
-        else {
-            self.BtnSkill.setTitle(self.sharedManager.currentUser.ServiceList?[0].ServiceName,for: .normal)
-        }
-        self.BtnSkill.setTitleColor(Color.black, for: .normal)
         if self.sharedManager.currentUser.IsOwnVehicle == true {
             SwitchVehicle.setOn(true, animated: true)
         }
@@ -329,21 +353,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
         
     }
-    
-    
-    //     func setValues() {
-    //          if (sharedManager.currentUser != nil) {
-    //               self.txtabout.text = sharedManager.currentUser.Aboutme
-    //               self.txtphone.text = sharedManager.currentUser.LandlineNumber
-    //               self.txtmobile.text = sharedManager.currentUser.MobileNumber
-    //               self.txtdateofbirth.text = sharedManager.currentUser.DOB
-    //               let dateFormatter = DateFormatter()
-    //               dateFormatter.dateFormat = "yyyy-MM-dd"
-    //               self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
-    //
-    //               self.txtdateofbirth.text = self.selectedDate.toDisplayString()
-    //          }
-    //     }
     @IBAction func ValueChanged(_ sender: UISlider) {
         self.lblDistance.text = "\(Int(sender.value)) Miles"
     }
@@ -363,6 +372,13 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "EditProfile Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     func getMasters(){
         // Z_MasterDataList
@@ -392,20 +408,18 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     if (self.sharedManager.masters != nil) {
                         for trades in self.sharedManager.masters.DataList! {
                             if trades.PrimaryID == self.sharedManager.currentUser.TradeCategoryID {
+                                self.selectedTrade = i
                                 index = i
-                                //  self.btntrades.setTitle(trades.TradeCategoryName, for: UIControlState.normal)
                             }
                             i = i + 1;
                         }
                     }
-                    
-                    self.integerCount = (self.sharedManager.masters.DataList![index].ServiceList?.count)! as NSInteger
+                    self.integerCount = (self.sharedManager.masters.DataList![self.selectedTrade].ServiceList?.count)! as NSInteger
                     let One = self.integerCount * 44 as NSInteger
                     self.SkillHeightConstraints.constant = CGFloat(One)
-                    self.TblSelectSkill.reloadData()
-                    self.BtnTrade.setTitle(String(describing: self.sharedManager.masters.DataList![index].TradeCategoryName), for: UIControlState.normal)
-
                     
+                    self.TblSelectSkill.reloadData()
+
                 }
                 else
                 {
@@ -418,11 +432,9 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }) {
             (error) -> Void in
             self.stopAnimating()
-            print(error.localizedDescription)
+             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
-        
-        
     }
     @IBAction func BtnTradeTapped(_ sender: Any) {
         
@@ -431,16 +443,15 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         for trade in  sharedManager.masters.DataList! {
             trades.append(trade.TradeCategoryName)
         }
-        
-        
+
         ActionSheetStringPicker.show(withTitle: "Select Trade", rows: trades, initialSelection: 0, doneBlock: {
             picker, value, index in
             
             print("value = \(value)")
+            self.selectedSkills = []
             self.selectedTrade = value
             // Reload table
             self.BtnSkill.isUserInteractionEnabled = true
-            
             self.integerCount = (self.sharedManager.masters.DataList![self.selectedTrade].ServiceList?.count)! as NSInteger
             let One = self.integerCount * 44 as NSInteger
             self.SkillHeightConstraints.constant = CGFloat(One)
@@ -471,7 +482,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             isVisible = true
         }
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
@@ -582,7 +592,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         picker.dismiss(animated: true, completion: nil);
         
         isImageSelected=true
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             selectedImage = image
             self.ImgProfilePic?.layer.cornerRadius = self.ImgProfilePic.frame.size.height/2
             self.ImgProfilePic?.clipsToBounds = true
@@ -627,7 +637,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             for (key, value) in parameters {
                 multipartFormData.append((value as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
             }
-        }, to:"http://tooli.blush.cloud/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=contractor")
+        }, to:Constants.URLS.Base_Url+"/FileHandler.ashx?PrimaryID=" + String(sharedManager.currentUser.ContractorID) + "&PageType=contractor")
         { (result) in
             switch result {
             case .success(let upload, _, _):
@@ -655,6 +665,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         }
                         
                     case .failure(let error):
+                        self.stopAnimating()
                         self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .bottom)
                         
                     }
@@ -663,6 +674,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 }
                 
             case .failure(let encodingError):
+                self.stopAnimating()
                 print(encodingError.localizedDescription)
                 break
             }

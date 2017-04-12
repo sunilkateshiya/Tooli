@@ -1,6 +1,0 @@
-framework module Pods_TooliTests {
-  umbrella header "Pods-TooliTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

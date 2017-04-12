@@ -14,10 +14,49 @@ import Alamofire
 class Referrals: UIViewController, NVActivityIndicatorViewable {
     @IBOutlet var txtEmail : UITextField!
     let sharedManager : Globals = Globals.sharedInstance
+    
+    @IBOutlet weak var lblReferralList: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        lblReferralList.text =  self.sharedManager.currentUser.ReferralLink
         // Do any additional setup after loading the view.
+    }
+    @IBAction func btnCopyLinkAction(_ sender: UIButton)
+    {
+        let textToShare = [ lblReferralList.text! ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        
+        // exclude some activity types from the list (optional)
+        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        
+        // present the view controller
+       
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone)
+        {
+           self.present(activityViewController, animated: true, completion: nil)
+        }
+        else
+        {
+            var popup = UIPopoverController()
+            popup.contentViewController = activityViewController
+            popup.present(from: CGRect(x: self.view.frame.size.width/2, y: self.view.frame.size.height/4, width: 0, height: 0) , in: self.view, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
+        }
+
+//        
+//        self.view.makeToast("Referral Link Copy Successfully.", duration: 3, position: .bottom)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Referrals Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
     }
     @IBAction func btnBack (_sender : UIButton)
     {

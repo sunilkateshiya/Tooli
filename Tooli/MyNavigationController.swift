@@ -17,7 +17,7 @@ class MyNavigationController: ENSideMenuNavigationController, ENSideMenuDelegate
         //sideMenu?.delegate = self //optional
      sideMenu?.allowLeftSwipe = false;
      sideMenu?.allowRightSwipe = false;
-     sideMenu?.menuWidth = 260.0 // optional, default is 160
+     sideMenu?.menuWidth = 270.0 // optional, default is 160
         //sideMenu?.bouncingEnabled = false
         //sideMenu?.allowPanGesture = false
         // make navigation bar showing over side menu
@@ -29,7 +29,13 @@ class MyNavigationController: ENSideMenuNavigationController, ENSideMenuDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     // MARK: - ENSideMenu Delegate
     func sideMenuWillOpen() {
         print("sideMenuWillOpen")

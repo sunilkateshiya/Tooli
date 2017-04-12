@@ -34,6 +34,10 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         self.lblLocation.text = self.portfolio.Location
         self.lblDescription.text = self.portfolio.Description
     }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
     @IBAction func pushButton(_ sender: AnyObject) {
         let browser = SKPhotoBrowser(photos: createWebPhotos())
         browser.initializePageIndex(0)
@@ -64,7 +68,6 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         let imgURL = (portfolio.PortfolioImageList[indexPath.row].PortfolioImageLink)
         let urlPro = URL(string: imgURL)
         cell.PortfolioImage?.kf.indicatorType = .activity
-        cell.PortfolioImage?.kf.setImage(with: urlPro)
         let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: imgURL)
         let optionInfo: KingfisherOptionsInfo = [
             .downloadPriority(0.5),
@@ -76,7 +79,13 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         
         return cell
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Portfolio Details Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let browser = SKPhotoBrowser(photos: createWebPhotos())
         browser.initializePageIndex(indexPath.row)
@@ -89,8 +98,6 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         
         _ = self.navigationController?.popViewController(animated: true)
     }
-
-    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -135,10 +142,27 @@ private extension PortfolioDetails {
     func createWebPhotos() -> [SKPhotoProtocol] {
         return (0..<portfolio.PortfolioImageList.count).map { (i: Int) -> SKPhotoProtocol in
             //            let photo = SKPhoto.photoWithImageURL("https://placehold.jp/150\(i)x150\(i).png", holder: UIImage(named: "image0.jpg")!)
-            let photo = SKPhoto.photoWithImageURL(portfolio.PortfolioImageList[i].PortfolioImageLink)
-            photo.caption = ("")
-            photo.shouldCachePhotoURLImage = true
-            return photo
+//            let photo = SKPhoto.photoWithImageURL(portfolio.PortfolioImageList[i].PortfolioImageLink)
+            let img:UIImageView = UIImageView()
+            let imgURL = portfolio.PortfolioImageList[i].PortfolioImageLink as String!
+            
+            let url = URL(string: imgURL!)
+            img.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+            if(img.image == nil)
+            {
+                let photo = SKPhoto.photoWithImageURL(imgURL!)
+                photo.caption = ("")
+                photo.shouldCachePhotoURLImage = true
+                return photo
+            }
+            else
+            {
+                let photo = SKPhoto.photoWithImage(img.image!)
+                photo.caption = ("")
+                photo.shouldCachePhotoURLImage = true
+                return photo
+            }
+           
         }
     }
 }

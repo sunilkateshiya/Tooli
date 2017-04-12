@@ -7,25 +7,37 @@
 //
 
 import UIKit
-import Kingfisher
+import ENSwiftSideMenu
+import ObjectMapper
 import Toast_Swift
-class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource {
+import NVActivityIndicatorView
+import Kingfisher
+
+
+class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,NVActivityIndicatorViewable {
      @IBOutlet var tableview : UITableView?
      @IBOutlet var ivimage : UIImageView?
     
      var sharedManager : Globals = Globals.sharedInstance
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      
-     tableview?.tableFooterView = UIView()
-     tableview?.tableHeaderView = UIView()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refreshPage),
+            name: NSNotification.Name(rawValue: "RefreshSideMenu"),
+            object: nil)
+        
+        tableview?.tableFooterView = UIView()
+        tableview?.tableHeaderView = UIView()
         if (self.sharedManager.currentUser != nil) {
         if self.sharedManager.currentUser.ProfileImageLink != "" {
             let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             ivimage?.kf.indicatorType = .activity
-            ivimage?.kf.setImage(with: urlPro)
+           
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -50,10 +62,22 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
         // Do any additional setup after loading the view.
     }
-    
-   
+    func refreshPage()
+    {
+       tableview?.reloadData()
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
  
-
+    override func viewWillAppear(_ animated: Bool) {
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "SlidingMenu Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -67,7 +91,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           // Return the number of rows in the section.
-          return 8
+          return 11
      }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -81,35 +105,92 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                let selectedBackgroundView = UIView(frame:CGRect(x: 0, y: 0, width: cell!.frame.size.width, height: cell!.frame.size.height))
                selectedBackgroundView.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
                cell!.selectedBackgroundView = selectedBackgroundView
-            
           }
+        var lblCount:UILabel = UILabel()
+        lblCount.frame = CGRect(x: 0,y: 0, width: 25, height: 25)
+        lblCount.backgroundColor = UIColor.black
+        lblCount.layer.cornerRadius = 12.5
+        lblCount.clipsToBounds = true
+        lblCount.textColor = UIColor.white
+        lblCount.textAlignment = .center
+        lblCount.font = UIFont.boldSystemFont(ofSize: 15)
+        for view in (cell?.textLabel?.subviews)!
+        {
+            view.removeFromSuperview()
+        }
+        if(indexPath.row == 1)
+        {
+            if(sharedManager.unreadMessage != 0)
+            {
+                lblCount.text = "\(sharedManager.unreadMessage)"
+               
+                cell?.textLabel?.addSubview(lblCount)
+                lblCount.center = CGPoint(x: 25 , y: (cell?.textLabel?.center.y)!)
+            }
+        }
         
+        if(indexPath.row == 3)
+        {
+            if(sharedManager.unreadSpecialOffer != 0)
+            {
+                lblCount.text = "\(sharedManager.unreadSpecialOffer)"
+                cell?.textLabel?.addSubview(lblCount)
+                lblCount.center = CGPoint(x: 25 , y: (cell?.textLabel?.center.y)!)
+            }
+        }
+    
         cell!.textLabel?.textAlignment = .right
-
-          cell?.selectionStyle = .none
+        cell?.selectionStyle = .none
+        let imgView:UIImageView = UIImageView()
+        imgView.frame = CGRect(x: 0, y: ((cell?.frame.height)!/2)-10, width: 25, height: 20)
+       
+        cell?.accessoryView = imgView
+        
           if indexPath.row == 0 {
-               cell!.textLabel?.text = "   PROFILE"
+               cell!.textLabel?.text = "   Profile "
+               imgView.image = #imageLiteral(resourceName: "NProfile")
           }
           else if indexPath.row == 1 {
-               cell!.textLabel?.text = "   CONNECTIONS"
+            cell!.textLabel?.text = "   Messages"
+            imgView.image = #imageLiteral(resourceName: "NMessage")
           }
           else if indexPath.row == 2 {
-               cell!.textLabel?.text = "   JOBS"
+             cell!.textLabel?.text = "   Job Center"
+             imgView.image = #imageLiteral(resourceName: "NSettings")
           }
-          else if indexPath.row == 3 {
-            cell!.textLabel?.text = "   CONTRACTOR SEARCH"
-          }
+            else if indexPath.row == 3
+          {
+            cell!.textLabel?.text = "   Special Offers"
+            imgView.image = #imageLiteral(resourceName: "NSpecialOffer")
+            }
           else if indexPath.row == 4 {
-               cell!.textLabel?.text = "   SAVED"
+             cell!.textLabel?.text = "   Contractor Search"
+             imgView.image = #imageLiteral(resourceName: "NContractor")
           }
           else if indexPath.row == 5 {
-               cell!.textLabel?.text = "   MESSAGES"
+             cell!.textLabel?.text = "   Saved"
+             imgView.image = #imageLiteral(resourceName: "NSaved")
           }
+          
           else if indexPath.row == 6 {
-               cell!.textLabel?.text = "   REFERRAL"
-            }
+            cell!.textLabel?.text = "   Your Connections"
+            imgView.image = #imageLiteral(resourceName: "Nconnections")
+          }
           else if indexPath.row == 7 {
-            cell!.textLabel?.text = "   LOGOUT"
+             cell!.textLabel?.text = "   Referral"
+             imgView.image = #imageLiteral(resourceName: "Nconnections")
+            }
+          else if indexPath.row == 8 {
+            cell!.textLabel?.text = "   Statistics"
+            imgView.image = #imageLiteral(resourceName: "NStatistics")
+          }
+          else if indexPath.row == 9 {
+             cell!.textLabel?.text = ""
+             imgView.image = nil
+        }
+          else if indexPath.row == 10 {
+            cell!.textLabel?.text = "   Log out"
+            imgView.image = #imageLiteral(resourceName: "logout (1)")
         }
        
           return cell!
@@ -121,6 +202,12 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
      
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           //Present new view controller
+        
+        if(indexPath.row==9)
+        {
+            return
+        }
+        
           let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main",bundle: nil)
           var destViewController : UIViewController
           switch (indexPath.row) {
@@ -128,48 +215,103 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource 
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ProfileFeed")
                break
           case 1:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
-               break
+                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
+                break
           case 2:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "JobCenter")
                break
           case 3:
-            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorSearch")
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SpecialOfferList")
             break
           case 4:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SavedView")
-               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
-               break
+
+             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorSearch")
+            break
           case 5:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
-               self.view.makeToast("Under development. Please check again later", duration: 3, position: .bottom)
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SavedView")
+               
                break
           case 6:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
+            break
+            
+          case 7:
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Referrals")
             break
-          case 7:
+          case 8:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Statistics")
+            break
+          case 10:
                callWSSignOut()
-               let userDefaults = UserDefaults.standard
-               userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
-               userDefaults.synchronize()
-               let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-               app.moveToLogin()
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Login")
+                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Login")
                break
           default:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-        if indexPath.row != 7 && indexPath.row != 5{
+       
+        if(indexPath.row == 1)
+        {
+            let tab : CustomTabBarC = AppDelegate.sharedInstance().navigationController!.viewControllers[0] as! CustomTabBarC;
+            if  (AppDelegate.sharedInstance().navigationController!.viewControllers.count) > 1 {
+                AppDelegate.sharedInstance().navigationController!.popToRootViewController(animated: false)
+            }
+            if (tab.selectedIndex != 4){
+                tab.selectedIndex = 4;
+            }
+             toggleSideMenuView()
+        }
+        else if(indexPath.row == 2)
+        {
+            let tab : CustomTabBarC = AppDelegate.sharedInstance().navigationController!.viewControllers[0] as! CustomTabBarC;
+            if  (AppDelegate.sharedInstance().navigationController!.viewControllers.count) > 1 {
+                AppDelegate.sharedInstance().navigationController!.popToRootViewController(animated: false)
+            }
+            if (tab.selectedIndex != 1){
+                tab.selectedIndex = 1;
+            }
+            toggleSideMenuView()
+        }
+        if indexPath.row != 9 && indexPath.row != 10 && indexPath.row != 1 && indexPath.row != 2 {
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }
      }
-     
-
      func callWSSignOut()
      {
-        
+        self.startAnimating()
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignOut, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            self.stopAnimating()
+            print(JSONResponse["status"].rawValue as! String)
+            if JSONResponse != nil{
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                    let userDefaults = UserDefaults.standard
+                    userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
+                    userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
+                    userDefaults.synchronize()
+                    
+                    let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    app.disconnectSignalR()
+                    app.moveToLogin()
+    
+                }
+                else
+                {
+                    
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+             
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
      }
-   
 }

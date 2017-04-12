@@ -30,9 +30,20 @@ class Login: UIViewController, NVActivityIndicatorViewable {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.sideMenuController()?.sideMenu?.allowLeftSwipe = false
+        self.sideMenuController()?.sideMenu?.allowPanGesture = false
+        self.sideMenuController()?.sideMenu?.allowRightSwipe = false
+        
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Login Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+    }
     
     @IBAction func btnlogin(_ sender: Any) {
-        
         
             var validflag = 0
             if (self.txtemail?.text?.characters.count)! == 0  {
@@ -51,7 +62,7 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                     let param = ["EmailID": self.txtemail.text!,
                                  "Password": self.txtpassword.text!,
                                  "Platform": "iOS",
-                                 "DeviceToken": self.sharedManager.deviceToken != nil ? self.sharedManager.deviceToken! : ""] as [String : Any]
+                                 "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
                     
                     print(param)
                     AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignIn, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
@@ -72,40 +83,50 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                                     userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
                                 
                                     userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                    userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
                                     userDefaults.synchronize()
                                 
-                                    
+                                     UIApplication.shared.applicationIconBadgeNumber = 0
+                                  AppDelegate.sharedInstance().initSignalR();
                                 if self.sharedManager.currentUser.IsSetupProfile == true {
                                 
                                 
                                     self.appDelegate().moveToDashboard()
-                                }
-                                else{
-                                    let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
-                                    self.navigationController?.pushViewController(obj, animated: true)
                                     
                                 }
+                                else{
+                                    AppDelegate.sharedInstance().initSignalR();
+                                    let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                                    self.navigationController?.pushViewController(obj, animated: true)
+                                }
+                            }
+                            else if(self.sharedManager.currentUser.status == "-2")
+                            {
+                                let userDefaults = UserDefaults.standard
+                                userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
+                                
+                                userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                userDefaults.synchronize()
+                                self.appDelegate().initSignalR()
+                                let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                                self.navigationController?.pushViewController(obj, animated: true)
                             }
                             else
                             {
                                 
                             }
-                            
-                            self.view.makeToast(self.sharedManager.currentUser.message, duration: 3, position: .bottom)
+                            self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                         }
                         
                     }) {
                         (error) -> Void in
-                        print(error.localizedDescription)
+                        self.stopAnimating()
+                         
                         self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
                     }
                     
                 }
-            
         }
-
-    
-
     func appDelegate () -> AppDelegate
     {
         return UIApplication.shared.delegate as! AppDelegate
@@ -121,7 +142,8 @@ class Login: UIViewController, NVActivityIndicatorViewable {
             case .failed(let error):
                 print(error)
             case .cancelled:
-                print("User cancelled lo gin.")
+                self.view.makeToast("User cancelled login.", duration: 3, position: .bottom)
+                print("User cancelled login.")
             case .success(let _, let declinedPermissions, let accessToken):
                 
                 let connection = GraphRequestConnection()
@@ -130,12 +152,16 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                     switch result {
                     case .success(let response):
                         self.startAnimating()
+                    
                         let param = ["FBAccountID": response.dictionaryValue?["id"] ?? "123",
                                      "Platform": "iOS",
-                                     "DeviceToken": self.sharedManager.deviceToken != nil ? self.sharedManager.deviceToken! : ""] as [String : Any]
+                                      "EmailID": response.dictionaryValue?["email"] as! String? ?? "",
+                                       "FirstName": response.dictionaryValue?["first_name"] as! String? ?? "",
+                                       "LastName": response.dictionaryValue?["last_name"] as! String? ?? "",
+                                     "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
                         
                         print(param)
-                        AFWrapper.requestPOSTURL(Constants.URLS.ContractorFacebookSignIn, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                        AFWrapper.requestPOSTURL(Constants.URLS.ContractorFacebookConnect, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
                             (JSONResponse) -> Void in
                             
                             self.stopAnimating()
@@ -157,6 +183,7 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                                     
                                     if self.sharedManager.currentUser.IsSetupProfile == true {
                                         self.appDelegate().moveToDashboard()
+                                        self.appDelegate().initSignalR()
                                     }
                                     else{
                                         let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
@@ -164,22 +191,34 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                                         
                                     }
                                 }
+                                else if(self.sharedManager.currentUser.status == "-2")
+                                {
+                                    let userDefaults = UserDefaults.standard
+                                    userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
+                                    
+                                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                    userDefaults.synchronize()
+                                    self.appDelegate().initSignalR()
+                                    let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                                    self.navigationController?.pushViewController(obj, animated: true)
+                                }
                                 else
                                 {
                                     
                                 }
-                                
-                                self.view.makeToast(self.sharedManager.currentUser.message, duration: 3, position: .bottom)
+                                 self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                             }
                             
                         }) {
                             (error) -> Void in
-                            print(error.localizedDescription)
+                             
+                            self.stopAnimating()
                             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
                         }
                         
                         print("Graph Request Succeeded: \(response)")
                     case .failed(let error):
+                        self.stopAnimating()
                         print("Graph Request Failed: \(error)")
                     }
                 }
@@ -201,15 +240,5 @@ class Login: UIViewController, NVActivityIndicatorViewable {
         let obj : Forgot = self.storyboard?.instantiateViewController(withIdentifier: "Forgot") as! Forgot
         self.navigationController?.pushViewController(obj, animated: true)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

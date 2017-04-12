@@ -21,11 +21,16 @@ class Register: UIViewController, NVActivityIndicatorViewable {
     @IBOutlet var txtlname : UITextField!
     @IBOutlet var txtconfmpass : UITextField!
     var sharedManager : Globals = Globals.sharedInstance
-    
+    var fbid:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Register Screen")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
         // Do any additional setup after loading the view.
     }
 
@@ -41,11 +46,25 @@ class Register: UIViewController, NVActivityIndicatorViewable {
             validflag = 1
         }
         else if (self.txtemail?.text?.characters.count)! == 0  {
+            self.view.makeToast("Please enter email address", duration: 3, position: .bottom)
+            validflag = 1
+        }
+        else if(self.isValidEmail(testStr: self.txtemail.text!) == false)
+        {
             self.view.makeToast("Please enter valid email address", duration: 3, position: .bottom)
             validflag = 1
         }
+            
         else if (self.txtpassword?.text?.characters.count)! == 0  {
             self.view.makeToast("Please enter password", duration: 3, position: .bottom)
+            validflag = 1
+        }
+        else if (self.txtpassword?.text?.characters.count)! < 6  {
+            self.view.makeToast("Minimum 6 & maximum 20 character allowed.", duration: 3, position: .bottom)
+            validflag = 1
+        }
+        else if (self.txtconfmpass?.text?.characters.count)! < 6  {
+            self.view.makeToast("Minimum 6 & maximum 20 character allowed.", duration: 3, position: .bottom)
             validflag = 1
         }
         else if self.txtpassword?.text != self.txtconfmpass?.text  {
@@ -58,60 +77,75 @@ class Register: UIViewController, NVActivityIndicatorViewable {
             
             
             self.startAnimating()
-            let param = ["FBAccountID": "",
-                         "EmailID": self.txtemail.text!,
-                         "Password": self.txtpassword.text!,
-                         "FirstName":self.txtfname.text!,
-                         "LastName":self.txtlname.text!,
-                         "UseReferenceID":"",
-                         "Platform": "iOS",
-                         "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
+            registerData()
+        }
+    }
+    func registerData()
+    {
+        let param = ["FBAccountID": self.fbid,
+                     "EmailID": self.txtemail.text!,
+                     "Password": self.txtpassword.text!,
+                     "FirstName":self.txtfname.text!,
+                     "LastName":self.txtlname.text!,
+                     "UseReferenceID":"",
+                     "Platform": "iOS",
+                     "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignUp, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
             
-            print(param)
-            AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignUp, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
-                (JSONResponse) -> Void in
+            self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
                 
-                self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-                
-                self.stopAnimating()
-                
-                print(JSONResponse["status"].rawValue as! String)
-                
-                if JSONResponse != nil{
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    let userDefaults = UserDefaults.standard
                     
-                    if JSONResponse["status"].rawString()! == "1"
-                    {
-                        let userDefaults = UserDefaults.standard
-                        
-                        userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
-                        userDefaults.synchronize()
-                    
-                        let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
-                        self.navigationController?.pushViewController(obj, animated: true)
-                    }
-                    else
-                    {
-                        
-                    }
-                    
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                    userDefaults.synchronize()
+                     AppDelegate.sharedInstance().initSignalR();
+                    let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                    self.navigationController?.pushViewController(obj, animated: true)
                 }
-                
-            }) {
-                (error) -> Void in
-                print(error.localizedDescription)
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                else
+                {
+                    if(self.fbid != "")
+                    {
+                        self.txtemail.text = ""
+                        self.txtfname.text = ""
+                        self.txtlname.text = ""
+                        self.fbid = ""
+                    }
+                    
+                }
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
+        }) {
+            (error) -> Void in
+             
+            self.stopAnimating()
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
 
     }
-    
+    func isValidEmail(testStr:String) -> Bool {
+        // print("validate calendar: \(testStr)")
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
     @IBAction func btnBack(_ sender: Any) {
         
       _ = self.navigationController?.popViewController(animated: true)
     }
-    
 
     @IBAction func btnfblogin(_ sender: AnyObject) {
         let loginManager = LoginManager()
@@ -124,6 +158,7 @@ class Register: UIViewController, NVActivityIndicatorViewable {
             case .failed(let error):
                 print(error)
             case .cancelled:
+                self.view.makeToast("User cancelled signup.", duration: 3, position: .bottom)
                 print("User cancelled lo gin.")
             case .success(let _, let declinedPermissions, let accessToken):
                 
@@ -136,6 +171,59 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                         self.txtemail.text = response.dictionaryValue?["email"] as! String?
                         self.txtfname.text = response.dictionaryValue?["first_name"] as! String?
                         self.txtlname.text = response.dictionaryValue?["last_name"] as! String?
+                        self.fbid = (response.dictionaryValue?["id"] as! String?)!
+                        if(self.txtemail.text != "")
+                        {
+                            self.startAnimating()
+                            let param = ["FBAccountID": response.dictionaryValue?["id"] ?? "123",
+                                         "Platform": "iOS",
+                                         "EmailID": response.dictionaryValue?["email"] as! String? ?? "",
+                                         "FirstName": response.dictionaryValue?["first_name"] as! String? ?? "",
+                                         "LastName": response.dictionaryValue?["last_name"] as! String? ?? "",
+                                         "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
+                            
+                            print(param)
+                            AFWrapper.requestPOSTURL(Constants.URLS.ContractorFacebookConnect, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                                (JSONResponse) -> Void in
+                                
+                                self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
+                                
+                                self.stopAnimating()
+                                
+                                print(JSONResponse["status"].rawValue as! String)
+                                
+                                if JSONResponse != nil{
+                                    
+                                    if JSONResponse["status"].rawString()! == "1"
+                                    {
+                                        let userDefaults = UserDefaults.standard
+                                        
+                                        userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                        userDefaults.synchronize()
+                                         AppDelegate.sharedInstance().initSignalR();
+                                        let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                                        self.navigationController?.pushViewController(obj, animated: true)
+                                        
+                                    }
+                                    else
+                                    {
+
+                                        
+                                    }
+                                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                                }
+                                
+                            }) {
+                                (error) -> Void in
+                                 
+                                self.stopAnimating()
+                                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                            }
+                        }
+                        else
+                        {
+                            self.view.makeToast(" Email address is mandatory. Please connect with Facebook again and provide email access.when facebook email not retrive", duration: 3, position: .bottom)
+                        }
                     case .failed(let error):
                         print("Graph Request Failed: \(error)")
                     }
@@ -143,24 +231,10 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                 connection.start()
             }
         }
-        
     }
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

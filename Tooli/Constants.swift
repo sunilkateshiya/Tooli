@@ -36,18 +36,20 @@ struct Constants {
     
     struct URLS {
     
+        static let Base_Url = "http://www.tooli.co.uk"
+      //  static let Base_Url = "http://tooli.blush.cloud/webservice.asmx/"
         
-        static let BASE_URL = "http://tooli.blush.cloud/webservice.asmx/"
+        static let BASE_URL = Base_Url + "/webservice.asmx/"
         
         static let CompanyProfileView = BASE_URL + "CompanyProfileView"
         
         static let ConnectionList = BASE_URL + "ConnectionList"
-        static let ContractorCertificateUpdate = BASE_URL + "ContractorCertificateUpdate"
         static let ContractorCertificateDelete = BASE_URL + "ContractorCertificateDelete"
         static let ContractorChangeStatus = BASE_URL + "ContractorChangeStatus"
         static let ContractorDashboard = BASE_URL + "ContractorDashboard"
         static let ContractorExperienceAdd = BASE_URL + "ContractorExperienceAdd"
         static let ContractorFacebookSignIn = BASE_URL + "ContractorFacebookSignIn"
+        static let ContractorFacebookConnect = BASE_URL + "ContractorFacebookConnect"
         static let ContractorInfo = BASE_URL +  "ContractorInfo"
         static let ContractorInfoUpdate = BASE_URL + "ContractorInfoUpdate"
         static let ContractorProfileUpdate = BASE_URL + "ContractorProfileUpdate"
@@ -55,6 +57,8 @@ struct Constants {
         static let ContractorRateTravelUpdate = BASE_URL + "ContractorRateTravelUpdate"
         static let ContractorSignIn = BASE_URL + "ContractorSignIn"
         static let ContractorSignUp = BASE_URL + "ContractorSignUp"
+        static let ContractorSignOut = BASE_URL + "ContractorSignOut"
+        
         static let FollowCompanyToggle = BASE_URL + "FollowCompanyToggle"
         static let GetUserSearchByQuery = BASE_URL + "GetUserSearchByQuery"
         static let ContractorTradeUpdate = BASE_URL + "ContractorTradeUpdate"
@@ -63,20 +67,23 @@ struct Constants {
         static let ForgotPassword = BASE_URL + "ForgotPassword"
         static let ChangePassword = BASE_URL + "ChangePassword"
         static let InviteReferral = BASE_URL + "InviteReferral"
-        
+        static let GetSavePageList = BASE_URL + "GetSavePageList"
         static let JobInfo = BASE_URL + "JobInfo"
         static let JobList = BASE_URL + "JobList"
         static let ContractorList = BASE_URL + "ContractorList"
         static let NotificationList = BASE_URL + "NotificationList"
         static let PageSaveToggle = BASE_URL + "PageSaveToggle"
+        static let ContractorStatisticsReport = BASE_URL + "ContractorStatisticsReport"
+        static let ConctractorUpdateStatus = BASE_URL + "ConctractorUpdateStatus"
         static let OfferInfo = BASE_URL + "OfferInfo"
+        static let SpecialOfferLst = BASE_URL + "SpecialOfferLst"
         static let PortfolioAdd = BASE_URL + "PortfolioAdd"
         static let PortfolioDelete = BASE_URL + "PortfolioDelete"
         static let PortfolioEdit = BASE_URL + "PortfolioEdit"
         static let PortfolioInfo = BASE_URL + "PortfolioInfo"
         static let PortfolioList = BASE_URL + "PortfolioList"
         static let PortfolioImageDelete = BASE_URL + "PortfolioImageDelete"
-        
+        static let JobApply = BASE_URL + "JobApply"
         static let Z_MasterDataList = BASE_URL + "Z_MasterDataList"
         
     }
@@ -128,6 +135,7 @@ struct Constants {
         static let BUSINESSNAME = "businessName"
         static let BUSINESSID = "businessId"
         static let TABLEUSERID = "tableUserId"
+        static let ISINITSIGNALR = "isCallSignalR"
     }
     struct NoData {
         static let FRIEND_BLOCK_TITLE = "Blocked Users"

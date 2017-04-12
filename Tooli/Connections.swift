@@ -15,6 +15,19 @@ import Kingfisher
 
 class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate, NVActivityIndicatorViewable  {
 
+    @IBOutlet weak var btnAgain: UIButton!
+    @IBOutlet weak var imgError: UIImageView!
+    @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var viewError: UIView!
+    @IBAction func btnAgainErrorAction(_ sender: UIButton)
+    {
+        self.imgError.isHidden = true
+        self.btnAgain.isHidden = true
+        self.lblError.isHidden = true
+        onLoadDetail() 
+    }
+
+    
     @IBOutlet var tvconnections : UITableView!
     @IBOutlet var btncompany : UIButton!
     @IBOutlet var btncontractor : UIButton!
@@ -22,7 +35,7 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet var btnfollower : UIButton!
     
     var sharedManager : Globals = Globals.sharedInstance
-
+    var refreshControl:UIRefreshControl!
     var connlist : [FollowerModel]?
     var templist : [FollowerModel]?
     
@@ -32,9 +45,9 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         btncontractor.isSelected = true
         btnfollowing.isSelected = true
-        
+         self.startAnimating()
         onLoadDetail()
-        
+        self.viewError.isHidden = false
         
         if self.sharedManager.connectionList != nil{
             
@@ -48,18 +61,33 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         tvconnections.estimatedRowHeight = 100
         tvconnections.tableFooterView = UIView()
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(Connections.refreshPage) , for: UIControlEvents.valueChanged)
+        tvconnections.addSubview(refreshControl)
+
+        
         // Do any additional setup after loading the view.
     }
-
-    
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+    func refreshPage()
+    {
+        
+        onLoadDetail()
+    }
 
      override func viewWillAppear(_ animated: Bool) {
-
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Connections Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     func onLoadDetail(){
-        
-        self.startAnimating()
+    
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
         
         print(param)
@@ -69,11 +97,14 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.sharedManager.connectionList = Mapper<ConnectionList>().map(JSONObject: JSONResponse.rawValue)
             
             self.stopAnimating()
-            
+            self.refreshControl.endRefreshing()
             print(JSONResponse["status"].rawValue as! String)
-            
+            self.refreshControl.endRefreshing()
             if JSONResponse != nil{
-                
+                self.viewError.isHidden = true
+                self.imgError.isHidden = true
+                self.btnAgain.isHidden = true
+                self.lblError.isHidden = true
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     
@@ -90,18 +121,23 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 }
                 else
                 {
-                    
+                     _ = self.navigationController?.popViewController(animated: true)
+                    AppDelegate.sharedInstance().window?.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+              //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
-            
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+              self.refreshControl.endRefreshing()
+            self.viewError.isHidden = false
+            self.imgError.isHidden = false
+            self.btnAgain.isHidden = false
+            self.lblError.isHidden = false
+            //self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
     
@@ -242,9 +278,11 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
-        //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
+        
         guard  ((sharedManager.connectionList) != nil) else {
+            return 0
+        }
+        if self.connlist == nil {
             return 0
         }
         return  (self.connlist?.count)!;
@@ -253,9 +291,19 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectionCell
-        cell.lbllocatn.text = self.connlist?[indexPath.row].CityName as String!
-        cell.lblcompany.text = self.connlist?[indexPath.row].CompanyName as String!
-        cell.lblwork.text = self.connlist?[indexPath.row].TradeCategoryName as String!
+        if(btncontractor.isSelected)
+        {
+            cell.lblcompany.text = self.connlist?[indexPath.row].UserFullName as String!
+            cell.lbllocatn.text = self.connlist?[indexPath.row].CompanyName as String!
+        }
+        else
+        {
+           cell.lblcompany.text = self.connlist?[indexPath.row].CompanyName as String!
+            cell.lbllocatn.text =  self.connlist?[indexPath.row].Description as String!
+        }
+        
+        
+        cell.lblwork.text = "\(self.connlist![indexPath.row].TradeCategoryName),\(self.connlist![indexPath.row].CityName)"
         
         cell.btnfav!.tag=indexPath.row
         cell.btnfav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
@@ -288,10 +336,10 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
             obj.companyId = (self.connlist?[indexPath.row].PrimaryID)!
             self.navigationController?.pushViewController(obj, animated: true)
         }
-        
     }
     
-    func btnfav(btn : UIButton)  {
+    func btnfav(btn : UIButton)
+    {
         
         self.startAnimating()
         
@@ -325,12 +373,12 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+              //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)

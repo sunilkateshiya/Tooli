@@ -12,35 +12,63 @@ import ObjectMapper
 import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
+import SafariServices
+import SKPhotoBrowser
 
-class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, NVActivityIndicatorViewable{
+class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, NVActivityIndicatorViewable,SKPhotoBrowserDelegate{
+
     var popover = Popover()
     let sharedManager : Globals = Globals.sharedInstance
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var contractorId = 0;
+    var protfolioId = 0;
     var isPortFolio : Bool = false;
     var screenSize: CGRect!
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     var profile  : SignIn!
-
+    var isFollowing:Bool = true
+    var isFristTime:Bool = true
+    
+    @IBOutlet weak var lblOwnVehical: UILabel!
+    @IBOutlet weak var lblLicenseOwner: UILabel!
+    @IBOutlet weak var rateViewHeightConstrints: NSLayoutConstraint!
+    
+    @IBOutlet weak var txtBoiHeigthConstrainte: NSLayoutConstraint!
+    
+    @IBOutlet weak var isOwner: UISwitch!
+    @IBOutlet weak var isVehical: UISwitch!
+    
+    
+     @IBOutlet var  tagListView:TagListView!
+    
+    @IBOutlet weak var noListView: UIView!
     @IBOutlet weak var AboutCollectionView: UICollectionView!
     @IBOutlet weak var TblAboutus: UITableView!
     @IBOutlet weak var ObjScrollview: UIScrollView!
     @IBOutlet weak var ObjCollectionView: UICollectionView!
     @IBOutlet weak var ImgProfilePic: UIImageView!
-    @IBOutlet weak var ImgStar: UIImageView!
+    @IBOutlet weak var ImgStar: UIButton!
     @IBOutlet weak var ImgOnOff: UIImageView!
     @IBOutlet weak var ImgAvailable : UIImageView!
     @IBOutlet weak var ImgAvailableProfile : UIImageView!
     @IBOutlet weak var AboutviewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var BtnNotification: UIButton!
+    
+    
+    @IBOutlet weak var btnCountFollower: UIButton!
+    @IBOutlet weak var tblFollowers: UITableView!
+    @IBOutlet weak var btnFollowing: UIButton!
+    @IBOutlet weak var btnFollwer: UIButton!
+    @IBOutlet weak var tblFollowerHeight: NSLayoutConstraint!
+    
     @IBAction func BtnNotificationTapped(_ sender: Any) {
         
         self .popOver()
     }
     @IBOutlet weak var TblHeightConstraints: NSLayoutConstraint!
-    @IBOutlet weak var HeightAboutView: NSLayoutConstraint!
+  //  @IBOutlet weak var HeightAboutView: NSLayoutConstraint!
     
     @IBOutlet weak var lblName: UILabel!
     
@@ -58,6 +86,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var TblTimeline: UITableView!
     
     @IBOutlet weak var PortCollectionHeight: NSLayoutConstraint!
+    @IBOutlet weak var viewSkillHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var BtnAbout: UIButton!
     @IBOutlet weak var BtnActivty: UIButton!
     @IBOutlet weak var BtnPortfolio: UIButton!
@@ -73,12 +102,9 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet var lblAbtPostCode : UILabel!
     @IBOutlet var lblAbtDistanceCovered : UILabel!
     @IBOutlet var lblAbtTrade : UILabel!
-    @IBOutlet var lblAbtSkill : UILabel!
+   // @IBOutlet var lblAbtSkill : UILabel!
     @IBOutlet var lblAbtHourly : UILabel!
     @IBOutlet var lblAbtDaily : UILabel!
-    @IBOutlet var lblAbtLicenceOwner : UILabel!
-    @IBOutlet var lblAbtOwnVehicle : UILabel!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,14 +127,16 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         TblTimeline.estimatedRowHeight = 450
         TblTimeline.tableFooterView = UIView()
         ObjScrollview.delegate = self
+        self.tblFollowerHeight.constant = 0
+        self.TblHeightConstraints.constant = 0
+        self.POrCollectionHeightConstraints.constant = 0
         
-        self.TblHeightConstraints.constant = 265 * 10
         self.AboutviewHeight.constant = 265 * 10
-        
-        //self.PortCollectionHeight.constant = 265 * 10
+        self.viewSkillHeightConstraint.constant = 300
         self.ObjScrollview.contentSize.height = self.PortCollectionHeight.constant
         self.AboutCollectionView.delegate = self
         self.AboutCollectionView.dataSource = self
+        
         
         ObjCollectionView.delegate = self
         ObjCollectionView.dataSource =  self
@@ -123,16 +151,267 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         flow1.minimumInteritemSpacing = 3
         flow1.minimumLineSpacing = 3
         
-        self.BtnActivty.isSelected = true
-        self.BtnActivty.tintColor = UIColor.white
-        self.BtnActivty.setTitleColor(UIColor.red, for: UIControlState.selected)
+        if(isPortFolio)
+        {
+            self.BtnActivty.isSelected = false
+            self.BtnActivty.tintColor = UIColor.white
+            self.BtnActivty.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+            
+            self.BtnAbout.isSelected = false
+            self.BtnAbout.tintColor = UIColor.white
+            self.BtnAbout.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+            
+            self.BtnPortfolio.isSelected = true
+            self.BtnPortfolio.tintColor = UIColor.white
+            self.BtnPortfolio.setTitleColor(UIColor.red, for: UIControlState.selected)
+        }
+        else
+        {
+            self.BtnPortfolio.isSelected = false
+            self.BtnPortfolio.tintColor = UIColor.white
+            self.BtnPortfolio.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+            
+            self.BtnAbout.isSelected = false
+            self.BtnAbout.tintColor = UIColor.white
+            self.BtnAbout.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
+            
+            self.BtnActivty.isSelected = true
+            self.BtnActivty.tintColor = UIColor.white
+            self.BtnActivty.setTitleColor(UIColor.red, for: UIControlState.selected)
+        }
         
+        if(self.BtnAbout.isSelected)
+        {
+            self.TblTimeline.isHidden = true
+            self.PortfolioView.isHidden = true
+            self.AboutView.isHidden = false
+        }
+        if(self.BtnActivty.isSelected)
+        {
+            self.TblTimeline.isHidden = false
+            self.PortfolioView.isHidden = true
+            self.AboutView.isHidden = true
+        }
+        if(self.BtnPortfolio.isSelected)
+        {
+            self.TblTimeline.isHidden = true
+            self.PortfolioView.isHidden = false
+            self.AboutView.isHidden = true
+        }
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblModTaped(tapGestureRecognizer:)))
+        lblAbtMob.isUserInteractionEnabled = true
+        lblAbtMob.addGestureRecognizer(tapGestureRecognizer)
+        
+        
+        let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(lblTelTaped(tapGestureRecognizer:)))
+        lblAbtTel.isUserInteractionEnabled = true
+        lblAbtTel.addGestureRecognizer(tapGestureRecognizer1)
+        
+        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(lblEmailTaped(tapGestureRecognizer:)))
+        lblAbtEmail.isUserInteractionEnabled = true
+        lblAbtEmail.addGestureRecognizer(tapGestureRecognizer2)
         getProfile()
     }
-    override func viewWillAppear(_ animated: Bool) {
-         getProfile()
-    }
     
+    func lblModTaped(tapGestureRecognizer:UIGestureRecognizer)
+    {
+        if(lblAbtMob.text! != "")
+        {
+            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(lblAbtMob.text!)")!))
+            {
+                 UIApplication.shared.openURL(URL(string: "tel://\(lblAbtMob.text!)")!)
+            }
+            else
+            {
+               self.view.makeToast("Mobile Number not valid.", duration: 3, position: .bottom) 
+            }
+        }
+    }
+    func lblTelTaped(tapGestureRecognizer:UIGestureRecognizer)
+    {
+    
+        if(lblAbtTel.text! != "")
+        {
+            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(lblAbtTel.text!)")!))
+            {
+                UIApplication.shared.openURL(URL(string: "tel://\(lblAbtTel.text!)")!)
+            }
+            else
+            {
+                self.view.makeToast("Number not valid.", duration: 3, position: .bottom)
+            }
+        }
+    }
+    func lblEmailTaped(tapGestureRecognizer:UIGestureRecognizer)
+    {
+        if(lblAbtEmail.text! != "")
+        {
+            if(UIApplication.shared.canOpenURL(URL(string: "mailto://\(lblAbtEmail.text!)")!))
+            {
+                UIApplication.shared.openURL(URL(string: "mailto://\(lblAbtEmail.text!)")!)
+            }
+            else
+            {
+                self.view.makeToast("Email not valid.", duration: 3, position: .bottom)
+            }
+        }
+    }
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+    
+        if  contractorId == sharedManager.currentUser.ContractorID
+        {
+            getProfile()
+        }
+        guard let tracker = GAI.sharedInstance().defaultTracker else { return }
+        tracker.set(kGAIScreenName, value: "Profile Feed Screen.")
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    func tap(_ sender:UIGestureRecognizer)
+    {
+        let label = (sender.view as! UILabel)
+        print("tap from \(label.text!)")
+    }
+    func longPress(_ sender:UIGestureRecognizer)
+    {
+        let label = (sender.view as! UILabel)
+        print("long press from \(label.text!)")
+    }
+    @IBAction func btnOpenFollowerAction(_ sender: UIButton)
+    {
+        if(tblFollowers.isHidden)
+        {
+            if(isFollowing)
+            {
+                btnFollwer.isSelected = false
+                btnFollowing.isSelected = true
+                
+                if(self.profile.FollowingList?.count == 0)
+                {
+                    noListView.isHidden = false
+                }
+                else
+                {
+                    noListView.isHidden = true
+                }
+
+            }
+            else
+            {
+                btnFollwer.isSelected = true
+                btnFollowing.isSelected = false
+                if(self.profile.FollowerList?.count == 0)
+                {
+                    noListView.isHidden = false
+                }
+                else
+                {
+                    noListView.isHidden = true
+                }
+            }
+            
+            let myRange = NSRange(location: 0, length: 16)
+            let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+            let myAttrString = NSMutableAttributedString(string: "Back to Timeline")
+            myAttrString.addAttributes(anotherAttribute, range: myRange)
+            btnCountFollower.setAttributedTitle(myAttrString, for: UIControlState.normal)
+            
+            self.TblTimeline.isHidden = true
+            self.PortfolioView.isHidden = true
+            self.AboutView.isHidden = true
+            
+            tblFollowers.isHidden = false
+            tblFollowers.reloadData()
+            self.TblTimeline.reloadData()
+            
+            DispatchQueue.main.async
+                {
+                    self.TblHeightConstraints.constant = self.tblFollowerHeight.constant
+                    self.AboutviewHeight.constant = self.tblFollowerHeight.constant
+                    self.POrCollectionHeightConstraints.constant = self.tblFollowerHeight.constant
+                    self.tblFollowerHeight.constant = 237 + self.tblFollowers.contentSize.height
+                    self.ObjScrollview.contentSize.height = self.tblFollowerHeight.constant
+            }
+        }
+        else
+        {
+            noListView.isHidden = true
+            
+             btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
+            
+            tblFollowers.isHidden = true
+            tblFollowerHeight.constant = 0
+            if(self.BtnAbout.isSelected)
+            {
+                self.TblTimeline.isHidden = true
+                self.PortfolioView.isHidden = true
+                self.AboutView.isHidden = false
+            }
+            if(self.BtnActivty.isSelected)
+            {
+                self.TblTimeline.isHidden = false
+                self.PortfolioView.isHidden = true
+                self.AboutView.isHidden = true
+            }
+            if(self.BtnPortfolio.isSelected)
+            {
+                self.TblTimeline.isHidden = true
+                self.PortfolioView.isHidden = false
+                self.AboutView.isHidden = true
+            }
+            setLayoutInView()
+        }
+    }
+    @IBAction func btnFollowingAction(_ sender: UIButton)
+    {
+        if(self.profile.FollowingList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+        
+        btnFollwer.isSelected = false
+        btnFollowing.isSelected = true
+        
+        btnFollwer.backgroundColor = UIColor.clear
+        btnFollowing.backgroundColor = UIColor.white
+        isFollowing = true
+        tblFollowers.reloadData()
+        
+        tblFollowerHeight.constant = 217 + self.tblFollowers.contentSize.height
+        self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+        setLayoutInView()
+    }
+    @IBAction func btnFollowersAction(_ sender: UIButton)
+    {
+        if(self.profile.FollowerList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+        btnFollwer.isSelected = true
+        btnFollowing.isSelected = false
+        
+        btnFollwer.backgroundColor = UIColor.white
+        btnFollowing.backgroundColor = UIColor.clear
+        isFollowing = false
+        tblFollowers.reloadData()
+        tblFollowerHeight.constant = 217 + self.tblFollowers.contentSize.height
+        self.ObjScrollview.contentSize.height = tblFollowerHeight.constant
+        setLayoutInView()
+    }
     func getProfile(){
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
@@ -150,27 +429,76 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
-                    self.stopAnimating()
+                    
                     self.profile = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-                    self.setProfile()
+                    
+                    DispatchQueue.main.async
+                        {
+                            self.setProfile()
+                    }
+                    self.stopAnimating()
                     
                 }
                 else
                 {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    _ = self.navigationController?.popViewController(animated: true)
+                    AppDelegate.sharedInstance().window?.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                 }
             }
             
         }) {
             (error) -> Void in
             self.stopAnimating()
-            print(error.localizedDescription)
+             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
         
     }
-    
+    @IBAction func btnSaveContractor(btn : UIButton)
+    {
+        
+        self.startAnimating()
+        
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "PrimaryID":self.profile.ContractorID,
+                     "PageType": "2"] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    btn.isSelected = !btn.isSelected
+                    if self.profile.IsSaved == true{
+                        self.profile.IsSaved = false
+                    }
+                    else{
+                        self.profile.IsSaved = true
+                    }
+                }
+                else
+                {
+                    
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+             
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
     func setProfile(){
         self.lblName.text = self.profile.FirstName + " " + self.profile.LastName
         self.lblSkill.text = self.profile.TradeCategoryName
@@ -179,48 +507,160 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         // Setting About Info :
         
         if  self.profile.IsSaved == true {
-            self.ImgStar.isHidden = false
+            self.ImgStar.isSelected = true
         } else {
-            self.ImgStar.isHidden = true
+            self.ImgStar.isSelected = false
         }
         
         if self.profile.IsFollow == true {
             self.BtnFollow.setTitle("Following", for: UIControlState.normal)
+            self.BtnFollow.backgroundColor = UIColor(red: 192.0/255.0, green: 129.0/255.0, blue: 1/255.0, alpha: 1)
         } else {
+            self.BtnFollow.backgroundColor = UIColor(red: 236.0/255.0, green: 169.0/255.0, blue: 8.0/255.0, alpha: 1)
             self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
         }
-        
+        if  contractorId == sharedManager.currentUser.ContractorID
+        {
+            self.BtnFollow.isHidden = true;
+            self.BtnMessage.isHidden = true;
+            self.BtnEditProfile.isHidden = false;
+            self.ImgStar.isHidden = true
+        }
+        else
+        {
+            self.ImgStar.isHidden = false
+            if self.profile.IsFollowing == true {
+                self.BtnMessage.isHidden = false
+            } else {
+                self.BtnMessage.isHidden = true
+            }
+            self.BtnEditProfile.isHidden = true;
+        }
+        if(!BtnAbout.isSelected)
+        {
+            if(self.profile.PortfolioList?.count == 0)
+            {
+                noListView.isHidden = false
+            }
+            else
+            {
+                noListView.isHidden = true
+            }
+        }
         self.lblAbtDOb.text = self.profile.DOB
         self.lblAbtMob.text = self.profile.MobileNumber
         self.lblAbtTel.text = self.profile.LandlineNumber
+        
+        self.lblAbtHourly.text = self.profile.PerHourRate
         self.lblAbtDaily.text = self.profile.PerDayRate
-        self.lblAbtHourly.text = self.profile.PerDayRate
+        
         self.lblAbtEmail.text = self.profile.EmailID
         self.txtAbtViewAbout.text = self.profile.Aboutme
-        self.txtAbtViewAbout.isSelectable = false
-        self.txtAbtViewAbout.isEditable = false
+        
+    
         self.lblAbtPostCode.text = self.profile.Zipcode
         self.lblAbtDistanceCovered.text = String(self.profile.DistanceRadius)
         self.lblAbtTrade.text = self.profile.TradeCategoryName
+        
+        tagListView.reset()
         var ProfileSkills : [String] = []
         for skill in self.profile.ServiceList! {
+            let color:UIColor!
+            color = UIColor.lightGray
+            tagListView.addTag(skill.ServiceName, target: self, tapAction: "tap:", longPressAction: "longPress:",backgroundColor: color,textColor: UIColor.black)
             ProfileSkills.append(skill.ServiceName)
         }
-        self.lblAbtSkill.text = ProfileSkills.joined(separator: ",")
+         viewSkillHeightConstraint.constant = tagListView.contentSize.height + 10
+        if(self.profile.ServiceList!.count == 0)
+        {
+           viewSkillHeightConstraint.constant = 20
+        }
+        txtBoiHeigthConstrainte.constant = txtAbtViewAbout.contentSize.height
+        if(self.profile.Aboutme == "")
+        {
+          txtBoiHeigthConstrainte.constant = 0
+        }
         self.lblAbtTrade.text = self.profile.TradeCategoryName
-        self.lblAbtLicenceOwner.text = String(self.profile.IsLicenceHeld)
-        self.lblAbtOwnVehicle.text = String(self.profile.IsOwnVehicle)
+        self.isOwner.isOn  = self.profile.IsLicenceHeld
+        self.isVehical.isOn = self.profile.IsOwnVehicle
         
+        self.isVehical.isHidden = true
+        self.isOwner.isHidden = true
+        self.rateViewHeightConstrints.constant = 177
+        if(self.isOwner.isOn)
+        {
+          // self.isOwner.isHidden = false
+        
+        }
+        else
+        {
+            lblLicenseOwner.text = nil
+           self.rateViewHeightConstrints.constant = 147
+        }
+       
+        if(self.isVehical.isOn)
+        {
+          //  self.isVehical.isHidden = false
+        }
+        else
+        {
+           
+             lblOwnVehical.text = nil
+            self.rateViewHeightConstrints.constant = self.rateViewHeightConstrints.constant - 30
+        }
+        
+        if(lblAbtMob.text == "")
+        {
+            lblAbtMob.text = "N/A"
+        }
+        if(lblAbtTel.text == "")
+        {
+            lblAbtTel.text = "N/A"
+        }
+        if(lblAbtEmail.text == "")
+        {
+            lblAbtEmail.text = "N/A"
+        }
+        if(lblAbtDOb.text == "")
+        {
+            lblAbtDOb.text = "N/A"
+        }
+        if(lblAbtPostCode.text == "")
+        {
+            lblAbtPostCode.text = "---"
+        }
+        if(lblAbtDistanceCovered.text == "")
+        {
+            lblAbtDistanceCovered.text = "N/A"
+        }
+        if(lblAbtTrade.text == "")
+        {
+            lblAbtTrade.text = "N/A"
+        }
+
+    
         self.TblAboutus.reloadData()
         self.TblTimeline.reloadData()
         self.AboutCollectionView.reloadData()
         self.ObjCollectionView.reloadData()
+        self.tblFollowers.reloadData()
+         
+        print("\(self.profile.FollowingList!.count) ")
+        print("\(self.profile.FollowerList!.count) ")
+        if(tblFollowers.isHidden)
+        {
+              btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
+        }
+      
+       
+        self.TblTimeline.reloadData()
+        setLayoutInView()
+        
         //set Image
         if self.profile.ProfileImageLink != "" {
             let imgURL = self.profile.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             self.ImgProfilePic?.kf.indicatorType = .activity
-             //self.ImgProfilePic?.kf.setImage(with: urlPro)
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "Main")
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -233,7 +673,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             //ImgProfilePic?.clipsToBounds = true
             //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
         }
-        
+        if(self.profile.ExperienceList?.count == 0)
+        {
+            self.TblHeightConstraints.constant = 0
+        }
         if  self.contractorId == self.sharedManager.currentUser.ContractorID {
             self.BtnNotification.isHidden = false
             self.ImgAvailable.isHidden = false
@@ -255,9 +698,37 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         else {
             self.BtnNotification.isHidden = true
             self.ImgAvailable.isHidden = true
+            if self.profile.AvailableStatusID == 1 {
+                self.ImgAvailable.image = #imageLiteral(resourceName: "ic_circle_green")
+                self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_circle_green")
+            }
+            else if self.profile.AvailableStatusID == 2 {
+                self.ImgAvailable.image = #imageLiteral(resourceName: "ic_CircleYellow")
+                self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_CircleYellow")
+            }
+            else if self.profile.AvailableStatusID == 3 {
+                self.ImgAvailable.image = #imageLiteral(resourceName: "ic_circle_red")
+                self.ImgAvailableProfile.image = #imageLiteral(resourceName: "ic_circle_red")
+            }
         }
         
-        
+        if(isPortFolio)
+        {
+            if(isFristTime)
+            {
+                for  porotfolio:Portfolio in self.profile.PortfolioList!
+                {
+                    if(porotfolio.PrimaryID == protfolioId)
+                    {
+                        self.isFristTime = false
+                        
+                        let port : PortfolioDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+                        port.portfolio = porotfolio
+                        self.navigationController?.pushViewController(port, animated: false)
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func BtnEditTapped(_ sender: UIButton) {
@@ -283,14 +754,17 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     self.stopAnimating()
-                  //  self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     if self.profile.IsFollow == true {
                         self.profile.IsFollow = false
                         self.BtnFollow.setTitle("Follow", for: UIControlState.normal)
+                         self.BtnFollow.backgroundColor = UIColor(red: 236.0/255.0, green: 169.0/255.0, blue: 8.0/255.0, alpha: 1)
                     } else {
+                          self.BtnFollow.backgroundColor = UIColor(red: 192.0/255.0, green: 129.0/255.0, blue: 1/255.0, alpha: 1)
                         self.profile.IsFollow = true
                         self.BtnFollow.setTitle("Following", for: UIControlState.normal)
                     }
+                    self.getProfile()
+
                 }
                 else
                 {
@@ -302,21 +776,28 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }) {
             (error) -> Void in
             self.stopAnimating()
-            print(error.localizedDescription)
+             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
-        
     }
     
-    @IBAction func BtnMessageTapped(_ sender: Any) {
+    @IBAction func BtnMessageTapped(_ sender: Any)
+    {
+        if self.appDelegate!.persistentConnection.state == .connected {
+            appDelegate?.persistentConnection.send(Command.messageSendCommand(friendId: String(self.profile.UserID), msg: ""))
+             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
+            let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = self.profile.UserID
+            msgVC.isNext = true
+            self.navigationController?.pushViewController(msgVC, animated: true)
+        }
     }
+
     @IBAction func BtnActivtyTapped(_ sender: Any) {
-//        if self.profile != nil {
-//            self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
-//        }
+
+        
         self.TblTimeline.reloadData()
-        self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
-        //self.ObjScrollview.contentSize.height = self.TblTimeline.contentSize.height
+        
         self.BtnPortfolio.isSelected = false
         self.BtnPortfolio.tintColor = UIColor.white
         self.BtnPortfolio.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
@@ -338,17 +819,18 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblAboutus.tag = 2
         self.ObjCollectionView.tag = 3
         self.AboutCollectionView.tag = 4
-        
-        //          self.HeightConstraints.constant = 0
-        //          self.PortCollectionHeight.constant = 0
+        if(self.profile.PortfolioList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+         setLayoutInView()
     }
     @IBAction func BtnAboutTapped(_ sender: Any) {
-        
-        //self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
-        //self.ObjScrollview.contentSize.height = 237 + self.PortCollectionHeight.constant
-        
-        self.ObjScrollview.contentSize.height = 217 + AboutView.frame.size.height
-        
+       
         self.BtnPortfolio.isSelected = false
         self.BtnPortfolio.tintColor = UIColor.white
         self.BtnPortfolio.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
@@ -369,15 +851,12 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblAboutus.tag = 2
         self.ObjCollectionView.tag = 3
         self.AboutCollectionView.tag = 4
-        
-        //          self.HeightConstraints.constant = 0
-        //          self.PortCollectionHeight.constant = 0
+        noListView.isHidden = true
+        setLayoutInView()
     }
-    @IBAction func BtnPortfolioTapped(_ sender: Any) {
-        //self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height + 20
-        //self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height + 20
-        self.ObjScrollview.contentSize.height = 237 + self.ObjCollectionView.contentSize.height + 20
-        
+    @IBAction func BtnPortfolioTapped(_ sender: Any)
+    {
+        setLayoutInView()
         self.BtnAbout.isSelected = false
         self.BtnAbout.tintColor = UIColor.white
         self.BtnAbout.setTitleColor(UIColor.lightGray, for: UIControlState.selected)
@@ -393,11 +872,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.PortfolioView.isHidden = false
         self.AboutView.isHidden = true
         
-        
-        //          self.PortCollectionHeight.constant = self.ObjCollectionView.contentSize.height
-        
-        
-        
+        if(self.profile.PortfolioList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+         setLayoutInView()
     }
     
     func popOver() {
@@ -417,9 +900,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         
-        
         let Share = UIButton(frame: CGRect(x: 40, y: 0, width: width - 30, height: 40))
-        Share.setTitle("I am availabale immediately", for: .normal)
+        Share.setTitle("I am available immediately", for: .normal)
         Share.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         Share.contentHorizontalAlignment = .left
         Share.setTitleColor(UIColor.darkGray, for: .normal)
@@ -438,7 +920,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         let Delete = UIButton(frame: CGRect(x: 40, y: 40, width: width - 30, height: 40))
-        Delete.setTitle("I am Available in 2-4 weeks", for: .normal)
+        Delete.setTitle("I am available in 2-4 weeks", for: .normal)
         Delete.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         Delete.setTitleColor(UIColor.darkGray, for: .normal)
         Delete.contentHorizontalAlignment = .left
@@ -455,7 +937,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         
         let MonthAvailiblity = UIButton(frame: CGRect(x: 40, y: 80, width: width - 30, height: 40))
-        MonthAvailiblity.setTitle("I am Available in 1-3 months", for: .normal)
+        MonthAvailiblity.setTitle("I am available in 1-3 months", for: .normal)
         MonthAvailiblity.titleLabel!.font =  UIFont(name: "Oxygen-Regular", size: 16)
         MonthAvailiblity.setTitleColor(UIColor.darkGray, for: .normal)
         MonthAvailiblity.contentHorizontalAlignment = .left
@@ -477,10 +959,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             ] as [PopoverOption]
         popover = Popover(options: options, showHandler: nil, dismissHandler: nil)
         popover.show(aView, fromView:BtnNotification)
-        
-        
-        
     }
+   
     func press(button: UIButton) {
         
         self.startAnimating()
@@ -501,7 +981,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 {
                     self.stopAnimating()
                     self.popover.dismiss()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                     self.profile.AvailableStatusID = button.tag - 20000
                     
                     if self.profile.AvailableStatusID == 1 {
@@ -530,17 +1009,75 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             (error) -> Void in
             self.stopAnimating()
             self.popover.dismiss()
-            print(error.localizedDescription)
+             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
-        
-        
-        
     }
     
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if AboutView.isHidden == true {
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+        setLayoutInView()
+    }
+    func setLayoutInView()
+    {
+         txtBoiHeigthConstrainte.constant = txtAbtViewAbout.contentSize.height
+        if(!tblFollowers.isHidden)
+        {
+            DispatchQueue.main.async
+                {
+                    self.TblHeightConstraints.constant = self.tblFollowerHeight.constant
+                    self.AboutviewHeight.constant = self.tblFollowerHeight.constant
+                    self.POrCollectionHeightConstraints.constant = self.tblFollowerHeight.constant
+                    self.tblFollowerHeight.constant = 237 + self.tblFollowers.contentSize.height
+                    self.ObjScrollview.contentSize.height = self.tblFollowerHeight.constant
+            }
+            return
+        }
+        if(self.BtnAbout.isSelected)
+        {
+            DispatchQueue.main.async
+                {
+                    self.AboutviewHeight.constant = self.TblAboutus.contentSize.height
+                    if(self.profile.PortfolioList?.count == 0)
+                    {
+                        self.AboutviewHeight.constant = 0
+                    }
+                   // self.AboutviewHeight.constant = self.TblAboutus.contentSize.height
+                    
+                    self.tblFollowerHeight.constant = 237 + self.AboutCollectionView.frame.size.height + self.AboutCollectionView.frame.origin.y
+                    self.TblHeightConstraints.constant = 237 + self.AboutCollectionView.frame.size.height + self.AboutCollectionView.frame.origin.y
+                    self.POrCollectionHeightConstraints.constant = 237 + self.AboutCollectionView.frame.size.height + self.AboutCollectionView.frame.origin.y
+                    if(self.profile.CertificateFileList?.count == 0)
+                    {
+                        self.ObjScrollview.contentSize.height = 237 + self.AboutCollectionView.frame.origin.y
+                    }
+                    else
+                    {
+                        self.ObjScrollview.contentSize.height = 237 + self.AboutCollectionView.frame.size.height + self.AboutCollectionView.frame.origin.y
+                    }
+            }
+        }
+        if(self.BtnActivty.isSelected)
+        {
+            DispatchQueue.main.async {
+                self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                self.tblFollowerHeight.constant = self.TblTimeline.contentSize.height
+               // self.AboutviewHeight.constant = self.TblTimeline.contentSize.height
+                self.POrCollectionHeightConstraints.constant = self.TblTimeline.contentSize.height
+                self.ObjScrollview.contentSize.height = 237 + self.TblHeightConstraints.constant
+            }
+        }
+        if(self.BtnPortfolio.isSelected)
+        {
+            DispatchQueue.main.async
+                {
+                    self.tblFollowerHeight.constant = self.ObjCollectionView.contentSize.height
+                  //  self.AboutviewHeight.constant = self.ObjCollectionView.contentSize.height
+                    self.TblHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+                    self.POrCollectionHeightConstraints.constant = self.ObjCollectionView.contentSize.height
+                    self.ObjScrollview.contentSize.height = 237 + self.POrCollectionHeightConstraints.constant + 20
+            }
         }
     }
     override func didReceiveMemoryWarning() {
@@ -556,16 +1093,35 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 return 0
             }
         }
+        else if(tableView == self.tblFollowers)
+        {
+            if(isFollowing)
+            {
+                if self.profile != nil {
+                    //self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    return (self.profile.FollowingList?.count)!
+                }
+                else {
+                    return 0
+                }
+            }
+            else
+            {
+                if self.profile != nil {
+                    //self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                    return (self.profile.FollowerList?.count)!
+                }
+                else {
+                    return 0
+                }
+            }
+        }
         else
         {
             if  self.profile != nil {
-                self.AboutviewHeight.constant = CGFloat(Float(Float(110) * Float((self.profile.ExperienceList?.count)!)))
-                self.HeightAboutView.constant = 867 + self.AboutviewHeight.constant
                 return  (self.profile.ExperienceList?.count)!
                 
             }
-            self.AboutviewHeight.constant = 0
-            self.HeightAboutView.constant = 867
             return 0
         }
     }
@@ -573,32 +1129,295 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if tableView == self.TblTimeline {
             let lastRowIndex = tableView.numberOfRows(inSection: 0)
-            if indexPath.row == lastRowIndex - 1 {
-                self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+            if indexPath.row == lastRowIndex - 1
+            {
+                   self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+                if(self.profile.PortfolioList?.count == 0)
+                {
+                
+                }
             }
         }
     }
-    
-    
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         if tableView == self.TblTimeline {
-            let cell : TimelineCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TimelineCell
-            let tmpPortfolio : Portfolio = self.profile.PortfolioList![indexPath.row]
-            // Set Image of user
-            if tmpPortfolio.IsSaved == true {
-                cell.imgFav.image = #imageLiteral(resourceName: "ic_fav_selected")
+            
+            let cvimgcnt : Int = (self.profile.PortfolioList![indexPath.row].PortfolioImageList.count)
+            
+            if cvimgcnt == 0{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DashBoardTvCell
+                
+                
+                let myString = "\(self.profile.FirstName + " " + self.profile.LastName)-\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)"
+                var myRange = NSRange(location:("\(self.profile.FirstName + " " + self.profile.LastName)").length+1, length: "\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+               
+                
+                cell.lbldate.text = "\(self.profile.PortfolioList![indexPath.row].DateTimeCaption)-\(self.profile.PortfolioList![indexPath.row].Location)"
+                cell.lblhtml.text = self.profile.PortfolioList![indexPath.row].Description as String!
+                
+                let imgURL = self.profile.PortfolioList![indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.profile.PortfolioList![indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                return cell
+            }
+                
+            else if cvimgcnt == 1{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! DashBoardTv1Cell
+                let myString = "\(self.profile.FirstName + " " + self.profile.LastName)-\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)"
+                var myRange = NSRange(location:("\(self.profile.FirstName + " " + self.profile.LastName)").length+1, length: "\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+                
+                 cell.lbldate.text = "\(self.profile.PortfolioList![indexPath.row].DateTimeCaption)-\(self.profile.PortfolioList![indexPath.row].Location)"
+                cell.lblhtml.text = self.profile.PortfolioList![indexPath.row].Description as String!
+                
+                let imgURL = self.profile.PortfolioList![indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnPortfolio!.tag=indexPath.row
+                cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.profile.PortfolioList![indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                let imgURL1 = self.profile.PortfolioList![indexPath.row].PortfolioImageList[0].PortfolioImageLink as String!
+                let url1 = URL(string: imgURL1!)
+                cell.img1.kf.indicatorType = .activity
+                cell.img1.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
+                    cell.setCustomImage(image : image!)
+                    if(cell.isReload)
+                    {
+                        cell.isReload = false
+                        tableView.reloadData()
+                    }
+                })
+                return cell
+            }
+                
+            else if cvimgcnt == 2{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! DashBoardTv2Cell
+                let myString = "\(self.profile.FirstName + " " + self.profile.LastName)-\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)"
+                var myRange = NSRange(location:("\(self.profile.FirstName + " " + self.profile.LastName)").length+1, length: "\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+            
+                
+                 cell.lbldate.text = "\(self.profile.PortfolioList![indexPath.row].DateTimeCaption)-\(self.profile.PortfolioList![indexPath.row].Location)"
+                cell.lblhtml.text = self.profile.PortfolioList![indexPath.row].Description as String!
+                
+                let imgURL = self.profile.PortfolioList![indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnPortfolio!.tag=indexPath.row
+                cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.profile.PortfolioList![indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                
+                let imgURL1 = self.profile.PortfolioList![indexPath.row].PortfolioImageList[0].PortfolioImageLink as String!
+                let url1 = URL(string: imgURL1!)
+                cell.img1.kf.indicatorType = .activity
+                cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                let imgURL2 = self.profile.PortfolioList![indexPath.row].PortfolioImageList[1].PortfolioImageLink as String!
+                let url2 = URL(string: imgURL2!)
+                cell.img2.kf.indicatorType = .activity
+                cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                
+                return cell
             }
             else {
-                cell.imgFav.image = #imageLiteral(resourceName: "ic_fav")
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell3", for: indexPath) as! DashBoardTv3Cell
+                let myString = "\(self.profile.FirstName + " " + self.profile.LastName)-\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)"
+                var myRange = NSRange(location:("\(self.profile.FirstName + " " + self.profile.LastName)").length+1, length: "\(self.profile.TradeCategoryName) \(self.profile.PortfolioList![indexPath.row].Caption)".length)
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
+                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+                myAttrString.addAttributes(anotherAttribute1, range: myRange1)
+                cell.lbltitle.attributedText = myAttrString
+                
+                cell.lbltitle.tag = indexPath.row
+                
+                
+               cell.lbldate.text = "\(self.profile.PortfolioList![indexPath.row].DateTimeCaption)-\(self.profile.PortfolioList![indexPath.row].Location)"
+                cell.lblhtml.text = self.profile.PortfolioList![indexPath.row].Description as String!
+                
+                let imgURL = self.profile.PortfolioList![indexPath.row].ProfileImageLink as String!
+                let url = URL(string: imgURL!)
+                cell.imguser.kf.indicatorType = .activity
+                cell.imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                cell.btnProfile!.tag=indexPath.row
+                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnPortfolio!.tag=indexPath.row
+                cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
+                
+                cell.btnfav!.tag=indexPath.row
+                cell.btnfav?.addTarget(self, action: #selector(btnfav(btn:)), for: UIControlEvents.touchUpInside)
+                
+                if self.profile.PortfolioList![indexPath.row].IsSaved == true {
+                    cell.btnfav.isSelected = true
+                }
+                else{
+                    cell.btnfav.isSelected = false
+                    
+                }
+                
+                let imgURL1 = self.profile.PortfolioList![indexPath.row].PortfolioImageList[0].PortfolioImageLink as String!
+                let url1 = URL(string: imgURL1!)
+                cell.img1.kf.indicatorType = .activity
+                cell.img1.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                let imgURL2 = self.profile.PortfolioList![indexPath.row].PortfolioImageList[1].PortfolioImageLink as String!
+                let url2 = URL(string: imgURL2!)
+                cell.img2.kf.indicatorType = .activity
+                cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                let imgURL3 = self.profile.PortfolioList![indexPath.row].PortfolioImageList[2].PortfolioImageLink as String!
+                let url3 = URL(string: imgURL3!)
+                cell.img3.kf.indicatorType = .activity
+                cell.img3.kf.setImage(with: url3, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                cell.overlayView.isHidden = true
+                if(cvimgcnt > 3)
+                {
+                    cell.overlayView.isHidden = false
+                    cell.lblPhotoCount.text = "+\(cvimgcnt - 3)\nView All"
+                }
+                return cell
             }
-            if self.profile.ProfileImageLink != "" {
-                let imgURL = self.profile.ProfileImageLink as String
-                let urlPro = URL(string: imgURL)
+        }
+        else if(tableView == self.tblFollowers)
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FollowingListCell
+            if(isFollowing)
+            {
+                let urlPro = URL(string: (self.profile.FollowingList?[indexPath.row].ProfileImageLink)!)
                 cell.imgProfile?.kf.indicatorType = .activity
-                cell.imgProfile?.kf.setImage(with: urlPro)
-                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.profile.ProfileImageLink + "ProfileCell")
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.FollowingList?[indexPath.row].ProfileImageLink)! + "FollowingCell")
+                let optionInfo: KingfisherOptionsInfo = [
+                    .downloadPriority(0.5),
+                    .transition(ImageTransition.fade(1)),
+                    
+                    ]
+                cell.imgProfile?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+                cell.lblName.text = self.profile.FollowingList?[indexPath.row].Name
+                cell.lblCategory.text = "\(self.profile.FollowingList![indexPath.row].TradeCategoryName),\(self.profile.FollowingList![indexPath.row].CityName)"
+                cell.lblCategory.numberOfLines  = 2
+                cell.btnFollowButton.isHidden = false
+                cell.btnFollowButton.tag = indexPath.row
+                cell.btnFollowButton.addTarget(self, action: #selector(ProfileFeed.FollowUnfollowTapped(_:)), for: UIControlEvents.touchUpInside)
+                
+                if(self.profile.FollowingList![indexPath.row].IsFollow)
+                {
+                     cell.btnFollowButton.backgroundColor = UIColor(red: 192.0/255.0, green: 129.0/255.0, blue: 1/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = true
+                   
+                }
+                else
+                {
+                     cell.btnFollowButton.backgroundColor = UIColor(red: 236.0/255.0, green: 169.0/255.0, blue: 8.0/255.0, alpha: 1)
+                    
+                    cell.btnFollowButton.isSelected = false
+                }
+                if(self.profile.FollowingList![indexPath.row].IsContractor)
+                {
+                    if(self.profile.FollowingList![indexPath.row].ContractorID == sharedManager.currentUser.ContractorID)
+                    {
+                      cell.btnFollowButton.isHidden = true
+                    }
+                    else
+                    {
+                      cell.btnFollowButton.isHidden = false
+                    }
+                }
+                else
+                {
+                   cell.btnFollowButton.isHidden = false
+                }
+            }
+            else
+            {
+                cell.imgProfile?.kf.indicatorType = .activity
+                let urlPro = URL(string: (self.profile.FollowerList?[indexPath.row].ProfileImageLink)!)
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.FollowerList?[indexPath.row].ProfileImageLink)! + "FollowerCell")
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),
                     .transition(ImageTransition.fade(1)),
@@ -606,143 +1425,38 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     ]
                 
                 cell.imgProfile?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
-                
-                //ImgProfilePic?.clipsToBounds = true
-                //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
-            }
-            
-            //cell.imguser
-            cell.lblName.text = self.profile.FirstName + " " + self.profile.LastName
-            cell.lblCaption.text = tmpPortfolio.Caption
-            cell.lblTitle.text = tmpPortfolio.Description
-            cell.lblDate.text = tmpPortfolio.Date + " at " + tmpPortfolio.Time + " - " + tmpPortfolio.Location
-            
-            
-            // Handling the button click
-            
-            cell.btnProfile!.tag=indexPath.row
-            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnPortfolio!.tag=indexPath.row
-            cell.btnPortfolio?.addTarget(self, action: #selector(btnPortfolio(btn:)), for: UIControlEvents.touchUpInside)
-            
-            cell.btnFav!.tag=indexPath.row
-            cell.btnFav?.addTarget(self, action: #selector(JobCenter.btnfav(btn:)), for: UIControlEvents.touchUpInside)
-            
-            // Remove all Subviews from View 
-            for view in cell.imgView.subviews {
-                view.removeFromSuperview()
-            }
-            cell.imgHeight.constant = 160
-            cell.portfolioHeight.constant = 160
-            // Set Image for Album Images
-            if tmpPortfolio.PortfolioImageList.count >= 3 {
-                var count = 0
-                var x = 5;
-                for img in tmpPortfolio.PortfolioImageList {
-                    if  count < 3
+                cell.lblName.text = self.profile.FollowerList?[indexPath.row].Name
+                cell.lblCategory.text = "\(self.profile.FollowerList![indexPath.row].TradeCategoryName),\(self.profile.FollowerList![indexPath.row].CityName)"
+                cell.btnFollowButton.tag = indexPath.row
+                cell.btnFollowButton.addTarget(self, action: #selector(ProfileFeed.FollowUnfollowTapped(_:)), for: UIControlEvents.touchUpInside)
+                cell.btnFollowButton.tag = indexPath.row
+                if(self.profile.FollowerList![indexPath.row].IsFollow)
+                {
+                   cell.btnFollowButton.backgroundColor = UIColor(red: 192.0/255.0, green: 129.0/255.0, blue: 1.0/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = true
+                }
+                else
+                {
+                      cell.btnFollowButton.backgroundColor = UIColor(red: 236.0/255.0, green: 169.0/255.0, blue: 8.0/255.0, alpha: 1)
+                    cell.btnFollowButton.isSelected = false
+                }
+                if(self.profile.FollowerList![indexPath.row].IsContractor)
+                {
+                    if(self.profile.FollowerList![indexPath.row].ContractorID == sharedManager.currentUser.ContractorID)
                     {
-                        let imgView : UIImageView = UIImageView(frame: CGRect(x: x, y: 5, width: Int((Constants.ScreenSize.SCREEN_WIDTH / 3 ) - 20), height: 130))
-                        
-                        
-                        if tmpPortfolio.PortfolioImageList[count].PortfolioImageLink != "" {
-                            let imgURL = tmpPortfolio.PortfolioImageList[count].PortfolioImageLink as String
-                            let urlPro = URL(string: imgURL)
-                           
-                            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: tmpPortfolio.PortfolioImageList[count].PortfolioImageLink)
-                            let optionInfo: KingfisherOptionsInfo = [
-                                .downloadPriority(0.5),
-                                .transition(ImageTransition.fade(1)),
-                                
-                                ]
-                            imgView.kf.indicatorType = .activity
-                            imgView.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
-                            imgView.clipsToBounds = true
-                            imgView.contentMode = UIViewContentMode.scaleAspectFill
-                            //ImgProfilePic?.clipsToBounds = true
-                            //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
-                        }
-                        
-                        //imgView.image = UIImage(named: "image")
-                        cell.imgView.addSubview(imgView);
-                        x = x + 5 + Int((Constants.ScreenSize.SCREEN_WIDTH / 3 ) - 20)
-                        count = count + 1
+                        cell.btnFollowButton.isHidden = true
+                    }
+                    else
+                    {
+                        cell.btnFollowButton.isHidden = false
                     }
                 }
-            }
-            else if tmpPortfolio.PortfolioImageList.count == 2 {
-                var count = 0
-                var x = 5;
-                for img in tmpPortfolio.PortfolioImageList {
-                    if  count < 2
-                    {
-                        let imgView : UIImageView = UIImageView(frame: CGRect(x: x, y: 5, width: Int((Constants.ScreenSize.SCREEN_WIDTH / 2 ) - 15), height: 140))
-                        if tmpPortfolio.PortfolioImageList[count].PortfolioImageLink != "" {
-                            let imgURL = tmpPortfolio.PortfolioImageList[count].PortfolioImageLink as String
-                            let urlPro = URL(string: imgURL)
-                            
-                            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: tmpPortfolio.PortfolioImageList[count].PortfolioImageLink)
-                            let optionInfo: KingfisherOptionsInfo = [
-                                .downloadPriority(0.5),
-                                .transition(ImageTransition.fade(1)),
-                                
-                                ]
-                            imgView.kf.indicatorType = .activity
-                            imgView.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
-                            imgView.clipsToBounds = true
-                            imgView.contentMode = UIViewContentMode.scaleAspectFill
-                            //ImgProfilePic?.clipsToBounds = true
-                            //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
-                        }
-                        cell.imgView.addSubview(imgView);
-                        x = x + 5 + Int((Constants.ScreenSize.SCREEN_WIDTH / 2 ) - 15)
-                        count = count + 1
-                    }
+                else
+                {
+                    cell.btnFollowButton.isHidden = false
                 }
-                
             }
-            else if tmpPortfolio.PortfolioImageList.count == 1 {
-                var count = 0
-                var x = 5;
-                for img in tmpPortfolio.PortfolioImageList {
-                    if  count < 1
-                    {
-                        let imgView : UIImageView = UIImageView(frame: CGRect(x: x, y: 5, width: Int((Constants.ScreenSize.SCREEN_WIDTH / 2 ) - 10), height: 150))
-                        if tmpPortfolio.PortfolioImageList[count].PortfolioImageLink != "" {
-                            let imgURL = tmpPortfolio.PortfolioImageList[count].PortfolioImageLink as String
-                            let urlPro = URL(string: imgURL)
-                            
-                            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: tmpPortfolio.PortfolioImageList[count].PortfolioImageLink)
-                            let optionInfo: KingfisherOptionsInfo = [
-                                .downloadPriority(0.5),
-                                .transition(ImageTransition.fade(1)),
-                                
-                                ]
-                            imgView.kf.indicatorType = .activity
-                            imgView.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
-                            imgView.clipsToBounds = true
-                            imgView.contentMode = UIViewContentMode.scaleAspectFill
-                            //ImgProfilePic?.clipsToBounds = true
-                            //ImgProfilePic?.cornerRadius = (ImgProfilePic?.frame.size.width)! / 2
-                        }
-                        cell.imgView.addSubview(imgView);
-                        x = x + 5 + Int((Constants.ScreenSize.SCREEN_WIDTH / 1 ) - 10)
-                        count = count + 1
-                    }
-                }
-                cell.imgHeight.constant = 160
-                cell.portfolioHeight.constant = 160
-            }
-            else {
-                // Reduce height constraint of table by views height
-                cell.imgHeight.constant = 0
-                cell.portfolioHeight.constant = 0
-            }
-            
-            
-            //               cell.textLabel?.text = "Trades " +  "\(indexPath.row)"
             return cell
-            
         }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ExperienceCell
@@ -753,7 +1467,43 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             return cell
         }
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        if(tableView == tblFollowers)
+        {
+            if(isFollowing)
+            {
+                if(self.profile.FollowingList![indexPath.row].IsContractor)
+                {
+                    let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                    companyVC.contractorId = self.profile.FollowingList![indexPath.row].PrimaryID
+                    self.navigationController?.pushViewController(companyVC, animated: true)
+                }
+                else
+                {
+                     let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                    companyVC.companyId = self.profile.FollowingList![indexPath.row].PrimaryID
+                     self.navigationController?.pushViewController(companyVC, animated: true)
+                }
+               
+            }
+            else
+            {
+                if(self.profile.FollowerList![indexPath.row].IsContractor)
+                {
+                    let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                    companyVC.contractorId = self.profile.FollowerList![indexPath.row].PrimaryID
+                    self.navigationController?.pushViewController(companyVC, animated: true)
+                }
+                else
+                {
+                    let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                    companyVC.companyId = self.profile.FollowerList![indexPath.row].PrimaryID
+                    self.navigationController?.pushViewController(companyVC, animated: true)
+                }
+            }
+        }
+    }
     
     func btnProfile (btn : UIButton) {
 //        
@@ -804,37 +1554,17 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     
                 }
                 
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
-            print(error.localizedDescription)
+             
             self.stopAnimating()
             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
-    
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if  tableView == self.TblTimeline {
-//        let tmpPortfolio : Portfolio = self.profile.PortfolioList![indexPath.row]
-//        let str1 = self.profile.FirstName + " " + self.profile.LastName
-//        let str2 = tmpPortfolio.Caption
-//        let str3 = tmpPortfolio.Description
-//        let str4 = tmpPortfolio.Date + " at " + tmpPortfolio.Time + " - " + tmpPortfolio.Location
-//        
-//        let height = (str1 + str2 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 15, font: UIFont(name: "Oxygen", size: 16)!) + (str3 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 125, font: UIFont(name: "Oxygen", size: 14)!) + (str4 ).heightWithWidth(width: Constants.ScreenSize.SCREEN_WIDTH - 60, font: UIFont(name: "Oxygen", size: 16)!) + 20 + 180
-//        
-//        return CGFloat(height)
-//        }
-//        else {
-//            
-//            return 95
-//        }
-//        
-//    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -858,7 +1588,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             else {
                 return 0
             }
-            
         }
         else {
             return 10
@@ -877,7 +1606,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             
             let imgURL = (self.profile.PortfolioList?[indexPath.row].ThumbnailImageLink)! as String
             let urlPro = URL(string: imgURL)
-            Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
+            
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.PortfolioList?[indexPath.row].ThumbnailImageLink)!)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -916,13 +1645,15 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             
             if  self.profile.CertificateFileList?[indexPath.row].IsImage == false {
                  Collectcell.PortfolioImage.image = #imageLiteral(resourceName: "ic_pdf")
+                Collectcell.lblTitle.text =  (self.profile.CertificateFileList?[indexPath.row].CertificateCategoryName)! as String
             }
             else {
             
             let imgURL = (self.profile.CertificateFileList?[indexPath.row].FileLink)! as String
             let urlPro = URL(string: imgURL)
             Collectcell.PortfolioImage?.kf.indicatorType = .activity
-            Collectcell.PortfolioImage?.kf.setImage(with: urlPro)
+            Collectcell.lblTitle.text =  (self.profile.CertificateFileList?[indexPath.row].CertificateCategoryName)! as String
+
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
@@ -954,7 +1685,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             return Collectcell
 
         }
-        
     }
     
     @IBAction func removePortfolio(sender : UIButton) {
@@ -982,9 +1712,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         
                         self.profile = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
                         self.setProfile()
-                        
-                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                        
+
                     }
                     else
                     {
@@ -996,7 +1724,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             }) {
                 (error) -> Void in
                 self.stopAnimating()
-                print(error.localizedDescription)
+                 
                 self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
             }
 
@@ -1014,12 +1742,13 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
         if collectionView == self.ObjCollectionView {
             let itemsPerRow:CGFloat = 2
             let hardCodedPadding:CGFloat = 5
             let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
-            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding + (self.profile.PortfolioList![indexPath.row].Title).heightWithWidth(width: itemWidth, font: UIFont(name: "Oxygen-Bold", size: 14)!)
+            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
             return CGSize(width: itemWidth, height: itemHeight)
         }
         
@@ -1030,6 +1759,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
             return CGSize(width: itemWidth, height: itemHeight)
         }
+        else if(collectionView == AboutCollectionView)
+        {
+            let itemsPerRow:CGFloat = 2.5
+            let hardCodedPadding:CGFloat = 0
+            let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
+            let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - 30
+            return CGSize(width: itemWidth, height: itemHeight)
+        }
         else
         {
             let itemsPerRow:CGFloat = 2
@@ -1038,8 +1775,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
             return CGSize(width: itemWidth, height: itemHeight)
         }
-        
-        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
@@ -1048,15 +1783,32 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsImage == false
         {
-            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-            port.strUrl = (self.profile.CertificateFileList?[indexPath.row].FileLink)!
-            self.navigationController?.pushViewController(port, animated: true)
+            let openLink = NSURL(string : (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
             
-//            let url = URL(string: (self.profile.CertificateFileList?[indexPath.row].FileLink)!)
-//            if (UIApplication.shared.canOpenURL(url!)){
-//                UIApplication.shared.openURL(url!)
-//            }
-        } else if collectionView == self.ObjCollectionView {
+            if #available(iOS 9.0, *) {
+                let svc = SFSafariViewController(url: openLink as! URL)
+                present(svc, animated: true, completion: nil)
+            } else {
+                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                port.strUrl = (self.profile.CertificateFileList?[indexPath.row].FileLink)!
+                self.navigationController?.pushViewController(port, animated: true)
+
+            }
+        }
+        else if collectionView == AboutCollectionView && self.profile.CertificateFileList?[indexPath.row].IsImage == true
+        {
+        
+            let photo = SKPhoto.photoWithImageURL((self.profile.CertificateFileList?[indexPath.row].FileLink)!)
+            photo.caption = ("")
+            photo.shouldCachePhotoURLImage = true
+        
+            let browser = SKPhotoBrowser(photos: [photo])
+            browser.initializePageIndex(indexPath.row)
+            browser.delegate = self
+            
+            present(browser, animated: true, completion: nil)
+        }
+        else if collectionView == self.ObjCollectionView {
             
             if  self.contractorId == sharedManager.currentUser.ContractorID {
                 // Redirect to edit portfolio
@@ -1083,5 +1835,114 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         else {
             _ = self.navigationController?.popViewController(animated: true)
         }
+    }
+    func FollowUnfollowTapped(_ sender: UIButton) {
+        
+        self.startAnimating()
+        
+        var FollowContractorID = 0
+        var strUrlTogaling = ""
+        if(isFollowing)
+        {
+            
+          
+            if(self.profile.FollowingList![sender.tag].IsContractor)
+            {
+                FollowContractorID = self.profile.FollowingList![sender.tag].ContractorID
+                  strUrlTogaling = Constants.URLS.FollowContractorToggle
+ 
+            }
+            else
+            {
+                FollowContractorID = self.profile.FollowingList![sender.tag].CompanyID
+                  strUrlTogaling = Constants.URLS.FollowCompanyToggle
+            }
+        }
+        else
+        {
+            if(self.profile.FollowerList![sender.tag].IsContractor)
+            {
+               FollowContractorID = self.profile.FollowerList![sender.tag].ContractorID
+                  strUrlTogaling = Constants.URLS.FollowContractorToggle
+                
+            }
+            else
+            {
+                 FollowContractorID = self.profile.FollowerList![sender.tag].CompanyID
+                  strUrlTogaling = Constants.URLS.FollowCompanyToggle
+            }
+        }
+        
+        let param = ["FollowContractorID": FollowContractorID,
+                     "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(strUrlTogaling, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            // self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.stopAnimating()
+                    if(self.isFollowing)
+                    {
+                        if(self.profile.FollowingList![sender.tag].IsFollow)
+                        {
+                            self.profile.FollowingList![sender.tag].IsFollow = false
+                        }
+                        else
+                        {
+                            self.profile.FollowingList![sender.tag].IsFollow = true
+                        }
+
+                    }
+                    else
+                    {
+                        if(self.profile.FollowerList![sender.tag].IsFollow)
+                        {
+                            self.profile.FollowerList![sender.tag].IsFollow = false
+                        }
+                        else
+                        {
+                            self.profile.FollowerList![sender.tag].IsFollow = true
+                        }
+
+                    }
+                    self.getProfile()
+                }
+                else
+                {
+                    self.stopAnimating()
+                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            self.stopAnimating()
+             
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    func DisPlayCountInLabel(FollowingCount:String,followerCount:String) -> NSMutableAttributedString
+    {
+        let myString = "\(FollowingCount)Following \(followerCount)Followers"
+        let myRange = NSRange(location: 0, length: FollowingCount.length)
+        let myRange2 = NSRange(location: FollowingCount.length, length: 10)
+        let myRange3 = NSRange(location: FollowingCount.length+10+followerCount.length, length: 9)
+        let myRange1 = NSRange(location: FollowingCount.length+10, length: followerCount.length)
+        let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+         let anotherAttribute1 = [ NSForegroundColorAttributeName: UIColor.lightGray]
+        let myAttrString = NSMutableAttributedString(string: myString)
+        myAttrString.addAttributes(anotherAttribute, range: myRange)
+        myAttrString.addAttributes(anotherAttribute, range: myRange1)
+         myAttrString.addAttributes(anotherAttribute1, range: myRange2)
+         myAttrString.addAttributes(anotherAttribute1, range: myRange3)
+        return myAttrString
     }
 }
