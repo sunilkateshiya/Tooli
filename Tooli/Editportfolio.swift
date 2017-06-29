@@ -136,9 +136,7 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                         userDefaults.synchronize()
                         self.stopAnimating()
-            
-                        
-                        
+                        self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                         self.PortCollectionView.reloadData()
                     }
                     else

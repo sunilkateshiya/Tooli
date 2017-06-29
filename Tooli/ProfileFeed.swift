@@ -17,6 +17,10 @@ import SKPhotoBrowser
 
 class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, NVActivityIndicatorViewable,SKPhotoBrowserDelegate{
 
+    
+    @IBOutlet weak var lblFollowing: UILabel!
+    @IBOutlet weak var lblFollowers: UILabel!
+    
     var popover = Popover()
     let sharedManager : Globals = Globals.sharedInstance
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -119,6 +123,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.BtnMessage.isHidden = false;
             self.BtnEditProfile.isHidden = true;
         }
+        lblFollowers.text = ""
+        lblFollowing.text = ""
         self.TblAboutus.delegate = self
         self.TblAboutus.dataSource = self
         TblTimeline.delegate = self
@@ -126,6 +132,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         TblTimeline.rowHeight = UITableViewAutomaticDimension
         TblTimeline.estimatedRowHeight = 450
         TblTimeline.tableFooterView = UIView()
+        TblAboutus.rowHeight = UITableViewAutomaticDimension
+        TblAboutus.estimatedRowHeight = 450
         ObjScrollview.delegate = self
         self.tblFollowerHeight.constant = 0
         self.TblHeightConstraints.constant = 0
@@ -211,6 +219,16 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(lblEmailTaped(tapGestureRecognizer:)))
         lblAbtEmail.isUserInteractionEnabled = true
         lblAbtEmail.addGestureRecognizer(tapGestureRecognizer2)
+        
+        
+        
+        let tapGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(lblFollowersTaped(tapGestureRecognizer:)))
+        lblFollowers.isUserInteractionEnabled = true
+        lblFollowers.addGestureRecognizer(tapGestureRecognizer3)
+        
+        let tapGestureRecognizer4 = UITapGestureRecognizer(target: self, action: #selector(lblFollowingsTaped(tapGestureRecognizer:)))
+        lblFollowing.isUserInteractionEnabled = true
+        lblFollowing.addGestureRecognizer(tapGestureRecognizer4)
         getProfile()
     }
     
@@ -218,9 +236,9 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     {
         if(lblAbtMob.text! != "")
         {
-            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(lblAbtMob.text!)")!))
+            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(removeSpecialCharsFromString(text: lblAbtMob.text!))")!))
             {
-                 UIApplication.shared.openURL(URL(string: "tel://\(lblAbtMob.text!)")!)
+                 UIApplication.shared.openURL(URL(string: "tel://\(removeSpecialCharsFromString(text: lblAbtMob.text!))")!)
             }
             else
             {
@@ -228,14 +246,19 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             }
         }
     }
+    func removeSpecialCharsFromString(text: String) -> String {
+        let okayChars : Set<Character> =
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890+-".characters)
+        return String(text.characters.filter {okayChars.contains($0) })
+    }
     func lblTelTaped(tapGestureRecognizer:UIGestureRecognizer)
     {
     
         if(lblAbtTel.text! != "")
         {
-            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(lblAbtTel.text!)")!))
+            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(removeSpecialCharsFromString(text: lblAbtTel.text!))")!))
             {
-                UIApplication.shared.openURL(URL(string: "tel://\(lblAbtTel.text!)")!)
+                UIApplication.shared.openURL(URL(string: "tel://\(removeSpecialCharsFromString(text: lblAbtTel.text!))")!)
             }
             else
             {
@@ -256,6 +279,83 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 self.view.makeToast("Email not valid.", duration: 3, position: .bottom)
             }
         }
+    }
+    func lblFollowersTaped(tapGestureRecognizer:UIGestureRecognizer)
+    {
+        isFollowing = false
+        btnFollwer.isSelected = true
+        btnFollowing.isSelected = false
+        if(self.profile.FollowerList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+        
+        self.TblTimeline.isHidden = true
+        self.PortfolioView.isHidden = true
+        self.AboutView.isHidden = true
+        
+        tblFollowers.isHidden = false
+        tblFollowers.reloadData()
+        self.TblTimeline.reloadData()
+        
+        DispatchQueue.main.async
+            {
+                self.TblHeightConstraints.constant = self.tblFollowerHeight.constant
+                self.POrCollectionHeightConstraints.constant = self.tblFollowerHeight.constant
+                self.tblFollowerHeight.constant = 237 + self.tblFollowers.contentSize.height
+                self.ObjScrollview.contentSize.height = self.tblFollowerHeight.constant
+        }
+         self.btnCountFollower.isUserInteractionEnabled = true
+        let myRange = NSRange(location: 0, length: 16)
+        let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+        let myAttrString = NSMutableAttributedString(string: "Back to Timeline")
+        myAttrString.addAttributes(anotherAttribute, range: myRange)
+        btnCountFollower.setAttributedTitle(myAttrString, for: UIControlState.normal)
+        lblFollowers.text = ""
+        lblFollowing.text = ""
+    }
+    func lblFollowingsTaped(tapGestureRecognizer:UIGestureRecognizer)
+    {
+        isFollowing = true
+        btnFollwer.isSelected = false
+        btnFollowing.isSelected = true
+        
+        if(self.profile.FollowingList?.count == 0)
+        {
+            noListView.isHidden = false
+        }
+        else
+        {
+            noListView.isHidden = true
+        }
+        self.TblTimeline.isHidden = true
+        self.PortfolioView.isHidden = true
+        self.AboutView.isHidden = true
+        
+        tblFollowers.isHidden = false
+        tblFollowers.reloadData()
+        self.TblTimeline.reloadData()
+        
+        DispatchQueue.main.async
+            {
+                self.TblHeightConstraints.constant = self.tblFollowerHeight.constant
+                self.POrCollectionHeightConstraints.constant = self.tblFollowerHeight.constant
+                self.tblFollowerHeight.constant = 237 + self.tblFollowers.contentSize.height
+                self.ObjScrollview.contentSize.height = self.tblFollowerHeight.constant
+        }
+        
+        self.btnCountFollower.isUserInteractionEnabled = true
+        let myRange = NSRange(location: 0, length: 16)
+        let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
+        let myAttrString = NSMutableAttributedString(string: "Back to Timeline")
+        myAttrString.addAttributes(anotherAttribute, range: myRange)
+        btnCountFollower.setAttributedTitle(myAttrString, for: UIControlState.normal)
+        lblFollowers.text = ""
+        lblFollowing.text = ""
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
@@ -285,88 +385,31 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     @IBAction func btnOpenFollowerAction(_ sender: UIButton)
     {
-        if(tblFollowers.isHidden)
+        noListView.isHidden = true
+        self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) ")
+        
+        tblFollowers.isHidden = true
+        tblFollowerHeight.constant = 0
+        if(self.BtnAbout.isSelected)
         {
-            if(isFollowing)
-            {
-                btnFollwer.isSelected = false
-                btnFollowing.isSelected = true
-                
-                if(self.profile.FollowingList?.count == 0)
-                {
-                    noListView.isHidden = false
-                }
-                else
-                {
-                    noListView.isHidden = true
-                }
-
-            }
-            else
-            {
-                btnFollwer.isSelected = true
-                btnFollowing.isSelected = false
-                if(self.profile.FollowerList?.count == 0)
-                {
-                    noListView.isHidden = false
-                }
-                else
-                {
-                    noListView.isHidden = true
-                }
-            }
-            
-            let myRange = NSRange(location: 0, length: 16)
-            let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
-            let myAttrString = NSMutableAttributedString(string: "Back to Timeline")
-            myAttrString.addAttributes(anotherAttribute, range: myRange)
-            btnCountFollower.setAttributedTitle(myAttrString, for: UIControlState.normal)
-            
             self.TblTimeline.isHidden = true
             self.PortfolioView.isHidden = true
-            self.AboutView.isHidden = true
-            
-            tblFollowers.isHidden = false
-            tblFollowers.reloadData()
-            self.TblTimeline.reloadData()
-            
-            DispatchQueue.main.async
-                {
-                    self.TblHeightConstraints.constant = self.tblFollowerHeight.constant
-                    self.AboutviewHeight.constant = self.tblFollowerHeight.constant
-                    self.POrCollectionHeightConstraints.constant = self.tblFollowerHeight.constant
-                    self.tblFollowerHeight.constant = 237 + self.tblFollowers.contentSize.height
-                    self.ObjScrollview.contentSize.height = self.tblFollowerHeight.constant
-            }
+            self.AboutView.isHidden = false
         }
-        else
+        if(self.BtnActivty.isSelected)
         {
-            noListView.isHidden = true
-            
-             btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
-            
-            tblFollowers.isHidden = true
-            tblFollowerHeight.constant = 0
-            if(self.BtnAbout.isSelected)
-            {
-                self.TblTimeline.isHidden = true
-                self.PortfolioView.isHidden = true
-                self.AboutView.isHidden = false
-            }
-            if(self.BtnActivty.isSelected)
-            {
-                self.TblTimeline.isHidden = false
-                self.PortfolioView.isHidden = true
-                self.AboutView.isHidden = true
-            }
-            if(self.BtnPortfolio.isSelected)
-            {
-                self.TblTimeline.isHidden = true
-                self.PortfolioView.isHidden = false
-                self.AboutView.isHidden = true
-            }
-            setLayoutInView()
+            self.TblTimeline.isHidden = false
+            self.PortfolioView.isHidden = true
+            self.AboutView.isHidden = true
         }
+        if(self.BtnPortfolio.isSelected)
+        {
+            self.TblTimeline.isHidden = true
+            self.PortfolioView.isHidden = false
+            self.AboutView.isHidden = true
+        }
+        setLayoutInView()
+       
     }
     @IBAction func btnFollowingAction(_ sender: UIButton)
     {
@@ -429,15 +472,13 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
-                    
                     self.profile = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
                     
                     DispatchQueue.main.async
                         {
                             self.setProfile()
-                    }
+                        }
                     self.stopAnimating()
-                    
                 }
                 else
                 {
@@ -547,14 +588,46 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 noListView.isHidden = true
             }
         }
+        if(!tblFollowers.isHidden)
+        {
+            if(isFollowing == false)
+            {
+                if(self.profile.FollowerList?.count == 0)
+                {
+                    noListView.isHidden = false
+                }
+                else
+                {
+                    noListView.isHidden = true
+                }
+            }
+            else{
+                if(self.profile.FollowingList?.count == 0)
+                {
+                    noListView.isHidden = false
+                }
+                else
+                {
+                    noListView.isHidden = true
+                }
+            }
+        }
         self.lblAbtDOb.text = self.profile.DOB
-        self.lblAbtMob.text = self.profile.MobileNumber
-        self.lblAbtTel.text = self.profile.LandlineNumber
+        let underlineAttribute = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString = NSAttributedString(string: self.profile.MobileNumber, attributes: underlineAttribute)
+        self.lblAbtMob.attributedText = underlineAttributedString
+        
+        
+        let underlineAttribute1 = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString1 = NSAttributedString(string: self.profile.LandlineNumber, attributes: underlineAttribute1)
+        self.lblAbtTel.attributedText = underlineAttributedString1
         
         self.lblAbtHourly.text = self.profile.PerHourRate
         self.lblAbtDaily.text = self.profile.PerDayRate
         
-        self.lblAbtEmail.text = self.profile.EmailID
+        let underlineAttribute2 = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString2 = NSAttributedString(string: self.profile.EmailID, attributes: underlineAttribute2)
+        self.lblAbtEmail.attributedText = underlineAttributedString2
         self.txtAbtViewAbout.text = self.profile.Aboutme
         
     
@@ -649,7 +722,8 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         print("\(self.profile.FollowerList!.count) ")
         if(tblFollowers.isHidden)
         {
-              btnCountFollower.setAttributedTitle(self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) "), for: UIControlState.normal)
+            
+            self.DisPlayCountInLabel(FollowingCount: "\(self.profile.FollowingList!.count) ", followerCount: "\(self.profile.FollowerList!.count) ")
         }
       
        
@@ -676,6 +750,10 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         if(self.profile.ExperienceList?.count == 0)
         {
             self.TblHeightConstraints.constant = 0
+        }
+        else
+        {
+        
         }
         if  self.contractorId == self.sharedManager.currentUser.ContractorID {
             self.BtnNotification.isHidden = false
@@ -791,11 +869,20 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             msgVC.isNext = true
             self.navigationController?.pushViewController(msgVC, animated: true)
         }
+        else
+        {
+            AppDelegate.sharedInstance().initSignalR()
+            appDelegate?.persistentConnection.send(Command.messageSendCommand(friendId: String(self.profile.UserID), msg: ""))
+            NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
+            let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = self.profile.UserID
+            msgVC.isNext = true
+            self.navigationController?.pushViewController(msgVC, animated: true)
+        }
     }
 
     @IBAction func BtnActivtyTapped(_ sender: Any) {
 
-        
         self.TblTimeline.reloadData()
         
         self.BtnPortfolio.isSelected = false
@@ -871,15 +958,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         self.TblTimeline.isHidden = true
         self.PortfolioView.isHidden = false
         self.AboutView.isHidden = true
-        
-        if(self.profile.PortfolioList?.count == 0)
-        {
-            noListView.isHidden = false
-        }
-        else
-        {
-            noListView.isHidden = true
-        }
+        noListView.isHidden = true
          setLayoutInView()
     }
     
@@ -1039,7 +1118,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             DispatchQueue.main.async
                 {
                     self.AboutviewHeight.constant = self.TblAboutus.contentSize.height
-                    if(self.profile.PortfolioList?.count == 0)
+                    if(self.profile.ExperienceList?.count == 0)
                     {
                         self.AboutviewHeight.constant = 0
                     }
@@ -1131,11 +1210,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             let lastRowIndex = tableView.numberOfRows(inSection: 0)
             if indexPath.row == lastRowIndex - 1
             {
-                   self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
-                if(self.profile.PortfolioList?.count == 0)
-                {
-                
-                }
+                self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
             }
         }
     }
@@ -1157,7 +1232,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 
                 let myAttrString = NSMutableAttributedString(string: myString)
                 let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
-                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+                var myRange1 = NSRange(location:0, length: "\(self.profile.FirstName + " " + self.profile.LastName)".length+1)
                 myAttrString.addAttributes(anotherAttribute1, range: myRange1)
                 myAttrString.addAttributes(anotherAttribute, range: myRange)
                 cell.lbltitle.attributedText = myAttrString
@@ -1200,7 +1275,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let myAttrString = NSMutableAttributedString(string: myString)
                 myAttrString.addAttributes(anotherAttribute, range: myRange)
                 let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
-                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+               var myRange1 = NSRange(location:0, length: "\(self.profile.FirstName + " " + self.profile.LastName)".length+1)
                 myAttrString.addAttributes(anotherAttribute1, range: myRange1)
                 cell.lbltitle.attributedText = myAttrString
                 
@@ -1234,11 +1309,17 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let url1 = URL(string: imgURL1!)
                 cell.img1.kf.indicatorType = .activity
                 cell.img1.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
-                    cell.setCustomImage(image : image!)
-                    if(cell.isReload)
+                    if(error == nil)
                     {
-                        cell.isReload = false
-                        tableView.reloadData()
+                        if(image != nil)
+                        {
+                            cell.setCustomImage(image : image!)
+                            if(cell.isReload)
+                            {
+                                cell.isReload = false
+                                tableView.reloadData()
+                            }
+                        }
                     }
                 })
                 return cell
@@ -1254,7 +1335,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let myAttrString = NSMutableAttributedString(string: myString)
                 myAttrString.addAttributes(anotherAttribute, range: myRange)
                 let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
-                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+               var myRange1 = NSRange(location:0, length: "\(self.profile.FirstName + " " + self.profile.LastName)".length+1)
                 myAttrString.addAttributes(anotherAttribute1, range: myRange1)
                 cell.lbltitle.attributedText = myAttrString
                 
@@ -1295,8 +1376,6 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let url2 = URL(string: imgURL2!)
                 cell.img2.kf.indicatorType = .activity
                 cell.img2.kf.setImage(with: url2, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-                
-                
                 return cell
             }
             else {
@@ -1309,7 +1388,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let myAttrString = NSMutableAttributedString(string: myString)
                 myAttrString.addAttributes(anotherAttribute, range: myRange)
                 let anotherAttribute1 = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: (cell.lbltitle.font?.pointSize)!)]
-                var myRange1 = NSRange(location:0, length: ((self.profile.PortfolioList![indexPath.row].Title)).length)
+               var myRange1 = NSRange(location:0, length: "\(self.profile.FirstName + " " + self.profile.LastName)".length+1)
                 myAttrString.addAttributes(anotherAttribute1, range: myRange1)
                 cell.lbltitle.attributedText = myAttrString
                 
@@ -1583,7 +1662,14 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
                 let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
                 self.POrCollectionHeightConstraints.constant = CGFloat(((itemHeight/2) * CGFloat((profile.PortfolioList?.count)!)))
-                return (self.profile.PortfolioList?.count)!
+                if  self.contractorId == sharedManager.currentUser.ContractorID {
+                    return (self.profile.PortfolioList?.count)!+1
+                }
+                else
+                {
+                    return (self.profile.PortfolioList?.count)!
+                }
+                
             }
             else {
                 return 0
@@ -1602,6 +1688,20 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         if collectionView == ObjCollectionView {
             let Collectcell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PortfolioCell
             
+            if  self.contractorId == sharedManager.currentUser.ContractorID {
+                if((self.profile.PortfolioList?.count) == indexPath.row)
+                {
+                    Collectcell.PortfolioImage.image = UIImage(named: "ic_Addimgae")
+                    Collectcell.btnRemove.isHidden = true
+                    Collectcell.imgRemove.isHidden = true
+                    Collectcell.lblTitle.text = "Add Portfolio Item"
+                    return Collectcell
+                }
+                else
+                {
+                    
+                }
+            }
             Collectcell.lblTitle.text = self.profile.PortfolioList?[indexPath.row].Title
             
             let imgURL = (self.profile.PortfolioList?[indexPath.row].ThumbnailImageLink)! as String
@@ -1812,10 +1912,18 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             
             if  self.contractorId == sharedManager.currentUser.ContractorID {
                 // Redirect to edit portfolio
-                let port : Editportfolio = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Editportfolio") as! Editportfolio
-                port.portfolioId = (self.profile.PortfolioList?[indexPath.row].PrimaryID)!
-                self.navigationController?.pushViewController(port, animated: true)
-                
+                if((self.profile.PortfolioList?.count) != indexPath.row)
+                {
+                    let port : Editportfolio = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Editportfolio") as! Editportfolio
+                    port.portfolioId = (self.profile.PortfolioList?[indexPath.row].PrimaryID)!
+                    self.navigationController?.pushViewController(port, animated: true)
+                }
+                else
+                {
+                    let port : Addportfolio = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Addportfolio") as! Addportfolio
+
+                    self.navigationController?.pushViewController(port, animated: true)
+                }
             }
             else {
                 let port : PortfolioDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
@@ -1840,42 +1948,40 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         self.startAnimating()
         
-        var FollowContractorID = 0
         var strUrlTogaling = ""
+        var param = [:] as! [String:Any]
         if(isFollowing)
         {
-            
-          
             if(self.profile.FollowingList![sender.tag].IsContractor)
             {
-                FollowContractorID = self.profile.FollowingList![sender.tag].ContractorID
-                  strUrlTogaling = Constants.URLS.FollowContractorToggle
- 
+                strUrlTogaling = Constants.URLS.FollowContractorToggle
+                param = ["FollowContractorID": self.profile.FollowingList![sender.tag].ContractorID,
+                         "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
             }
             else
             {
-                FollowContractorID = self.profile.FollowingList![sender.tag].CompanyID
-                  strUrlTogaling = Constants.URLS.FollowCompanyToggle
+                strUrlTogaling = Constants.URLS.FollowCompanyToggle
+                param = ["FollowCompanyID": self.profile.FollowingList![sender.tag].CompanyID,
+                         "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
             }
         }
         else
         {
             if(self.profile.FollowerList![sender.tag].IsContractor)
             {
-               FollowContractorID = self.profile.FollowerList![sender.tag].ContractorID
                   strUrlTogaling = Constants.URLS.FollowContractorToggle
+                param = ["FollowContractorID": self.profile.FollowerList![sender.tag].ContractorID,
+                         "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
                 
             }
             else
             {
-                 FollowContractorID = self.profile.FollowerList![sender.tag].CompanyID
                   strUrlTogaling = Constants.URLS.FollowCompanyToggle
+                param = ["FollowCompanyID": self.profile.FollowerList![sender.tag].CompanyID,
+                         "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
             }
         }
-        
-        let param = ["FollowContractorID": FollowContractorID,
-                     "ContractorID": self.sharedManager.currentUser.ContractorID,] as [String : Any]
-        
+    
         print(param)
         AFWrapper.requestPOSTURL(strUrlTogaling, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
@@ -1888,7 +1994,7 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
                 
                 if JSONResponse["status"].rawString()! == "1"
                 {
-                    self.stopAnimating()
+                    
                     if(self.isFollowing)
                     {
                         if(self.profile.FollowingList![sender.tag].IsFollow)
@@ -1929,20 +2035,36 @@ class ProfileFeed: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
-    func DisPlayCountInLabel(FollowingCount:String,followerCount:String) -> NSMutableAttributedString
+    
+    func DisPlayCountInLabel(FollowingCount:String,followerCount:String)
     {
-        let myString = "\(FollowingCount)Following \(followerCount)Followers"
+        let myString = "\(FollowingCount)Following"
+         let myString1 = "\(followerCount)Followers"
+        
         let myRange = NSRange(location: 0, length: FollowingCount.length)
-        let myRange2 = NSRange(location: FollowingCount.length, length: 10)
-        let myRange3 = NSRange(location: FollowingCount.length+10+followerCount.length, length: 9)
-        let myRange1 = NSRange(location: FollowingCount.length+10, length: followerCount.length)
+        let myRange1 = NSRange(location: 0, length: followerCount.length)
+        let myRange2 = NSRange(location: FollowingCount.length, length: 9)
+        let myRange3 = NSRange(location: followerCount.length, length: 9)
+       
+        
         let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.black]
-         let anotherAttribute1 = [ NSForegroundColorAttributeName: UIColor.lightGray]
+        let anotherAttribute1 = [ NSForegroundColorAttributeName: UIColor.lightGray]
+        
         let myAttrString = NSMutableAttributedString(string: myString)
+        let myAttrString1 = NSMutableAttributedString(string: myString1)
+        
         myAttrString.addAttributes(anotherAttribute, range: myRange)
-        myAttrString.addAttributes(anotherAttribute, range: myRange1)
-         myAttrString.addAttributes(anotherAttribute1, range: myRange2)
-         myAttrString.addAttributes(anotherAttribute1, range: myRange3)
-        return myAttrString
+        myAttrString.addAttributes(anotherAttribute1, range: myRange2)
+        myAttrString1.addAttributes(anotherAttribute, range: myRange1)
+        myAttrString1.addAttributes(anotherAttribute1, range: myRange3)
+        
+        lblFollowing.attributedText = myAttrString
+        lblFollowers.attributedText = myAttrString1
+        
+       
+        self.btnCountFollower.isUserInteractionEnabled = false
+      
+        let myAttrString2 = NSMutableAttributedString(string: "")
+        btnCountFollower.setAttributedTitle(myAttrString2, for: UIControlState.normal)
     }
 }

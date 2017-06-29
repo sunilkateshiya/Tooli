@@ -14,7 +14,7 @@ struct Constants {
     
     struct Keys
     {
-        static let GOOGLE_PLACE_KEY = "AIzaSyCNKruzLdUXb55lvgRElDn8Qhe4yAdbf10"
+        static let GOOGLE_PLACE_KEY = "AIzaSyCSjUAmNJo5QyPBNNyfgcfr5d2BpOOcz54"
     }
     
     struct ScreenSize
@@ -36,7 +36,7 @@ struct Constants {
     
     struct URLS {
     
-        static let Base_Url = "http://www.tooli.co.uk"
+        static let Base_Url = "https://www.tooli.co.uk"
       //  static let Base_Url = "http://tooli.blush.cloud/webservice.asmx/"
         
         static let BASE_URL = Base_Url + "/webservice.asmx/"
@@ -47,6 +47,8 @@ struct Constants {
         static let ContractorCertificateDelete = BASE_URL + "ContractorCertificateDelete"
         static let ContractorChangeStatus = BASE_URL + "ContractorChangeStatus"
         static let ContractorDashboard = BASE_URL + "ContractorDashboard"
+        static let ContractorDashboard_new = BASE_URL + "ContractorDashboard_new"
+        
         static let ContractorExperienceAdd = BASE_URL + "ContractorExperienceAdd"
         static let ContractorFacebookSignIn = BASE_URL + "ContractorFacebookSignIn"
         static let ContractorFacebookConnect = BASE_URL + "ContractorFacebookConnect"
@@ -73,6 +75,10 @@ struct Constants {
         static let ContractorList = BASE_URL + "ContractorList"
         static let NotificationList = BASE_URL + "NotificationList"
         static let PageSaveToggle = BASE_URL + "PageSaveToggle"
+        static let GetSuggestionUserList = BASE_URL + "GetSuggestionUserList"
+        static let RemoveFromSuggestionUserList = BASE_URL + "RemoveFromSuggestionUserList"
+        
+        
         static let ContractorStatisticsReport = BASE_URL + "ContractorStatisticsReport"
         static let ConctractorUpdateStatus = BASE_URL + "ConctractorUpdateStatus"
         static let OfferInfo = BASE_URL + "OfferInfo"

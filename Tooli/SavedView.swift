@@ -543,19 +543,39 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
                 cell.btnfav!.tag=indexpath
                 cell.btnfav?.addTarget(self, action: #selector(SavedView.btnfavSpecialOffer(btn:)), for: UIControlEvents.touchUpInside)
                     cell.btnfav.isSelected = true
-                cell.btnProfile!.tag=indexPath.row
-                cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
                 
-                let imgURL = self.savelist.OfferList![indexpath].ProfileImageLink as String!
+                let imgURL = self.savelist.OfferList![indexpath].OfferImageLink as String!
                 
                 let url = URL(string: imgURL!)
                 
                 cell.ImgProfilepic.kf.indicatorType = .activity
                 cell.ImgProfilepic.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-                let imgURL1 = self.savelist.OfferList![indexpath].OfferImageLink as String!
-                let url1 = URL(string: imgURL1!)
-                cell.ImgCompanyPic.kf.indicatorType = .activity
-                cell.ImgCompanyPic.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
+                
+                
+//                
+//                cell.lblCompanyName.tag  = indexPath.row
+//                let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(lblImagheProfile(tapGestureRecognizer:)))
+//                cell.lblCompanyName.isUserInteractionEnabled = true
+//                cell.lblCompanyName.addGestureRecognizer(tapGestureRecognizer1)
+//                
+//                cell.ImgProfilepic.tag = indexPath.row
+//                let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(lblImagheProfile(tapGestureRecognizer:)))
+//                cell.ImgProfilepic.isUserInteractionEnabled = true
+//                cell.ImgProfilepic.addGestureRecognizer(tapGestureRecognizer2)
+                
+                
+                cell.lblCompanyDescription.text = self.savelist.OfferList![indexpath].Description as String!
+                
+                let myString = "\(self.savelist.OfferList![indexpath].Title)-\(self.savelist.OfferList![indexpath].PriceTag)-\(self.savelist.OfferList![indexpath].AddedOn)"
+                let myRange = NSRange(location:((self.savelist.OfferList![indexpath].Title)).length, length: (("-\(self.savelist.OfferList![indexpath].PriceTag)-\(self.savelist.OfferList![indexpath].AddedOn)").length))
+                let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+                
+                let myAttrString = NSMutableAttributedString(string: myString)
+                myAttrString.addAttributes(anotherAttribute, range: myRange)
+                cell.lblCompanyName.attributedText = myAttrString
+                cell.lblWork.text = self.savelist.OfferList![indexpath].CompanyName
+
+                
                 return cell
             }
             else {
@@ -663,7 +683,10 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
                 let url1 = URL(string: imgURL1!)
                 cell.img1.kf.indicatorType = .activity
                 cell.img1.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
-                    cell.setCustomImage(image : image!)
+                    if(image != nil)
+                    {
+                        cell.setCustomImage(image : image!)
+                    }
                     if(cell.isReload)
                     {
                         cell.isReload = false
@@ -801,28 +824,37 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
             cell.btnfav!.tag=indexPath.row
             cell.btnfav?.addTarget(self, action: #selector(SavedView.btnfavSpecialOffer(btn:)), for: UIControlEvents.touchUpInside)
            
-            cell.btnProfile!.tag=indexPath.row
-            cell.btnProfile?.addTarget(self, action: #selector(btnProfile(btn:)), for: UIControlEvents.touchUpInside)
-            
             cell.btnfav.isSelected = true
         
-            let imgURL = self.savelist.OfferList![indexPath.row].ProfileImageLink as String!
+            let imgURL = self.savelist.OfferList![indexPath.row].OfferImageLink as String!
             
             let url = URL(string: imgURL!)
             
             cell.ImgProfilepic.kf.indicatorType = .activity
             cell.ImgProfilepic.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            let imgURL1 = self.savelist.OfferList![indexPath.row].OfferImageLink as String!
-            let url1 = URL(string: imgURL1!)
-            cell.ImgCompanyPic.kf.indicatorType = .activity
-            cell.ImgCompanyPic.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
-                cell.setCustomImage(image : image!)
-                if(cell.isReload)
-                {
-                    cell.isReload = false
-                    tableView.reloadData()
-                }
-            })
+            
+//            cell.lblCompanyName.tag  = indexPath.row
+//            let tapGestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(lblImagheProfile(tapGestureRecognizer:)))
+//            cell.lblCompanyName.isUserInteractionEnabled = true
+//            cell.lblCompanyName.addGestureRecognizer(tapGestureRecognizer1)
+//            
+//            cell.ImgProfilepic.tag = indexPath.row
+//            let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(lblImagheProfile(tapGestureRecognizer:)))
+//            cell.ImgProfilepic.isUserInteractionEnabled = true
+//            cell.ImgProfilepic.addGestureRecognizer(tapGestureRecognizer2)
+            
+            
+            cell.lblCompanyDescription.text = self.savelist.OfferList![indexPath.row].Description as String!
+            
+            let myString = "\(self.savelist.OfferList![indexPath.row].Title)-\(self.savelist.OfferList![indexPath.row].PriceTag)-\(self.savelist.OfferList![indexPath.row].AddedOn)"
+            let myRange = NSRange(location:((self.savelist.OfferList![indexPath.row].Title)).length, length: (("-\(self.savelist.OfferList![indexPath.row].PriceTag)-\(self.savelist.OfferList![indexPath.row].AddedOn)").length))
+            let anotherAttribute = [ NSForegroundColorAttributeName: UIColor.lightGray]
+            
+            let myAttrString = NSMutableAttributedString(string: myString)
+            myAttrString.addAttributes(anotherAttribute, range: myRange)
+            cell.lblCompanyName.attributedText = myAttrString
+            cell.lblWork.text = self.savelist.OfferList![indexPath.row].CompanyName
+            
             return cell
         }
         else {
@@ -855,6 +887,27 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
             return
         }
     }
+    func lblImagheProfile(tapGestureRecognizer:UIGestureRecognizer)
+    {
+        if strType == 0
+        {
+            var indexpath:Int = 0
+            
+             indexpath = (tapGestureRecognizer.view?.tag)! - ((self.savelist.ContractorList?.count)!+(self.savelist.CompanieList?.count)!+(self.savelist.PostList?.count)!+(self.savelist.JobList?.count)!)
+            
+            let obj : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            obj.companyId = (self.savelist.CompanieList?[indexpath].PrimaryID)!
+            self.navigationController?.pushViewController(obj, animated: true)
+        }
+        else
+        {
+             var indexpath:Int = 0
+             indexpath = (tapGestureRecognizer.view?.tag)!
+            let obj : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+            self.navigationController?.pushViewController(obj, animated: true)
+        }
+        
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if strType == 0
         {
@@ -882,10 +935,8 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
             {
                 indexpath = indexPath.row - ((self.savelist.ContractorList?.count)!+(self.savelist.CompanieList?.count)!)
                 
-                let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-                obj.contractorId = (self.savelist.PostList?[indexpath].ContractorID)!
-                obj.isPortFolio = true
-                obj.protfolioId = (self.savelist.PostList?[indexpath].PrimaryID)!
+                let obj : PortfolioDetails = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+                obj.portfolioId = (self.savelist.PostList?[indexpath].PrimaryID)!
                 self.navigationController?.pushViewController(obj, animated: true)
             }
             else if(indexPath.row < ((self.savelist.ContractorList?.count)!+(self.savelist.CompanieList?.count)!+(self.savelist.PostList?.count)!+(self.savelist.JobList?.count)!))
@@ -923,10 +974,8 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
         else if strType == 3
         {
             
-            let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-            obj.contractorId = (self.savelist.PostList?[indexPath.row].ContractorID)!
-            obj.isPortFolio = true
-            obj.protfolioId = (self.savelist.PostList?[indexPath.row].PrimaryID)!
+            let obj : PortfolioDetails = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+            obj.portfolioId = (self.savelist.PostList?[indexPath.row].PrimaryID)!
             self.navigationController?.pushViewController(obj, animated: true)
         }
 
@@ -1036,15 +1085,11 @@ class SavedView: UIViewController, NVActivityIndicatorViewable,UITableViewDelega
     
     func btnPortfolio (btn : UIButton)
     {
-        let obj : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-        obj.contractorId = (self.savelist.PostList?[btn.tag].ContractorID)!
-        obj.isPortFolio = true
-        obj.protfolioId = (self.savelist.PostList?[btn.tag].PrimaryID)!
+        let obj : PortfolioDetails = self.storyboard?.instantiateViewController(withIdentifier: "PortfolioDetails") as! PortfolioDetails
+        obj.portfolioId = (self.savelist.PostList?[btn.tag].PrimaryID)!
         self.navigationController?.pushViewController(obj, animated: true)
     }
     func onLoadDetail(){
-        
-       
         self.startAnimating()
         let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
         

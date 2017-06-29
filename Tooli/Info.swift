@@ -30,6 +30,8 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
     var selectedDate : Date!
     var placeholderLabel:UILabel!
     
+    @IBOutlet weak var TxtCompanyName: UITextField!
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,6 +66,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
             self.txtphone.text = sharedManager.currentUser.LandlineNumber
             self.txtmobile.text = sharedManager.currentUser.MobileNumber
             self.txtdateofbirth.text = sharedManager.currentUser.DOB
+              self.TxtCompanyName.text = self.sharedManager.currentUser.CompanyName
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
             self.selectedDate = dateFormatter.date(from: sharedManager.currentUser.DOB)
@@ -113,6 +116,25 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
 //        return true
 //    }
 //    
+    @IBAction func btnCamaraAction(_ sender: UIButton)
+    {
+        self.view.endEditing(true)
+        let alert : UIAlertController = UIAlertController(title: "Upload Image", message: "Select your profile Picture", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Take From Camera", style: UIAlertActionStyle.default, handler: { (UIAlertAction) in
+            self.takePhoto()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Use Gallery", style: UIAlertActionStyle.default, handler: { (UIAlertAction) in
+            self.selectFromGallery()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (UIAlertAction) in
+            
+        }))
+        self.present(alert, animated: true) {
+            
+        }
+    }
     @IBAction func btnnext(_ sender: Any) {
         self.view.endEditing(true)
         var validflag = 0
@@ -141,9 +163,9 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
                          "LandlineNumber": self.txtphone.text!,
                          "MobileNumber": self.txtmobile.text!,
                          "DOB":Dob,
+                         "CompanyName":self.TxtCompanyName.text!,
                          "Aboutme":self.txtabout.text!] as [String : Any]
-            
-            print(param)
+                print(param)
             AFWrapper.requestPOSTURL(Constants.URLS.ContractorInfoUpdate, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
                 (JSONResponse) -> Void in
                 
@@ -319,7 +341,7 @@ class Info: UIViewController, NVActivityIndicatorViewable, UIImagePickerControll
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
     @IBAction func autocompleteClicked(_ sender: UIButton) {
-        let secondsInMinYear: TimeInterval = 18 * 365 * 24 * 60 * 60;
+        let secondsInMinYear: TimeInterval = 60;
         if selectedDate == nil {
             selectedDate = NSDate(timeInterval: -secondsInMinYear, since: NSDate() as Date) as Date!
         }

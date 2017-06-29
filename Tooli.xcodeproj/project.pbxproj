@@ -21,7 +21,6 @@
 		204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */; };
 		204E008B1E5316BF0099C111 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E008A1E5316BF0099C111 /* TagListView.swift */; };
 		204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E71DD1E3B235D00E971E0 /* EditExperience.swift */; };
-		2053CCB01E9D17B100D0F9D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2053CCAF1E9D17B100D0F9D6 /* GoogleService-Info.plist */; };
 		205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */; };
 		205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D19111E4C4250009CF5BD /* TimelineCell.swift */; };
 		206910E91E541F5B009CED53 /* ContractorSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910E81E541F5B009CED53 /* ContractorSearch.swift */; };
@@ -37,6 +36,9 @@
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
 		209533361E5C55710036D6C0 /* NProfileFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533351E5C55710036D6C0 /* NProfileFeed.swift */; };
 		209533381E5C608E0036D6C0 /* FollowingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533371E5C608E0036D6C0 /* FollowingListCell.swift */; };
+		2099227A1E9E5984001212DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 209922791E9E5984001212DB /* GoogleService-Info.plist */; };
+		20F7E55A1ECD7EA6007758DB /* UserlistInDashBorad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F7E5591ECD7EA6007758DB /* UserlistInDashBorad.swift */; };
+		20F7E55C1ECD7EC1007758DB /* UserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F7E55B1ECD7EC1007758DB /* UserCollectionViewCell.swift */; };
 		20FADD091E5AE3FE005ABBF1 /* MessageTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */; };
 		20FADD0B1E5AE40A005ABBF1 /* MessageDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */; };
 		20FADD0D1E5AE418005ABBF1 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0C1E5AE418005ABBF1 /* ChatList.swift */; };
@@ -122,7 +124,6 @@
 		204CF7A11E4AEB3D00C35938 /* ContractorDashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorDashBoard.swift; sourceTree = "<group>"; };
 		204E008A1E5316BF0099C111 /* TagListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		204E71DD1E3B235D00E971E0 /* EditExperience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditExperience.swift; sourceTree = "<group>"; };
-		2053CCAF1E9D17B100D0F9D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortfolioDetails.swift; sourceTree = "<group>"; };
 		205D19111E4C4250009CF5BD /* TimelineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineCell.swift; sourceTree = "<group>"; };
 		206910E81E541F5B009CED53 /* ContractorSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorSearch.swift; sourceTree = "<group>"; };
@@ -140,6 +141,9 @@
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		209533351E5C55710036D6C0 /* NProfileFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NProfileFeed.swift; sourceTree = "<group>"; };
 		209533371E5C608E0036D6C0 /* FollowingListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingListCell.swift; sourceTree = "<group>"; };
+		209922791E9E5984001212DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		20F7E5591ECD7EA6007758DB /* UserlistInDashBorad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserlistInDashBorad.swift; sourceTree = "<group>"; };
+		20F7E55B1ECD7EC1007758DB /* UserCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCollectionViewCell.swift; sourceTree = "<group>"; };
 		20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTab.swift; sourceTree = "<group>"; };
 		20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetails.swift; sourceTree = "<group>"; };
 		20FADD0C1E5AE418005ABBF1 /* ChatList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
@@ -176,10 +180,6 @@
 		319329621E1A614200456DDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		319329651E1A614200456DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		319329671E1A614200456DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		319329701E1A614200456DDF /* TooliTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooliTests.swift; sourceTree = "<group>"; };
-		319329721E1A614200456DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3193297B1E1A614200456DDF /* TooliUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooliUITests.swift; sourceTree = "<group>"; };
-		3193297D1E1A614200456DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3193298B1E1A7C9400456DDF /* AFWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFWrapper.swift; sourceTree = "<group>"; };
 		3193298C1E1A7C9400456DDF /* CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		3193298D1E1A7C9400456DDF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -274,6 +274,8 @@
 				205D19111E4C4250009CF5BD /* TimelineCell.swift */,
 				209533371E5C608E0036D6C0 /* FollowingListCell.swift */,
 				20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */,
+				20F7E5591ECD7EA6007758DB /* UserlistInDashBorad.swift */,
+				20F7E55B1ECD7EC1007758DB /* UserCollectionViewCell.swift */,
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -341,8 +343,6 @@
 			isa = PBXGroup;
 			children = (
 				3193295A1E1A614200456DDF /* Tooli */,
-				3193296F1E1A614200456DDF /* TooliTests */,
-				3193297A1E1A614200456DDF /* TooliUITests */,
 				319329591E1A614200456DDF /* Products */,
 				1A53831207E06D2936C5465D /* Pods */,
 				8D4353EB9AF0EA26184FE16F /* Frameworks */,
@@ -372,27 +372,9 @@
 				319329621E1A614200456DDF /* Assets.xcassets */,
 				319329641E1A614200456DDF /* LaunchScreen.storyboard */,
 				319329671E1A614200456DDF /* Info.plist */,
-				2053CCAF1E9D17B100D0F9D6 /* GoogleService-Info.plist */,
+				209922791E9E5984001212DB /* GoogleService-Info.plist */,
 			);
 			path = Tooli;
-			sourceTree = "<group>";
-		};
-		3193296F1E1A614200456DDF /* TooliTests */ = {
-			isa = PBXGroup;
-			children = (
-				319329701E1A614200456DDF /* TooliTests.swift */,
-				319329721E1A614200456DDF /* Info.plist */,
-			);
-			path = TooliTests;
-			sourceTree = "<group>";
-		};
-		3193297A1E1A614200456DDF /* TooliUITests */ = {
-			isa = PBXGroup;
-			children = (
-				3193297B1E1A614200456DDF /* TooliUITests.swift */,
-				3193297D1E1A614200456DDF /* Info.plist */,
-			);
-			path = TooliUITests;
 			sourceTree = "<group>";
 		};
 		3193299B1E1A7CB000456DDF /* Custom & Utility */ = {
@@ -521,6 +503,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2099227A1E9E5984001212DB /* GoogleService-Info.plist in Resources */,
 				B851BF631E8D25ED00378D24 /* WWCalendarTimeSelector.storyboard in Resources */,
 				319329661E1A614200456DDF /* LaunchScreen.storyboard in Resources */,
 				319329A41E1A84D300456DDF /* Oxygen-Light.ttf in Resources */,
@@ -528,7 +511,6 @@
 				319329A31E1A84D300456DDF /* Oxygen-Bold.ttf in Resources */,
 				319329A21E1A84D300456DDF /* OFL.txt in Resources */,
 				319329A51E1A84D300456DDF /* Oxygen-Regular.ttf in Resources */,
-				2053CCB01E9D17B100D0F9D6 /* GoogleService-Info.plist in Resources */,
 				319329611E1A614200456DDF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,6 +630,7 @@
 				311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */,
 				207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */,
 				31663C8D1E25083000D5DD3C /* DashBoardTvCell.swift in Sources */,
+				20F7E55A1ECD7EA6007758DB /* UserlistInDashBorad.swift in Sources */,
 				20FADD0F1E5AE51C005ABBF1 /* Globals.swift in Sources */,
 				206910ED1E54320C009CED53 /* Login.swift in Sources */,
 				20FADD0B1E5AE40A005ABBF1 /* MessageDetails.swift in Sources */,
@@ -677,6 +660,7 @@
 				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
 				B851BF5C1E8D25ED00378D24 /* Duration.swift in Sources */,
 				20744CED1E5AAD2D007D91D4 /* CompnayProfilefeed.swift in Sources */,
+				20F7E55C1ECD7EC1007758DB /* UserCollectionViewCell.swift in Sources */,
 				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
 				206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */,
 				3171AC6C1E3396320063198C /* EditProfile.swift in Sources */,

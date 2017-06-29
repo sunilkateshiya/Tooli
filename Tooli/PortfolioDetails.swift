@@ -9,7 +9,13 @@
 import UIKit
 import SKPhotoBrowser
 import Kingfisher
-class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+import NVActivityIndicatorView
+import ObjectMapper
+
+class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,NVActivityIndicatorViewable
+{
+    @IBOutlet weak var collectionHeightConstraint: NSLayoutConstraint!
+    
     var images = [SKPhotoProtocol]()
     @IBOutlet var lbltitle : UILabel!
     @IBOutlet var lblscreenTitle : UILabel!
@@ -18,11 +24,22 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
     @IBOutlet var lblClient : UILabel!
     @IBOutlet var lblDescription : UILabel!
     var portfolio : Portfolio! = Portfolio()
+    var sharedManager : Globals = Globals.sharedInstance
+    var portfolioId:Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        portfolioCollection.delegate = self
-        portfolioCollection.dataSource = self
+        if(portfolioId == 0)
+        {
+            SetDataInView()
+        }
+        else
+        {
+            btnInfoProtfolio()
+        }
         
+    }
+    func SetDataInView()
+    {
         portfolioCollection.reloadData()
         let flow = portfolioCollection.collectionViewLayout as! UICollectionViewFlowLayout
         flow.sectionInset = UIEdgeInsetsMake(0, 3, 0, 3)
@@ -33,6 +50,9 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         self.lblClient.text = self.portfolio.CustomerName
         self.lblLocation.text = self.portfolio.Location
         self.lblDescription.text = self.portfolio.Description
+        
+       // collectionHeightConstraint.constant = self.portfolioCollection.contentSize.height
+        
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
@@ -50,18 +70,12 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if portfolio != nil {
             return portfolio.PortfolioImageList.count
         }
         return 0
     }
-
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : PortfolioCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PortfolioCell
         
@@ -71,11 +85,10 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: imgURL)
         let optionInfo: KingfisherOptionsInfo = [
             .downloadPriority(0.5),
-            .transition(ImageTransition.fade(1)),
-            .forceRefresh
+            .transition(ImageTransition.fade(1))
         ]
         cell.PortfolioImage?.kf.indicatorType = .activity
-        cell.PortfolioImage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
+        cell.PortfolioImage?.kf.setImage(with: tmpResouce, placeholder: UIImage(named: "SplashImage"), options: optionInfo, progressBlock: nil, completionHandler: nil)
         
         return cell
     }
@@ -109,6 +122,48 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         let itemHeight : CGFloat = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
         return CGSize(width: itemWidth, height: itemHeight)
     }
+    
+    
+    func btnInfoProtfolio()
+    {
+        
+        self.startAnimating()
+        
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
+                     "PortfolioID":portfolioId ] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.PortfolioInfo, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                     self.portfolio = Mapper<Portfolio>().map(JSONObject: JSONResponse.rawValue)
+                   self.SetDataInView()
+                }
+                else
+                {
+                    _ = self.navigationController?.popViewController(animated: true)
+                    AppDelegate.sharedInstance().window?.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

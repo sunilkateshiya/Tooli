@@ -59,7 +59,11 @@ class Messages : NSObject, Mappable {
     var Name = ""
     var UserImageLink = ""
     var UserID = 0
+    var ReciverChatID = 0
     var ReceiverID = 0
+    var CompanyID = 0
+    var ContractorID = 0
+    var IsContractor = false
     var MessageText = ""
     var IsRead : Bool = false
     var IsMe : Bool = false
@@ -72,6 +76,10 @@ class Messages : NSObject, Mappable {
         Name <- map["SenderName"]
         UserImageLink <- map["UserImageLink"]
         UserID <- map["UserID"]
+        ReciverChatID <- map["ChatMessageID"]
+        CompanyID <- map["CompanyID"]
+        ContractorID <- map["ContractorID"]
+        IsContractor <- map["IsContractor"]
         ReceiverID <- map["ReceiverID"]
         MessageText <- map["MessageText"]
         IsRead <- map["IsRead"]
@@ -86,6 +94,10 @@ class Messages : NSObject, Mappable {
         UserImageLink <- map["UserImageLink"]
         UserID <- map["UserID"]
         ReceiverID <- map["ReceiverID"]
+        ReciverChatID <- map["ChatMessageID"]
+        CompanyID <- map["CompanyID"]
+        ContractorID <- map["ContractorID"]
+        IsContractor <- map["IsContractor"]
         MessageText <- map["MessageText"]
         IsRead <- map["IsRead"]
         IsMe <- map["IsMe"]
@@ -110,6 +122,10 @@ class Buddies : NSObject, Mappable {
     var LastMessageText = ""
     var LastMessageOn = ""
     var UnreadCount : UnreadCountResponse!
+    
+    override init() {
+        
+    }
     required init?(map: Map){
         UnreadCount <- map["UnreadCountResponse"]
     }
@@ -172,12 +188,14 @@ class Command {
         let jsonData = try! JSONSerialization.data(withJSONObject: para, options: JSONSerialization.WritingOptions())
         return NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String as NSString
     }
-    static func chatHistoryCommand(friendId: String ) -> NSString{
+    static func chatHistoryCommand(friendId: String,index:Int) -> NSString{
         let para:NSMutableDictionary = NSMutableDictionary()
         para.setValue("chathistory", forKey: "CommandName")
         para.setValue(friendId, forKey: "ParamID")
         para.setValue("", forKey: "MessageText")
         para.setValue("0", forKey: "Index")
+        para.setValue(index, forKey: "PageIndex")
+        print(para)
         let jsonData = try! JSONSerialization.data(withJSONObject: para, options: JSONSerialization.WritingOptions())
         return NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String as NSString
     }
@@ -188,6 +206,8 @@ class Command {
         para.setValue(friendId, forKey: "ParamID")
         para.setValue(msg, forKey: "MessageText")
         para.setValue("0", forKey: "Index")
+        
+        
         let jsonData = try! JSONSerialization.data(withJSONObject: para, options: JSONSerialization.WritingOptions())
         return NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String as NSString
     }

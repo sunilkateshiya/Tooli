@@ -350,7 +350,6 @@ class CustomView : UIView {
     //MARK: Variables:
     var dismissLabelAlpha:CGFloat = 0.0
     var dismissLimitReached = false
-    
     var toolBarBottomConstraint: NSLayoutConstraint?
     
     //MARK: Constants:
@@ -663,7 +662,7 @@ class CustomView : UIView {
             })
         }
         closeMessage(nil)
-        messageDidSelect(false)
+        messageDidSelect(true)
     }
     
     @IBAction func tapToClose(_ tapgesture: UITapGestureRecognizer) {

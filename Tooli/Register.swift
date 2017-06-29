@@ -13,8 +13,13 @@ import Toast_Swift
 import FBSDKLoginKit
 import FacebookCore
 import FacebookLogin
+import SVWebViewController
+import SafariServices
+
 class Register: UIViewController, NVActivityIndicatorViewable {
 
+    @IBOutlet weak var lblTextPravricy: UILabel!
+    @IBOutlet weak var btnAccept: UIButton!
     @IBOutlet var txtemail : UITextField!
     @IBOutlet var txtpassword : UITextField!
     @IBOutlet var txtfname : UITextField!
@@ -32,6 +37,11 @@ class Register: UIViewController, NVActivityIndicatorViewable {
         guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
         tracker.send(builder.build() as [NSObject : AnyObject])
         // Do any additional setup after loading the view.
+        
+        let underlineAttribute = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString = NSAttributedString(string: "Accept Terms of Service", attributes: underlineAttribute)
+        self.lblTextPravricy.attributedText = underlineAttributedString
+        
     }
 
     @IBAction func btnregister(_ sender: Any) {
@@ -71,13 +81,34 @@ class Register: UIViewController, NVActivityIndicatorViewable {
             self.view.makeToast("Confirm password should be same as password.", duration: 3, position: .bottom)
             validflag = 1
         }
-    
+        else if !btnAccept.isSelected  {
+            self.view.makeToast("Please Accept Terms of Service.", duration: 3, position: .bottom)
+            validflag = 1
+        }
         
         if validflag == 0 {
             
             
             self.startAnimating()
             registerData()
+        }
+    }
+    @IBAction func btnAcceptAction(_ sender: UIButton)
+    {
+        sender.isSelected = !sender.isSelected
+    }
+    @IBAction func btnOpenPdf(_ sender: UIButton)
+    {
+        let openLink = NSURL(string : "https://www.tooli.co.uk/Files/Document/Privacy_Policy.pdf")
+        
+        if #available(iOS 9.0, *) {
+            let svc = SFSafariViewController(url: openLink as! URL)
+            present(svc, animated: true, completion: nil)
+        } else {
+            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+            port.strUrl = "https://www.tooli.co.uk/Files/Document/Privacy_Policy.pdf"
+            self.navigationController?.pushViewController(port, animated: true)
+            
         }
     }
     func registerData()
@@ -106,7 +137,7 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                 if JSONResponse["status"].rawString()! == "1"
                 {
                     let userDefaults = UserDefaults.standard
-                    
+                     userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
                     userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
                     userDefaults.synchronize()
                      AppDelegate.sharedInstance().initSignalR();
@@ -148,6 +179,7 @@ class Register: UIViewController, NVActivityIndicatorViewable {
     }
 
     @IBAction func btnfblogin(_ sender: AnyObject) {
+        
         let loginManager = LoginManager()
         //self.startAnimating()
         loginManager.logIn([ .publicProfile, .email ], viewController: self) { loginResult in
@@ -193,12 +225,13 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                                 print(JSONResponse["status"].rawValue as! String)
                                 
                                 if JSONResponse != nil{
-                                    
+                                     
                                     if JSONResponse["status"].rawString()! == "1"
                                     {
                                         let userDefaults = UserDefaults.standard
                                         
                                         userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                         userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
                                         userDefaults.synchronize()
                                          AppDelegate.sharedInstance().initSignalR();
                                         let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info

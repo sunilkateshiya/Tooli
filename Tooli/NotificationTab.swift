@@ -399,38 +399,45 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         }
         else
         {
-            if (notificationList.DataList[indexPath.row].NotificationStatusID != 1 && notificationList.DataList[indexPath.row].NotificationStatusID != 2 ) {
-                
-                if(notificationList.DataList[indexPath.row].IsContractor == false)
-                {
-                    let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-                    companyVC.companyId = notificationList.DataList[indexPath.row].CompanyID
-                    self.navigationController?.pushViewController(companyVC, animated: true)
-                }
-                else
-                {
-                    let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-                    companyVC.contractorId = notificationList.DataList[indexPath.row].ContractorID
-                    self.navigationController?.pushViewController(companyVC, animated: true)
-                }
-            }
-            else if (notificationList.DataList[indexPath.row].NotificationStatusID == 1) {
+             if (notificationList.DataList[indexPath.row].NotificationStatusID == 1)
+            {
                 // Redirect to Message Screen
-                
-                
                 var userId = notificationList.DataList[indexPath.row].PrimaryID
-                
                 let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
                 msgVC.selectedSenderId = userId
                 msgVC.isNext = true
                 self.navigationController?.pushViewController(msgVC, animated: true)
-                
             }
-            else if (notificationList.DataList[indexPath.row].NotificationStatusID == 2) {
+            else if (notificationList.DataList[indexPath.row].NotificationStatusID == 2)
+            {
                 // Redirect to Job Screen
             }
+            else if (notificationList.DataList[indexPath.row].NotificationStatusID == 4)
+            {
+                let companyVC : OfferDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OfferDetailViewController") as! OfferDetailViewController
+                companyVC.OfferId = notificationList.DataList[indexPath.row].PrimaryID
+                companyVC.isNotification = true
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            else if (notificationList.DataList[indexPath.row].NotificationStatusID != 1 && notificationList.DataList[indexPath.row].NotificationStatusID != 2 ) {
+                if(notificationList.DataList[indexPath.row].ContractorID != 0 && notificationList.DataList[indexPath.row].CompanyID != 0)
+                {
+                    if(notificationList.DataList[indexPath.row].IsContractor == false)
+                    {
+                        let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                        companyVC.companyId = notificationList.DataList[indexPath.row].CompanyID
+                        self.navigationController?.pushViewController(companyVC, animated: true)
+                    }
+                    else
+                    {
+                        let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                        companyVC.contractorId = notificationList.DataList[indexPath.row].ContractorID
+                        self.navigationController?.pushViewController(companyVC, animated: true)
+                    }
+                }
+                
+            }
         }
-        
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         

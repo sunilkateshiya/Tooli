@@ -27,8 +27,6 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     var sharedManager : Globals = Globals.sharedInstance
     var OfferDetail:OfferListM!
     var OfferId = 0
-    
-    @IBOutlet weak var lblOfferLink: UILabel!
      @IBOutlet weak var btnSave: UIButton!
     
     @IBOutlet weak var imgOffer: UIImageView!
@@ -86,14 +84,7 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         {
             btnSave.isSelected = false
         }
-        lblOfferLink.text = self.OfferDetail.RedirectLink
         lblDiscription.text = self.OfferDetail.Description
-        if(self.OfferDetail.RedirectLink != "")
-        {
-            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
-            lblOfferLink.isUserInteractionEnabled = true
-            lblOfferLink.addGestureRecognizer(tapGestureRecognizer)
-        }
     
     }
     func lblNamedTaped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -177,6 +168,54 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
+    
+    @IBAction func btnVisitAction(_ sender: UIButton)
+    {
+        if(isNotification)
+        {
+            if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail1.RedirectLink))!))
+            {
+                let openLink = NSURL(string : (self.OfferDetail1.RedirectLink))
+                
+                if #available(iOS 9.0, *) {
+                    let svc = SFSafariViewController(url: openLink as! URL)
+                    present(svc, animated: true, completion: nil)
+                } else {
+                    let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                    port.strUrl = (self.OfferDetail1.RedirectLink)
+                    self.navigationController?.pushViewController(port, animated: true)
+                    
+                }
+            }
+            else
+            {
+                return
+            }
+        }
+        else
+        {
+            if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail.RedirectLink))!))
+            {
+                let openLink = NSURL(string : (self.OfferDetail.RedirectLink))
+                
+                if #available(iOS 9.0, *) {
+                    let svc = SFSafariViewController(url: openLink as! URL)
+                    present(svc, animated: true, completion: nil)
+                } else {
+                    let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                    port.strUrl = (self.OfferDetail.RedirectLink)
+                    self.navigationController?.pushViewController(port, animated: true)
+                    
+                }
+            }
+            else
+            {
+                return
+            }
+            
+        }
+        
+    }
     @IBAction func btnfavSpecialOffer(btn : UIButton)  {
         
         self.startAnimating()
@@ -244,14 +283,6 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
             btnSave.isSelected = false
         }
         lblDiscription.text = self.OfferDetail1.Description
-         lblOfferLink.text = self.OfferDetail1.RedirectLink
-        if(self.OfferDetail1.RedirectLink != "")
-        {
-            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped1(tapGestureRecognizer:)))
-            lblOfferLink.isUserInteractionEnabled = true
-            lblOfferLink.addGestureRecognizer(tapGestureRecognizer)
-        }
-        
     }
     func lblNamedTaped1(tapGestureRecognizer: UITapGestureRecognizer)
     {

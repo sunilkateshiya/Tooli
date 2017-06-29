@@ -120,7 +120,7 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         lblemail.isUserInteractionEnabled = true
         lblemail.addGestureRecognizer(tapGestureRecognizer2)
         onLoadDetail()
-         self.ObjScrollview.contentSize.height = 237 + 456
+        self.ObjScrollview.contentSize.height = 237 + 456
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -134,9 +134,9 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
     {
         if(lblmobile.text! != "")
         {
-            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(lblmobile.text!)")!))
+            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(removeSpecialCharsFromString(text: lblmobile.text!))")!))
             {
-                UIApplication.shared.openURL(URL(string: "tel://\(lblmobile.text!)")!)
+                UIApplication.shared.openURL(URL(string: "tel://\(removeSpecialCharsFromString(text: lblmobile.text!))")!)
             }
             else
             {
@@ -157,6 +157,11 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
                 self.view.makeToast("Email not valid.", duration: 3, position: .bottom)
             }
         }
+    }
+    func removeSpecialCharsFromString(text: String) -> String {
+        let okayChars : Set<Character> =
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890+-".characters)
+        return String(text.characters.filter {okayChars.contains($0) })
     }
     @IBAction func actionFollow(_sender : UIButton) {
         
@@ -231,8 +236,16 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
                     self.lblSkill.text = self.sharedManager.selectedCompany.TradeCategoryName
                     self.lblLocation.text = self.sharedManager.selectedCompany.CityName
                     self.lblcity.text = self.sharedManager.selectedCompany.CityName
-                    self.lblemail.text = self.sharedManager.selectedCompany.EmailID
-                    self.lblmobile.text = self.sharedManager.selectedCompany.ContactNumber
+                    
+                    let underlineAttribute2 = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+                    let underlineAttributedString2 = NSAttributedString(string: self.sharedManager.selectedCompany.EmailID, attributes: underlineAttribute2)
+                    self.lblemail.attributedText = underlineAttributedString2
+                    
+                    let underlineAttribute = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+                    let underlineAttributedString = NSAttributedString(string: self.sharedManager.selectedCompany.ContactNumber, attributes: underlineAttribute)
+                    self.lblmobile.attributedText = underlineAttributedString
+                    
+        
                     self.lblstreet.text = self.sharedManager.selectedCompany.StreetAddress
                     self.lblpincode.text = self.sharedManager.selectedCompany.Zipcode
                     self.lblservicegrp.text = self.sharedManager.selectedCompany.ServiceGroup
@@ -500,7 +513,6 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             self.AboutviewHeight.constant = self.TBLSpecialOffer.contentSize.height
             self.TblHeightConstraints.constant = self.TBLSpecialOffer.contentSize.height
             self.ObjScrollview.contentSize.height = 237 + self.PortCollectionHeight.constant
-            
         }
     }
     
@@ -535,10 +547,21 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             AppDelegate.sharedInstance().persistentConnection.send(Command.messageSendCommand(friendId: String(self.sharedManager.selectedCompany.FollowUserID), msg: ""))
             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
             let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
-            msgVC.selectedSenderId = self.sharedManager.selectedCompany.UserID
+            msgVC.selectedSenderId = self.sharedManager.selectedCompany.FollowUserID
             msgVC.isNext = true
             self.navigationController?.pushViewController(msgVC, animated: true)
         }
+        else
+        {
+            AppDelegate.sharedInstance().initSignalR()
+            AppDelegate.sharedInstance().persistentConnection.send(Command.messageSendCommand(friendId: String(self.sharedManager.selectedCompany.FollowUserID), msg: ""))
+            NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
+            let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = self.sharedManager.selectedCompany.FollowUserID
+            msgVC.isNext = true
+            self.navigationController?.pushViewController(msgVC, animated: true)
+        }
+
     }
     @IBAction func btnfav(btn : UIButton)
     {
@@ -625,9 +648,10 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
         else
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SpecialOfferCell
-            cell.lblCompanyDescription.text = "\(self.speciallist![indexPath.row].Description)\n\(self.speciallist![indexPath.row].RedirectWebsitelink)"
-            cell.lblWork.text = self.speciallist?[indexPath.row].Title as String!
-            cell.lblCompanyName.text = self.sharedManager.selectedCompany.CompanyName
+            cell.lblCompanyDescription.text = "\(self.speciallist![indexPath.row].Description))"
+            cell.lblTitle.text = ""
+            cell.lblWork.text = "\(self.speciallist![indexPath.row].PriceTag) - \(self.speciallist![indexPath.row].AddedOn)"
+            cell.lblCompanyName.text = self.speciallist?[indexPath.row].Title as String!
             cell.btnfav!.tag=indexPath.row
             cell.btnfav?.addTarget(self, action: #selector(CompnayProfilefeed.btnfavSpecialOffer(btn:)), for: UIControlEvents.touchUpInside)
             if self.speciallist?[indexPath.row].IsSaved == true {
@@ -649,8 +673,11 @@ class CompnayProfilefeed:UIViewController, UITableViewDataSource, UITableViewDel
             let imgURL1 = self.speciallist?[indexPath.row].OfferImageLink as String!
             
             let url1 = URL(string: imgURL1!)
-            cell.ImgCompanyPic.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
-                cell.setCustomImage(image : image!)
+            cell.ImgProfilepic.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
+                if(image != nil)
+                {
+                    cell.setCustomImage(image : image!)
+                }
                 if(cell.isReload)
                 {
                     cell.isReload = false

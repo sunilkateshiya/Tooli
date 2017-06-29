@@ -15,6 +15,7 @@ class SpecialOfferCell: UITableViewCell {
      @IBOutlet weak var ImgProfilepic: UIImageView!
      @IBOutlet weak var lblCompanyName: UILabel!
     
+    @IBOutlet weak var lblTitle: UILabel!
      @IBOutlet weak var lblWork: UILabel!
        @IBOutlet var btnProfile: UIButton!
     @IBOutlet weak var btnRedirectUrl: UIButton!
@@ -38,10 +39,10 @@ class SpecialOfferCell: UITableViewCell {
     internal var aspectConstraint : NSLayoutConstraint? {
         didSet {
             if oldValue != nil {
-                ImgCompanyPic.removeConstraint(oldValue!)
+                ImgProfilepic.removeConstraint(oldValue!)
             }
             if aspectConstraint != nil {
-                ImgCompanyPic.addConstraint(aspectConstraint!)
+                ImgProfilepic.addConstraint(aspectConstraint!)
             }
         }
     }
@@ -53,10 +54,10 @@ class SpecialOfferCell: UITableViewCell {
         
         let aspect = image.size.width / image.size.height
         
-        let constraint = NSLayoutConstraint(item: ImgCompanyPic, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: ImgCompanyPic, attribute: NSLayoutAttribute.height, multiplier: aspect, constant: 0.0)
+        let constraint = NSLayoutConstraint(item: ImgProfilepic, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: ImgProfilepic, attribute: NSLayoutAttribute.height, multiplier: aspect, constant: 0.0)
         constraint.priority = 900
         
         aspectConstraint = constraint
-        ImgCompanyPic.image = image
+        ImgProfilepic.image = image
     }
 }

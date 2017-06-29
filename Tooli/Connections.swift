@@ -280,11 +280,14 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard  ((sharedManager.connectionList) != nil) else {
+             tableView.SetTableViewBlankLable(count:0, str: "Connection list empty.")
             return 0
         }
         if self.connlist == nil {
+             tableView.SetTableViewBlankLable(count:0, str: "Connection list empty.")
             return 0
         }
+        tableView.SetTableViewBlankLable(count: (self.connlist?.count)!, str: "Connection list empty.")
         return  (self.connlist?.count)!;
     }
     

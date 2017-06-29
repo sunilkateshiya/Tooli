@@ -18,6 +18,8 @@ class ContractorDashBoard: NSObject, Mappable{
     var UnreadMessageNotificationCount = 0
     var UnreadOfferNotificationCount = 0
     var UnreadNotificationCount = 0
+    var LastDate = ""
+    var MinDate = ""
     
     required init?(map: Map){
         status <- map["status"]
@@ -26,7 +28,8 @@ class ContractorDashBoard: NSObject, Mappable{
         UnreadMessageNotificationCount <- map["UnreadMessageGroupCount"]
         UnreadOfferNotificationCount <- map["UnreadOfferNotificationCount"]
         UnreadNotificationCount <- map["UnreadNotificationCount"]
-       
+        LastDate <- map["LastDate"]
+        MinDate <- map["MinDate"]
     }
     func mapping(map: Map) {
         status <- map["status"]
@@ -35,8 +38,65 @@ class ContractorDashBoard: NSObject, Mappable{
         UnreadMessageNotificationCount <- map["UnreadMessageGroupCount"]
         UnreadOfferNotificationCount <- map["UnreadOfferNotificationCount"]
         UnreadNotificationCount <- map["UnreadNotificationCount"]
+        LastDate <- map["LastDate"]
+        MinDate <- map["MinDate"]
     }
 }
+
+class SuggestionUserList: NSObject, Mappable{
+    
+    var status = ""
+    var message = ""
+    var DataList : [UserModel]? = []
+    
+    required init?(map: Map){
+        status <- map["status"]
+        message <- map["message"]
+        DataList <- map["DataList"]
+       
+        
+    }
+    func mapping(map: Map) {
+        status <- map["status"]
+        message <- map["message"]
+        DataList <- map["DataList"]
+    }
+}
+
+class UserModel : NSObject, Mappable{
+    
+    var UserID = 0
+    var ContractorID = 0
+    var CompanyID = 0
+    var IsContractor : Bool = true
+    var Name = ""
+    var TradeCategoryName = ""
+    var ImageLink = ""
+    var ProfileViewLink = ""
+
+    required init?(map: Map) {
+        UserID <- map["UserID"]
+        ContractorID <- map["ContractorID"]
+        CompanyID <- map["CompanyID"]
+        IsContractor <- map["IsContractor"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        ImageLink <- map["ImageLink"]
+        ProfileViewLink <- map["ProfileViewLink"]
+    }
+    func mapping(map: Map) {
+        
+        UserID <- map["UserID"]
+        ContractorID <- map["ContractorID"]
+        CompanyID <- map["CompanyID"]
+        IsContractor <- map["IsContractor"]
+        Name <- map["Name"]
+        TradeCategoryName <- map["TradeCategoryName"]
+        ImageLink <- map["ImageLink"]
+        ProfileViewLink <- map["ProfileViewLink"]
+    }
+}
+
 class DashBoardM : NSObject, Mappable {
 
     var AddedOn = ""
@@ -63,6 +123,7 @@ class DashBoardM : NSObject, Mappable {
     var Name = ""
     var IsJob = false
     var isStatus = false
+    var IsAdminPost = false
     var PortfolioImageList : [PortfolioImageL]? = []
     
     required init?(map: Map) {
@@ -91,6 +152,7 @@ class DashBoardM : NSObject, Mappable {
         CompanyName <- map["CompanyName"]
         CityName <- map["CityName"]
         isStatus <- map["IsStatus"]
+        IsAdminPost <- map["IsAdminPost"]
         Name <- map["Name"]
     }
     func mapping(map: Map) {
@@ -119,6 +181,7 @@ class DashBoardM : NSObject, Mappable {
         CompanyName <- map["CompanyName"]
         CityName <- map["CityName"]
         isStatus <- map["IsStatus"]
+        IsAdminPost <- map["IsAdminPost"]
         Name <- map["Name"]
     }
 }

@@ -31,12 +31,10 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
         //var selectedDate : Date!
         
-        let secondsInMinYear: TimeInterval = 18 * 365 * 24 * 60 * 60;
+        let secondsInMinYear: TimeInterval = 60;
         if selectedDate == nil {
             selectedDate = NSDate(timeInterval: -secondsInMinYear, since: NSDate() as Date) as Date!
         }
-        
-        
         let datePicker = ActionSheetDatePicker(title: "Date:", datePickerMode: UIDatePickerMode.date, selectedDate: selectedDate, doneBlock: {
             picker, value, index in
             
@@ -100,6 +98,11 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
+    @IBAction func BtnChangePasswordScreen(_ sender: UIButton)
+    {
+        let obj : ChangePassword = self.storyboard?.instantiateViewController(withIdentifier: "ChangePassword") as! ChangePassword
+        self.navigationController?.pushViewController(obj, animated: true)
+    }
     @IBAction func BtnUpdateProfileTapped(_ sender: Any) {
         var isValid : Bool = true
         if TxtName.text == "" {
@@ -110,33 +113,13 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             isValid = false
             self.view.makeToast("Please enter your surname", duration: 3, position: .bottom)
         }
-        else if txtMobile.text == "" {
-            isValid = false
-            self.view.makeToast("Please enter your phone", duration: 3, position: .bottom)
-        }
         else if txtPhone.text == "" {
             isValid = false
             self.view.makeToast("Please enter your mobile", duration: 3, position: .bottom)
         }
-        else if (txtPhone.text?.characters.count)! >= 12 || (txtPhone.text?.characters.count)! < 9 {
-            isValid = false
-            self.view.makeToast("Please enter valid MobileNumber", duration: 3, position: .bottom)
-        }
-        else if (txtMobile.text?.characters.count)! >=  9 {
-            isValid = false
-            self.view.makeToast("Please enter your valid LandlineNumber", duration: 3, position: .bottom)
-        }
         else if TxtViewAboutme.text == "" {
             isValid = false
             self.view.makeToast("Please enter About me details", duration: 3, position: .bottom)
-        }
-        else if TxtPerDayRate.text == "" {
-            isValid = false
-            self.view.makeToast("Please enter your workout perhour rate", duration: 3, position: .bottom)
-        }
-        else if TxtPerhourRate.text == "" {
-            isValid = false
-            self.view.makeToast("Please enter your workout perday rate", duration: 3, position: .bottom)
         }
         else if TxtReferalCode.text == "" {
             isValid = false
@@ -150,11 +133,15 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             isValid = false
             self.view.makeToast("Please enter valid", duration: 3, position: .bottom)
         }
-        else if Float(TxtPerDayRate.text!)! < Float(TxtPerhourRate.text!)!
+        else if(TxtPerDayRate.text != "" && TxtPerhourRate.text != "")
         {
-             isValid = false
-            self.view.makeToast("The hourly rates should be smaller than the day rates!", duration: 3, position: .bottom)
+            if Float(TxtPerDayRate.text!)! < Float(TxtPerhourRate.text!)!
+            {
+                isValid = false
+                self.view.makeToast("The hourly rates should be smaller than the day rates!", duration: 3, position: .bottom)
+            }
         }
+  
         if  isValid {
             self.startAnimating()
             var param = [:] as [String : Any]
@@ -177,7 +164,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             param["IsLicenceHeld"] = self.isLicenceSelected  ? "true" : "false"
             param["IsOwnVehicle"] = self.isVehicleSelected ? "true" : "false"
             param["DistanceRadius"] = Int(self.slider.value)
-            param["CompanyName"] = Int(self.slider.value)
+            param["CompanyName"] = self.TxtCompanyName.text
             param["ServiceIDGroup"] = self.selectedSkills.joined(separator: ",")
             
             print(param)
@@ -245,6 +232,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
     @IBOutlet weak var TxtPerDayRate: UITextField!
     @IBOutlet weak var ImgProfilePic: UIImageView!
     @IBOutlet weak var TxtName: UITextField!
+    @IBOutlet weak var TxtCompanyName: UITextField!
     @IBOutlet weak var TxtSurname: UITextField!
     @IBOutlet weak var TxtViewAboutme: UITextView!
     @IBOutlet weak var TxtReferalCode: UITextField!
@@ -298,6 +286,7 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.txtAddress.text = self.sharedManager.currentUser.FullAddress as String
             self.FullAddress = self.sharedManager.currentUser.FullAddress as String
         }
+        self.TxtCompanyName.text = self.sharedManager.currentUser.CompanyName as String
         self.lat = self.sharedManager.currentUser.Latitude
         self.long = self.sharedManager.currentUser.Longitude
         self.postcode = self.sharedManager.currentUser.Zipcode as String
@@ -354,6 +343,10 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         
     }
     @IBAction func ValueChanged(_ sender: UISlider) {
+        if(sender.value < 10)
+        {
+            sender.value = 10
+        }
         self.lblDistance.text = "\(Int(sender.value)) Miles"
     }
     
@@ -392,8 +385,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             (JSONResponse) -> Void in
             
             self.sharedManager.masters = Mapper<Masters>().map(JSONObject: JSONResponse.rawValue)
-            
-            
             print(JSONResponse["status"].rawValue as! String)
             
             if JSONResponse != nil {
@@ -426,7 +417,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                     self.stopAnimating()
                     self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
                 }
-                
             }
             
         }) {
@@ -437,8 +427,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         }
     }
     @IBAction func BtnTradeTapped(_ sender: Any) {
-        
-        
         var trades : [String] = []
         for trade in  sharedManager.masters.DataList! {
             trades.append(trade.TradeCategoryName)
@@ -609,13 +597,10 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
         autocompleteController.view.addSubview(header)
         
-        let filter = GMSAutocompleteFilter();
-        filter.type = GMSPlacesAutocompleteTypeFilter.city
+        let filter = GMSAutocompleteFilter()
+        filter.country = "UK"
+        autocompleteController.autocompleteFilter = filter
         
-        //autocompleteController.autocompleteFilter = filter
-        
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        autocompleteController.navigationController?.setToolbarHidden(false, animated: true)
         present(autocompleteController, animated: true, completion: nil)
     }
     func uploadphoto(){
@@ -656,8 +641,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
                         if String(describing: response1.object(forKey: "status")!) == "1" {
                             self.sharedManager.currentUser.ProfileImageLink=response1.object(forKey: "FileLink")! as! String
                             
-                            
-                            
                         }
                         else
                         {
@@ -680,11 +663,6 @@ class EditProfile: UIViewController, UITableViewDataSource, UITableViewDelegate,
             }
         }
     }
-    
-    
-    
-    
-    
 }
 extension EditProfile: GMSAutocompleteViewControllerDelegate {
     

@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>TRACKING_ID</key>
-	<string>UA-97037442-2</string>
+	<string>UA-89733368-3</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.blush.Tooli</string>
 	<key>PROJECT_ID</key>
-	<string>firebase-tooli</string>
+	<string>tooli-1485181064432</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -21,6 +21,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<false/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:577924790581:ios:e16940b78a883d03</string>
+	<string>1:1025757113807:ios:e16940b78a883d03</string>
 </dict>
 </plist>

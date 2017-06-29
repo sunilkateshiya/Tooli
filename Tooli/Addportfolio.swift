@@ -122,7 +122,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
     @IBAction func btnBack(_ sender: UIButton) {
         
         let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+       //_ = self.navigationController?.popViewController(animated: true)
         app.moveToDashboard()
     }
     override func viewDidLoad() {
@@ -215,7 +215,6 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
             alert.addAction(UIAlertAction(title: "Use Gallery", style: UIAlertActionStyle.default, handler: { (UIAlertAction) in
                 let vc = BSImagePickerViewController()
                 vc.maxNumberOfSelections = 50
-                
                 self.bs_presentImagePickerController(vc, animated: true,
                                                 select: { (asset: PHAsset) -> Void in
                                                     print("Selected: \(asset)")
@@ -355,10 +354,7 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
                         
                     case .failure(let error):
                         self.view.makeToast("Server error. Please try again later. \(error)", duration: 3, position: .bottom)
-                        
                     }
-                    
-                    
                 }
                 
             case .failure(let encodingError):
@@ -374,7 +370,10 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         var thumbnail = UIImage()
         option.isSynchronous = true
         manager.requestImage(for: asset, targetSize: CGSize(width: 800, height: 1100), contentMode: .aspectFit, options: option, resultHandler: {(result, info)->Void in
-            thumbnail = result!
+            if(result != nil)
+            {
+                thumbnail = result!
+            }
         })
         return thumbnail
     }

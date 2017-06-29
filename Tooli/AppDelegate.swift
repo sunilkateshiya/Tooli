@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var currentHistory : ChatHistory!
     var currentMessage : MessageList!
     var newMessage : Messages!
-    
+    var isFirstTime:Bool = false
     var isAvtiveChatID = 0
     override init() {
         coordinate=CLLocationCoordinate2DMake(0, 0)
@@ -78,12 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 
                 if  self.sharedManager.currentUser.IsSetupProfile {
                     //moveToEditPortfolio()
-                    self.initSignalR();
                     moveToDashboard()
                     //moveToInfo()
                 }
                 else {
-                    self.initSignalR();
                     moveToInfo()
                 }
             }
@@ -138,20 +136,173 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print(userInfo)
         
         let data:[String:NSDictionary] = userInfo["aps"]  as! [String:NSDictionary]
-        let CompanyID = userInfo["CompanyID"]
-        let PrimaryID = userInfo["PrimaryID"]
-        let NotificationStatusID = userInfo["NotificationStatusID"] as! Int
-        let ContractorID = userInfo["ContractorID"]
-        let IsContractor : Bool = (userInfo["IsContractor"]) as! Bool
-        /*{
-            MessageReceive = 1,
-            ApplyJob = 2,
-            Follow = 3,
-            OfferPost = 4,
-            FollowByRefer = 5
-        }*/
-        
-        if NotificationStatusID == 1 {
+        let CompanyID = userInfo["cId"]
+        let PrimaryID = userInfo["pId"]
+        let NotificationStatusID = userInfo["NSId"] as! Int
+        let NotificationPageTypeID = userInfo["NPTId"] as! Int
+        let ContractorID = userInfo["ConrId"]
+        let IsContractor : Bool = (userInfo["Conr"]) as! Bool
+        /*  None = 0,
+         Home_Page = 1,
+         Job_Center = 2,
+         Notification = 3,
+         Messages = 4,
+         My_Profile = 5,
+         Special_Offers = 6,
+         Contractor_Search = 7,
+         Saved = 8,
+         My_Connections = 9,
+         Referral = 10, 
+         Statistics = 11,
+         Add_Portfolio = 12,
+         Terms_Condition = 13,
+         Privacy_Policy = 14,
+         Log_out = 15,
+*/
+        if NotificationStatusID == 0 {
+            // MESSAGE VC
+            
+            switch NotificationPageTypeID {
+            case 0:
+                self.moveToDashboard()
+                break
+            case 1:
+               self.moveToDashboard()
+                break
+            case 2:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 1
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 3:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 3
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 4:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 4
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 5:
+                let msgVC : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 4
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 6:
+                let msgVC : SpecialOfferList = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpecialOfferList") as! SpecialOfferList
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+
+            case 7:
+                let msgVC : SpecialOfferList = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpecialOfferList") as! SpecialOfferList
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 8:
+                let msgVC : SavedView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SavedView") as! SavedView
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 9:
+                let msgVC : Connections = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Connections") as! Connections
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 10:
+                let msgVC : Referrals = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Referrals") as! Referrals
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 11:
+                let msgVC : Statistics = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Statistics") as! Statistics
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 12:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 2
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+                
+            case 13:
+                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                port.strUrl = "https://www.tooli.co.uk/Files/Document/Terms_Condition.pdf"
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,port]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 14:
+                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                port.strUrl = "https://www.tooli.co.uk/Files/Document/Privacy_Policy.pdf"
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,port]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 15:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                self.callWSSignOut()
+                break
+            default:
+                self.moveToDashboard()
+                break
+            }
+        }
+        else if NotificationStatusID == 1 {
             // MESSAGE VC
             let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
             msgVC.selectedSenderId = PrimaryID as! Int
@@ -198,7 +349,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 companyVC.companyId = CompanyID as! Int
                 self.navigationController?.pushViewController(companyVC, animated: true)
             }
-
         }
     }
     @available(iOS 10.0, *)
@@ -210,18 +360,161 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if(UIApplication.shared.applicationState == .active)
         {
             let notificationBar = GLNotificationBar(title: "", message: "", preferredStyle: .simpleBanner, handler: nil)
-            notificationBar.showTime(2)
+            //notificationBar.showTime(2)
             return
         }
-        
-        let CompanyID = response.notification.request.content.userInfo["CompanyID"]
-        let PrimaryID = response.notification.request.content.userInfo["PrimaryID"]
-        let NotificationStatusID = response.notification.request.content.userInfo["NotificationStatusID"] as! Int
-        let ContractorID = response.notification.request.content.userInfo["ContractorID"]
-        let IsContractor : Bool = (response.notification.request.content.userInfo["IsContractor"]) as! Bool
-      
-        
-        if NotificationStatusID == 1 {
+
+        let CompanyID = response.notification.request.content.userInfo["cId"]
+        let PrimaryID = response.notification.request.content.userInfo["pId"]
+        let NotificationStatusID = response.notification.request.content.userInfo["NSId"] as! Int
+        let NotificationPageTypeID = response.notification.request.content.userInfo["NPTId"] as! Int
+        let ContractorID = response.notification.request.content.userInfo["ConrId"]
+        let IsContractor : Bool = (response.notification.request.content.userInfo["Conr"]) as! Bool
+
+        if NotificationStatusID == 0 {
+            // MESSAGE VC
+            
+            switch NotificationPageTypeID {
+            case 0:
+                self.moveToDashboard()
+                break
+            case 1:
+                self.moveToDashboard()
+                break
+            case 2:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 1
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 3:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 3
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 4:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 4
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 5:
+                let msgVC : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 4
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 6:
+                let msgVC : SpecialOfferList = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpecialOfferList") as! SpecialOfferList
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+                
+            case 7:
+                let msgVC : SpecialOfferList = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpecialOfferList") as! SpecialOfferList
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 8:
+                let msgVC : SavedView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SavedView") as! SavedView
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 9:
+                let msgVC : Connections = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Connections") as! Connections
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 10:
+                let msgVC : Referrals = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Referrals") as! Referrals
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 11:
+                let msgVC : Statistics = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Statistics") as! Statistics
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,msgVC]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 12:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 2
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                break
+                
+            case 13:
+                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                port.strUrl = "https://www.tooli.co.uk/Files/Document/Terms_Condition.pdf"
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,port]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 14:
+                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                port.strUrl = "https://www.tooli.co.uk/Files/Document/Privacy_Policy.pdf"
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController,port]
+                self.window?.rootViewController = self.navigationController
+                break
+            case 15:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! UITabBarController
+                initialViewController.selectedIndex = 0
+                self.navigationController?.viewControllers = [initialViewController]
+                self.window?.rootViewController = self.navigationController
+                self.callWSSignOut()
+                break
+            default:
+                self.moveToDashboard()
+                break
+            }
+        }
+        else if NotificationStatusID == 1 {
             // MESSAGE VC
             let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
             msgVC.selectedSenderId = PrimaryID as! Int
@@ -303,6 +596,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func moveToLogin()
     {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.navigationController = storyboard.instantiateViewController(withIdentifier: "MyNavigationController") as? MyNavigationController
         let initialViewController : Login = storyboard.instantiateViewController(withIdentifier: "Login") as! Login
@@ -333,7 +627,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-            disconnectSignalR()
+        
+        let userDefaults = UserDefaults.standard
+        if (userDefaults.value(forKey: Constants.KEYS.LOGINKEY) != nil) == true{
+            
+            if userDefaults.value(forKey: Constants.KEYS.LOGINKEY)! as! Bool == true {
+                disconnectSignalR()
+                
+            }
+        }
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
@@ -344,21 +646,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        disconnectSignalR()
+        let userDefaults = UserDefaults.standard
+        if (userDefaults.value(forKey: Constants.KEYS.LOGINKEY) != nil) == true{
+            
+            if userDefaults.value(forKey: Constants.KEYS.LOGINKEY)! as! Bool == true {
+                disconnectSignalR()
+                
+            }
+        }
+       
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        initSignalR()
+        let userDefaults = UserDefaults.standard
+        if (userDefaults.value(forKey: Constants.KEYS.LOGINKEY) != nil) == true{
+            
+            if userDefaults.value(forKey: Constants.KEYS.LOGINKEY)! as! Bool == true {
+                initSignalR()
+                
+            }
+        }
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
+        let userDefaults = UserDefaults.standard
+        if (userDefaults.value(forKey: Constants.KEYS.LOGINKEY) != nil) == true{
+            
+            if userDefaults.value(forKey: Constants.KEYS.LOGINKEY)! as! Bool == true {
+                initSignalR()
+                
+            }
+        }
         FBSDKAppEvents.activateApp()
-
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -376,18 +699,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             print("locations = \(locValue.latitude) \(locValue.longitude)")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updatelocation"), object: nil)
         }
-        
     }
     func initSignalR(){
         var qs : [String:AnyObject] = [:]
         guard (sharedManager.currentUser != nil) else {
+             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
             return
         }
         
         if self.isActiveChat || self.persistentConnection.state == .connected {
+             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
             return
         }
-        
         
         qs["UserID"] = sharedManager.currentUser.UserID as AnyObject?
         qs["Platform"] = "ios" as AnyObject?
@@ -396,14 +719,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // Receievd
         persistentConnection.received = { data in
+
             guard (data != nil) else {
                 return
             }
             
             
             let data1 = Globals.convertToDictionary(text: data as! String)
-            print(data1)
-            
             switch data1!["status"]! as! String {
             case "buddylist":
                 self.buddyList  = Mapper<ChatList>().map(JSONObject: data1)
@@ -412,7 +734,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     return
                 }
                 NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
-                print(self.buddyList)
+               // print(self.buddyList)
                 break;
             case "chathistory":
                 self.currentHistory = Mapper<ChatHistory>().map(JSONObject: data1)
@@ -431,8 +753,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     {
                         if(self.newMessage!.MessageText != "")
                         {
-                             self.persistentConnection.send(Command.buddyListCommand())
-                            let notificationBar = GLNotificationBar(title: "\(self.newMessage!.Name) has sent you a message.", message: self.newMessage!.MessageText , preferredStyle: .simpleBanner, handler: nil)
+                            self.persistentConnection.send(Command.buddyListCommand())
+                            let notificationBar = GLNotificationBar(title: "\(self.newMessage!.Name) has sent you a message.", message: self.newMessage!.MessageText , preferredStyle: .simpleBanner, handler: { (true) in
+                                let chatDetail : MessageDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageDetails") as! MessageDetails
+                                var currentBuddy : Buddies = Buddies()
+                                currentBuddy.ChatUserID = self.newMessage!.UserID
+                                currentBuddy.Name = self.newMessage!.Name
+                                chatDetail.currentBuddy = currentBuddy
+                                chatDetail.senderId = String(self.newMessage!.ReceiverID)
+                                self.persistentConnection.send(Command.chatHistoryCommand(friendId: String(self.newMessage!.ReceiverID), index: 1))
+                                self.navigationController?.pushViewController(chatDetail, animated: true)
+                            })
+                            
                             notificationBar.showTime(2)
                         }
                     }
@@ -441,23 +773,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             default:
                 break;
             }
-           
-            
         }
         persistentConnection.start()
         
         // Connected
-        persistentConnection.reconnecting = { print("reconnecting") }
-        persistentConnection.reconnected = { print("reconnected") }
-        persistentConnection.disconnected = { self.initSignalR() }
-        persistentConnection.connected = {
-            
+        persistentConnection.reconnecting = {
+            self.disconnectSignalR()
+            self.initSignalR()
+        }
+        persistentConnection.reconnected = { print("reconnected")
+             //NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
             self.isActiveChat = true
             self.persistentConnection.send(Command.buddyListCommand())
-            
+        }
+        persistentConnection.disconnected = { }
+        persistentConnection.connected = {
+             print("connected")
+            self.isActiveChat = true
+            self.persistentConnection.send(Command.buddyListCommand())
         }
         persistentConnection.connectionFailed = { error in
-            print(error);
+
+            
+             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
+             NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "networkConnection"), object: nil) as Notification)
+            
+             print(error);
         }
         persistentConnection.connectionSlow = {
             print("slow connection")
@@ -471,7 +812,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             if self.persistentConnection.state == .connected {
                 
                 print("Sending offline--------------")
-                
                 self.persistentConnection.stop()
             }
         }
@@ -488,6 +828,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let clearButton = textFieldInsideSearchBar?.value(forKey: "clearButton") as! UIButton
         clearButton.setImage(clearButton.imageView?.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: .normal)
         clearButton.tintColor = UIColor.white
+    }
+    func callWSSignOut()
+    {
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignOut, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            print(JSONResponse["status"].rawValue as! String)
+            if JSONResponse != nil{
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                    let userDefaults = UserDefaults.standard
+                    userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
+                    userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
+                    userDefaults.synchronize()
+                    
+                    let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    app.disconnectSignalR()
+                    app.moveToLogin()
+                    
+                }
+                else
+                {
+                    
+                }
+            }
+            
+        }) {
+            (error) -> Void in
+            }
     }
 }
 

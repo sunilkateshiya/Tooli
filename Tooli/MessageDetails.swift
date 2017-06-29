@@ -27,15 +27,24 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
     var sharedManager : Globals = Globals.sharedInstance
     @IBOutlet var headerView : UIView?
     var lblName : UILabel?
-    
-    
+    var page = 0
+    var selectedSenderId = 0
     override func viewDidLoad() {
         super.viewDidLoad()
          self.startAnimating()
         self.navigationController!.interactivePopGestureRecognizer!.isEnabled = true;
         app = UIApplication.shared.delegate! as! AppDelegate
-        app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(currentBuddy.ChatUserID)))
         
+        
+        if self.appDelegate!.persistentConnection.state == .connected {
+            app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(currentBuddy.ChatUserID), index: page))
+        }
+        else
+        {
+            app.initSignalR()
+            app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(currentBuddy.ChatUserID), index: page))
+        }
+
         let hView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 60))
         let backButton = UIButton(frame: CGRect(x: 8, y: 20, width: 40, height: 40))
         backButton.setImage(UIImage(named: "ic_Backarrow"), for: UIControlState.normal)
@@ -76,6 +85,7 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
     
     override func viewWillAppear(_ animated: Bool) {
         //logintoXMPP()
+        
          appDelegate?.isAvtiveChatID = self.currentBuddy.ChatUserID
         NotificationCenter.default.addObserver(self, selector: #selector(chatHistory), name: NSNotification.Name(rawValue: Constants.Notifications.CHATHISTORYRETRIVED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(chatMessage), name: NSNotification.Name(rawValue: Constants.Notifications.MESSAGERECEIVED), object: nil)
@@ -91,7 +101,7 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
     func chatHistory(){
         
         self.stopAnimating()
-        self.messages = NSMutableArray()
+        
         for msg in (appDelegate?.currentHistory.DataList)!
         {
             var userId = 0
@@ -103,17 +113,27 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
             }
             
             let newMessage : JSQMessage = JSQMessage(senderId: String(userId), senderDisplayName: msg.Name, date: NSDate(timeIntervalSince1970: (msg.MilliSecond/1000)) as Date!, text: msg.MessageText)
-            
-            
-            self.messages.add(newMessage)
+            if(msg.IsContractor)
+            {
+                if(currentBuddy.ContractorID == msg.ContractorID)
+                {
+                     self.messages.add(newMessage)
+                }
+            }
+            else
+            {
+                if(currentBuddy.CompanyID == msg.CompanyID)
+                {
+                     self.messages.add(newMessage)
+                }
+            }
         }
-        self.collectionView.reloadData()
         self.finishReceivingMessage(animated: false)
-      self.scrollToBottom(animated: true)
-        
-
+        self.scrollToBottom(animated: true)
+        self.collectionView.reloadData()
     }
     func chatMessage(){
+        self.stopAnimating()
         let msg = appDelegate?.newMessage
         
         var userId = 0
@@ -127,12 +147,9 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
         let newMessage : JSQMessage = JSQMessage(senderId: String(userId), senderDisplayName: msg!.Name, date: NSDate() as Date!, text: msg!.MessageText)
         
         appDelegate?.currentHistory.DataList.append(msg!)
-        
         self.messages.add(newMessage)
         self.collectionView.reloadData()
-        
         self.finishReceivingMessage(animated: true)
-        
         self.scrollToBottom(animated: true)
     }
 
@@ -156,16 +173,12 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
         self.navigationController?.popViewController(animated: true)
     }
 
-    
-    
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if self.appDelegate!.persistentConnection.state == .connected {
             self.appDelegate!.persistentConnection.send(Command.readReceiptCommand(friendId: String(currentBuddy.ChatUserID)))
-            
-            
         }
+
         self.scrollToBottom(animated: true)
     }
     
@@ -296,19 +309,11 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
                 senderAvatar = JSQMessagesAvatarImage .avatar(with: JSQMessagesAvatarImageFactory.circularAvatarImage(image, withDiameter: 20))
             }
         }
-        
-        
-        
         return senderAvatar
         
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
-        if indexPath.item % 3 == 0 {
-            let message: JSQMessage = self.messages[indexPath.item] as! JSQMessage
-            return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
-        }
-        
         return nil;
     }
     
@@ -409,13 +414,26 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    
-    
-    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
          return 0.0
     }
-    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool)
+    {
+        if(scrollView.contentOffset.y <= 0)
+        {
+            if self.appDelegate!.persistentConnection.state == .connected {
+              //  page = page + 1
+              //  app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(currentBuddy.ChatUserID), index: page))
+                
+            }
+            else
+            {
+                app.initSignalR()
+              //  page = page + 1
+              //  app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(currentBuddy.ChatUserID), index: page))
+            }
+        }
+    }
    
     @IBAction func actionBack(){
         if isBack {
@@ -434,9 +452,6 @@ class MessageDetails: JSQMessagesViewController,NVActivityIndicatorViewable {
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

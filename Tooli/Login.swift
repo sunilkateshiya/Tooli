@@ -13,8 +13,10 @@ import FacebookLogin
 import ObjectMapper
 import Toast_Swift
 import NVActivityIndicatorView
+import SafariServices
 
 class Login: UIViewController, NVActivityIndicatorViewable {
+
 
     @IBOutlet var txtemail : UITextField!
     @IBOutlet var txtpassword : UITextField!
@@ -42,7 +44,6 @@ class Login: UIViewController, NVActivityIndicatorViewable {
         tracker.send(builder.build() as [NSObject : AnyObject])
         
     }
-    
     @IBAction func btnlogin(_ sender: Any) {
         
             var validflag = 0
@@ -55,7 +56,8 @@ class Login: UIViewController, NVActivityIndicatorViewable {
                 self.view.makeToast("Please enter password", duration: 2, position: .bottom)
                 validflag = 1
             }
-            
+    
+
             if validflag == 0 {
                 
                     self.startAnimating()
@@ -133,6 +135,7 @@ class Login: UIViewController, NVActivityIndicatorViewable {
     }
 
     @IBAction func btnfblogin(_ sender: AnyObject) {
+    
         let loginManager = LoginManager()
         //self.startAnimating()
         loginManager.logIn([ .publicProfile, .email ], viewController: self) { loginResult in

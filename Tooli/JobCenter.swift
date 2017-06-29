@@ -316,11 +316,11 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
       //  Nearest
         if button.tag == 1 {
             FilterOption = "RecentlyAdded"
-            btnSortby.setTitle("Sort by : Recently Added", for: .normal)
+            btnSortby.setTitle("Sort Jobs by : Recently Added", for: .normal)
 
         }else{
             FilterOption = "Nearest"
-            btnSortby.setTitle("Sort by : Nearest", for: .normal)
+            btnSortby.setTitle("Sort Jobs by : Nearest", for: .normal)
 
         }
         isFirstTime = true

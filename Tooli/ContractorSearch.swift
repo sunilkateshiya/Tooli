@@ -33,8 +33,8 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     let sharedManager : Globals = Globals.sharedInstance
     var isTradeSelected : Bool = false;
-    var selectedTrade = 0;
-    var selectedTradeIndex = 0;
+    var selectedTrade = -1;
+    var selectedTradeIndex = -1;
     var selectedSkills : [String] = [];
     var selectedCertificate : [String] = [];
     var integerCount = NSInteger()
@@ -120,10 +120,9 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
         autocompleteController.view.addSubview(header)
         
-        let filter = GMSAutocompleteFilter();
-        filter.type = GMSPlacesAutocompleteTypeFilter.city
-        
-        //autocompleteController.autocompleteFilter = filter
+        let filter = GMSAutocompleteFilter()
+        filter.country = "UK"
+        autocompleteController.autocompleteFilter = filter
     
         autocompleteController.navigationController?.setToolbarHidden(false, animated: true)
         present(autocompleteController, animated: true, completion: nil)
@@ -253,8 +252,8 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
             }
             else
             {
-                 self.selectedTrade = 0
-               self.BtnTrade.setTitle("Select a trade" as String,for: .normal)
+                 self.selectedTrade = -1
+                self.BtnTrade.setTitle("Select a trade" as String,for: .normal)
                 self.BtnTrade.setTitleColor(Color.lightGray, for: .normal)
                 
                  self.SkillHeightConstraints.constant = CGFloat(0)

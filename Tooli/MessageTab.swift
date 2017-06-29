@@ -15,6 +15,21 @@ import ObjectMapper
 
 class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate,UISearchBarDelegate,NVActivityIndicatorViewable   {
 
+    @IBOutlet weak var btnAgain: UIButton!
+    @IBOutlet weak var imgError: UIImageView!
+    @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var viewError: UIView!
+    @IBAction func btnAgainErrorAction(_ sender: UIButton)
+    {
+        self.imgError.isHidden = true
+        self.btnAgain.isHidden = true
+        self.lblError.isHidden = true
+        if(app.isActiveChat || app.persistentConnection.state == .connected) {
+            app.persistentConnection.send(Command.buddyListCommand())
+        }
+    }
+
+    
     @IBOutlet var tvmsg : UITableView!
     @IBOutlet weak var SearchbarView: UISearchBar!
     @IBOutlet var noMessageView : UIView!
@@ -62,8 +77,12 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     func refreshPage()
     {
         refreshControl.endRefreshing()
-        if(app.isActiveChat && app.persistentConnection.state == .connected) {
+        if(app.isActiveChat || app.persistentConnection.state == .connected) {
             app.persistentConnection.send(Command.buddyListCommand())
+        }
+        else
+        {
+            app.initSignalR()
         }
     }
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
@@ -86,11 +105,8 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             (JSONResponse) -> Void in
             
             self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
-            
             self.stopAnimating()
-            
             print(JSONResponse["status"].rawValue as! String)
-            
             if JSONResponse != nil{
                 
                 if JSONResponse["status"].rawString()! == "1"
@@ -128,31 +144,49 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
 
     func navigateUser(){
+        self.stopAnimating()
         for buddy in self.app.buddyList.Users {
             
             if buddy.ChatUserID == selectedSenderId {
                 
                 let chatDetail : MessageDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageDetails") as! MessageDetails
                 chatDetail.currentBuddy = buddy
-                chatDetail.senderId = String(sharedManager.currentUser.UserID)
-                app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(buddy.ChatUserID)))
                 
-                self.navigationController?.pushViewController(chatDetail, animated: true)
+                chatDetail.senderId = String(sharedManager.currentUser.UserID)
+                self.navigationController?.pushViewController(chatDetail, animated: false)
             }
         }
     }
-    
+    func StopLoading()
+    {
+       self.viewError.isHidden = false
+        self.imgError.isHidden = false
+        self.btnAgain.isHidden = false
+        self.lblError.isHidden = false
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.startAnimating()
-        
+        if(AppDelegate.sharedInstance().currentHistory != nil)
+        {
+            AppDelegate.sharedInstance().currentHistory.DataList = []
+        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(StopLoading),
+            name: NSNotification.Name(rawValue: "networkConnection"),
+            object: nil)
         UIApplication.shared.applicationIconBadgeNumber =  self.sharedManager.unreadSpecialOffer + self.sharedManager.unreadNotification + self.sharedManager.unreadMessage
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(reloadDataOnly),
             name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED),
             object: nil)
-        if(app.isActiveChat && app.persistentConnection.state == .connected) {
+        if(app.isActiveChat || app.persistentConnection.state == .connected) {
             app.persistentConnection.send(Command.buddyListCommand())
+        }
+        else
+        {
+            app.initSignalR()
         }
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
         tracker.set(kGAIScreenName, value: "Message Tab Screen.")
@@ -162,11 +196,17 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+    }
+    deinit {
         NotificationCenter.default.removeObserver(self)
-
     }
     func reloadDataOnly()
     {
+        self.imgError.isHidden = true
+        self.btnAgain.isHidden = true
+        self.lblError.isHidden = true
+        self.viewError.isHidden = true
+        
         self.stopAnimating()
         NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
         if app.buddyList != nil {
@@ -190,6 +230,7 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         self.tvmsg.reloadData()
     }
     func reloadTable(){
+        self.stopAnimating()
         refreshPage()
         reloadDataOnly()
     }
@@ -304,12 +345,9 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         else
         {
             
-            
             let chatDetail : MessageDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageDetails") as! MessageDetails
             chatDetail.currentBuddy = self.app.buddyList.Users[indexPath.row]
             chatDetail.senderId = String(sharedManager.currentUser.UserID)
-            app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(self.app.buddyList.Users[indexPath.row].ChatUserID)))
-            
             self.navigationController?.pushViewController(chatDetail, animated: true)
         }
     }

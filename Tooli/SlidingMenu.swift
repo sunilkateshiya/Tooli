@@ -12,7 +12,7 @@ import ObjectMapper
 import Toast_Swift
 import NVActivityIndicatorView
 import Kingfisher
-
+import SafariServices
 
 class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,NVActivityIndicatorViewable {
      @IBOutlet var tableview : UITableView?
@@ -64,6 +64,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     func refreshPage()
     {
+        self.stopAnimating()
        tableview?.reloadData()
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
@@ -91,7 +92,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
      
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           // Return the number of rows in the section.
-          return 11
+          return 13
      }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -155,7 +156,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             imgView.image = #imageLiteral(resourceName: "NMessage")
           }
           else if indexPath.row == 2 {
-             cell!.textLabel?.text = "   Job Center"
+             cell!.textLabel?.text = "   Job Centre"
              imgView.image = #imageLiteral(resourceName: "NSettings")
           }
             else if indexPath.row == 3
@@ -185,10 +186,18 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             imgView.image = #imageLiteral(resourceName: "NStatistics")
           }
           else if indexPath.row == 9 {
+            cell!.textLabel?.text = "   T & C"
+            imgView.image = #imageLiteral(resourceName: "NTerms")
+          }
+          else if indexPath.row == 10 {
+            cell!.textLabel?.text = "   Privacy Policy"
+            imgView.image = #imageLiteral(resourceName: "NPrivacy")
+          }
+          else if indexPath.row == 11 {
              cell!.textLabel?.text = ""
              imgView.image = nil
         }
-          else if indexPath.row == 10 {
+          else if indexPath.row == 12 {
             cell!.textLabel?.text = "   Log out"
             imgView.image = #imageLiteral(resourceName: "logout (1)")
         }
@@ -203,7 +212,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           //Present new view controller
         
-        if(indexPath.row==9)
+        if(indexPath.row==11)
         {
             return
         }
@@ -241,7 +250,24 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
           case 8:
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Statistics")
             break
+          case 9:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "PDFViewer")
+            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+            port.strUrl = "https://www.tooli.co.uk/Files/Document/Terms_Condition.pdf"
+            AppDelegate.sharedInstance().navigationController?.pushViewController(port, animated: true)
+            toggleSideMenuView()
+            break
           case 10:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "PDFViewer")
+            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+            port.strUrl = "https://www.tooli.co.uk/Files/Document/Privacy_Policy.pdf"
+            AppDelegate.sharedInstance().navigationController?.pushViewController(port, animated: true)
+            toggleSideMenuView()
+            break
+          case 11:
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Referrals")
+            break
+          case 12:
                callWSSignOut()
                 destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Login")
                break
@@ -252,27 +278,19 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
        
         if(indexPath.row == 1)
         {
-            let tab : CustomTabBarC = AppDelegate.sharedInstance().navigationController!.viewControllers[0] as! CustomTabBarC;
-            if  (AppDelegate.sharedInstance().navigationController!.viewControllers.count) > 1 {
-                AppDelegate.sharedInstance().navigationController!.popToRootViewController(animated: false)
-            }
-            if (tab.selectedIndex != 4){
-                tab.selectedIndex = 4;
-            }
+            let tabView:CustomTabBarC = mainStoryboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! CustomTabBarC
+            tabView.selectedIndex = 4
+            AppDelegate.sharedInstance().navigationController?.viewControllers = [tabView]
              toggleSideMenuView()
         }
         else if(indexPath.row == 2)
         {
-            let tab : CustomTabBarC = AppDelegate.sharedInstance().navigationController!.viewControllers[0] as! CustomTabBarC;
-            if  (AppDelegate.sharedInstance().navigationController!.viewControllers.count) > 1 {
-                AppDelegate.sharedInstance().navigationController!.popToRootViewController(animated: false)
-            }
-            if (tab.selectedIndex != 1){
-                tab.selectedIndex = 1;
-            }
+            let tabView:CustomTabBarC = mainStoryboard.instantiateViewController(withIdentifier: "CustomTabBarC") as! CustomTabBarC
+            tabView.selectedIndex = 1
+            AppDelegate.sharedInstance().navigationController?.viewControllers = [tabView]
             toggleSideMenuView()
         }
-        if indexPath.row != 9 && indexPath.row != 10 && indexPath.row != 1 && indexPath.row != 2 {
+        if indexPath.row != 9 && indexPath.row != 10 && indexPath.row != 11 && indexPath.row != 12 && indexPath.row != 1 && indexPath.row != 2 {
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }

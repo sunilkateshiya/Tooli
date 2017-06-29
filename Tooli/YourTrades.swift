@@ -87,8 +87,14 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         if (sharedManager.currentUser != nil) {
             self.txtAdderess.text = sharedManager.currentUser.StreetAddress
             self.txtPostcode.text = sharedManager.currentUser.Zipcode
-            self.slider.value = Float(Int(sharedManager.currentUser.DistanceRadius))
-           
+            if(Int(sharedManager.currentUser.DistanceRadius) < 10)
+            {
+                self.slider.value = Float(10)
+            }
+            else
+            {
+                self.slider.value = Float(Int(sharedManager.currentUser.DistanceRadius))
+            }
             self.postcode=sharedManager.currentUser.Zipcode
             self.city = sharedManager.currentUser.CityName
             
@@ -122,7 +128,6 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             
             self.tvskills.isHidden = false
             self.tvskills.reloadData()
-
         }
     }
     
@@ -137,10 +142,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             (JSONResponse) -> Void in
             
             self.sharedManager.masters = Mapper<Masters>().map(JSONObject: JSONResponse.rawValue)
-            
-            
             print(JSONResponse["status"].rawValue as! String)
-            
             if JSONResponse != nil {
                 
                 if JSONResponse["status"].rawString()! == "1"
@@ -153,7 +155,6 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                     self.stopAnimating()
                     self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
                 }
-                
             }
             
         }) {
@@ -162,8 +163,6 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
              
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -177,7 +176,6 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         for trade in  sharedManager.masters.DataList! {
             trades.append(trade.TradeCategoryName)
         }
-        
         
         ActionSheetStringPicker.show(withTitle: "Select Trade", rows: trades, initialSelection: 0, doneBlock: {
             picker, value, index in
@@ -242,7 +240,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SkillCell
         
-        cell.lblSkillName?.text = "Skills " +  "\(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceName)"
+        cell.lblSkillName?.text = "\(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceName)"
         if  selectedSkills .contains(String(sharedManager.masters.DataList![selectedTrade].ServiceList![indexPath.row].ServiceID)) {
             cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
         }
@@ -288,16 +286,19 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: true)
         autocompleteController.view.addSubview(header)
         
-        let filter = GMSAutocompleteFilter();
-        filter.type = GMSPlacesAutocompleteTypeFilter.city
-        
-        //autocompleteController.autocompleteFilter = filter
+        let filter = GMSAutocompleteFilter()
+        filter.country = "UK"
+        autocompleteController.autocompleteFilter = filter
         
         autocompleteController.navigationController?.setToolbarHidden(false, animated: true)
         present(autocompleteController, animated: true, completion: nil)
     }
 
     @IBAction func valueChanged (sender : UISlider) {
+        if(sender.value < 10)
+        {
+            sender.value = 10
+        }
         self.lblDistance.text = "\(Int(sender.value)) Miles"
     }
     
@@ -309,7 +310,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         var isValid : Bool = true
         if txtPostcode.text == "" {
             isValid = false
-            self.view.makeToast("Please enter valid postcode", duration: 3, position: .center)
+            self.view.makeToast("Please enter a valid postcode", duration: 3, position: .center)
         }
         else if txtAdderess.text == "" {
             isValid = false
@@ -328,7 +329,7 @@ class YourTrades: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             param["FullAddress"] = self.txtAdderess.text
             param["CityName"] = self.city
             param["StreetAddress"] = self.txtAdderess.text
-            param["Zipcode"] = self.postcode
+            param["Zipcode"] = self.txtPostcode.text
             param["DistanceRadius"] = Int(self.slider.value)
             param["Latitude"] = self.lat
             param["Longitude"] = self.long

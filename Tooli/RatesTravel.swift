@@ -123,18 +123,14 @@ class RatesTravel: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBAction func btnNext(_ sender: Any) {
         var isValid = true;
-        if txtfrom.text == "" {
-            isValid = false
-            self.view.makeToast("Please enter valid Hourly rates", duration: 3, position: .bottom)
-        }
-        else if txtuntil.text == "" {
-            isValid = false
-            self.view.makeToast("Please enter valid Dayily rates", duration: 3, position: .bottom)
-        }
-        else if Int(txtuntil.text!)! < Int(txtfrom.text!)!
+        if(txtfrom.text != "" && txtuntil.text != "")
         {
-            isValid = false
-            self.view.makeToast("The hourly rates should be smaller than the day rates!", duration: 3, position: .bottom)
+            if Int(txtuntil.text!)! < Int(txtfrom.text!)!
+            {
+                isValid = false
+                self.view.makeToast("The hourly rates should be smaller than the day rates!", duration: 3, position: .bottom)
+                return
+            }
         }
         if isValid {
             self.startAnimating()

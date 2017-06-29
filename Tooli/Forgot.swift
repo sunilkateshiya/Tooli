@@ -33,7 +33,6 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
         
         if validflag == 0 {
             
-            
             self.startAnimating()
             let param = ["EmailID": self.txtemail.text!,
                         ] as [String : Any]

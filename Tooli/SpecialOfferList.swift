@@ -89,7 +89,7 @@ class SpecialOfferList: UIViewController,UITableViewDelegate,UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
     
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SpecialOfferCell
-            cell.lblCompanyDescription.text = self.speciallist?.OfferList![indexPath.row].Description as String!
+         cell.lblCompanyDescription.text = self.speciallist?.OfferList![indexPath.row].Description as String!
          //   cell.lblWork.text = self.speciallist?.OfferList![indexPath.row].Title as String!
         
         
@@ -99,9 +99,9 @@ class SpecialOfferList: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         let myAttrString = NSMutableAttributedString(string: myString)
         myAttrString.addAttributes(anotherAttribute, range: myRange)
-        cell.lblWork.attributedText = myAttrString
+        cell.lblCompanyName.attributedText = myAttrString
         
-            cell.lblCompanyName.text = self.speciallist?.OfferList![indexPath.row].CompanyName
+            cell.lblWork.text = self.speciallist?.OfferList![indexPath.row].CompanyName
             cell.btnfav!.tag=indexPath.row
             cell.btnfav?.addTarget(self, action: #selector(SpecialOfferList.btnfavSpecialOffer(btn:)), for: UIControlEvents.touchUpInside)
             if self.speciallist?.OfferList![indexPath.row].IsSaved == true {
@@ -112,7 +112,7 @@ class SpecialOfferList: UIViewController,UITableViewDelegate,UITableViewDataSour
             }
             
             let imgURL = self.speciallist?.OfferList![indexPath.row].ProfileImageLink as String!
-            cell.lblRedirectLink.text = self.speciallist?.OfferList![indexPath.row].RedirectWebsitelink
+           // cell.lblRedirectLink.text = self.speciallist?.OfferList![indexPath.row].RedirectWebsitelink
             let url = URL(string: imgURL!)
             cell.ImgProfilepic.kf.indicatorType = .activity
             cell.ImgProfilepic.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
@@ -133,18 +133,16 @@ class SpecialOfferList: UIViewController,UITableViewDelegate,UITableViewDataSour
         let imgURL1 = self.speciallist?.OfferList![indexPath.row].OfferImageLink as String!
             
         let url1 = URL(string: imgURL1!)
-
-        
-        cell.ImgCompanyPic.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
-            if(image != nil)
-            {
-                cell.setCustomImage(image : image!)
-                if(cell.isReload)
-                {
-                    cell.isReload = false
-                    tableView.reloadData()
-                }
-            }
+        cell.ImgProfilepic.kf.setImage(with: url1, placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (image:Image?, error:NSError?, cache:CacheType, url:URL?) in
+//            if(image != nil)
+//            {
+//                cell.setCustomImage(image : image!)
+//                if(cell.isReload)
+//                {
+//                    cell.isReload = false
+//                    tableView.reloadData()
+//                }
+//            }
            
         })
 
@@ -166,18 +164,32 @@ class SpecialOfferList: UIViewController,UITableViewDelegate,UITableViewDataSour
             vc.isNotification = true
             self.navigationController?.pushViewController(vc, animated: true)
     }
+    func removeSpecialCharsFromString(text: String) -> String {
+        let okayChars : Set<Character> =
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890+-".characters)
+        return String(text.characters.filter {okayChars.contains($0) })
+    }
     func openImageLink(_ sender:UIButton)
     {
-        let openLink = NSURL(string : (self.speciallist?.OfferList![sender.tag].RedirectWebsitelink)!)
-        
-        if #available(iOS 9.0, *) {
-            let svc = SFSafariViewController(url: openLink as! URL)
-            present(svc, animated: true, completion: nil)
-        } else {
-            let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-            port.strUrl = (self.speciallist?.OfferList![sender.tag].RedirectWebsitelink)!
-            self.navigationController?.pushViewController(port, animated: true)
-            
+         let openLink = NSURL(string : (self.speciallist?.OfferList![sender.tag].RedirectWebsitelink)!)
+        if((self.speciallist?.OfferList![sender.tag].RedirectWebsitelink)! != "")
+        {
+            if(UIApplication.shared.canOpenURL(URL(string: "tel://\(removeSpecialCharsFromString(text: (self.speciallist?.OfferList![sender.tag].RedirectWebsitelink)!))")!))
+            {
+                if #available(iOS 9.0, *) {
+                    let svc = SFSafariViewController(url: openLink as! URL)
+                    present(svc, animated: true, completion: nil)
+                } else {
+                    let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
+                    port.strUrl = (self.speciallist?.OfferList![sender.tag].RedirectWebsitelink)!
+                    self.navigationController?.pushViewController(port, animated: true)
+                    
+                }
+            }
+            else
+            {
+                self.view.makeToast("RedirectWebsitelink not valid.", duration: 3, position: .bottom)
+            }
         }
     }
     func onLoadDetail(){

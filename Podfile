@@ -6,6 +6,7 @@ target 'Tooli' do
   use_frameworks!
 
 platform :ios, '8.0'
+
 pod 'Alamofire'
 pod 'AlamofireObjectMapper'
 pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
