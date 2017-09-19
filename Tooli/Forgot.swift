@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 10/02/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -18,11 +18,6 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
 
         // Do any additional setup after loading the view.
     }
-    @IBAction func BtnBackMainScreen(_ sender: UIButton)
-    {
-        AppDelegate.sharedInstance().moveToDashboard()
-    }
-    
     @IBAction func btnForgot(_ sender: Any) {
         
         var validflag = 0
@@ -43,22 +38,20 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
                 
                 self.stopAnimating()
 
-                print(JSONResponse["status"].rawValue as! String)
+                print(JSONResponse["Status"].rawValue)
                 
                 if JSONResponse != nil{
                     
-                    self.view.makeToast(JSONResponse["message"].rawValue as! String, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["Message"].rawValue as! String, duration: 3, position: .bottom)
                 }
                 
             }) {
                 (error) -> Void in
                  
                 self.stopAnimating()
-                self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+                self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
             }
-            
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,15 +70,4 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
         guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

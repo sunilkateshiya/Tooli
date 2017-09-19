@@ -2,8 +2,8 @@
 //  CreditCardFormatter.swift
 //  SMUJ
 //
-//  Created by Moin Shirazi on 28/12/16.
-//  Copyright © 2016 Moin Shirazi. All rights reserved.
+//  Created by impero on 28/12/16.
+//  Copyright © 2016 impero. All rights reserved.
 //
 
 extension String {

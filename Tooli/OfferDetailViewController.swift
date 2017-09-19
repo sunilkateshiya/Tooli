@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 13/02/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -13,6 +13,7 @@ import SafariServices
 
 class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
 {
+    @IBOutlet weak var btnOpenOffer: UIButton!
     @IBOutlet weak var buttomConstraints: NSLayoutConstraint!
     @IBOutlet weak var lblCatagory: UILabel!
     @IBOutlet weak var ViewWidthConstrain: NSLayoutConstraint!
@@ -25,23 +26,17 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     @IBOutlet weak var lblDiscription: UILabel!
     @IBOutlet weak var ScrollView: UIScrollView!
     var sharedManager : Globals = Globals.sharedInstance
-    var OfferDetail:OfferListM!
+    var OfferDetail:OfferViewM = OfferViewM()
     var OfferId = 0
-     @IBOutlet weak var btnSave: UIButton!
-    
+    @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var imgOffer: UIImageView!
-
     
     var isNotification:Bool =  false
-    
-    var OfferDetail1:OfferDetailM!
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
         self.ViewWidthConstrain.constant = self.view.frame.width
-        
         if(isNotification)
         {
             getSpecialOfferDetail()
@@ -56,22 +51,19 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
 
     func fillDatatoConttroller()
     {
-         OfferId = self.OfferDetail.PrimaryID
+        OfferId = self.OfferDetail.OfferID
         lblcompany.text = self.OfferDetail.CompanyName as String!
         lblstart.text = self.OfferDetail.PriceTag as String!
-        lblfinish.text = self.OfferDetail.AddedOn as String!
-        lblwork.text = "\(self.OfferDetail.CompanyTradeCategoryName)"
+        lblfinish.text = self.OfferDetail.TimeCaption
+        lblwork.text = "\(self.OfferDetail.TradeName)"
         lblCatagory.text = self.OfferDetail.Title as String!
         //        //  cell.lbldatetime = self.
-        
         let imgURL = self.OfferDetail.ProfileImageLink as String!
-        
         let url = URL(string: imgURL!)
         imguser.kf.indicatorType = .activity
         imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-        
-        
-        let imgURL1 = self.OfferDetail.OfferImageLink as String!
+    
+        let imgURL1 = self.OfferDetail.ImageLink as String!
         let url1 = URL(string: imgURL1!)
         imgOffer.kf.indicatorType = .activity
         imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
@@ -85,31 +77,18 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
             btnSave.isSelected = false
         }
         lblDiscription.text = self.OfferDetail.Description
-    
+
+        if(self.OfferDetail.Website != "")
+        {
+             btnOpenOffer.isHidden = false
+        }
     }
     func lblNamedTaped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let lbl = tapGestureRecognizer.view as! UILabel
-        if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail.RedirectLink))!))
-        {
-            let openLink = NSURL(string : (self.OfferDetail.RedirectLink))
-            
-            if #available(iOS 9.0, *) {
-                let svc = SFSafariViewController(url: openLink as! URL)
-                present(svc, animated: true, completion: nil)
-            } else {
-                let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-                port.strUrl = (self.OfferDetail.RedirectLink)
-                self.navigationController?.pushViewController(port, animated: true)
-                
-            }
-        }
-        else
-        {
-            return
-        }
+
     }
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -130,36 +109,25 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     }
     func getSpecialOfferDetail()
     {
-        
         self.startAnimating()
-        
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "OfferID":OfferId] as [String : Any]
+        let param = ["OfferID":OfferId] as [String : Any]
         
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.OfferInfo, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.OfferDetail, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
         
             self.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-             self.sharedManager.OfferDetail1 = Mapper<OfferDetailM>().map(JSONObject: JSONResponse.rawValue)
-            
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.OfferDetail1 = self.sharedManager.OfferDetail1
-                   self.fillDatatoConttrollerFromApi()
-                }
-                else
-                {
-                     _ = self.navigationController?.popViewController(animated: true)
-                    AppDelegate.sharedInstance().window?.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
+            print(JSONResponse["Status"].rawValue)
+            if JSONResponse["Status"].int == 1
+            {
+                self.OfferDetail = Mapper<OfferViewM>().map(JSONObject: JSONResponse["Result"].rawValue)!
+                self.fillDatatoConttrollerFromApi()
             }
-            
+            else
+            {
+                _ = self.navigationController?.popViewController(animated: true)
+                AppDelegate.sharedInstance().window?.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .bottom)
+            }
         }) {
             (error) -> Void in
              
@@ -173,108 +141,96 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     {
         if(isNotification)
         {
-            if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail1.RedirectLink))!))
+            guard let  url = URL(string: (self.OfferDetail.Website)) else
             {
-                let openLink = NSURL(string : (self.OfferDetail1.RedirectLink))
-                
+                self.view.makeToast("Offer link is not available, for more details please contact \(self.OfferDetail.CompanyName)", duration: 3, position: .bottom)
+                return
+            }
+            if(UIApplication.shared.canOpenURL(url))
+            {
                 if #available(iOS 9.0, *) {
-                    let svc = SFSafariViewController(url: openLink as! URL)
+                    let svc = SFSafariViewController(url: url)
                     present(svc, animated: true, completion: nil)
                 } else {
                     let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-                    port.strUrl = (self.OfferDetail1.RedirectLink)
+                    port.strUrl = (self.OfferDetail.Website)
                     self.navigationController?.pushViewController(port, animated: true)
-                    
                 }
             }
             else
             {
-                return
+                self.view.makeToast("Offer link is not available, for more details please contact \(self.OfferDetail.CompanyName)", duration: 3, position: .bottom)
             }
         }
         else
         {
-            if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail.RedirectLink))!))
+            guard let  url = URL(string: (self.OfferDetail.ReferralLink)) else
             {
-                let openLink = NSURL(string : (self.OfferDetail.RedirectLink))
-                
+                self.view.makeToast("Offer link is not available, for more details please contact \(self.OfferDetail.CompanyName)", duration: 3, position: .bottom)
+                return
+            }
+            if(UIApplication.shared.canOpenURL(url))
+            {
                 if #available(iOS 9.0, *) {
-                    let svc = SFSafariViewController(url: openLink as! URL)
+                    let svc = SFSafariViewController(url: url)
                     present(svc, animated: true, completion: nil)
                 } else {
                     let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-                    port.strUrl = (self.OfferDetail.RedirectLink)
+                    port.strUrl = (self.OfferDetail.ReferralLink)
                     self.navigationController?.pushViewController(port, animated: true)
-                    
                 }
             }
             else
             {
-                return
+                self.view.makeToast("Offer link is not available, for more details please contact \(self.OfferDetail.CompanyName)", duration: 3, position: .bottom)
             }
-            
         }
-        
     }
-    @IBAction func btnfavSpecialOffer(btn : UIButton)  {
-        
+    
+    @IBAction func btnSaveAsFavorites(_ sender : UIButton)
+    {
         self.startAnimating()
-        
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "PrimaryID":OfferId ?? "",
-                     "PageType":"5"] as [String : Any]
-        
+        let param = ["TablePrimaryID":"\(OfferId)",
+            "PageType":2] as [String : Any]
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.SaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
-            
             self.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                     btn.isSelected = !btn.isSelected
-                }
-                else
-                {
-                    
-                }
+            print(JSONResponse["Status"].rawValue)
+            if JSONResponse["Status"].int == 1
+            {
+                sender.isSelected = !sender.isSelected
             }
-            
+            self.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .center)
         }) {
             (error) -> Void in
-             
             self.stopAnimating()
-            
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
+
     func fillDatatoConttrollerFromApi()
     {
-        OfferId = self.OfferDetail1.PrimaryID
-        lblcompany.text = self.OfferDetail1.CompanyName as String!
-        lblstart.text = self.OfferDetail1.PriceTag as String!
-        lblfinish.text = self.OfferDetail1.AddedOn as String!
-        lblwork.text = self.OfferDetail1.CompanyTradeCategoryName as String!
-        lblCatagory.text = self.OfferDetail1.Title as String!
+        OfferId = self.OfferDetail.OfferID
+        lblcompany.text = self.OfferDetail.CompanyName as String!
+        lblstart.text = self.OfferDetail.PriceTag as String!
+     //   lblfinish.text = self.OfferDetail.AddedOn as String!
+        lblwork.text = self.OfferDetail.OfferTradeName as String!
+        lblCatagory.text = self.OfferDetail.Title as String!
         //        //  cell.lbldatetime = self.
         
-        let imgURL = self.OfferDetail1.CompanyImageLink as String!
+        let imgURL = self.OfferDetail.ProfileImageLink as String!
         
         let url = URL(string: imgURL!)
         imguser.kf.indicatorType = .activity
         imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         
         
-        let imgURL1 = self.OfferDetail1.OfferImageLink as String!
+        let imgURL1 = self.OfferDetail.ImageLink as String!
         let url1 = URL(string: imgURL1!)
         imgOffer.kf.indicatorType = .activity
         imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-        if(self.OfferDetail1.IsSaved)
+        if(self.OfferDetail.IsSaved)
         {
             btnSave.isSelected = true
         }
@@ -282,23 +238,36 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         {
             btnSave.isSelected = false
         }
-        lblDiscription.text = self.OfferDetail1.Description
+        lblDiscription.text = self.OfferDetail.Description
+        
+        guard let url10 = URL(string: (self.OfferDetail.Website)) else
+        {
+            btnOpenOffer.isHidden = true
+            return
+        }
+        if(UIApplication.shared.canOpenURL(url10))
+        {
+            btnOpenOffer.isHidden = false
+        }
+        else
+        {
+            btnOpenOffer.isHidden = true
+        }
     }
     func lblNamedTaped1(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let lbl = tapGestureRecognizer.view as! UILabel
-        if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail1.RedirectLink))!))
+        _ = tapGestureRecognizer.view as! UILabel
+        if(UIApplication.shared.canOpenURL(URL(string: (self.OfferDetail.Website))!))
         {
-            let openLink = NSURL(string : (self.OfferDetail1.RedirectLink))
+            let openLink = NSURL(string : (self.OfferDetail.Website))
             
             if #available(iOS 9.0, *) {
-                let svc = SFSafariViewController(url: openLink as! URL)
+                let svc = SFSafariViewController(url: openLink! as URL)
                 present(svc, animated: true, completion: nil)
             } else {
                 let port : PDFViewer = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PDFViewer") as! PDFViewer
-                port.strUrl = (self.OfferDetail1.RedirectLink)
+                port.strUrl = (self.OfferDetail.Website)
                 self.navigationController?.pushViewController(port, animated: true)
-                
             }
         }
         else

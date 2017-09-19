@@ -46,5 +46,8 @@
     self.webViewController.title = self.title;
     self.navigationBar.tintColor = self.barsTintColor;
 }
-
+-(void)doneButtonClicked :(UIButton*) sender
+{
+    
+}
 @end

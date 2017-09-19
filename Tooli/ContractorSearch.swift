@@ -3,9 +3,13 @@
 //  Tooli
 //
 //  Created by Impero IT on 15/02/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
+//b76 2sx - southport
 
+//brimgram
+
+//southport
 import UIKit
 import Kingfisher
 import ActionSheetPicker_3_0
@@ -26,76 +30,74 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
         self.imgError.isHidden = true
         self.btnAgain.isHidden = true
         self.lblError.isHidden = true
-        getMasters() 
+        GetAllDataFromServer()
     }
-
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     let sharedManager : Globals = Globals.sharedInstance
     var isTradeSelected : Bool = false;
-    var selectedTrade = -1;
-    var selectedTradeIndex = -1;
-    var selectedSkills : [String] = [];
-    var selectedCertificate : [String] = [];
     var integerCount = NSInteger()
     var integerCountCertificate = NSInteger()
     var postcode : String = ""
+    
+    var JobRoleIdList:[Int] = []
+    var TradeIdList:[Int] = []
+    var CertificateIdList : [Int] = []
+    var SectorIdList : [Int] = []
+    var coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D()
+    
+    var DataList:GetDefaultList = GetDefaultList()
+    
+    @IBOutlet weak var TblJobRole: UITableView!
+    
+    @IBOutlet weak var TblTrade: UITableView!
     @IBOutlet var txtPostCode:UITextField!
-    @IBOutlet weak var TblSelectSkill: UITableView!
-    @IBOutlet weak var TblSelectCertificate: UITableView!
-    @IBOutlet weak var SkillHeightConstraints: NSLayoutConstraint!
+    @IBOutlet weak var TblSectoreSkill: UITableView!
+    @IBOutlet weak var TblCertificate: UITableView!
+    
+    @IBOutlet weak var JobRoleHeightConstraints: NSLayoutConstraint!
+    
+    @IBOutlet weak var TradeHeightConstraints: NSLayoutConstraint!
     @IBOutlet weak var CertificateHeightConstraints: NSLayoutConstraint!
+    @IBOutlet weak var SectoreHeightConstraints: NSLayoutConstraint!
     @IBOutlet weak var BtnSkill: UIButton!
     @IBOutlet weak var BtnCertificate: UIButton!
     @IBOutlet weak var BtnTrade: UIButton!
+    @IBOutlet weak var BtnJobRole: UIButton!
+    var isVisible0 : Bool = false
+    var isVisible : Bool = false
+    var isVisible1 : Bool = false
+    var isVisible2 : Bool = false
     
-    var isVisible : Bool = false;
-      var isVisible1 : Bool = false;
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        getMasters()
-        self.TblSelectSkill.allowsMultipleSelection = true
-        self.TblSelectCertificate.allowsMultipleSelection = true
         
-        self.BtnSkill.isUserInteractionEnabled = false
-        
-        self.BtnCertificate.isUserInteractionEnabled = false
-        
-        SkillHeightConstraints.constant = 0
-        CertificateHeightConstraints.constant = 0
         bottomConstraint.constant = 20
+
+        JobRoleHeightConstraints.constant = 0
+        CertificateHeightConstraints.constant = 0
+        TradeHeightConstraints.constant = 0
+        SectoreHeightConstraints.constant = 0
+        JobRoleIdList = []
+        TradeIdList = []
+        SectorIdList = []
+        CertificateIdList = []
         
-        TblSelectSkill.delegate = self
-        TblSelectSkill.dataSource = self
-        TblSelectSkill.tableFooterView = UIView()
         
-        TblSelectCertificate.delegate = self
-        TblSelectCertificate.dataSource = self
-        TblSelectCertificate.tableFooterView = UIView()
+        self.BtnJobRole.setTitle("Select job-role", for: .normal);
+        self.BtnJobRole.setTitleColor(Color.black, for: .normal)
         
-        self.BtnTrade.setTitle("Select a trade" as String,for: .normal)
-        
-        selectedSkills = []
-        selectedCertificate = []
-        
-        for skill in sharedManager.currentUser.ServiceList! {
-            selectedSkills.append(String(skill.ServiceID))
-        }
-        for Certificate in sharedManager.currentUser.CertificateFileList!
-        {
-            selectedCertificate.append(String(Certificate.CertificateCategoryID))
-        }
-        
-//        self.BtnTrade.setTitleColor(Color.black, for: .normal)
-        
-        self.BtnSkill.setTitle("Skills ", for: .normal);
+        self.BtnSkill.setTitle("Select sector", for: .normal);
         self.BtnSkill.setTitleColor(Color.black, for: .normal)
         
-        self.BtnCertificate.setTitle("Certificate ", for: .normal);
+        self.BtnCertificate.setTitle("Select certificate ", for: .normal);
         self.BtnCertificate.setTitleColor(Color.black, for: .normal)
-
         
+        self.BtnTrade.setTitle("Select trade ", for: .normal);
+        self.BtnTrade.setTitleColor(Color.black, for: .normal)
+
+        GetAllDataFromServer()
         // Do any additional setup after loading the view.
     }
 
@@ -130,9 +132,10 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
     @IBAction func btnApplyFilterAction(_ sender: UIButton)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ContractorResult") as! ContractorResult
-        vc.selectedCertificate = selectedCertificate
-        vc.selectedSkills = selectedSkills
-        vc.selectedTrade = self.selectedTrade
+        vc.TradeIdList = TradeIdList
+        vc.CertificateIdList = CertificateIdList
+        vc.SectorIdList = self.SectorIdList
+        vc.coordinate = self.coordinate
         vc.postcode = txtPostCode.text!
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -143,176 +146,120 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
         guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
-    func getMasters(){
-        // Z_MasterDataList
-        
-         self.viewError.isHidden = false
-        self.startAnimating()
-        let param = [:] as [String : Any]
-        
-        print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.Z_MasterDataList, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
-            (JSONResponse) -> Void in
-            
-            self.sharedManager.masters = Mapper<Masters>().map(JSONObject: JSONResponse.rawValue)
-            
-        
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil {
-                self.viewError.isHidden = true
-                self.imgError.isHidden = true
-                self.btnAgain.isHidden = true
-                self.lblError.isHidden = true
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.stopAnimating()
-                    // Setting Trade Button
-                    var i = 0;
-                    var index = 0;
-                    if (self.sharedManager.masters != nil) {
-                        for trades in self.sharedManager.masters.DataList! {
-                            if trades.PrimaryID == self.sharedManager.currentUser.TradeCategoryID {
-                                index = i
-                            }
-                            i = i + 1;
-                        }
-                    }
-                    if self.isVisible == true
-                    {
-                        self.integerCount = (self.sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList?.count)! as NSInteger
-                        let One = self.integerCount * 44 as NSInteger
-                        self.SkillHeightConstraints.constant = CGFloat(One)
-                    }
-                    if self.isVisible1 == true
-                    {
-                        self.integerCountCertificate = (self.sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList?.count)! as NSInteger
-                        let Two = self.integerCountCertificate * 44 as NSInteger
-                        self.CertificateHeightConstraints.constant = CGFloat(Two)
-                    }
-                    
-                    self.selectedSkills = []
-                    self.selectedCertificate = []
-                    self.TblSelectSkill.reloadData()
-                    self.TblSelectCertificate.reloadData()
-                }
-                else
-                {
-                    self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
-                
-            }
-            
-        }) {
-            (error) -> Void in
-            self.stopAnimating()
-             
-            self.viewError.isHidden = false
-            self.imgError.isHidden = false
-            self.btnAgain.isHidden = false
-            self.lblError.isHidden = false
-           // self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
-        }
-    }
-    @IBAction func BtnTradeTapped(_ sender: UIButton) {
     
-        var trades : [String] = []
-        trades.append("")
-        for trade in  sharedManager.masters.DataList! {
-            trades.append(trade.TradeCategoryName)
+    @IBAction func BtnJobRoleTapped(_ sender: UIButton)
+    {
+        if isVisible0 == true
+        {
+            self.JobRoleHeightConstraints.constant = 0
+            isVisible0 = false
         }
-        
-        
-        ActionSheetStringPicker.show(withTitle: "Select Trade", rows: trades, initialSelection: 0, doneBlock: {
-            picker, value, index in
+        else
+        {
+            self.TradeHeightConstraints.constant = 0
+            isVisible = false
+            self.SectoreHeightConstraints.constant = 0
+            isVisible1 = false
+            self.CertificateHeightConstraints.constant = 0
+            isVisible2 = false
             
-            print("value = \(value)")
-            self.selectedTradeIndex = value-1
-            if(self.selectedTradeIndex != -1)
+            isVisible0 = true
+            if(DataList.Result.JobRoleList.count > 5)
             {
-                self.selectedTrade = self.sharedManager.masters.DataList![self.selectedTradeIndex].PrimaryID
-                // Reload table
-                self.BtnSkill.isUserInteractionEnabled = true
-                self.BtnCertificate.isUserInteractionEnabled = true
-                if self.isVisible == true
-                {
-                    self.integerCount = (self.sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList?.count)! as NSInteger
-                    let One = self.integerCount * 44 as NSInteger
-                    self.SkillHeightConstraints.constant = CGFloat(One)
-                }
-                if self.isVisible1 == true
-                {
-                    self.integerCountCertificate = (self.sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList?.count)! as NSInteger
-                    let Two = self.integerCountCertificate * 44 as NSInteger
-                    self.CertificateHeightConstraints.constant = CGFloat(Two)
-                }
-                self.BtnTrade.setTitle(String(describing: index!), for: UIControlState.normal)
-                self.BtnTrade.setTitleColor(Color.black, for: .normal)
+                self.JobRoleHeightConstraints.constant = (self.view.frame.size.height/17.62)*5
             }
             else
             {
-                 self.selectedTrade = -1
-                self.BtnTrade.setTitle("Select a trade" as String,for: .normal)
-                self.BtnTrade.setTitleColor(Color.lightGray, for: .normal)
-                
-                 self.SkillHeightConstraints.constant = CGFloat(0)
-                self.CertificateHeightConstraints.constant = CGFloat(0)
-                self.selectedSkills = []
-                self.selectedCertificate = []
+                self.JobRoleHeightConstraints.constant = (self.view.frame.size.height/17.62)*CGFloat(DataList.Result.JobRoleList.count)
             }
-
-            self.TblSelectSkill.reloadData()
-            self.TblSelectCertificate.reloadData()
+        }
+        TblJobRole.reloadData()
+    }
+    
+    @IBAction func BtnTradeTapped(_ sender: UIButton)
+    {
+        if isVisible == true
+        {
+            self.TradeHeightConstraints.constant = 0
+            isVisible = false
+        }
+        else
+        {
+            self.JobRoleHeightConstraints.constant = 0
+            isVisible0 = false
+            self.SectoreHeightConstraints.constant = 0
+            isVisible1 = false
+            self.CertificateHeightConstraints.constant = 0
+            isVisible2 = false
             
-           
-            print("index = \(index!)")
-            print("picker = \(picker)")
-            return
-        }, cancel: { ActionStringCancelBlock in return }, origin: sender)
-
+            isVisible = true
+            if(DataList.Result.TradeList.count > 5)
+            {
+                self.TradeHeightConstraints.constant = (self.view.frame.size.height/17.62)*5
+            }
+            else
+            {
+                self.TradeHeightConstraints.constant = (self.view.frame.size.height/17.62)*CGFloat(DataList.Result.TradeList.count)
+            }
+        }
+         TblTrade.reloadData()
     }
     @IBAction func BtnSkillTapped(_ sender: UIButton)
     {
-        if isVisible == true {
-            self.SkillHeightConstraints.constant = 0
-            isVisible = false
+        if isVisible1 == true
+        {
+            self.SectoreHeightConstraints.constant = 0
+            isVisible1 = false
         }
         else
         {
+            self.JobRoleHeightConstraints.constant = 0
+            isVisible0 = false
             self.CertificateHeightConstraints.constant = 0
-            isVisible1 = false
-            if(self.selectedTradeIndex != -1)
+            isVisible2 = false
+            self.TradeHeightConstraints.constant = 0
+            isVisible = false
+            
+            isVisible1 = true
+            if(DataList.Result.SectorList.count > 5)
             {
-                self.integerCount = (self.sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList?.count)! as NSInteger
-                let One = self.integerCount * 44 as NSInteger
-                self.SkillHeightConstraints.constant = CGFloat(One)
-                isVisible = true
+                self.SectoreHeightConstraints.constant = (self.view.frame.size.height/17.62)*5
+            }
+            else
+            {
+                self.SectoreHeightConstraints.constant = (self.view.frame.size.height/17.62)*CGFloat(DataList.Result.SectorList.count)
             }
         }
-        
+         TblSectoreSkill.reloadData()
     }
     @IBAction func BtnCertificateTapped(_ sender: UIButton)
     {
-    
-        if isVisible1 == true {
+        if isVisible2 == true
+        {
             self.CertificateHeightConstraints.constant = 0
-            isVisible1 = false
+            isVisible2 = false
         }
         else
         {
-            self.SkillHeightConstraints.constant = 0
+            self.JobRoleHeightConstraints.constant = 0
+            isVisible0 = false
+            self.TradeHeightConstraints.constant = 0
             isVisible = false
-            if(self.selectedTradeIndex != -1)
-            {
-                self.integerCountCertificate = (self.sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList?.count)! as NSInteger
-                let Two = self.integerCountCertificate * 44 as NSInteger
-                self.CertificateHeightConstraints.constant = CGFloat(Two)
-                isVisible1 = true
-            }
+            self.SectoreHeightConstraints.constant = 0
+            isVisible1 = false
+
             
+            isVisible2 = true
+            if(DataList.Result.CertificateList.count > 5)
+            {
+                self.CertificateHeightConstraints.constant = (self.view.frame.size.height/17.62)*5
+            }
+            else
+            {
+                self.CertificateHeightConstraints.constant = (self.view.frame.size.height/17.62)*CGFloat(DataList.Result.CertificateList.count)
+            }
         }
-        
+        TblCertificate.reloadData()
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
@@ -320,136 +267,176 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        if(self.selectedTradeIndex != -1)
+        if(TblTrade == tableView)
         {
-            if(tableView  == TblSelectSkill)
+           return DataList.Result.TradeList.count
+        }
+        else if(TblJobRole == tableView)
+        {
+            return DataList.Result.JobRoleList.count
+        }
+        else if(TblSectoreSkill == tableView)
+        {
+            return DataList.Result.SectorList.count
+        }
+        else
+        {
+            return DataList.Result.CertificateList.count
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return self.view.frame.size.height/17.62
+    }
+    func GetAllDataFromServer()
+    {
+        self.startAnimating()
+        AFWrapper.requestGETURL(Constants.URLS.GetDefaultList, success: { (JSONResponse) in
+            self.stopAnimating()
+            if JSONResponse["Status"].int == 1
             {
-                guard ((sharedManager.masters) != nil) else {
-                    return 0
-                }
-                
-                return  (sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList?.count)!
+                self.DataList = Mapper<GetDefaultList>().map(JSONObject: JSONResponse.rawValue)!
+                self.TblSectoreSkill.reloadData()
+                self.TblTrade.reloadData()
+                self.TblCertificate.reloadData()
             }
             else
             {
-                guard ((sharedManager.masters) != nil) else {
-                    return 0
-                }
-                
-                return  (sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList?.count)!
+                self.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .center)
             }
-        }
-        else
-        {
-         return 0
+        }) { (error) in
+            self.stopAnimating()
+            
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        if(tableView  == TblSelectSkill)
+        if(tableView  == TblTrade)
         {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SkillCell
-            
-            cell.lblSkillName?.text = "\(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceName)"
-            if  selectedSkills .contains(String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID)) {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SelctionCell
+            cell.lblName.text = DataList.Result.TradeList[indexPath.row].TradeName
+            if(TradeIdList.contains(DataList.Result.TradeList[indexPath.row].TradeID))
+            {
+                cell.btnSelction.isSelected = true
             }
-            else {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+            else
+            {
+                cell.btnSelction.isSelected = false
             }
-            
-            
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            cell.selectionStyle = .none // to prevent cells from being "highlighted"
+            cell.btnSelction.tag = indexPath.row
+            cell.btnSelction.addTarget(self, action: #selector(btnTradeSelctionAction(_:)), for: UIControlEvents.touchUpInside)
+            return cell
+        }
+        else if(tableView  == TblJobRole)
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SelctionCell
+            cell.lblName.text = DataList.Result.JobRoleList[indexPath.row].JobRoleName
+            if(JobRoleIdList.contains(DataList.Result.JobRoleList[indexPath.row].JobRoleID))
+            {
+                cell.btnSelction.isSelected = true
+            }
+            else
+            {
+                cell.btnSelction.isSelected = false
+            }
+            cell.btnSelction.tag = indexPath.row
+            cell.btnSelction.addTarget(self, action: #selector(btnJobRoleSelctionAction(_:)), for: UIControlEvents.touchUpInside)
+            return cell
+        }
+        else if(tableView  == TblSectoreSkill)
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SelctionCell
+            cell.lblName.text = DataList.Result.SectorList[indexPath.row].SectorName
+            if(SectorIdList.contains(DataList.Result.SectorList[indexPath.row].SectorID))
+            {
+                cell.btnSelction.isSelected = true
+            }
+            else
+            {
+                cell.btnSelction.isSelected = false
+            }
+            cell.btnSelction.tag = indexPath.row
+            cell.btnSelction.addTarget(self, action: #selector(btnSectoreSelctionAction(_:)), for: UIControlEvents.touchUpInside)
             return cell
         }
         else
         {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SkillCell
-            
-            cell.lblSkillName?.text = "\(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryName)"
-            if  selectedCertificate .contains(String(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryID)) {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SelctionCell
+            cell.lblName.text = DataList.Result.CertificateList[indexPath.row].CertificateName
+            if(CertificateIdList.contains(DataList.Result.CertificateList[indexPath.row].CertificateID))
+            {
+                cell.btnSelction.isSelected = true
             }
-            else {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
+            else
+            {
+                cell.btnSelction.isSelected = false
             }
-            
-            
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            cell.selectionStyle = .none // to prevent cells from being "highlighted"
+            cell.btnSelction.tag = indexPath.row
+            cell.btnSelction.addTarget(self, action: #selector(btnCertificateSelctionAction(_:)), for: UIControlEvents.touchUpInside)
             return cell
         }
+    }
+    func btnTradeSelctionAction(_ sender: UIButton)
+    {
+        if(!TradeIdList.contains(DataList.Result.TradeList[sender.tag].TradeID))
+        {
+            TradeIdList.append(DataList.Result.TradeList[sender.tag].TradeID)
+        }
+        else
+        {
+            TradeIdList.remove(at: TradeIdList.index(of:DataList.Result.TradeList[sender.tag].TradeID)!)
+        }
+        TblTrade.reloadData()
+    }
+    func btnCertificateSelctionAction(_ sender: UIButton)
+    {
+        if(!CertificateIdList.contains(DataList.Result.CertificateList[sender.tag].CertificateID))
+        {
+            CertificateIdList.append(DataList.Result.CertificateList[sender.tag].CertificateID)
+        }
+        else
+        {
+            CertificateIdList.remove(at: CertificateIdList.index(of:DataList.Result.CertificateList[sender.tag].CertificateID)!)
+        }
+        TblCertificate.reloadData()
+    }
+    func btnSectoreSelctionAction(_ sender: UIButton)
+    {
+        if(!SectorIdList.contains(DataList.Result.SectorList[sender.tag].SectorID))
+        {
+            SectorIdList.append(DataList.Result.SectorList[sender.tag].SectorID)
+        }
+        else
+        {
+            SectorIdList.remove(at: SectorIdList.index(of:DataList.Result.SectorList[sender.tag].SectorID)!)
+        }
+        TblSectoreSkill.reloadData()
+    }
+    func btnJobRoleSelctionAction(_ sender: UIButton)
+    {
+        if(!JobRoleIdList.contains(DataList.Result.JobRoleList[sender.tag].JobRoleID))
+        {
+            JobRoleIdList.append(DataList.Result.JobRoleList[sender.tag].JobRoleID)
+        }
+        else
+        {
+            JobRoleIdList.remove(at: JobRoleIdList.index(of:DataList.Result.JobRoleList[sender.tag].JobRoleID)!)
+        }
+        TblJobRole.reloadData()
+    }
 
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! SkillCell
-        
-        if(tableView  == TblSelectSkill)
-        {
-            if  selectedSkills .contains(String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID)) {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
-                selectedSkills.remove(at: selectedSkills.index(of: String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID))! )
-            }
-            else {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
-                selectedSkills.append(String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID))
-            }
-        }
-        else
-        {
-            
-            if  selectedCertificate .contains(String(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryID)) {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
-                selectedCertificate.remove(at: selectedCertificate.index(of: String(sharedManager.masters.DataList![selectedTrade].CertificateCategoryList![indexPath.row].CertificateCategoryID))! )
-            }
-            else {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
-                selectedCertificate.append(String(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryID))
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! SkillCell
-        
-        if(tableView  == TblSelectSkill)
-        {
-            if  selectedSkills .contains(String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID)) {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
-                selectedSkills.remove(at: selectedSkills.index(of: String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID))! )
-            }
-            else {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
-                selectedSkills.append(String(sharedManager.masters.DataList![self.selectedTradeIndex].ServiceList![indexPath.row].ServiceID))
-            }
-        }
-        else
-        {
-            
-            if  selectedCertificate .contains(String(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryID)) {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_uncheck")
-                selectedCertificate.remove(at: selectedCertificate.index(of: String(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryID))! )
-            }
-            else {
-                cell.ImgAccesoryView.image = #imageLiteral(resourceName: "ic_check")
-                selectedCertificate.append(String(sharedManager.masters.DataList![self.selectedTradeIndex].CertificateCategoryList![indexPath.row].CertificateCategoryID))
-            }
-        }
-    }
 }
-extension ContractorSearch: GMSAutocompleteViewControllerDelegate {
-    
+extension ContractorSearch: GMSAutocompleteViewControllerDelegate
+{
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         
         print("Place name: \(place.name)")
         print("Place address: \(place.formattedAddress!)")
-        print("Place attributions: \(place.attributions)")
-        
+
         self.txtPostCode.text = place.formattedAddress!
-    
+        self.coordinate = place.coordinate
         dismiss(animated: true, completion: nil)
     }
     
@@ -471,6 +458,4 @@ extension ContractorSearch: GMSAutocompleteViewControllerDelegate {
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
-    
-    
 }

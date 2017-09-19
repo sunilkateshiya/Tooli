@@ -18,8 +18,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
      @IBOutlet var tableview : UITableView?
      @IBOutlet var ivimage : UIImageView?
     
-     var sharedManager : Globals = Globals.sharedInstance
-    
     override func viewDidLoad() {
         super.viewDidLoad()
      
@@ -32,13 +30,14 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         tableview?.tableFooterView = UIView()
         tableview?.tableHeaderView = UIView()
-        if (self.sharedManager.currentUser != nil) {
-        if self.sharedManager.currentUser.ProfileImageLink != "" {
-            let imgURL = self.sharedManager.currentUser.ProfileImageLink as String
+        
+        if( AppDelegate.sharedInstance().sharedManager.currentUser.ProfileImageLink != "")
+        {
+            let imgURL = AppDelegate.sharedInstance().sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             ivimage?.kf.indicatorType = .activity
-           
-            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
+            
+            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: AppDelegate.sharedInstance().sharedManager.currentUser.ProfileImageLink)
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
                 .transition(ImageTransition.fade(1)),
@@ -46,25 +45,16 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             ]
             
             ivimage?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
-            
-            ivimage?.clipsToBounds = true
-            ivimage?.cornerRadius = (ivimage?.frame.size.width)! / 2
         }
-        }
-//        let url = URL(string: "http://domain.com/image.png")!
-//        ivimage?.kf.setImage(with: url,
-//                             placeholder: UIImage(named:"ic_Logo"),
-//                              options: [.transition(.fade(1))],
-//                              progressBlock: nil,
-//                              completionHandler: nil)
-//        
-    
+        
+        ivimage?.clipsToBounds = true
+        ivimage?.cornerRadius = (ivimage?.frame.size.width)! / 2
      
         // Do any additional setup after loading the view.
     }
     func refreshPage()
     {
-        self.stopAnimating()
+       self.stopAnimating()
        tableview?.reloadData()
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
@@ -115,15 +105,17 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
         lblCount.textColor = UIColor.white
         lblCount.textAlignment = .center
         lblCount.font = UIFont.boldSystemFont(ofSize: 15)
+        
         for view in (cell?.textLabel?.subviews)!
         {
             view.removeFromSuperview()
         }
+        
         if(indexPath.row == 1)
         {
-            if(sharedManager.unreadMessage != 0)
+            if(AppDelegate.sharedInstance().sharedManager.unreadMessage != 0)
             {
-                lblCount.text = "\(sharedManager.unreadMessage)"
+                lblCount.text = "\(AppDelegate.sharedInstance().sharedManager.unreadMessage)"
                
                 cell?.textLabel?.addSubview(lblCount)
                 lblCount.center = CGPoint(x: 25 , y: (cell?.textLabel?.center.y)!)
@@ -132,14 +124,13 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         if(indexPath.row == 3)
         {
-            if(sharedManager.unreadSpecialOffer != 0)
+            if(AppDelegate.sharedInstance().sharedManager.unreadOfferNotification != 0)
             {
-                lblCount.text = "\(sharedManager.unreadSpecialOffer)"
+                lblCount.text = "\(AppDelegate.sharedInstance().sharedManager.unreadOfferNotification)"
                 cell?.textLabel?.addSubview(lblCount)
                 lblCount.center = CGPoint(x: 25 , y: (cell?.textLabel?.center.y)!)
             }
         }
-    
         cell!.textLabel?.textAlignment = .right
         cell?.selectionStyle = .none
         let imgView:UIImageView = UIImageView()
@@ -204,7 +195,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
        
           return cell!
      }
-     
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
           return 50.0
      }
@@ -221,9 +211,24 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
           var destViewController : UIViewController
           switch (indexPath.row) {
           case 0:
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ProfileFeed")
+            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorProfileView")
+            let port  = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContractorProfileView") as! ContractorProfileView
+            AppDelegate.sharedInstance().navigationController?.pushViewController(port, animated: true)
+            toggleSideMenuView()
+            
+               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorProfileView")
                break
           case 1:
+            
+            do
+            {
+                try AppDelegate.sharedInstance().simpleHub.invoke("GetBuddyList", arguments: [])
+            }
+            catch
+            {
+                print(error)
+            }
+            
                 destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
                 break
           case 2:
@@ -290,7 +295,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             AppDelegate.sharedInstance().navigationController?.viewControllers = [tabView]
             toggleSideMenuView()
         }
-        if indexPath.row != 9 && indexPath.row != 10 && indexPath.row != 11 && indexPath.row != 12 && indexPath.row != 1 && indexPath.row != 2 {
+        if indexPath.row != 9 && indexPath.row != 10 && indexPath.row != 11 && indexPath.row != 12 && indexPath.row != 1 && indexPath.row != 2 && indexPath.row != 0 {
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }
@@ -298,25 +303,26 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
      func callWSSignOut()
      {
         self.startAnimating()
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
+        let param = ["DeviceToken": AppDelegate.sharedInstance().sharedManager.deviceToken,"Role":1] as [String : Any]
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignOut, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.Signout, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
             self.stopAnimating()
-            print(JSONResponse["status"].rawValue as! String)
+            print(JSONResponse["Status"].rawValue)
             if JSONResponse != nil{
-                if JSONResponse["status"].rawString()! == "1"
+                if JSONResponse["Status"].int == 1
                 {
                     UIApplication.shared.applicationIconBadgeNumber = 0
                     let userDefaults = UserDefaults.standard
                     userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
-                    userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
+                    let UserData : UserDataM = UserDataM()
+                    let serializedUser1 = Mapper().toJSON(UserData)
+                    userDefaults.set(serializedUser1, forKey: Constants.KEYS.USERINFO)
                     userDefaults.synchronize()
-                    
                     let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     app.disconnectSignalR()
-                    app.moveToLogin()
-    
+                    app.hubConnection = nil
+                    app.MoveToLoginScreen()
                 }
                 else
                 {
@@ -326,9 +332,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             
         }) {
             (error) -> Void in
-             
             self.stopAnimating()
-            
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
      }

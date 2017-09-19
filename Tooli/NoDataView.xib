@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NoDataView" customModule="Tooli" customModuleProvider="target">
+            <connections>
+                <outlet property="lblTitle" destination="C1v-Aq-dKg" id="lWE-FR-bc1"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Osu-ea-NGd">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Server error. Please try again later." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C1v-Aq-dKg">
+                            <rect key="frame" x="10" y="327" width="355" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="C1v-Aq-dKg" firstAttribute="centerX" secondItem="Osu-ea-NGd" secondAttribute="centerX" id="AVy-E0-gvg"/>
+                        <constraint firstItem="C1v-Aq-dKg" firstAttribute="leading" secondItem="Osu-ea-NGd" secondAttribute="leading" constant="10" id="M0H-uE-77T"/>
+                        <constraint firstAttribute="trailing" secondItem="C1v-Aq-dKg" secondAttribute="trailing" constant="10" id="Pas-2m-juf"/>
+                        <constraint firstItem="C1v-Aq-dKg" firstAttribute="centerY" secondItem="Osu-ea-NGd" secondAttribute="centerY" constant="2.5" id="buD-Jq-LDS"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Osu-ea-NGd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="c9g-aw-57s"/>
+                <constraint firstItem="Osu-ea-NGd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="cSQ-cQ-scC"/>
+                <constraint firstAttribute="trailing" secondItem="Osu-ea-NGd" secondAttribute="trailing" id="dLq-UT-F4m"/>
+                <constraint firstAttribute="bottom" secondItem="Osu-ea-NGd" secondAttribute="bottom" id="ls4-um-JuJ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="32.5" y="119.5"/>
+        </view>
+    </objects>
+</document>

@@ -2,8 +2,8 @@
 //  Register.swift
 //  Tooli
 //
-//  Created by Moin Shirazi on 19/01/17.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Created by impero on 19/01/17.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -13,10 +13,13 @@ import Toast_Swift
 import FBSDKLoginKit
 import FacebookCore
 import FacebookLogin
-import SVWebViewController
+//import SVWebViewController
 import SafariServices
+import Firebase
 
-class Register: UIViewController, NVActivityIndicatorViewable {
+
+class Register: UIViewController, NVActivityIndicatorViewable
+{
 
     @IBOutlet weak var lblTextPravricy: UILabel!
     @IBOutlet weak var btnAccept: UIButton!
@@ -113,35 +116,35 @@ class Register: UIViewController, NVActivityIndicatorViewable {
     }
     func registerData()
     {
-        let param = ["FBAccountID": self.fbid,
+        let param = ["FacebookID": self.fbid,
                      "EmailID": self.txtemail.text!,
                      "Password": self.txtpassword.text!,
+                     "ConfirmPassword": self.txtpassword.text!,
                      "FirstName":self.txtfname.text!,
                      "LastName":self.txtlname.text!,
-                     "UseReferenceID":"",
                      "Platform": "iOS",
-                     "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
+                     "Role":1,
+                     "TermsAndConditions":"true",
+                     "DeviceToken": FIRInstanceID.instanceID().token() ?? "Not found Token"] as [String : Any]
         
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.ContractorSignUp, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.Signup, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
-            self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-            
             self.stopAnimating()
             
-            print(JSONResponse["status"].rawValue as! String)
+            print(JSONResponse["Status"].rawValue)
             
             if JSONResponse != nil{
                 
-                if JSONResponse["status"].rawString()! == "1"
+                 if JSONResponse["Status"].int == 1
                 {
                     let userDefaults = UserDefaults.standard
                      userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
-                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                    userDefaults.set(JSONResponse["Result"]["IsProfileSetup"].bool, forKey: Constants.KEYS.IS_SET_PROFILE)
+                   userDefaults.set("\(JSONResponse["Result"]["token_type"]) \(JSONResponse["Result"]["access_token"])", forKey: Constants.KEYS.TOKEN)
                     userDefaults.synchronize()
-                     AppDelegate.sharedInstance().initSignalR();
-                    let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                    AppDelegate.sharedInstance().initSignalR();
+                    let obj : SignUpVC1 = self.storyboard?.instantiateViewController(withIdentifier: "SignUpVC1") as! SignUpVC1
                     self.navigationController?.pushViewController(obj, animated: true)
                 }
                 else
@@ -155,7 +158,7 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                     }
                     
                 }
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                self.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
@@ -164,7 +167,6 @@ class Register: UIViewController, NVActivityIndicatorViewable {
             self.stopAnimating()
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
-
     }
     func isValidEmail(testStr:String) -> Bool {
         // print("validate calendar: \(testStr)")
@@ -173,8 +175,8 @@ class Register: UIViewController, NVActivityIndicatorViewable {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: testStr)
     }
-    @IBAction func btnBack(_ sender: Any) {
-        
+    @IBAction func btnBack(_ sender: Any)
+    {
       _ = self.navigationController?.popViewController(animated: true)
     }
 
@@ -185,7 +187,6 @@ class Register: UIViewController, NVActivityIndicatorViewable {
         loginManager.logIn([ .publicProfile, .email ], viewController: self) { loginResult in
             
             //self.stopAnimating()
-            
             switch loginResult {
             case .failed(let error):
                 print(error)
@@ -193,7 +194,6 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                 self.view.makeToast("User cancelled signup.", duration: 3, position: .bottom)
                 print("User cancelled lo gin.")
             case .success(let _, let declinedPermissions, let accessToken):
-                
                 let connection = GraphRequestConnection()
                 let params = ["fields" :"id, email, name, first_name, last_name, gender"]
                 connection.add(GraphRequest(graphPath:"me", parameters: params)) { httpResponse, result in
@@ -207,43 +207,41 @@ class Register: UIViewController, NVActivityIndicatorViewable {
                         if(self.txtemail.text != "")
                         {
                             self.startAnimating()
-                            let param = ["FBAccountID": response.dictionaryValue?["id"] ?? "123",
+                            let param = ["FacebookID": response.dictionaryValue?["id"] ?? "123",
                                          "Platform": "iOS",
                                          "EmailID": response.dictionaryValue?["email"] as! String? ?? "",
                                          "FirstName": response.dictionaryValue?["first_name"] as! String? ?? "",
                                          "LastName": response.dictionaryValue?["last_name"] as! String? ?? "",
-                                         "DeviceToken": self.sharedManager.deviceToken] as [String : Any]
+                                         "Role":1,
+                                         "TermsAndConditions":"true",
+                                         "DeviceToken": FIRInstanceID.instanceID().token() ?? "Not found Token"] as [String : Any]
                             
                             print(param)
-                            AFWrapper.requestPOSTURL(Constants.URLS.ContractorFacebookConnect, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+                            AFWrapper.requestPOSTURL(Constants.URLS.FacebookConnect, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
                                 (JSONResponse) -> Void in
-                                
-                                self.sharedManager.currentUser = Mapper<SignIn>().map(JSONObject: JSONResponse.rawValue)
-                                
                                 self.stopAnimating()
                                 
-                                print(JSONResponse["status"].rawValue as! String)
+                                print(JSONResponse["Status"].rawValue)
                                 
                                 if JSONResponse != nil{
                                      
-                                    if JSONResponse["status"].rawString()! == "1"
+                                    if JSONResponse["Status"].int == 1
                                     {
                                         let userDefaults = UserDefaults.standard
-                                        
-                                        userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
+                                        userDefaults.set(JSONResponse["Result"]["IsProfileSetup"].bool, forKey: Constants.KEYS.IS_SET_PROFILE)
+                                        userDefaults.set("\(JSONResponse["Result"]["token_type"]) \(JSONResponse["Result"]["access_token"])", forKey: Constants.KEYS.TOKEN)
                                          userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
                                         userDefaults.synchronize()
                                          AppDelegate.sharedInstance().initSignalR();
-                                        let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
+                                        let obj : SignUpVC1 = self.storyboard?.instantiateViewController(withIdentifier: "SignUpVC1") as! SignUpVC1
                                         self.navigationController?.pushViewController(obj, animated: true)
-                                        
                                     }
                                     else
                                     {
 
                                         
                                     }
-                                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                                    self.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .bottom)
                                 }
                                 
                             }) {
@@ -269,5 +267,4 @@ class Register: UIViewController, NVActivityIndicatorViewable {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }

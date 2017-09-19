@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Aadil on 2/9/17.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -23,10 +23,11 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
     @IBOutlet var lblLocation : UILabel!
     @IBOutlet var lblClient : UILabel!
     @IBOutlet var lblDescription : UILabel!
-    var portfolio : Portfolio! = Portfolio()
+    var portfolio : PortfolioViewM = PortfolioViewM()
     var sharedManager : Globals = Globals.sharedInstance
     var portfolioId:Int = 0
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         if(portfolioId == 0)
         {
@@ -36,7 +37,6 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         {
             btnInfoProtfolio()
         }
-        
     }
     func SetDataInView()
     {
@@ -50,9 +50,7 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         self.lblClient.text = self.portfolio.CustomerName
         self.lblLocation.text = self.portfolio.Location
         self.lblDescription.text = self.portfolio.Description
-        
-       // collectionHeightConstraint.constant = self.portfolioCollection.contentSize.height
-        
+
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
@@ -70,16 +68,14 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if portfolio != nil {
-            return portfolio.PortfolioImageList.count
-        }
-        return 0
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        return portfolio.PortfolioImageList.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : PortfolioCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PortfolioCell
         
-        let imgURL = (portfolio.PortfolioImageList[indexPath.row].PortfolioImageLink)
+        let imgURL = (portfolio.PortfolioImageList[indexPath.row].ImageLink)
         let urlPro = URL(string: imgURL)
         cell.PortfolioImage?.kf.indicatorType = .activity
         let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: imgURL)
@@ -126,65 +122,47 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
     
     func btnInfoProtfolio()
     {
-        
         self.startAnimating()
-        
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "PortfolioID":portfolioId ] as [String : Any]
-        
+        let param = ["PortfolioID":portfolioId ] as [String : Any]
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.PortfolioInfo, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.PortfolioDetail, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
-            
+
             self.stopAnimating()
+            print(JSONResponse["Status"].rawValue)
             
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                     self.portfolio = Mapper<Portfolio>().map(JSONObject: JSONResponse.rawValue)
-                   self.SetDataInView()
-                }
-                else
-                {
-                    _ = self.navigationController?.popViewController(animated: true)
-                    AppDelegate.sharedInstance().window?.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
+            if JSONResponse["Status"].int == 1
+            {
+                self.portfolio = Mapper<PortfolioViewM>().map(JSONObject: JSONResponse["Result"].rawValue)!
+                self.SetDataInView()
+            }
+            else
+            {
+                _ = self.navigationController?.popViewController(animated: true)
+                AppDelegate.sharedInstance().window?.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
             (error) -> Void in
             
             self.stopAnimating()
-            
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 // MARK: - SKPhotoBrowserDelegate
 
-extension PortfolioDetails {
-    func didDismissAtPageIndex(_ index: Int) {
+extension PortfolioDetails
+{
+    func didDismissAtPageIndex(_ index: Int)
+    {
+        
     }
-    
-    func didDismissActionSheetWithButtonIndex(_ buttonIndex: Int, photoIndex: Int) {
+    func didDismissActionSheetWithButtonIndex(_ buttonIndex: Int, photoIndex: Int)
+    {
+        
     }
-    
     func removePhoto(index: Int, reload: (() -> Void)) {
         SKCache.sharedCache.removeImageForKey("somekey")
         reload()
@@ -196,10 +174,8 @@ extension PortfolioDetails {
 private extension PortfolioDetails {
     func createWebPhotos() -> [SKPhotoProtocol] {
         return (0..<portfolio.PortfolioImageList.count).map { (i: Int) -> SKPhotoProtocol in
-            //            let photo = SKPhoto.photoWithImageURL("https://placehold.jp/150\(i)x150\(i).png", holder: UIImage(named: "image0.jpg")!)
-//            let photo = SKPhoto.photoWithImageURL(portfolio.PortfolioImageList[i].PortfolioImageLink)
             let img:UIImageView = UIImageView()
-            let imgURL = portfolio.PortfolioImageList[i].PortfolioImageLink as String!
+            let imgURL = portfolio.PortfolioImageList[i].ImageLink as String!
             
             let url = URL(string: imgURL!)
             img.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
@@ -217,7 +193,6 @@ private extension PortfolioDetails {
                 photo.shouldCachePhotoURLImage = true
                 return photo
             }
-           
         }
     }
 }

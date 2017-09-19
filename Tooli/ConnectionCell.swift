@@ -2,13 +2,11 @@
 //  ClientDashBoardCell.swift
 //  SMUJ
 //
-//  Created by Moin Shirazi on 24/12/16.
-//  Copyright © 2016 Moin Shirazi. All rights reserved.
+//  Created by impero on 24/12/16.
+//  Copyright © 2016 impero. All rights reserved.
 //
 
 import UIKit
-import Cosmos
-
 class ConnectionCell : UITableViewCell {
 
     @IBOutlet var lblAway: UILabel!
@@ -24,11 +22,11 @@ class ConnectionCell : UITableViewCell {
     @IBOutlet var btnProfile: UIButton!
     @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var lblhtml: UILabel!
-    override func awakeFromNib() {
+    
+    override func awakeFromNib()
+    {
         super.awakeFromNib()
         // Initialization code
-        
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -36,13 +34,4 @@ class ConnectionCell : UITableViewCell {
 
         // Configure the view for the selected state
     }
-
- 
 }
-
-//extension DashBoardTvCell : UICollectionViewDelegate, UICollectionViewDataSource {
-//   
-//    
-//    
-//}
-

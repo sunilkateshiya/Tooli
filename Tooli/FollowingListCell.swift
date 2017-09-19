@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 21/02/17.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -14,6 +14,7 @@ class FollowingListCell: UITableViewCell {
 
     @IBOutlet weak var btnFollowButton: UIButton!
     @IBOutlet weak var lblCategory: UILabel!
+    
     override func awakeFromNib()
     {
         super.awakeFromNib()
@@ -26,5 +27,4 @@ class FollowingListCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

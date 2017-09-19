@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 18/05/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit

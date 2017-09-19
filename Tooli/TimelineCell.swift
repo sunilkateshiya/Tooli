@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 9/02/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -56,20 +56,16 @@ class SuggestionViewCell: UITableViewCell,UICollectionViewDelegate,UICollectionV
         // Initialization code
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool)
+    {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard  ((self.viewcontroller.contractorList) != nil) else {
-            return 0
-        }
-        if  (self.viewcontroller.contractorList == nil){
-            return  (self.viewcontroller.contractorList!.DataList!.count);
-        }
-        return  (self.viewcontroller.contractorList!.DataList!.count);
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        return viewcontroller.AllDashBoradData.Result.UserSuggestionList.count;
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserList", for: indexPath) as! UserCollectionViewCell
@@ -83,78 +79,101 @@ class SuggestionViewCell: UITableViewCell,UICollectionViewDelegate,UICollectionV
         cell.btnTaped.tag = indexPath.row
         cell.btnTaped.addTarget(self, action: #selector(UserImageTaped(_:)), for: UIControlEvents.touchUpInside)
         
-        cell.lblUserName.text = self.viewcontroller.contractorList!.DataList?[indexPath.row].Name as String!
-        cell.lblTredaCatagory.text = self.viewcontroller.contractorList!.DataList?[indexPath.row].TradeCategoryName as String!
-        let imgURL = self.viewcontroller.contractorList!.DataList?[indexPath.row].ImageLink as String!
+       
+        cell.lblUserName.text = viewcontroller.AllDashBoradData.Result.UserSuggestionList[indexPath.row].Name as String!
+        cell.lblTredaCatagory.text = viewcontroller.AllDashBoradData.Result.UserSuggestionList[indexPath.row].TradeName as String!
+        let imgURL = viewcontroller.AllDashBoradData.Result.UserSuggestionList[indexPath.row].ProfileImageLink
         
-        let url = URL(string: imgURL!)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(lblNamedTaped(tapGestureRecognizer:)))
+        cell.lblUserName.isUserInteractionEnabled = true
+        cell.lblUserName.addGestureRecognizer(tapGestureRecognizer)
+        cell.lblUserName.tag = indexPath.row
+        
+        let url = URL(string: imgURL)
         cell.imgUserProfile.kf.indicatorType = .activity
         cell.imgUserProfile.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         return cell
     }
     func UserImageTaped(_ sender:UIButton)
     {
-        print(sender.tag)
-        if(self.viewcontroller.contractorList!.DataList?[sender.tag].IsContractor == false)
+        if(self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].Role == 0)
         {
-            let companyVC : CompnayProfilefeed = storyboard.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-            companyVC.companyId = (self.viewcontroller.contractorList!.DataList?[sender.tag].CompanyID)!
+            print("Admin")
+        }
+        else if(self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].Role == 1)
+        {
+            print("Contractor")
+            let companyVC  = storyboard.instantiateViewController(withIdentifier: "OtherContractorProfile") as! OtherContractorProfile
+            companyVC.userId = self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].UserID
             viewcontroller.navigationController?.pushViewController(companyVC, animated: true)
         }
-        else
+        else if(self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].Role == 2)
         {
-            let companyVC : ProfileFeed = storyboard.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-            companyVC.contractorId = (self.viewcontroller.contractorList!.DataList?[sender.tag].ContractorID)!
+            print("Company")
+            let companyVC  = storyboard.instantiateViewController(withIdentifier: "CompanyView") as! CompanyView
+            companyVC.userId = self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].UserID
+            viewcontroller.navigationController?.pushViewController(companyVC, animated: true)
+        }
+        else if(self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].Role == 3)
+        {
+            print("Supplier")
+            let companyVC  = storyboard.instantiateViewController(withIdentifier: "SupplierView") as! SupplierView
+            companyVC.userId = self.viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].UserID
             viewcontroller.navigationController?.pushViewController(companyVC, animated: true)
         }
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    
+    func lblNamedTaped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let sender = tapGestureRecognizer.view as! UILabel
+        OpenDetailPage(index: sender.tag)
+    }
+    func OpenDetailPage(index:Int)
+    {
+        if(viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].Role == 0)
+        {
+            print("Admin")
+        }
+        else if(viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].Role == 1)
+        {
+            let vc = storyboard.instantiateViewController(withIdentifier: "OtherContractorProfile") as! OtherContractorProfile
+            vc.userId = viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].UserID
+            self.viewcontroller.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if(viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].Role == 2)
+        {
+            print("Company")
+            let vc = storyboard.instantiateViewController(withIdentifier: "CompanyView") as! CompanyView
+            vc.userId = viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].UserID
+            self.viewcontroller.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if(viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].Role == 3)
+        {
+            print("Supplier")
+            let vc = storyboard.instantiateViewController(withIdentifier: "SupplierView") as! SupplierView
+            vc.userId = viewcontroller.AllDashBoradData.Result.UserSuggestionList[index].UserID
+            self.viewcontroller.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    {
         
     }
     func FollowUnfollowTapped(_ sender: UIButton) {
         viewcontroller.startAnimating()
-        var strUrlTogaling = ""
-        
         var param = [:] as! [String:Any]
-        
-        if(self.viewcontroller.contractorList?.DataList![sender.tag].IsContractor)!
-        {
-            strUrlTogaling = Constants.URLS.FollowContractorToggle
-            param = ["FollowContractorID": self.viewcontroller.contractorList?.DataList![sender.tag].ContractorID ?? 0,
-                     "ContractorID": viewcontroller.sharedManager.currentUser.ContractorID,] as [String : Any]
-        }
-        else
-        {
-            strUrlTogaling = Constants.URLS.FollowCompanyToggle
-            param = ["FollowCompanyID": self.viewcontroller.contractorList?.DataList![sender.tag].CompanyID ?? 0,
-                     "ContractorID": viewcontroller.sharedManager.currentUser.ContractorID,] as [String : Any]
-        }
-        
+        param = ["FollowingUserID":viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].UserID] as [String : Any]
         print(param)
-        AFWrapper.requestPOSTURL(strUrlTogaling, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.AccountFollowToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
             self.viewcontroller.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.viewcontroller.contractorList?.DataList?.remove(at: sender.tag)
-                    self.viewcontroller.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
-                    self.collection.reloadData()
-                }
-                else
-                {
-                    self.viewcontroller.stopAnimating()
-                    self.viewcontroller.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
+            print(JSONResponse["Status"].rawValue)
+            if JSONResponse["Status"].int == 1
+            {
+                self.viewcontroller.AllDashBoradData.Result.UserSuggestionList.remove(at: sender.tag)
+                self.collection.reloadData()
             }
-            
+            self.viewcontroller.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .center)
         }) {
             (error) -> Void in
             self.viewcontroller.stopAnimating()
@@ -165,33 +184,20 @@ class SuggestionViewCell: UITableViewCell,UICollectionViewDelegate,UICollectionV
         self.viewcontroller.startAnimating()
         var strUrlTogaling = ""
         var param = [:] as! [String:Any]
-        strUrlTogaling = Constants.URLS.RemoveFromSuggestionUserList
-        param = ["RemoveUserID": self.viewcontroller.contractorList?.DataList![sender.tag].UserID ?? 0,
-                 "ContractorID": self.viewcontroller.sharedManager.currentUser.ContractorID,] as [String : Any]
+        strUrlTogaling = Constants.URLS.RemoveSuggestionUser
+        param = ["RemoveUserID": viewcontroller.AllDashBoradData.Result.UserSuggestionList[sender.tag].UserID] as [String : Any]
         print(param)
-        
-        
         AFWrapper.requestPOSTURL(strUrlTogaling, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
             self.viewcontroller.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.viewcontroller.contractorList?.DataList?.remove(at: sender.tag)
-                    self.viewcontroller.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
-                    self.collection.reloadData()
-                }
-                else
-                {
-                    self.viewcontroller.stopAnimating()
-                    self.viewcontroller.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
+            print(JSONResponse["Status"].rawValue)
+            if JSONResponse["Status"].int == 1
+            {
+                self.viewcontroller.AllDashBoradData.Result.UserSuggestionList.remove(at: sender.tag)
+                self.collection.reloadData()
+                self.viewcontroller.tvdashb.reloadData()
             }
+            self.viewcontroller.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .center)
             
         }) {
             (error) -> Void in

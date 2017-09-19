@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 15/02/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -21,6 +21,7 @@ class PDFViewer: UIViewController,UIWebViewDelegate, NVActivityIndicatorViewable
         
         let URLRequest1:URLRequest = URLRequest(url: Url as URL)
         webView.loadRequest(URLRequest1)
+        
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {

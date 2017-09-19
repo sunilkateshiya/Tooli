@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 25/01/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -16,6 +16,7 @@ class ExperienceCell: UITableViewCell {
     @IBOutlet var lblJobTitle : UILabel!
     @IBOutlet var lblCompanyName : UILabel!
     @IBOutlet var lblFrom : UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

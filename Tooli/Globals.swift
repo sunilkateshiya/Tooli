@@ -10,24 +10,15 @@ import UIKit
 class Globals {
     static let sharedInstance = Globals()
     var deviceToken : String = ""
-    var currentUser : SignIn!
-    var masters : Masters!
-    var selectedCompany : CompanyProfileM!
-    var dashBoard : ContractorDashBoard!
-    var SearchdashBoard : SearchContractoreList!
-    var jobList : JobList!
-    var connectionList : ConnectionList!
-    var OfferDetail : OfferListM!
-    var OfferDetail1 : OfferDetailM!
-    var portFolio:Portfolio!
-    var stastics:StatisticsModal!
-    var OfferList : SpecialOfferListM!
+    var currentUser : UserDataM = UserDataM()
     
+    var unreadAllNotification:Int = 0
     var unreadMessage:Int = 0
-    var unreadSpecialOffer:Int = 0
-    var unreadNotification:Int = 0
-    
-    private init() {
+    var unreadBuddyGroup:Int = 0
+    var unreadOfferNotification:Int = 0
+        
+    private init()
+    {
 
         
     }

@@ -2,8 +2,8 @@
 //  CustomTabBarC.swift
 //  SMUJ
 //
-//  Created by Moin Shirazi on 07/12/16.
-//  Copyright © 2016 Moin Shirazi. All rights reserved.
+//  Created by impero on 07/12/16.
+//  Copyright © 2016 impero. All rights reserved.
 //
 
 import UIKit
@@ -29,7 +29,8 @@ class CustomTabBarC: UITabBarController {
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
      
     }
     func setTabBarItems(){
@@ -61,9 +62,9 @@ class CustomTabBarC: UITabBarController {
         myTabBarItem4.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
         
-        if(sharedManager.unreadNotification != 0)
+        if(sharedManager.unreadAllNotification != 0)
         {
-            myTabBarItem4.badgeValue = "\(sharedManager.unreadNotification)"
+            myTabBarItem4.badgeValue = "\(sharedManager.unreadAllNotification)"
             if #available(iOS 10.0, *) {
                 myTabBarItem4.badgeColor = UIColor.black
             } else {
@@ -83,7 +84,7 @@ class CustomTabBarC: UITabBarController {
         
         if(sharedManager.unreadMessage != 0)
         {
-            myTabBarItem5.badgeValue = "\(sharedManager.unreadMessage)"
+            myTabBarItem5.badgeValue = "\(sharedManager.unreadBuddyGroup)"
             if #available(iOS 10.0, *) {
                 myTabBarItem5.badgeColor = UIColor.black
             } else {

@@ -3,118 +3,120 @@
 //  Tooli
 //
 //  Created by Impero IT on 13/02/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import Foundation
 import UIKit
 import ObjectMapper
 
-class SearchContractoreList: NSObject, Mappable  {
+class SearchContractoreList: NSObject, Mappable
+{
+    var Status = ""
+    var Message = ""
+    var DataList : [SerachDashBoardM] = []
     
-    
-    var status = ""
-    var message = ""
-    var DataList : [SerachDashBoardM]? = []
-    
+    override init() {
+        
+    }
     required init?(map: Map){
-        status <- map["status"]
-        message <- map["message"]
-        DataList <- map["DataList"]
+        Status <- map["Status"]
+        Message <- map["Message"]
+        DataList <- map["Result"]
         
     }
     func mapping(map: Map) {
-        status <- map["status"]
-        message <- map["message"]
-        DataList <- map["DataList"]
+        Status <- map["Status"]
+        Message <- map["Message"]
+        DataList <- map["Result"]
     }
 }
 
 class SerachDashBoardM : NSObject, Mappable
 
 {
-
-    var value = ""
-    var displayvalue = ""
-    var RedirectLink = ""
-    var IsContractor = false
-    var PrimaryID = 0
-    
-    required init?(map: Map) {
-
-         value <- map["value"]
-         displayvalue <- map["displayvalue"]
-         RedirectLink <- map["RedirectLink"]
-         IsContractor <- map["IsContractor"]
-         PrimaryID <- map["PrimaryID"]
-    }
-    func mapping(map: Map) {
-        
-        value <- map["value"]
-        displayvalue <- map["displayvalue"]
-        RedirectLink <- map["RedirectLink"]
-        IsContractor <- map["IsContractor"]
-        PrimaryID <- map["PrimaryID"]
-    }
-}
-
-class FilterContractoreList: NSObject, Mappable {
-    var status = "0"
-    var message = ""
-    var DataList : [ContractoreDetail] = []
-    
-    required override init(){
-        
-    }
-    required init?(map : Map) {
-        status <- map["status"]
-        message <- map["message"]
-        DataList <- map["DataList"]
-    }
-    func mapping(map: Map) {
-        status <- map["status"]
-        message <- map["message"]
-        DataList <- map["DataList"]
-    }
-}
-class ContractoreDetail: NSObject, Mappable {
-    var CityName = ""
-    var PrimaryID = 0
+    var UserID = ""
     var Name = ""
-    var AvailableStatusIcon = ""
-    var DistanceText = ""
-    var TradeCategoryName = ""
-    var PageTypeID = 0
-    var SavePageStarImageLink = ""
-    var DistanceRadius = 0
-    var ProfileImageLink = ""
-    var UserFullName = ""
-    var UserID = 0
-    var JobTitle = ""
-    var Aboutme = ""
-    var IsSaved = false
+    var IsMe:Bool = false
+    var Role = 0
     
     required override init(){
         
     }
-    required init?(map : Map) {
+    required init?(map: Map)
+    {
+         UserID <- map["UserID"]
+         Name <- map["Name"]
+         IsMe <- map["IsMe"]
+         Role <- map["Role"]
+    }
+    func mapping(map: Map) {
+        
+        UserID <- map["UserID"]
+        Name <- map["Name"]
+        IsMe <- map["IsMe"]
+        Role <- map["Role"]
+    }
+}
+class GetFilterListConntractorM: NSObject, Mappable
+{
+    var Status = 0
+    var Message = ""
+    var Result : [ContractorDetailM] = []
+    
+    override init()
+    {
+        
+    }
+    required init?(map: Map){
+        Status <- map["Status"]
+        Message <- map["Message"]
+        Result <- map["Result"]
         
     }
     func mapping(map: Map) {
-        CityName <- map["CityName"]
-        PrimaryID <- map["PrimaryID"]
-        Name <- map["Name"]
-        AvailableStatusIcon <- map["AvailableStatusIcon"]
-        DistanceText <- map["DistanceText"]
-        TradeCategoryName <- map["TradeCategoryName"]
-        PageTypeID <- map["PageTypeID"]
-        SavePageStarImageLink <- map["SavePageStarImageLink"]
-        DistanceRadius <- map["DistanceRadius"]
+        Status <- map["Status"]
+        Message <- map["Message"]
+        Result <- map["Result"]
+    }
+}
+class ContractorDetailM: NSObject, Mappable
+{
+    var ProfileImageLink = ""
+    var Description = ""
+    var DistanceInMiles = 0.0
+    var CityName = ""
+    var UserID = ""
+    var IsSaved = false
+    var DistanceAwayText = ""
+    var JobRoleName = ""
+    var FullName = ""
+    override init()
+    {
+        
+    }
+    required init?(map: Map){
         ProfileImageLink <- map["ProfileImageLink"]
-        UserFullName <- map["UserFullName"]
+        Description <- map["Description"]
+        DistanceInMiles <- map["DistanceInMiles"]
+        CityName <- map["CityName"]
         UserID <- map["UserID"]
-        JobTitle <- map["JobTitle"]
-        Aboutme <- map["Aboutme"]
         IsSaved <- map["IsSaved"]
+        DistanceAwayText <- map["DistanceAwayText"]
+        JobRoleName <- map["JobRoleName"]
+        FullName <- map["FullName"]
+        
+    }
+    func mapping(map: Map)
+    {
+        ProfileImageLink <- map["ProfileImageLink"]
+        Description <- map["Description"]
+        DistanceInMiles <- map["DistanceInMiles"]
+        CityName <- map["CityName"]
+        UserID <- map["UserID"]
+        IsSaved <- map["IsSaved"]
+        DistanceAwayText <- map["DistanceAwayText"]
+        JobRoleName <- map["JobRoleName"]
+        FullName <- map["FullName"]
     }
 }

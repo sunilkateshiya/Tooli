@@ -9,11 +9,21 @@
 import UIKit
 import ObjectMapper
 
+class SignIn1: NSObject, Mappable
+{
+    required init?(map: Map)
+    {
+        
+    }
+    func mapping(map: Map)
+    {
+        
+    }
+}
 class SignIn: NSObject, Mappable  {
     var FirstName = ""
     var LastName = ""
     var PerDayRate = ""
-
     var status = ""
     var message = ""
     var UserID = 0
@@ -253,7 +263,9 @@ class ExperienceListM : NSObject, Mappable {
     }
 }
 
-class Portfolio : NSObject, Mappable {
+
+class Portfolio : NSObject, Mappable
+{
     var UserID = 0;
     var PrimaryID = 0;
     var ContractorID = 0
@@ -441,10 +453,12 @@ class NotificationDetail: NSObject, Mappable {
     var IsRead = false
     var JobTitle = ""
     var RedirectLink = ""
-    required override init(){
+    required override init()
+    {
         
     }
-    required init?(map : Map) {
+    required init?(map : Map)
+    {
         
     }
     func mapping(map: Map) {
@@ -464,74 +478,8 @@ class NotificationDetail: NSObject, Mappable {
         JobTitle <- map["JobTitle"]
         RedirectLink <- map["RedirectLink"]
     }
-    
 }
-class StatisticsModal:NSObject,Mappable
-{
-    var TotalProfileView = 0
-    var TotalProfileSave = 0
-    var TotalFollowing = 0
-    var TotalFollowers = 0
-    var TotalMessage = 0
-    var TotalPostView = 0
-    var TotalPostSave = 0
-    var TotalPortfolioView = 0
-    var TotalPortfolioSave = 0
-    var PortfolioList:[TopsView] = []
-    var PostList:[TopsView] = []
 
-    override init(){
-        
-    }
-    required init?(map : Map) {
-        TotalProfileView <- map["TotalProfileView"]
-        TotalProfileSave <- map["TotalProfileSave"]
-        TotalFollowing <- map["TotalFollowing"]
-        TotalFollowers <- map["TotalFollowers"]
-        TotalMessage <- map["TotalMessage"]
-        TotalPostView <- map["TotalPostView"]
-        TotalPostSave <- map["TotalPostSave"]
-        TotalPortfolioView <- map["TotalPortfolioView"]
-        TotalPortfolioSave <- map["TotalPortfolioSave"]
-        PortfolioList <- map["PortfolioList"]
-        PostList <- map["PostList"]
-        
-    }
-     func mapping(map: Map) {
-        TotalProfileView <- map["TotalProfileView"]
-        TotalProfileSave <- map["TotalProfileSave"]
-        TotalFollowing <- map["TotalFollowing"]
-        TotalFollowers <- map["TotalFollowers"]
-        TotalMessage <- map["TotalMessage"]
-        TotalPostView <- map["TotalPostView"]
-        TotalPostSave <- map["TotalPostSave"]
-        TotalPortfolioView <- map["TotalPortfolioView"]
-        TotalPortfolioSave <- map["TotalPortfolioSave"]
-        PortfolioList <- map["PortfolioList"]
-        PostList <- map["PostList"]
-    }
-}
-class TopsView:NSObject,Mappable
-{
-    
-    var TotalPageView = 0
-    var TotalPageSave = 0
-    var Title = ""
-    override init(){
-        
-    }
-    required init?(map : Map) {
-        TotalPageView <- map["TotalPageView"]
-        TotalPageSave <- map["TotalPageSave"]
-        Title <- map["Title"]
-    }
-    func mapping(map: Map) {
-        TotalPageView <- map["TotalPageView"]
-        TotalPageSave <- map["TotalPageSave"]
-         Title <- map["Title"]
-    }
-
-}
 class Follower:NSObject,Mappable
 {
     var PrimaryID = 0
@@ -546,7 +494,8 @@ class Follower:NSObject,Mappable
     var IsFollow : Bool = false
     var IsContractor : Bool = false
     
-    override init(){
+    override init()
+    {
         
     }
     required init?(map : Map)
@@ -562,8 +511,6 @@ class Follower:NSObject,Mappable
          CompanyID <- map["CompanyID"]
          IsFollow <- map["IsFollow"]
         IsContractor <- map["IsContractor"]
-
-
     }
     func mapping(map: Map)
     {
@@ -578,7 +525,6 @@ class Follower:NSObject,Mappable
         CompanyID <- map["CompanyID"]
         IsFollow <- map["IsFollow"]
         IsContractor <- map["IsContractor"]
-
     }
 }
 class Following:NSObject,Mappable
@@ -595,7 +541,8 @@ class Following:NSObject,Mappable
     var IsFollow : Bool = false
     var IsContractor : Bool = false
     
-    override init(){
+    override init()
+    {
         
     }
     required init?(map : Map)

@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Aadil on 2/15/17.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -64,7 +64,8 @@ class Referrals: UIViewController, NVActivityIndicatorViewable {
         
         app.moveToDashboard()
     }
-    @IBAction func btnChangePassword (_sender : UIButton) {
+    @IBAction func btnChangePassword (_sender : UIButton)
+    {
         var isValid = true
         if  self.txtEmail.text == "" {
             isValid = false
@@ -74,15 +75,14 @@ class Referrals: UIViewController, NVActivityIndicatorViewable {
         if  isValid {
             self.startAnimating()
             var param = [:] as [String : Any]
-            param["ContractorID"] = sharedManager.currentUser.ContractorID
             param["EmailID"]=self.txtEmail.text
             print(param)
-            AFWrapper.requestPOSTURL(Constants.URLS.InviteReferral, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            AFWrapper.requestPOSTURL(Constants.URLS.SendInvitation, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
                 (JSONResponse) -> Void in
                 
                 if JSONResponse != nil {
                     self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
+                    self.view.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .bottom)
                 }
                 
             }) {
@@ -97,16 +97,4 @@ class Referrals: UIViewController, NVActivityIndicatorViewable {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

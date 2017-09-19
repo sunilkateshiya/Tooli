@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 26/01/2017.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -13,8 +13,11 @@ class CertificateCell: UITableViewCell {
     @IBOutlet var lblTitle : UILabel!
     @IBOutlet var imgCertificate : UIImageView!
     @IBOutlet var btnRemove : UIButton!
+    
+    @IBOutlet var btnStatus : UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         btnRemove.isHidden = true
         // Initialization code
     }

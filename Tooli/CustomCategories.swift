@@ -39,8 +39,6 @@ extension UITextField {
         }
         
     }
-    
-    
 }
 
 extension String {
@@ -106,6 +104,13 @@ extension UILabel {
         if Constants.DeviceType.IS_IPAD {
             self.font=UIFont(name: (self.font?.fontName)!, size: (self.font?.pointSize)!+6)
         }
+    }
+    func setUnderLineToLabel(strText:String)
+    {
+        self.isUserInteractionEnabled = true
+        let underlineAttribute = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString = NSAttributedString(string: strText, attributes: underlineAttribute)
+        self.attributedText = underlineAttributedString
     }
 }
 extension UIButton {
@@ -235,10 +240,9 @@ extension Date {
     }
     func toDisplayString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy"
+        dateFormatter.dateFormat = "dd/MM/yyyy"
         return dateFormatter.string(from: self)
     }
-    
 }
 extension Dictionary
 {

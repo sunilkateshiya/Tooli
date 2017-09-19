@@ -21,7 +21,7 @@ class SKButton: UIButton {
             ?  UIEdgeInsets(top: 15.25, left: 15.25, bottom: 15.25, right: 15.25) : UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     }
     var size: CGSize = CGSize(width: 55, height: 55)
-    var margin: CGFloat = UIScreen.main.bounds.size.width - 60
+    var margin: CGFloat = 0
     
     var buttonTopOffset: CGFloat { return 15 }
     

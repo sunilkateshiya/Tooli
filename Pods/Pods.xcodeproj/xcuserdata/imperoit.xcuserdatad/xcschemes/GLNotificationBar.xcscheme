@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '673DF550F25331737E062223FA8887A3'
+               BlueprintIdentifier = '3AC347AF30B3D1B09D9E55CFF8E6B633'
                BlueprintName = 'GLNotificationBar'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'GLNotificationBar.framework'>

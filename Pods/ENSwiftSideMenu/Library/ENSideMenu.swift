@@ -195,7 +195,7 @@ open class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
                                           width : sourceView.frame.width - sideMenuContainerView.frame.width,
                                           height : sourceView.frame.height))
         outterView.backgroundColor = UIColor.clear
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "hideSideMenu")
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ENSideMenu.hideSideMenu))
         outterView.addGestureRecognizer(tapRecognizer)
         outterView.isUserInteractionEnabled = false
         sourceView.addSubview(outterView)

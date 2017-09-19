@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Info.swift"
-            timestampString = "515934789.584932"
+            timestampString = "525160222.371744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Info.swift"
-            timestampString = "515934789.584932"
+            timestampString = "525160222.371744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Info.swift"
-            timestampString = "515934789.584932"
+            timestampString = "525160222.371744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
          </BreakpointContent>
@@ -265,28 +265,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/AppDelegate.swift"
-            timestampString = "518014866.78571"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
-            landmarkName = "userNotificationCenter(_:didReceive:withCompletionHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/RatesTravel.swift"
-            timestampString = "514458779.55195"
+            timestampString = "524125783.915568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "btnNext(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/RatesTravel.swift"
-            timestampString = "514458779.55195"
+            timestampString = "524125783.915568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "btnNext(_:)"
             landmarkType = "7">
             <Locations>
@@ -442,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
             <Locations>
@@ -490,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "Certificates"
             landmarkType = "3">
          </BreakpointContent>
@@ -506,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,75 +506,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "uploadphoto()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Certificates.swift"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "281"
             endingLineNumber = "281"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tooli.Certificates.(uploadphoto () -&gt; ()).(closure #2)"
-                  moduleName = "Tooli"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/tooli/Tooli/Certificates.swift"
-                  timestampString = "507108361.266298"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "224"
-                  endingLineNumber = "224"
-                  offsetFromSymbolStart = "245">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tooli.Certificates.(uploadphoto () -&gt; ()).(closure #2).(closure #1)"
-                  moduleName = "Tooli"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/tooli/Tooli/Certificates.swift"
-                  timestampString = "507108361.26771"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "226"
-                  endingLineNumber = "226"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
             <Locations>
@@ -634,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Info.swift"
-            timestampString = "515934789.584932"
+            timestampString = "525160222.371744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
             <Locations>
@@ -682,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Info.swift"
-            timestampString = "515934789.584932"
+            timestampString = "525160222.371744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
             <Locations>
@@ -729,108 +665,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
-            landmarkName = "getNotifications(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "getNotifications(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "getNotifications(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
-            landmarkName = "getNotifications(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
-            landmarkName = "getNotifications(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "btnMenu(button:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "actionSubmit(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -842,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
          </BreakpointContent>
@@ -858,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
          </BreakpointContent>
@@ -874,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
             <Locations>
@@ -922,11 +762,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
+            timestampString = "525158132.298414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "uploadphoto()"
             landmarkType = "7">
          </BreakpointContent>
@@ -960,70 +800,6 @@
             startingLineNumber = "40"
             endingLineNumber = "40"
             landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "getMasters()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "getMasters()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "getMasters()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Certificates.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "getMasters()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1258,108 +1034,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Addportfolio.swift"
-            timestampString = "515586454.901827"
+            timestampString = "525945824.716117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "513613070.455364"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "collectionView(_:numberOfItemsInSection:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "512397920.29911"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "actionPost(sender:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tooli.Addportfolio.actionPost (sender : __ObjC.UIButton) -&gt; ()"
-                  moduleName = "Tooli"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/Desktop/tooli1/Tooli/Addportfolio.swift"
-                  timestampString = "509954663.063874"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "7974">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tooli.Addportfolio.(actionPost (sender : __ObjC.UIButton) -&gt; ()).(closure #1)"
-                  moduleName = "Tooli"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/Desktop/tooli1/Tooli/Addportfolio.swift"
-                  timestampString = "509954663.065938"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "102">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "513613070.455364"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "Addportfolio"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "517411145.551431"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
-            landmarkName = "btnSaveContractor(btn:)"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "didReceiveMemoryWarning()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1370,11 +1050,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1187"
-            endingLineNumber = "1187"
+            startingLineNumber = "1176"
+            endingLineNumber = "1176"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1386,11 +1066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1740"
-            endingLineNumber = "1740"
+            startingLineNumber = "1729"
+            endingLineNumber = "1729"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1402,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1154"
-            endingLineNumber = "1154"
+            startingLineNumber = "1143"
+            endingLineNumber = "1143"
             landmarkName = "setLayoutInView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1418,11 +1098,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1648"
-            endingLineNumber = "1648"
+            startingLineNumber = "1637"
+            endingLineNumber = "1637"
             landmarkName = "collectionView(_:numberOfItemsInSection:)"
             landmarkType = "7">
             <Locations>
@@ -1466,11 +1146,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1030"
-            endingLineNumber = "1030"
+            startingLineNumber = "1019"
+            endingLineNumber = "1019"
             landmarkName = "popOver()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1482,11 +1162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1035"
-            endingLineNumber = "1035"
+            startingLineNumber = "1024"
+            endingLineNumber = "1024"
             landmarkName = "popOver()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1536,11 +1216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/CompnayProfilefeed.swift"
-            timestampString = "518011229.498906"
+            timestampString = "525186189.019303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "739"
-            endingLineNumber = "739"
+            startingLineNumber = "731"
+            endingLineNumber = "731"
             landmarkName = "btnfavSpecialOffer(btn:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1552,28 +1232,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/OfferDetailViewController.swift"
-            timestampString = "516612553.387423"
+            timestampString = "526395411.038053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/ContractorSearch.swift"
-            timestampString = "511782900.77812"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "btnBackAction(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1599,44 +1263,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/SavedView.swift"
-            timestampString = "513491534.580592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/SavedView.swift"
-            timestampString = "518016013.021244"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "581"
-            endingLineNumber = "581"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Tooli/CompnayProfilefeed.swift"
-            timestampString = "514386925.228658"
+            timestampString = "525186189.019303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "BtnAboutTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1648,11 +1280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/CompnayProfilefeed.swift"
-            timestampString = "514386925.228658"
+            timestampString = "525186189.019303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "BtnJobsTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1664,11 +1296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1833"
-            endingLineNumber = "1833"
+            startingLineNumber = "1822"
+            endingLineNumber = "1822"
             landmarkName = "removePortfolio(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1680,11 +1312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1857"
-            endingLineNumber = "1857"
+            startingLineNumber = "1846"
+            endingLineNumber = "1846"
             landmarkName = "collectionView(_:layout:sizeForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1696,11 +1328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1841"
-            endingLineNumber = "1841"
+            startingLineNumber = "1830"
+            endingLineNumber = "1830"
             landmarkName = "removePortfolio(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1744,11 +1376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/Experience.swift"
-            timestampString = "513491534.580592"
+            timestampString = "524569705.208703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "textField(_:shouldChangeCharactersIn:replacementString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1802,11 +1434,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "517411145.551431"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "721"
-            endingLineNumber = "721"
+            startingLineNumber = "710"
+            endingLineNumber = "710"
             landmarkName = "setProfile()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1839,38 +1471,6 @@
             </Actions>
             <Locations>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/JodDetailViewController.swift"
-            timestampString = "513004869.317148"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/SavedView.swift"
-            timestampString = "518016013.021244"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1273"
-            endingLineNumber = "1273"
-            landmarkName = "btnfavContractore(btn:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1932,11 +1532,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ChatList.swift"
-            timestampString = "512921875.96991"
+            timestampString = "526298246.9702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "init(map:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1948,11 +1548,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/NotificationTab.swift"
-            timestampString = "513006200.923816"
+            timestampString = "525607880.623815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "searchBar(_:shouldChangeTextIn:replacementText:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1979,109 +1579,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/JodDetailViewController.swift"
-            timestampString = "513251378.603623"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "getDetailsDetail()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1744"
-            endingLineNumber = "1744"
+            startingLineNumber = "1733"
+            endingLineNumber = "1733"
             landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/OfferDetailViewController.swift"
-            timestampString = "516612759.68919"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "lblNamedTaped(tapGestureRecognizer:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/OfferDetailViewController.swift"
-            timestampString = "516612759.68919"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "fillDatatoConttroller()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/AppDelegate.swift"
-            timestampString = "518014866.78571"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
-            landmarkName = "application(_:didReceiveRemoteNotification:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "514115270.554188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "BtnBackMainScreen(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "514115271.412953"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "btnBack(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2120,79 +1624,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/NotificationTab.swift"
-            timestampString = "515490845.154767"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "515586454.901827"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
-            landmarkName = "uploadphoto()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/Addportfolio.swift"
-            timestampString = "515589524.231099"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
-            landmarkName = "getAssetThumbnail(asset:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tooli/AppDelegate.swift"
-            timestampString = "518014866.78571"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "application(_:didReceiveRemoteNotification:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tooli/ProfileFeed.swift"
-            timestampString = "518354842.015673"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2041"
-            endingLineNumber = "2041"
+            startingLineNumber = "2030"
+            endingLineNumber = "2030"
             landmarkName = "DisPlayCountInLabel(FollowingCount:followerCount:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2200,17 +1640,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/MessageDetails.swift"
-            timestampString = "518357749.748331"
+            filePath = "Tooli/ProfileFeed.swift"
+            timestampString = "525159853.283173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
-            landmarkName = "MessageDetails"
-            landmarkType = "3">
+            startingLineNumber = "1110"
+            endingLineNumber = "1110"
+            landmarkName = "setLayoutInView()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2219,44 +1659,76 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/SavedView.swift"
-            timestampString = "518016013.021244"
+            filePath = "Tooli/CompnayProfilefeed.swift"
+            timestampString = "525186189.019303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "898"
-            endingLineNumber = "898"
-            landmarkName = "lblImagheProfile(tapGestureRecognizer:)"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
+            landmarkName = "BtnPortfolioTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/CompnayProfilefeed.swift"
+            timestampString = "525186189.019303"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
+            landmarkName = "BtnAboutTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/Alamofire/Source/SessionManager.swift"
+            timestampString = "524218626.424265"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
+            landmarkName = "upload(multipartFormData:usingThreshold:to:method:headers:encodingCompletion:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Tooli.SavedView.lblImagheProfile (tapGestureRecognizer : __ObjC.UIGestureRecognizer) -&gt; ()"
-                  moduleName = "Tooli"
+                  symbolName = "Alamofire.SessionManager.upload (multipartFormData : (Alamofire.MultipartFormData) -&gt; (), usingThreshold : Swift.UInt64, to : Alamofire.URLConvertible, method : Alamofire.HTTPMethod, headers : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.String&gt;&gt;, encodingCompletion : Swift.Optional&lt;(Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "Alamofire"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Tooli%20GIT/Tooli/SavedView.swift"
-                  timestampString = "520349513.195537"
+                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Toolii/Pods/Alamofire/Source/SessionManager.swift"
+                  timestampString = "527499544.586371"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "898"
-                  endingLineNumber = "898"
-                  offsetFromSymbolStart = "1746">
+                  startingLineNumber = "626"
+                  endingLineNumber = "626"
+                  offsetFromSymbolStart = "654">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Tooli.SavedView.lblImagheProfile (tapGestureRecognizer : __ObjC.UIGestureRecognizer) -&gt; ()"
-                  moduleName = "Tooli"
+                  symbolName = "Alamofire.SessionManager.(upload (multipartFormData : (Alamofire.MultipartFormData) -&gt; (), usingThreshold : Swift.UInt64, to : Alamofire.URLConvertible, method : Alamofire.HTTPMethod, headers : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.String&gt;&gt;, encodingCompletion : Swift.Optional&lt;(Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; ()&gt;) -&gt; ()).(closure #1)"
+                  moduleName = "Alamofire"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Tooli%20GIT/Tooli/SavedView.swift"
-                  timestampString = "520349513.197143"
+                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Toolii/Pods/Alamofire/Source/SessionManager.swift"
+                  timestampString = "527499544.588313"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "898"
-                  endingLineNumber = "898"
-                  offsetFromSymbolStart = "3400">
+                  startingLineNumber = "626"
+                  endingLineNumber = "626"
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2267,29 +1739,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/AppDelegate.swift"
-            timestampString = "518357475.243463"
+            filePath = "Pods/Alamofire/Source/SessionManager.swift"
+            timestampString = "524218626.424265"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "801"
-            endingLineNumber = "801"
-            landmarkName = "initSignalR()"
+            startingLineNumber = "736"
+            endingLineNumber = "736"
+            landmarkName = "upload(multipartFormData:usingThreshold:with:encodingCompletion:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Alamofire.SessionManager.(upload (multipartFormData : (Alamofire.MultipartFormData) -&gt; (), usingThreshold : Swift.UInt64, with : Alamofire.URLRequestConvertible, encodingCompletion : Swift.Optional&lt;(Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; ()&gt;) -&gt; ()).(closure #1)"
+                  moduleName = "Alamofire"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Toolii/Pods/Alamofire/Source/SessionManager.swift"
+                  timestampString = "527499544.654473"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "736"
+                  endingLineNumber = "736"
+                  offsetFromSymbolStart = "4894">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Alamofire.SessionManager.(upload (multipartFormData : (Alamofire.MultipartFormData) -&gt; (), usingThreshold : Swift.UInt64, with : Alamofire.URLRequestConvertible, encodingCompletion : Swift.Optional&lt;(Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; ()&gt;) -&gt; ()).(closure #1).(closure #5)"
+                  moduleName = "Alamofire"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Toolii/Pods/Alamofire/Source/SessionManager.swift"
+                  timestampString = "527499544.656305"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "736"
+                  endingLineNumber = "736"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/AppDelegate.swift"
-            timestampString = "518014866.78571"
+            filePath = "Pods/Alamofire/Source/ParameterEncoding.swift"
+            timestampString = "524218472.091522"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "704"
-            endingLineNumber = "704"
-            landmarkName = "initSignalR()"
+            startingLineNumber = "405"
+            endingLineNumber = "405"
+            landmarkName = "encode(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2299,13 +1803,301 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tooli/PortfolioDetails.swift"
-            timestampString = "520349595.94064"
+            filePath = "Pods/Alamofire/Source/ParameterEncoding.swift"
+            timestampString = "524226742.351101"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "SetDataInView()"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "encode(_:withJSONObject:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/AFWrapper.swift"
+            timestampString = "526372239.884282"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "requestDeleteUrlWithParam(_:params:headers:success:failure:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Tooli.AFWrapper.requestDeleteUrlWithParam (Swift.String, params : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;&gt;, headers : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.String&gt;&gt;, success : (SwiftyJSON.JSON) -&gt; (), failure : (Swift.Error) -&gt; ()) -&gt; ()"
+                  moduleName = "Tooli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Toolii/Tooli/AFWrapper.swift"
+                  timestampString = "527499544.236803"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "1541">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Tooli.AFWrapper.(requestDeleteUrlWithParam (Swift.String, params : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;&gt;, headers : Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.String&gt;&gt;, success : (SwiftyJSON.JSON) -&gt; (), failure : (Swift.Error) -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "Tooli"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/imperoit/Desktop/GauravBackup/Toolii/Tooli/AFWrapper.swift"
+                  timestampString = "527499544.23854"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Editportfolio.swift"
+            timestampString = "526388992.647144"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
+            landmarkName = "uploadPortfolioWithImage()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/OtherContractorProfile.swift"
+            timestampString = "527424912.19305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "746"
+            endingLineNumber = "746"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/DashBoardTab.swift"
+            timestampString = "527499543.03104"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "979"
+            endingLineNumber = "979"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/ContractorProfileView.swift"
+            timestampString = "527498130.55151"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1684"
+            endingLineNumber = "1684"
+            landmarkName = "btnPortfolio(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/MessageTab.swift"
+            timestampString = "526465333.320276"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "reloadDataOnly()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/RateTravalVC.swift"
+            timestampString = "526372239.884561"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "sendDataToServer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/OtherContractorProfile.swift"
+            timestampString = "527424912.19305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "897"
+            endingLineNumber = "897"
+            landmarkName = "BtnFollowersTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Addportfolio.swift"
+            timestampString = "525944146.044581"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "actionBack(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Addportfolio.swift"
+            timestampString = "525945824.716117"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "btnBack(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/OtherContractorProfile.swift"
+            timestampString = "527424912.19305"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "882"
+            endingLineNumber = "882"
+            landmarkName = "BtnSaveStarTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/OtherContractorProfile.swift"
+            timestampString = "527425234.592383"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1823"
+            endingLineNumber = "1823"
+            landmarkName = "OpenDetailPageUsingPageType(index:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/OtherContractorProfile.swift"
+            timestampString = "527425234.592383"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1633"
+            endingLineNumber = "1633"
+            landmarkName = "btnContractorSaveStatus(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/Experience1.swift"
+            timestampString = "526454334.094862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "btnRemoveExpirance(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/NewOtherJodDetailViewController.swift"
+            timestampString = "527416910.790344"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
+            landmarkName = "AddMultipulAttributeInLabel(strTitle:value:value1:lable:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tooli/SlidingMenu.swift"
+            timestampString = "527499294.765478"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "refreshPage()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

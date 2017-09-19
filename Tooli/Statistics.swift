@@ -3,7 +3,7 @@
 //  Tooli
 //
 //  Created by Impero IT on 22/02/17.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Copyright © 2017 impero. All rights reserved.
 //
 
 import UIKit
@@ -50,7 +50,7 @@ class Statistics: UIViewController,UITableViewDelegate,UITableViewDataSource,NVA
     var viewAllpost = false
     @IBOutlet weak var tabView: UITableView!
     var sharedManager : Globals = Globals.sharedInstance
-    var stasticsDataList: StatisticsModal!
+    var stasticsDataList: StatisticsModalAllData = StatisticsModalAllData()
     var strFromDate = ""
     var strToDate = ""
     var strTemp = ""
@@ -123,9 +123,10 @@ class Statistics: UIViewController,UITableViewDelegate,UITableViewDataSource,NVA
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.stasticsDataList != nil {
-            //self.TblHeightConstraints.constant = self.TblTimeline.contentSize.height
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        if self.stasticsDataList.Result != nil
+        {
             return 2
         }
         else {
@@ -144,17 +145,17 @@ class Statistics: UIViewController,UITableViewDelegate,UITableViewDataSource,NVA
         
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! StatsticsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! StatsticsCell
         if(indexPath.row == 0)
         {
-            cell.PostList = self.stasticsDataList.PostList
+            cell.PostList = self.stasticsDataList.Result.PostList
             cell.viewAll = viewAllpost
             
             if(viewAllpost)
             {
                 cell.lblTop5.text = "View All"
             }
-            if(self.stasticsDataList.PostList.count <= 5)
+            if(self.stasticsDataList.Result.PostList.count <= 5)
             {
                 cell.btnViewAllData.isHidden = true
             }
@@ -163,22 +164,22 @@ class Statistics: UIViewController,UITableViewDelegate,UITableViewDataSource,NVA
                 cell.btnViewAllData.isHidden = false
             }
             cell.lblTitle.text = "Post"
-            cell.lblTotleSave.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.TotalPostSave)", str: "SAVES")
-            cell.lblTotleView.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.TotalPostView)", str: "VIEWS")
+            cell.lblTotleSave.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.Result.TotalPostSave)", str: "SAVES")
+            cell.lblTotleView.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.Result.TotalPostView)", str: "VIEWS")
             cell.btnViewAllData.addTarget(self, action: #selector(Statistics.viewAllPost(_:)), for: UIControlEvents.touchUpInside)
         }
         else
         {
-           cell.PostList = self.stasticsDataList.PortfolioList
+           cell.PostList = self.stasticsDataList.Result.PortfolioList
             cell.lblTitle.text = "Portfolio"
             cell.viewAll = viewAllPortFolio
             if(viewAllPortFolio)
             {
                 cell.lblTop5.text = "View All"
             }
-            cell.lblTotleSave.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.TotalPortfolioSave)", str: "SAVES")
-            cell.lblTotleView.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.TotalPortfolioView)", str: "VIEWS")
-            if(self.stasticsDataList.PortfolioList.count <= 5)
+            cell.lblTotleSave.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.Result.TotalPortfolioSave)", str: "SAVES")
+            cell.lblTotleView.attributedText = self.DisPlayCountInLabel(count: "\(self.stasticsDataList.Result.TotalPortfolioView)", str: "VIEWS")
+            if(self.stasticsDataList.Result.PortfolioList.count <= 5)
             {
                 cell.btnViewAllData.isHidden = true
             }
@@ -197,33 +198,28 @@ class Statistics: UIViewController,UITableViewDelegate,UITableViewDataSource,NVA
     }
     func getStataticReport()
     {
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "FromDate":strFromDate,"ToDate":strToDate] as [String : Any]
+        let param = ["FromDate":strFromDate,"ToDate":strToDate] as [String : Any]
         self.startAnimating()
         print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.ContractorStatisticsReport, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.StatisticsReport, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
             
-            self.sharedManager.stastics = Mapper<StatisticsModal>().map(JSONObject: JSONResponse.rawValue)
+            
             self.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                self.viewError.isHidden = true
-                self.imgError.isHidden = true
-                self.btnAgain.isHidden = true
-                self.lblError.isHidden = true
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.stasticsDataList = self.sharedManager.stastics
-                    self.setData()
-                }
-                else
-                {
-                     _ = self.navigationController?.popViewController(animated: true)
-                    AppDelegate.sharedInstance().window?.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
+            print(JSONResponse["Status"].rawValue)
+            self.viewError.isHidden = true
+            self.imgError.isHidden = true
+            self.btnAgain.isHidden = true
+            self.lblError.isHidden = true
+            if JSONResponse["Status"].int == 1
+            {
+               self.stasticsDataList = Mapper<StatisticsModalAllData>().map(JSONObject: JSONResponse.rawValue)!
+                self.setData()
+            }
+            else
+            {
+                _ = self.navigationController?.popViewController(animated: true)
+                AppDelegate.sharedInstance().window?.makeToast(JSONResponse["Message"].rawString()!, duration: 3, position: .bottom)
             }
             
         }) {
@@ -239,12 +235,12 @@ class Statistics: UIViewController,UITableViewDelegate,UITableViewDataSource,NVA
     }
     func setData()
     {
-        lblProfileSave.text = "\(self.stasticsDataList.TotalProfileSave)"
-        lblProfileView.text = "\(self.stasticsDataList.TotalProfileView)"
-        lblFollowingCount.text = "\(self.stasticsDataList.TotalFollowing)"
-        lblFollowerCount.text = "\(self.stasticsDataList.TotalFollowers)"
-        lblMessageCount.text = "\(self.stasticsDataList.TotalMessage)"
-       // lblProfileSave.text = self.stasticsDataList.TotalProfileSave as! String
+        lblProfileSave.text = "\(self.stasticsDataList.Result.TotalProfileSave)"
+        lblProfileView.text = "\(self.stasticsDataList.Result.TotalProfileView)"
+        lblFollowingCount.text = "\(self.stasticsDataList.Result.TotalFollowing)"
+        lblFollowerCount.text = "\(self.stasticsDataList.Result.TotalFollowers)"
+        lblMessageCount.text = "\(self.stasticsDataList.Result.TotalMessage)"
+       // lblProfileSave.text = self.stasticsDataList.Result.TotalProfileSave as! String
         tabView.reloadData()
     }
     func DisPlayCountInLabel(count:String,str:String) -> NSMutableAttributedString

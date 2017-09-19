@@ -2,8 +2,8 @@
 //  NotificationTab.swift
 //  Tooli
 //
-//  Created by Moin Shirazi on 10/01/17.
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
+//  Created by impero on 10/01/17.
+//  Copyright © 2017 impero. All rights reserved.
 
 import UIKit
 import ENSwiftSideMenu
@@ -14,7 +14,7 @@ import Alamofire
 import Kingfisher
 import TTTAttributedLabel
 
-class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable, TTTAttributedLabelDelegate,UISearchBarDelegate {
+class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate, NVActivityIndicatorViewable, TTTAttributedLabelDelegate,UISearchBarDelegate,RetryButtonDeleget {
    
     @IBOutlet weak var btnAgain: UIButton!
     @IBOutlet weak var imgError: UIImageView!
@@ -26,21 +26,25 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         self.btnAgain.isHidden = true
         self.lblError.isHidden = true
         self.startAnimating()
-        getNotifications(page: self.currentPage);
+        getNotifications();
     }
     
     @IBOutlet var tvnoti : UITableView!
     var sharedManager : Globals = Globals.sharedInstance
     var currentPage = 1
-    var notificationList : AppNotificationsList = AppNotificationsList();
+    var notificationList : GetAllNotificationList = GetAllNotificationList();
+    
     var isFull : Bool = false
     var isFirstTime : Bool = true
     var refreshControl:UIRefreshControl!
+    var isCallWebService : Bool = true
+    var activityIndicator = UIActivityIndicatorView()
+    
     @IBOutlet weak var SearchbarView: UISearchBar!
     
     @IBOutlet var TBLSearchView:UITableView!
     @IBOutlet var viewSearch:UIView!
-    var Searchdashlist : [SerachDashBoardM]?
+    var Searchdashlist : [SerachDashBoardM] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +63,13 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         tvnoti.addSubview(refreshControl)
         
         AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
+        
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        activityIndicator.startAnimating()
+        
+        activityIndicator.color = UIColor.black
+        activityIndicator.hidesWhenStopped = true
+        self.startAnimating()
         // Do any additional setup after loading the view.
     }
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
@@ -96,11 +107,10 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         SearchbarView.text = ""
         viewSearch.isHidden = true
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
          self.startAnimating()
-         self.viewError.isHidden = false
-        getNotifications(page: self.currentPage);
+        refreshPage()
         
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
         tracker.set(kGAIScreenName, value: "Notification Tab Screen.")
@@ -114,139 +124,140 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         isFull = false
 
         currentPage = 1
-        getNotifications(page : currentPage)
+        getNotifications()
     }
     func onSerach(str:String)
     {
         self.startAnimating()
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,"SearchQuery":str] as [String : Any]
+        let param = ["QueryText":str] as [String : Any]
         
-        print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.GetUserSearchByQuery, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+        AFWrapper.requestPOSTURL(Constants.URLS.AccountSearchUser, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
-            self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
-            
             self.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
+            print(JSONResponse["Status"].rawValue)
+            if JSONResponse["Status"].int == 1
+            {
+                let temp:SearchContractoreList =  Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)!
+                self.Searchdashlist = temp.DataList
+                if(self.Searchdashlist.count > 0)
                 {
-                    self.Searchdashlist = self.sharedManager.SearchdashBoard.DataList
-                    if(self.Searchdashlist!.count > 0)
-                    {
-                        self.viewSearch.isHidden = false
-                        self.TBLSearchView.reloadData()
-                    }
-                    else
-                    {
-                        self.viewSearch.isHidden = true
-                    }
-                    
+                    self.viewSearch.isHidden = false
+                    self.TBLSearchView.reloadData()
                 }
                 else
                 {
-                    
+                    self.viewSearch.isHidden = true
                 }
-               
+            }
+            else
+            {
+                
             }
             
         }) {
             (error) -> Void in
-             
+            
             self.stopAnimating()
             
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
-    func getNotifications(page : Int){
-    
-        if self.isFirstTime {
-            
-        }
-        else {
-            let view : UIView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.ScreenSize.SCREEN_WIDTH, height: 80))
-            let activity : UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-            activity.startAnimating()
-            view.addSubview(activity)
-            self.tvnoti.tableFooterView = view
+    func getNotifications()
+    {
+        self.isCallWebService = true
+        if(currentPage != 1)
+        {
+          self.tvnoti.tableFooterView = activityIndicator
         }
         var param = [:] as [String : Any]
-        param["ContractorID"] = sharedManager.currentUser.ContractorID
-       // param["ContractorID"] = "1"
-        param["PageIndex"] = page
+        param["PageIndex"] = currentPage
         
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.NotificationList, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
-            
-
-            print(JSONResponse["status"].rawValue as! String)
+        
+            print(JSONResponse["Status"].rawValue)
             self.refreshControl.endRefreshing()
-            if JSONResponse != nil {
-                
-                self.viewError.isHidden = true
-                self.imgError.isHidden = true
-                self.btnAgain.isHidden = true
-                self.lblError.isHidden = true
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.stopAnimating()
-                    if self.isFirstTime {
-                        self.notificationList  = AppNotificationsList();
-                        self.notificationList = Mapper<AppNotificationsList>().map(JSONObject: JSONResponse.rawValue)!
-                        self.isFirstTime = false;
-                        
-                        self.sharedManager.unreadNotification = 0
-                        UIApplication.shared.applicationIconBadgeNumber =  self.sharedManager.unreadSpecialOffer + self.sharedManager.unreadNotification + self.sharedManager.unreadMessage
-                         NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
-                    }
-                    else {
-                        let tmpList : AppNotificationsList = Mapper<AppNotificationsList>().map(JSONObject: JSONResponse.rawValue)!
-                        for tmpNotifcation in tmpList.DataList {
-                            self.notificationList.DataList.append(tmpNotifcation)
-                        }
-                    }
-                    self.currentPage = self.currentPage + 1
-                    self.tvnoti.reloadData()
-                    //self.setValues()
+            self.viewError.isHidden = true
+            self.imgError.isHidden = true
+            self.btnAgain.isHidden = true
+            self.lblError.isHidden = true
+            self.isCallWebService = false
+            self.tvnoti.tableFooterView = UIView()
+            if JSONResponse["Status"].int == 1
+            {
+                self.stopAnimating()
+                if self.isFirstTime {
+                    self.notificationList  = GetAllNotificationList();
+                    self.notificationList = Mapper<GetAllNotificationList>().map(JSONObject: JSONResponse.rawValue)!
+                    self.isFirstTime = false;
+                    NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: "RefreshSideMenu"), object: nil) as Notification)
                 }
                 else
                 {
-                    self.stopAnimating()
-                    self.isFull = true
-                    self.isFirstTime = false;
-                    
-                    if(self.notificationList.DataList.count == 0)
+                    let tmpList : GetAllNotificationList = Mapper<GetAllNotificationList>().map(JSONObject: JSONResponse.rawValue)!
+                    if(tmpList.Result.count == 0)
                     {
-                        self.lblError.text = "No notification available."
-                        self.viewError.isHidden = false
-                        self.imgError.isHidden = false
-                        self.btnAgain.isHidden = false
-                        self.lblError.isHidden = false
+                        self.isFull = true
+                        self.isFirstTime = false;
+                    }
+                    for tmpNotifcation in tmpList.Result
+                    {
+                        self.notificationList.Result.append(tmpNotifcation)
+                    }
+                }
+                if(self.notificationList.Result.count == 0)
+                {
+                    let viewBlur:PopupView = PopupView(frame:self.tvnoti.frame)
+                    viewBlur.frame = self.tvnoti.frame
+                    viewBlur.delegate = self
+                    self.view.addSubview(viewBlur)
+                    viewBlur.lblTitle.text = "No notification available."
+                }
+                self.currentPage = self.currentPage + 1
+                self.tvnoti.reloadData()
+                //self.setValues()
+            }
+            else
+            {
+                self.stopAnimating()
+                self.isFull = true
+                self.isFirstTime = false;
+                
+                if(self.notificationList.Result.count == 0)
+                {
+                    let viewBlur:PopupView = PopupView(frame:self.tvnoti.frame)
+                    viewBlur.frame = self.tvnoti.frame
+                    viewBlur.delegate = self
+                    self.view.insertSubview(viewBlur, belowSubview: self.viewSearch)
+                    viewBlur.lblTitle.text = JSONResponse["Message"].rawString()!
+                }
+                else
+                {
+                    if(self.view.viewWithTag(9898) != nil)
+                    {
+                        self.view.viewWithTag(9898)?.removeFromSuperview()
                     }
                 }
             }
-            
         }) {
             (error) -> Void in
             self.stopAnimating()
-             
-             self.refreshControl.endRefreshing()
-            self.viewError.isHidden = false
-            self.imgError.isHidden = false
-            self.btnAgain.isHidden = false
-            self.lblError.isHidden = false
+            self.isCallWebService = true
+            self.isFull = true
+            self.isFirstTime = false;
+            self.tvnoti.tableFooterView = UIView()
+            self.refreshControl.endRefreshing()
             
            // self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
-    
-    override func didReceiveMemoryWarning() {
+    func RetrybuttonTaped()
+    {
+        refreshPage()
+    }
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -257,28 +268,14 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         toggleSideMenuView()
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
-        //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
         if(tableView == TBLSearchView)
         {
-            guard  ((sharedManager.SearchdashBoard) != nil) else {
-                
-                return 0
-            }
-            if  (self.Searchdashlist == nil){
-                self.Searchdashlist = sharedManager.SearchdashBoard.DataList
-                return  (self.Searchdashlist?.count)!;
-            }
-            return  (self.Searchdashlist?.count)!;
+            return  self.Searchdashlist.count
         }
         else
         {
-            guard notificationList != nil else {
-                return 0
-            }
-            return  notificationList.DataList.count
+            return  notificationList.Result.count
         }
     }
     
@@ -286,34 +283,37 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         if(tableView == TBLSearchView)
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = self.Searchdashlist?[indexPath.row].displayvalue
+            cell.textLabel?.text = self.Searchdashlist[indexPath.row].Name
             cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
             return cell
         }
         else
         {
-            if indexPath.row == notificationList.DataList.count-1  {
-                self.getNotifications(page: currentPage)
-            }
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTabCell
+            let name : String = notificationList.Result[indexPath.row].Name;
+            cell.lbltitle.text = notificationList.Result[indexPath.row].Name + " " + notificationList.Result[indexPath.row].NotificationText
             
-            let name : String = notificationList.DataList[indexPath.row].FullName;
-            
-            //let range : NSRange = NSMakeRange(0, name.length)
-            //print(range);
-            cell.lbltitle.text = notificationList.DataList[indexPath.row].FullName + " " + notificationList.DataList[indexPath.row].NotificationText
-            
-            cell.lbldate.text = notificationList.DataList[indexPath.row].DateTimeCaption
+            cell.lbldate.text = notificationList.Result[indexPath.row].TimeCaption
             cell.lbltitle.delegate = self
         
+            if(notificationList.Result[indexPath.row].IsRead)
+            {
+                cell.viewBack.backgroundColor = UIColor.white
+            }
+            else
+            {
+                cell.viewBack.backgroundColor = UIColor(red: 255/255.0, green: 111/255.0, blue: 111/255.0, alpha: 0.4)
+            }
+            
             var statusMessage = ""
             
-            switch notificationList.DataList[indexPath.row].NotificationStatusID {
+            switch notificationList.Result[indexPath.row].NotificationStatus
+            {
             case 1:
                 statusMessage = " sent you new message"
                 break;
             case 2:
-                statusMessage = " applied to your \(notificationList.DataList[indexPath.row].JobTitle) job"
+                statusMessage = " applied to your \(notificationList.Result[indexPath.row].TimeCaption) job"
                 break;
             case 3:
                 statusMessage = " started following you"
@@ -336,9 +336,22 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
             let nsString = string as NSString
             let range = nsString.range(of: name)
             let range1 = nsString.range(of: "message")
-            let range3 = nsString.range(of: notificationList.DataList[indexPath.row].JobTitle);
+            let range3 = nsString.range(of: notificationList.Result[indexPath.row].NotificationText);
             let range4 = nsString.range(of: "offer");
-            let keyID : String = notificationList.DataList[indexPath.row].IsContractor ? ("action://users/" + String(notificationList.DataList[indexPath.row].ContractorID)) : ("action://company/" + String(notificationList.DataList[indexPath.row].CompanyID))
+            var keyID : String = ""
+            if(notificationList.Result[indexPath.row].Role == 1)
+            {
+                keyID = "action://contactor/" + String(notificationList.Result[indexPath.row].UserID)
+            }
+            else if(notificationList.Result[indexPath.row].Role == 2)
+            {
+                keyID = "action://company/" + String(notificationList.Result[indexPath.row].UserID)
+            }
+            else if (notificationList.Result[indexPath.row].Role == 3)
+            {
+                keyID = "action://supplier/" + String(notificationList.Result[indexPath.row].UserID)
+            }
+
             
             cell.lbltitle.setText(finalText) { (mutableAttributedString) -> NSMutableAttributedString? in
                 var boldSystemFont : UIFont = UIFont.boldSystemFont(ofSize: 16)
@@ -358,20 +371,33 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
                 return mutableAttributedString;
             }
             let url1 = NSURL(string: keyID)!
-            let url2 = NSURL(string: "action://message/\(notificationList.DataList[indexPath.row].PrimaryID)")!
+            let url2 = NSURL(string: "action://message/\(notificationList.Result[indexPath.row].TablePrimaryID)")!
             cell.lbltitle.addLink(to: url1 as URL!, with: range)
             cell.lbltitle.addLink(to: url2 as URL!, with: range1)
             cell.lbltitle.addLink(to: url2 as URL!, with: range3)
             cell.lbltitle.addLink(to: url2 as URL!, with: range4)
             
-            let url = URL(string: notificationList.DataList[indexPath.row].ProfileImageLink)!
-            let resource = ImageResource(downloadURL: url, cacheKey: notificationList.DataList[indexPath.row].ProfileImageLink)
+            let url = URL(string: notificationList.Result[indexPath.row].ProfileImageLink)!
+            let resource = ImageResource(downloadURL: url, cacheKey: notificationList.Result[indexPath.row].ProfileImageLink)
             cell.imguser.kf.indicatorType = .activity
             cell.imguser.kf.setImage(with: resource)
             cell.imguser.clipsToBounds = true
             
             return cell
-
+        }
+    }
+    
+    func OnReadNotification(NotificationID:Int)
+    {
+        let param = ["NotificationID":notificationList.Result[NotificationID].NotificationID] as [String : Any]
+        AFWrapper.requestPOSTURL(Constants.URLS.AccountNotification, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            self.notificationList.Result[NotificationID].IsRead = true
+            self.tvnoti.reloadData()
+            AppDelegate.sharedInstance().GetNotificationCount()
+        }) {
+            (error) -> Void in
+            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
@@ -379,94 +405,140 @@ class NotificationTab: UIViewController, UITableViewDataSource, UITableViewDeleg
         // Check for Message 
         if(tableView == TBLSearchView)
         {
-            if(self.Searchdashlist?[indexPath.row].IsContractor == false)
+            if(self.Searchdashlist[indexPath.row].Role == 0)
             {
-                let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-                companyVC.companyId = self.Searchdashlist![indexPath.row].PrimaryID
+                print("Admin")
+            }
+            else if(self.Searchdashlist[indexPath.row].Role == 1)
+            {
+                print("Contractor")
+                if(self.Searchdashlist[indexPath.row].IsMe)
+                {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "ContractorProfileView") as! ContractorProfileView
+                    vc.userId = self.Searchdashlist[indexPath.row].UserID
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                else
+                {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "OtherContractorProfile") as! OtherContractorProfile
+                    vc.userId = self.Searchdashlist[indexPath.row].UserID
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+            else if(self.Searchdashlist[indexPath.row].Role == 2)
+            {
+                print("Company")
+                let companyVC = self.storyboard?.instantiateViewController(withIdentifier: "CompanyView") as! CompanyView
+                companyVC.userId = self.Searchdashlist[indexPath.row].UserID
                 self.navigationController?.pushViewController(companyVC, animated: true)
             }
-            else
+            else if(self.Searchdashlist[indexPath.row].Role == 3)
             {
-                let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-                companyVC.contractorId = self.Searchdashlist![indexPath.row].PrimaryID
+                print("Supplier")
+                let companyVC  = self.storyboard?.instantiateViewController(withIdentifier: "SupplierView") as! SupplierView
+                companyVC.userId = self.Searchdashlist[indexPath.row].UserID
                 self.navigationController?.pushViewController(companyVC, animated: true)
-                
             }
             SearchbarView.text = ""
             SearchbarView.resignFirstResponder()
             viewSearch.isHidden = true
-
         }
         else
         {
-             if (notificationList.DataList[indexPath.row].NotificationStatusID == 1)
+            OnReadNotification(NotificationID: indexPath.row)
+             if (notificationList.Result[indexPath.row].NotificationStatus == 1)
             {
-                // Redirect to Message Screen
-                var userId = notificationList.DataList[indexPath.row].PrimaryID
-                let msgVC : MessageTab = self.storyboard?.instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
-                msgVC.selectedSenderId = userId
-                msgVC.isNext = true
-                self.navigationController?.pushViewController(msgVC, animated: true)
+                let currentBuddy:BuddyM = BuddyM()
+                currentBuddy.ChatUserID = notificationList.Result[indexPath.row].UserID
+                currentBuddy.Name = notificationList.Result[indexPath.row].Name
+                currentBuddy.IsReadLastMessage = true
+                currentBuddy.Role = 1
+                currentBuddy.ProfileImageLink = notificationList.Result[indexPath.row].ProfileImageLink
+                
+                let chatDetail  = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageDetails") as! MessageDetails
+                chatDetail.currentBuddy = currentBuddy
+                self.navigationController?.pushViewController(chatDetail, animated: true)
+                
             }
-            else if (notificationList.DataList[indexPath.row].NotificationStatusID == 2)
+            else if (notificationList.Result[indexPath.row].NotificationStatus == 2)
             {
                 // Redirect to Job Screen
             }
-            else if (notificationList.DataList[indexPath.row].NotificationStatusID == 4)
+            else if (notificationList.Result[indexPath.row].NotificationStatus == 4)
             {
                 let companyVC : OfferDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OfferDetailViewController") as! OfferDetailViewController
-                companyVC.OfferId = notificationList.DataList[indexPath.row].PrimaryID
+                companyVC.OfferId = Int(notificationList.Result[indexPath.row].TablePrimaryID)!
                 companyVC.isNotification = true
                 self.navigationController?.pushViewController(companyVC, animated: true)
             }
-            else if (notificationList.DataList[indexPath.row].NotificationStatusID != 1 && notificationList.DataList[indexPath.row].NotificationStatusID != 2 ) {
-                if(notificationList.DataList[indexPath.row].ContractorID != 0 && notificationList.DataList[indexPath.row].CompanyID != 0)
+            else if (notificationList.Result[indexPath.row].NotificationStatus != 1 && notificationList.Result[indexPath.row].NotificationStatus != 2 )
+             {
+                if(notificationList.Result[indexPath.row].Role == 1)
                 {
-                    if(notificationList.DataList[indexPath.row].IsContractor == false)
-                    {
-                        let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-                        companyVC.companyId = notificationList.DataList[indexPath.row].CompanyID
-                        self.navigationController?.pushViewController(companyVC, animated: true)
-                    }
-                    else
-                    {
-                        let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-                        companyVC.contractorId = notificationList.DataList[indexPath.row].ContractorID
-                        self.navigationController?.pushViewController(companyVC, animated: true)
-                    }
+                    let companyVC = self.storyboard?.instantiateViewController(withIdentifier: "OtherContractorProfile") as! OtherContractorProfile
+                    companyVC.userId = notificationList.Result[indexPath.row].UserID
+                    self.navigationController?.pushViewController(companyVC, animated: true)
                 }
-                
+                else if (notificationList.Result[indexPath.row].Role == 2)
+                {
+                    let companyVC = self.storyboard?.instantiateViewController(withIdentifier: "CompanyView") as! CompanyView
+                    companyVC.userId = notificationList.Result[indexPath.row].UserID
+                    self.navigationController?.pushViewController(companyVC, animated: true)
+
+                }
+                else
+                {
+                    let companyVC = self.storyboard?.instantiateViewController(withIdentifier: "SupplierView") as! SupplierView
+                    companyVC.userId = notificationList.Result[indexPath.row].UserID
+                    self.navigationController?.pushViewController(companyVC, animated: true)
+                }
             }
         }
     }
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        let tblheight = self.notificationList.DataList.count * 80
-        
-        if scrollView.contentOffset.y > CGFloat(tblheight) {
-            self.getNotifications(page: currentPage )
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+        if !self.isCallWebService
+        {
+            if(scrollView == self.tvnoti)
+            {
+                if(scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height))
+                {
+                    if(!isFull)
+                    {
+                        getNotifications()
+                    }
+                }
+            }
         }
-        
-        
     }
     
-    func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
+    func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!)
+    {
         print(url)
-        if url.absoluteString.contains("action://users/") {
-            let userId = url.absoluteString.replacingOccurrences(of: "action://users/", with: "")
+        if url.absoluteString.contains("action://contactor/")
+        {
+            let userId = url.absoluteString.replacingOccurrences(of: "action://contactor/", with: "")
             print(userId)
             
-            let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
-            companyVC.contractorId = Int(userId)!
+            let companyVC  = self.storyboard?.instantiateViewController(withIdentifier: "OtherContractorProfile") as! OtherContractorProfile
+            companyVC.userId = "\(userId)"
             self.navigationController?.pushViewController(companyVC, animated: true)
             
         }
-        else if url.absoluteString.contains("action://company/") {
+        else if url.absoluteString.contains("action://company/")
+        {
             let userId = url.absoluteString.replacingOccurrences(of: "action://company/", with: "")
             print(userId)
-            let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
-            companyVC.companyId = Int(userId)!
+            let companyVC  = self.storyboard?.instantiateViewController(withIdentifier: "CompanyView") as! CompanyView
+            companyVC.userId = "\(userId)"
             self.navigationController?.pushViewController(companyVC, animated: true)
+        }
+        else if url.absoluteString.contains("action://supplier/")
+        {
+            let userId = url.absoluteString.replacingOccurrences(of: "action://supplier/", with: "")
+            let vc  = self.storyboard?.instantiateViewController(withIdentifier: "SupplierView") as! SupplierView
+            vc.userId = "\(userId)"
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

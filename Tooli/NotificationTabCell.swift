@@ -2,16 +2,17 @@
 //  ClientDashBoardCell.swift
 //  SMUJ
 //
-//  Created by Moin Shirazi on 24/12/16.
-//  Copyright © 2016 Moin Shirazi. All rights reserved.
+//  Created by impero on 24/12/16.
+//  Copyright © 2016 impero. All rights reserved.
 //
 
 import UIKit
-import Cosmos
+
 import TTTAttributedLabel
 class NotificationTabCell: UITableViewCell {
 
     
+    @IBOutlet weak var viewBack: UIView!
     @IBOutlet var lbltitle: TTTAttributedLabel!
     @IBOutlet var lbldate: UILabel!
     @IBOutlet var imguser: UIImageView!

@@ -186,7 +186,7 @@ extension UITableView
             lblText.numberOfLines = 0
             lblText.text = str
             lblText.textAlignment = .center
-            lblText.textColor = UIColor.lightGray
+            lblText.textColor = UIColor.black
             self.backgroundColor = UIColor.clear
             self.separatorStyle = .none
             lblText.tag = 987654

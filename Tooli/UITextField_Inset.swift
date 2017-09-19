@@ -2,8 +2,8 @@
 //  UITextField + Inset.swift
 //  SMUJ
 //
-//  Created by Moin Shirazi on 23/12/16.
-//  Copyright © 2016 Moin Shirazi. All rights reserved.
+//  Created by impero on 23/12/16.
+//  Copyright © 2016 impero. All rights reserved.
 //
 
 import UIKit
