@@ -56,10 +56,6 @@ class PortfolioDetails: UIViewController, SKPhotoBrowserDelegate, UICollectionVi
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
-    @IBAction func BtnBackMainScreen(_ sender: UIButton)
-    {
-        AppDelegate.sharedInstance().moveToDashboard()
-    }
     @IBAction func pushButton(_ sender: AnyObject) {
         let browser = SKPhotoBrowser(photos: createWebPhotos())
         browser.initializePageIndex(0)
@@ -178,7 +174,6 @@ extension PortfolioDetails
 private extension PortfolioDetails {
     func createWebPhotos() -> [SKPhotoProtocol] {
         return (0..<portfolio.PortfolioImageList.count).map { (i: Int) -> SKPhotoProtocol in
-<<<<<<< HEAD
             let img:UIImageView = UIImageView()
             let imgURL = portfolio.PortfolioImageList[i].ImageLink as String!
             
@@ -187,30 +182,13 @@ private extension PortfolioDetails {
             if(img.image == nil)
             {
                 let photo = SKPhoto.photoWithImageURL(imgURL!)
-=======
-            //            let photo = SKPhoto.photoWithImageURL("https://placehold.jp/150\(i)x150\(i).png", holder: UIImage(named: "image0.jpg")!)
-//            let photo = SKPhoto.photoWithImageURL(portfolio.PortfolioImageList[i].PortfolioImageLink)
-            let img:UIImageView = UIImageView()
-            let imgURL = portfolio.PortfolioImageList[i].PortfolioImageLink as String!
-            
-            let url = URL(string: imgURL!)
-            img.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-            
-            if(img.image != nil)
-            {
-                let photo = SKPhoto.photoWithImage(img.image!)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 photo.caption = ("")
                 photo.shouldCachePhotoURLImage = true
                 return photo
             }
             else
             {
-<<<<<<< HEAD
                 let photo = SKPhoto.photoWithImage(img.image!)
-=======
-                let photo = SKPhoto.photoWithImageURL(imgURL!)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 photo.caption = ("")
                 photo.shouldCachePhotoURLImage = true
                 return photo

@@ -26,7 +26,6 @@
 		2025C34A1E49D47B00615DFE /* Editportfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2025C3491E49D47B00615DFE /* Editportfolio.swift */; };
 		20303D081E5D7C4D00FCF08B /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20303D071E5D7C4D00FCF08B /* Statistics.swift */; };
 		20303D0E1E5D876E00FCF08B /* StatsticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */; };
-<<<<<<< HEAD
 		203A2AEA1E71930400A01D69 /* SpecialOfferList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203A2AE91E71930300A01D69 /* SpecialOfferList.swift */; };
 		204023D41F4EAFC6006E0256 /* ConntractorListM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204023D31F4EAFC6006E0256 /* ConntractorListM.swift */; };
 		204024131F4F067D006E0256 /* GetSavedItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204024121F4F067D006E0256 /* GetSavedItemList.swift */; };
@@ -56,9 +55,6 @@
 		204A613F1F500A2400401AC4 /* CompanySpecialOfferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204A613E1F500A2400401AC4 /* CompanySpecialOfferCell.swift */; };
 		204A61431F50320D00401AC4 /* GetAllBuddyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204A61421F50320D00401AC4 /* GetAllBuddyList.swift */; };
 		204A615E1F503E4B00401AC4 /* GetBuddyMsgList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204A615D1F503E4B00401AC4 /* GetBuddyMsgList.swift */; };
-=======
-		203546321E6987A7009953CC /* DIYCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203546311E6987A7009953CC /* DIYCalendarCell.swift */; };
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 		204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */; };
 		204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204CF79E1E4AEB0D00C35938 /* JobList.swift */; };
 		204E008B1E5316BF0099C111 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204E008A1E5316BF0099C111 /* TagListView.swift */; };
@@ -94,12 +90,10 @@
 		206910F21E5439D7009CED53 /* ContractorResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206910F11E5439D7009CED53 /* ContractorResult.swift */; };
 		206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206A08701E39D2A3004C6036 /* CertificateCell.swift */; };
 		206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206AC5431E4DEA0C00A20341 /* Forgot.swift */; };
-		20744CED1E5AAD2D007D91D4 /* CompnayProfilefeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20744CEC1E5AAD2D007D91D4 /* CompnayProfilefeed.swift */; };
 		207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */; };
 		207B1B831E51DE2700C5F664 /* JodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */; };
 		207B1B851E51EA9200C5F664 /* OfferDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */; };
 		20898A3D1E3B690F009498DD /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20898A3C1E3B690F009498DD /* LoadingCell.swift */; };
-<<<<<<< HEAD
 		209533381E5C608E0036D6C0 /* FollowingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533371E5C608E0036D6C0 /* FollowingListCell.swift */; };
 		20A94A1D1F694A6000C779FE /* NewOtherJodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A94A1C1F694A6000C779FE /* NewOtherJodDetailViewController.swift */; };
 		20A94A211F695B7600C779FE /* MyJodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A94A201F695B7600C779FE /* MyJodDetailViewController.swift */; };
@@ -112,19 +106,11 @@
 		20E8BFD51F6BF0680069BF2E /* EditDetailJobDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E8BFD41F6BF0680069BF2E /* EditDetailJobDetail.swift */; };
 		20F7E55A1ECD7EA6007758DB /* UserlistInDashBorad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F7E5591ECD7EA6007758DB /* UserlistInDashBorad.swift */; };
 		20F7E55C1ECD7EC1007758DB /* UserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F7E55B1ECD7EC1007758DB /* UserCollectionViewCell.swift */; };
-=======
-		209533361E5C55710036D6C0 /* NProfileFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533351E5C55710036D6C0 /* NProfileFeed.swift */; };
-		209533381E5C608E0036D6C0 /* FollowingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209533371E5C608E0036D6C0 /* FollowingListCell.swift */; };
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 		20FADD091E5AE3FE005ABBF1 /* MessageTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */; };
 		20FADD0B1E5AE40A005ABBF1 /* MessageDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */; };
 		20FADD0D1E5AE418005ABBF1 /* ChatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0C1E5AE418005ABBF1 /* ChatList.swift */; };
 		20FADD0F1E5AE51C005ABBF1 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD0E1E5AE51C005ABBF1 /* Globals.swift */; };
 		20FADD111E5AEFFB005ABBF1 /* NotificationTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FADD101E5AEFFB005ABBF1 /* NotificationTab.swift */; };
-<<<<<<< HEAD
-=======
-		26A59E3B194F590405440A33 /* Pods_TooliTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CABF5538F4092E98E4AEA969 /* Pods_TooliTests.framework */; };
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 		311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311428831E35BDF10032F8FB /* CompanyProfileM.swift */; };
 		3118664C1E274C18008A4C74 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664B1E274C18008A4C74 /* Connections.swift */; };
 		3118664E1E274C32008A4C74 /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3118664D1E274C32008A4C74 /* ConnectionCell.swift */; };
@@ -193,7 +179,6 @@
 		2025C3491E49D47B00615DFE /* Editportfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editportfolio.swift; sourceTree = "<group>"; };
 		20303D071E5D7C4D00FCF08B /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsticsCell.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		203A2AE91E71930300A01D69 /* SpecialOfferList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialOfferList.swift; sourceTree = "<group>"; };
 		204023D31F4EAFC6006E0256 /* ConntractorListM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConntractorListM.swift; sourceTree = "<group>"; };
 		204024121F4F067D006E0256 /* GetSavedItemList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetSavedItemList.swift; sourceTree = "<group>"; };
@@ -223,9 +208,6 @@
 		204A613E1F500A2400401AC4 /* CompanySpecialOfferCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanySpecialOfferCell.swift; sourceTree = "<group>"; };
 		204A61421F50320D00401AC4 /* GetAllBuddyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllBuddyList.swift; sourceTree = "<group>"; };
 		204A615D1F503E4B00401AC4 /* GetBuddyMsgList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBuddyMsgList.swift; sourceTree = "<group>"; };
-=======
-		203546311E6987A7009953CC /* DIYCalendarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIYCalendarCell.swift; sourceTree = "<group>"; };
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 		204CF79D1E4AEB0D00C35938 /* ConnectionList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionList.swift; sourceTree = "<group>"; };
 		204CF79E1E4AEB0D00C35938 /* JobList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JobList.swift; sourceTree = "<group>"; };
 		204E008A1E5316BF0099C111 /* TagListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
@@ -262,16 +244,11 @@
 		206910F11E5439D7009CED53 /* ContractorResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractorResult.swift; sourceTree = "<group>"; };
 		206A08701E39D2A3004C6036 /* CertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateCell.swift; sourceTree = "<group>"; };
 		206AC5431E4DEA0C00A20341 /* Forgot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forgot.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		206EF0F61E99005A00938012 /* Tooli-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tooli-Bridging-Header.h"; sourceTree = "<group>"; };
-=======
-		20744CEC1E5AAD2D007D91D4 /* CompnayProfilefeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompnayProfilefeed.swift; sourceTree = "<group>"; };
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 		207B1B801E51C68F00C5F664 /* SearchContractoreList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchContractoreList.swift; sourceTree = "<group>"; };
 		207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JodDetailViewController.swift; sourceTree = "<group>"; };
 		207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferDetailViewController.swift; sourceTree = "<group>"; };
 		20898A3C1E3B690F009498DD /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		209533371E5C608E0036D6C0 /* FollowingListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingListCell.swift; sourceTree = "<group>"; };
 		20A94A1C1F694A6000C779FE /* NewOtherJodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewOtherJodDetailViewController.swift; sourceTree = "<group>"; };
 		20A94A201F695B7600C779FE /* MyJodDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyJodDetailViewController.swift; sourceTree = "<group>"; };
@@ -284,10 +261,6 @@
 		20E8BFD41F6BF0680069BF2E /* EditDetailJobDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDetailJobDetail.swift; sourceTree = "<group>"; };
 		20F7E5591ECD7EA6007758DB /* UserlistInDashBorad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserlistInDashBorad.swift; sourceTree = "<group>"; };
 		20F7E55B1ECD7EC1007758DB /* UserCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCollectionViewCell.swift; sourceTree = "<group>"; };
-=======
-		209533351E5C55710036D6C0 /* NProfileFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NProfileFeed.swift; sourceTree = "<group>"; };
-		209533371E5C608E0036D6C0 /* FollowingListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingListCell.swift; sourceTree = "<group>"; };
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 		20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTab.swift; sourceTree = "<group>"; };
 		20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetails.swift; sourceTree = "<group>"; };
 		20FADD0C1E5AE418005ABBF1 /* ChatList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatList.swift; sourceTree = "<group>"; };
@@ -514,14 +487,7 @@
 		31663C881E24CA4100D5DD3C /* Custom Cell */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				205D682B1F4AAF1C003F803D /* NewCell */,
-=======
-				203546311E6987A7009953CC /* DIYCalendarCell.swift */,
-				B843222E1E4F200000C379EF /* DashBoardTv1Cell.swift */,
-				B843222F1E4F200000C379EF /* DashBoardTv2Cell.swift */,
-				B84322301E4F200000C379EF /* DashBoardTv3Cell.swift */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				31663C821E24C20A00D5DD3C /* NotificationTabCell.swift */,
 				31663C841E24C55900D5DD3C /* MessageTabCell.swift */,
 				31663C8C1E25083000D5DD3C /* DashBoardTvCell.swift */,
@@ -535,14 +501,9 @@
 				206A08701E39D2A3004C6036 /* CertificateCell.swift */,
 				20898A3C1E3B690F009498DD /* LoadingCell.swift */,
 				205D19111E4C4250009CF5BD /* TimelineCell.swift */,
-<<<<<<< HEAD
 				20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */,
 				20F7E5591ECD7EA6007758DB /* UserlistInDashBorad.swift */,
 				20F7E55B1ECD7EC1007758DB /* UserCollectionViewCell.swift */,
-=======
-				209533371E5C608E0036D6C0 /* FollowingListCell.swift */,
-				20303D0D1E5D876E00FCF08B /* StatsticsCell.swift */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 			);
 			name = "Custom Cell";
 			sourceTree = "<group>";
@@ -550,52 +511,11 @@
 		31663C891E24CA7500D5DD3C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				20066FF71F56DEB300350046 /* NoDataView.xib */,
 				20066FF61F56DEB300350046 /* NoDataView.swift */,
 				20084C991F55874E006FAB9F /* PopupView.xib */,
 				20084C9A1F55874E006FAB9F /* PopupView.swift */,
 				205C3EEA1F39C2E700486A9A /* New File */,
-=======
-				31691C771E30A2430029CDB6 /* Register.swift */,
-				206910EC1E54320C009CED53 /* Login.swift */,
-				206AC5431E4DEA0C00A20341 /* Forgot.swift */,
-				201F553E1E548E240009EFFF /* ChangePassword.swift */,
-				201F55401E548EC40009EFFF /* Referrals.swift */,
-				31691C7B1E30A25A0029CDB6 /* Info.swift */,
-				314676BF1E23C51600B01108 /* YourTrades.swift */,
-				3193295D1E1A614200456DDF /* Experience.swift */,
-				31691C731E307E620029CDB6 /* RatesTravel.swift */,
-				31691C751E3091C40029CDB6 /* Certificates.swift */,
-				3171AC681E3396320063198C /* EditProfile.swift */,
-				204E71DD1E3B235D00E971E0 /* EditExperience.swift */,
-				B8010AC21E3C5F1B00961C8D /* EditCertificate.swift */,
-				318694CA1E1F746D000E8349 /* CustomTabBarC.swift */,
-				3171AC691E3396320063198C /* ProfileFeed.swift */,
-				205D190F1E4C3078009CF5BD /* PortfolioDetails.swift */,
-				20FADD101E5AEFFB005ABBF1 /* NotificationTab.swift */,
-				31663C8A1E24CAB400D5DD3C /* DashBoardTab.swift */,
-				20FADD081E5AE3FE005ABBF1 /* MessageTab.swift */,
-				20FADD0A1E5AE40A005ABBF1 /* MessageDetails.swift */,
-				20FADD0C1E5AE418005ABBF1 /* ChatList.swift */,
-				31B6BE711E265C37009C03C7 /* JobCenter.swift */,
-				3118664B1E274C18008A4C74 /* Connections.swift */,
-				31FB339A1E27791000157820 /* JobDetail.swift */,
-				312297DE1E2F6FDD00EC48F7 /* ContractorDetail.swift */,
-				31A6ED781E31D3470039A780 /* SlidingMenu.swift */,
-				20744CEC1E5AAD2D007D91D4 /* CompnayProfilefeed.swift */,
-				31A6ED761E31D2F40039A780 /* MyNavigationController.swift */,
-				3171AC6A1E3396320063198C /* Addportfolio.swift */,
-				2025C3491E49D47B00615DFE /* Editportfolio.swift */,
-				207B1B821E51DE2700C5F664 /* JodDetailViewController.swift */,
-				207B1B841E51EA9200C5F664 /* OfferDetailViewController.swift */,
-				206910E81E541F5B009CED53 /* ContractorSearch.swift */,
-				206910F11E5439D7009CED53 /* ContractorResult.swift */,
-				201F553A1E5465B20009EFFF /* PDFViewer.swift */,
-				201F553C1E546F590009EFFF /* SavedView.swift */,
-				209533351E5C55710036D6C0 /* NProfileFeed.swift */,
-				20303D071E5D7C4D00FCF08B /* Statistics.swift */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -649,11 +569,8 @@
 		3193299B1E1A7CB000456DDF /* Custom & Utility */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				2001EF3E1F3C882C005BB606 /* GooglePlacesSearchController.swift */,
 				B851BF531E8D25D700378D24 /* Calendar */,
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				204E008A1E5316BF0099C111 /* TagListView.swift */,
 				3193298B1E1A7C9400456DDF /* AFWrapper.swift */,
 				314A44CA1E1B73A600401F49 /* CustomCategories.swift */,
@@ -797,22 +714,6 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 		205074F11E56FAD100D75292 /* ShellScript */ = {
-<<<<<<< HEAD
-=======
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 0b5d2d3dda7c1e1fc5063210da75c7f408670a9c 946063ef553efb5c7b1a100352abc11a47f8b5e815186a50dab48b06727dc01b\n";
-		};
-		6213931AE82241C1F71EA33F /* [CP] Embed Pods Frameworks */ = {
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -884,13 +785,9 @@
 				205C3EF21F39C38E00486A9A /* SignupVC2.swift in Sources */,
 				204A61361F50095700401AC4 /* SupplierView.swift in Sources */,
 				3171AC761E3396470063198C /* ProfileFeedCell.swift in Sources */,
-<<<<<<< HEAD
 				204A613F1F500A2400401AC4 /* CompanySpecialOfferCell.swift in Sources */,
 				204023D41F4EAFC6006E0256 /* ConntractorListM.swift in Sources */,
 				2042C9491F51526E006F9ECD /* OtherProfile03Cell.swift in Sources */,
-=======
-				203546321E6987A7009953CC /* DIYCalendarCell.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				319329951E1A7C9400456DDF /* Constants.swift in Sources */,
 				205BEC711F44702400B00971 /* GetDefaultCertificate.swift in Sources */,
 				205BEC6F1F44634200B00971 /* GetSignUp4.swift in Sources */,
@@ -905,23 +802,16 @@
 				20455CB41F4DAB8B00CEA250 /* SpecialOfferListCell.swift in Sources */,
 				207B1B831E51DE2700C5F664 /* JodDetailViewController.swift in Sources */,
 				20303D0E1E5D876E00FCF08B /* StatsticsCell.swift in Sources */,
-<<<<<<< HEAD
 				20455CB01F4D999800CEA250 /* SpecialOfferListGetAll.swift in Sources */,
 				20084C9C1F55874E006FAB9F /* PopupView.swift in Sources */,
-=======
-				204CF7A21E4AEB3D00C35938 /* ContractorDashBoard.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				3171AC781E3396470063198C /* PortfolioCell.swift in Sources */,
 				206A08711E39D2A3004C6036 /* CertificateCell.swift in Sources */,
 				20E8BFD11F6BBCAC0069BF2E /* MyJobNewJobCell.swift in Sources */,
 				3171AC6E1E3396320063198C /* Addportfolio.swift in Sources */,
 				31B6BE741E265C56009C03C7 /* JobCenterCell.swift in Sources */,
 				31691C781E30A2430029CDB6 /* Register.swift in Sources */,
-<<<<<<< HEAD
 				2042C9541F518B3B006F9ECD /* ReciverTabWithTimeCell.swift in Sources */,
 				20E8BFD31F6BC1130069BF2E /* MyJobDetails.swift in Sources */,
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				319329941E1A7C9400456DDF /* CALayer.swift in Sources */,
 				B851BF5F1E8D25ED00378D24 /* NSDate+Timepiece.swift in Sources */,
 				2062D1FA1F542BFC007CF176 /* AddImageCell.swift in Sources */,
@@ -937,15 +827,11 @@
 				204CF79F1E4AEB0D00C35938 /* ConnectionList.swift in Sources */,
 				318694CB1E1F746D000E8349 /* CustomTabBarC.swift in Sources */,
 				B83AA1E51E3C5BF2004FD90F /* SkillCell.swift in Sources */,
-				209533361E5C55710036D6C0 /* NProfileFeed.swift in Sources */,
 				206910F21E5439D7009CED53 /* ContractorResult.swift in Sources */,
 				3171AC7A1E3396470063198C /* CompanyprofileJobsCell.swift in Sources */,
 				20FADD091E5AE3FE005ABBF1 /* MessageTab.swift in Sources */,
 				31663C8B1E24CAB400D5DD3C /* DashBoardTab.swift in Sources */,
-<<<<<<< HEAD
 				205D68311F4AAF49003F803D /* DashBoard01Cell.swift in Sources */,
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				319329931E1A7C9400456DDF /* AFWrapper.swift in Sources */,
 				319329991E1A7C9400456DDF /* UITextField_Inset.swift in Sources */,
 				31B6BE721E265C37009C03C7 /* JobCenter1.swift in Sources */,
@@ -957,17 +843,12 @@
 				20455CAA1F4D5D8F00CEA250 /* JobCell.swift in Sources */,
 				201F553F1E548E240009EFFF /* ChangePassword.swift in Sources */,
 				201F553B1E5465B20009EFFF /* PDFViewer.swift in Sources */,
-<<<<<<< HEAD
 				2042C94B1F51526E006F9ECD /* OtherProfileTimeLineCell.swift in Sources */,
 				205C3EF11F39C38E00486A9A /* SignUpVC1.swift in Sources */,
-=======
-				3171AC6D1E3396320063198C /* ProfileFeed.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				311428841E35BDF10032F8FB /* CompanyProfileM.swift in Sources */,
 				20E07B4C1F67A8830049745B /* JobSearchVC.swift in Sources */,
 				207B1B811E51C68F00C5F664 /* SearchContractoreList.swift in Sources */,
 				31663C8D1E25083000D5DD3C /* DashBoardTvCell.swift in Sources */,
-<<<<<<< HEAD
 				20F7E55A1ECD7EA6007758DB /* UserlistInDashBorad.swift in Sources */,
 				20FADD0F1E5AE51C005ABBF1 /* Globals.swift in Sources */,
 				206910ED1E54320C009CED53 /* Login.swift in Sources */,
@@ -977,25 +858,15 @@
 				205D68321F4AAF49003F803D /* DashBoard02Cell.swift in Sources */,
 				20181DF91F680ECC00878FD0 /* JobCenter.swift in Sources */,
 				2042C9551F518B3B006F9ECD /* SenderTabWithTimeCell.swift in Sources */,
-=======
-				20FADD0F1E5AE51C005ABBF1 /* Globals.swift in Sources */,
-				206910ED1E54320C009CED53 /* Login.swift in Sources */,
-				20FADD0B1E5AE40A005ABBF1 /* MessageDetails.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				201F553D1E546F590009EFFF /* SavedView.swift in Sources */,
 				20D0C4421F46CCAD00EF705E /* DashBoradAllData.swift in Sources */,
 				205D683F1F4C4D76003F803D /* DashBoardJobCell.swift in Sources */,
 				2001EF3F1F3C882C005BB606 /* GooglePlacesSearchController.swift in Sources */,
 				205D19121E4C4250009CF5BD /* TimelineCell.swift in Sources */,
 				209533381E5C608E0036D6C0 /* FollowingListCell.swift in Sources */,
-<<<<<<< HEAD
 				2048058B1F486CF8007684EA /* EditContractorProfile.swift in Sources */,
 				200A5F881F3DD59700315E3D /* GetSignUp2.swift in Sources */,
 				200A5F8C1F3EE12500315E3D /* GetCertificate.swift in Sources */,
-=======
-				31691C7C1E30A25A0029CDB6 /* Info.swift in Sources */,
-				312297DF1E2F6FDD00EC48F7 /* ContractorDetail.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				319329981E1A7C9400456DDF /* Reachability.swift in Sources */,
 				2042C94A1F51526E006F9ECD /* OtherProfileTextCell.swift in Sources */,
 				2042C9511F518AA2006F9ECD /* ReciverTabCell.swift in Sources */,
@@ -1016,7 +887,6 @@
 				319329961E1A7C9400456DDF /* CreditCardFormatter.swift in Sources */,
 				20E07B4E1F67A89C0049745B /* JobMyVC.swift in Sources */,
 				200EB8581E38935A00E6B0E0 /* ExperienceCell.swift in Sources */,
-<<<<<<< HEAD
 				2042C9471F51526E006F9ECD /* OtherProfile01Cell.swift in Sources */,
 				20E8BFD51F6BF0680069BF2E /* EditDetailJobDetail.swift in Sources */,
 				B851BF5E1E8D25ED00378D24 /* NSCalendar+Timepiece.swift in Sources */,
@@ -1030,30 +900,17 @@
 				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
 				B851BF5C1E8D25ED00378D24 /* Duration.swift in Sources */,
 				20F7E55C1ECD7EC1007758DB /* UserCollectionViewCell.swift in Sources */,
-=======
-				20FADD0D1E5AE418005ABBF1 /* ChatList.swift in Sources */,
-				3171AC791E3396470063198C /* Addcell.swift in Sources */,
-				20FADD111E5AEFFB005ABBF1 /* NotificationTab.swift in Sources */,
-				B84322321E4F200000C379EF /* DashBoardTv2Cell.swift in Sources */,
-				204CF7A01E4AEB0D00C35938 /* JobList.swift in Sources */,
-				20744CED1E5AAD2D007D91D4 /* CompnayProfilefeed.swift in Sources */,
-				204E71DE1E3B235D00E971E0 /* EditExperience.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				206AC5441E4DEA0C00A20341 /* Forgot.swift in Sources */,
 				204A61431F50320D00401AC4 /* GetAllBuddyList.swift in Sources */,
 				2051E5221F6FD3B9008B94B2 /* JobListVC.swift in Sources */,
 				31663C831E24C20A00D5DD3C /* NotificationTabCell.swift in Sources */,
 				20E8BFCF1F6BB3A80069BF2E /* NewJobCell.swift in Sources */,
 				205D19101E4C3078009CF5BD /* PortfolioDetails.swift in Sources */,
-<<<<<<< HEAD
 				2042C9481F51526E006F9ECD /* OtherProfile02Cell.swift in Sources */,
 				20589FE61F6A96EE00F1D199 /* PostJobVC.swift in Sources */,
 				20303D081E5D7C4D00FCF08B /* Statistics.swift in Sources */,
 				204A615E1F503E4B00401AC4 /* GetBuddyMsgList.swift in Sources */,
 				B851BF5D1E8D25ED00378D24 /* Int+Timepiece.swift in Sources */,
-=======
-				20303D081E5D7C4D00FCF08B /* Statistics.swift in Sources */,
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				204E008B1E5316BF0099C111 /* TagListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1190,11 +1047,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "Tooli Development New";
 				SWIFT_OBJC_BRIDGING_HEADER = "Tooli/Tooli-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-<<<<<<< HEAD
 				TARGETED_DEVICE_FAMILY = 1;
-=======
-				TARGETED_DEVICE_FAMILY = "1,2";
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 			};
 			name = Debug;
 		};
@@ -1218,68 +1071,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "829472f3-4885-410e-bfa7-370f842e28a9";
 				PROVISIONING_PROFILE_SPECIFIER = "Tooli iOS Distribution 13-02-2017";
-<<<<<<< HEAD
 				SWIFT_OBJC_BRIDGING_HEADER = "Tooli/Tooli-Bridging-Header.h";
-=======
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		319329841E1A614200456DDF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2733AA69E73BBB45A6610AA /* Pods-TooliTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = TooliTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tooli.app/Tooli";
-			};
-			name = Debug;
-		};
-		319329851E1A614200456DDF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE54D64DF0A07434B5860A20 /* Pods-TooliTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = TooliTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tooli.app/Tooli";
-			};
-			name = Release;
-		};
-		319329871E1A614200456DDF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58553292CE7B94A7F9B486DF /* Pods-TooliUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = TooliUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Tooli;
-			};
-			name = Debug;
-		};
-		319329881E1A614200456DDF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 188DC577411309CBD8F4498A /* Pods-TooliUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = TooliUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.TooliUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

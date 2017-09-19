@@ -40,15 +40,9 @@ class NVActivityIndicatorAnimationSquareSpin: NVActivityIndicatorAnimationDelega
         animation.timingFunctions = [timingFunction, timingFunction, timingFunction, timingFunction]
         animation.values = [
             NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: 0), createRotateYTransform(angle: 0))),
-<<<<<<< HEAD
             NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: CGFloat.pi), createRotateYTransform(angle: 0))),
             NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: CGFloat.pi), createRotateYTransform(angle: CGFloat.pi))),
             NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: 0), createRotateYTransform(angle: CGFloat.pi))),
-=======
-            NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: CGFloat(M_PI)), createRotateYTransform(angle: 0))),
-            NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: CGFloat(M_PI)), createRotateYTransform(angle: CGFloat(M_PI)))),
-            NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: 0), createRotateYTransform(angle: CGFloat(M_PI)))),
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             NSValue(caTransform3D: CATransform3DConcat(createRotateXTransform(angle: 0), createRotateYTransform(angle: 0))),
         ]
         animation.duration = duration

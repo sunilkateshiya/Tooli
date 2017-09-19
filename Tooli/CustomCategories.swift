@@ -240,11 +240,7 @@ extension Date {
     }
     func toDisplayString() -> String {
         let dateFormatter = DateFormatter()
-<<<<<<< HEAD
         dateFormatter.dateFormat = "dd/MM/yyyy"
-=======
-        dateFormatter.dateFormat = "dd-MM-yyyy"
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         return dateFormatter.string(from: self)
     }
 }

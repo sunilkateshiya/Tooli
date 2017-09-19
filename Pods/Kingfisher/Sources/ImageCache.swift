@@ -481,31 +481,6 @@ open class ImageCache {
         var cachedFiles = [URL: URLResourceValues]()
         var urlsToDelete = [URL]()
         var diskCacheSize: UInt = 0
-<<<<<<< HEAD
-=======
-        
-        if let fileEnumerator = self.fileManager.enumerator(at: diskCacheURL, includingPropertiesForKeys: Array(resourceKeys), options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles, errorHandler: nil),
-           let urls = fileEnumerator.allObjects as? [URL]
-        {
-            for fileUrl in urls {
-                
-                do {
-                    let resourceValues = try fileUrl.resourceValues(forKeys: resourceKeys)
-                    // If it is a Directory. Continue to next file URL.
-                    if resourceValues.isDirectory == true {
-                        continue
-                    }
-                    
-                    // If this file is expired, add it to URLsToDelete
-                    if !onlyForCacheSize,
-                       let expiredDate = expiredDate,
-                       let lastAccessData = resourceValues.contentAccessDate,
-                       (lastAccessData as NSDate).laterDate(expiredDate) == expiredDate
-                    {
-                        urlsToDelete.append(fileUrl)
-                        continue
-                    }
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 
         for fileUrl in (try? fileManager.contentsOfDirectory(at: diskCacheURL, includingPropertiesForKeys: Array(resourceKeys), options: .skipsHiddenFiles)) ?? [] {
 

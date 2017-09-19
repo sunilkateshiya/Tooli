@@ -3,21 +3,14 @@
 //  Tooli
 //
 //  Created by Impero IT on 22/02/17.
-<<<<<<< HEAD
 //  Copyright © 2017 impero. All rights reserved.
-=======
-//  Copyright © 2017 Moin Shirazi. All rights reserved.
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 //
 
 import UIKit
 
 class StatsticsCell: UITableViewCell,UITableViewDelegate,UITableViewDataSource {
 
-<<<<<<< HEAD
     @IBOutlet weak var lblTop5: UILabel!
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBOutlet weak var tabViewHieghtConstraint: NSLayoutConstraint!
     @IBOutlet weak var tabView: UITableView!
     @IBOutlet weak var lblTitle: UILabel!
@@ -66,11 +59,7 @@ class StatsticsCell: UITableViewCell,UITableViewDelegate,UITableViewDataSource {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! StatsticsCell
         cell.lblTitle.text = PostList[indexPath.row].Title
         cell.lblTotleSave.attributedText = self.DisPlayCountInLabel(count: "\(PostList[indexPath.row].TotalPageSave)", str: "SAVES")
-<<<<<<< HEAD
         cell.lblTotleView.attributedText = self.DisPlayCountInLabel(count: "\(PostList[indexPath.row].TotalPageView)", str: "VIEWS")
-=======
-        cell.lblTotleView.attributedText = self.DisPlayCountInLabel(count: "\(PostList[indexPath.row].TotalPageView)", str: "VIWES")
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         return cell
     }
     func DisPlayCountInLabel(count:String,str:String) -> NSMutableAttributedString

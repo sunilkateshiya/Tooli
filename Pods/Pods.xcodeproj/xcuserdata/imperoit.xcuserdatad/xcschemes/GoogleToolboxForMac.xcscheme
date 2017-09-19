@@ -14,13 +14,8 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/GoogleToolboxForMac.xcscheme
                BlueprintIdentifier = 'C5B80060FE8C664DF08841000F41D515'
                BlueprintName = 'GoogleToolboxForMac'
-=======
-               BlueprintIdentifier = '9502FB01641FBABB78522037E882757B'
-               BlueprintName = 'AlamofireObjectMapper'
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/AlamofireObjectMapper.xcscheme
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'GoogleToolboxForMac.framework'>
             </BuildableReference>

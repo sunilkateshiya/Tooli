@@ -171,14 +171,6 @@ class Register: UIViewController, NVActivityIndicatorViewable
     func isValidEmail(testStr:String) -> Bool {
         // print("validate calendar: \(testStr)")
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-<<<<<<< HEAD
-=======
-        
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with: testStr)
-    }
-    @IBAction func btnBack(_ sender: Any) {
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: testStr)

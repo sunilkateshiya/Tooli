@@ -14,13 +14,8 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/SwiftR.xcscheme
                BlueprintIdentifier = '15284E19B08079C2BF634A4D2C64AF7A'
                BlueprintName = 'SwiftR'
-=======
-               BlueprintIdentifier = '4FDC533A4360A68ABDCE852F04B30927'
-               BlueprintName = 'Cosmos'
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/Cosmos.xcscheme
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SwiftR.framework'>
             </BuildableReference>

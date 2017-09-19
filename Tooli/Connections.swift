@@ -38,7 +38,6 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     
     var sharedManager : Globals = Globals.sharedInstance
     var refreshControl:UIRefreshControl!
-<<<<<<< HEAD
     
     var connectionList : GetYourConnectionList = GetYourConnectionList()
     
@@ -46,10 +45,6 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     var isFull : Bool = false
     var isFirstTime : Bool = true
     var isCallWebService : Bool = true
-=======
-    var connlist : [FollowerModel]?
-    var templist : [FollowerModel]?
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     
     override func viewDidLoad()
     {
@@ -67,16 +62,9 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         tvconnections.estimatedRowHeight = 500
         
         refreshControl = UIRefreshControl()
-<<<<<<< HEAD
         refreshControl.addTarget(self, action: #selector(refreshPage) , for: UIControlEvents.valueChanged)
         scroll.addSubview(refreshControl)
 
-=======
-        refreshControl.addTarget(self, action: #selector(Connections.refreshPage) , for: UIControlEvents.valueChanged)
-        tvconnections.addSubview(refreshControl)
-
-        
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         // Do any additional setup after loading the view.
     }
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
@@ -85,10 +73,7 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
     }
     func refreshPage()
     {
-<<<<<<< HEAD
         pageIndex = 1
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         onLoadDetail()
     }
 
@@ -100,7 +85,6 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
-<<<<<<< HEAD
     func onLoadDetail()
     {
         var UserType:Int = 0
@@ -130,14 +114,6 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.startAnimating()
         }
         let param = ["UserType":UserType,"IsFollowing":IsFollowing,"PageIndex":pageIndex] as [String : Any]
-=======
-    func onLoadDetail(){
-        
-        
-        self.startAnimating()
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID] as [String : Any]
-        
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         print(param)
         AFWrapper.requestPOSTURL(Constants.URLS.ConnectionList, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
             (JSONResponse) -> Void in
@@ -146,7 +122,6 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
             self.refreshControl.endRefreshing()
             print(JSONResponse["Status"].rawValue)
             
-<<<<<<< HEAD
             self.viewError.isHidden = true
             self.imgError.isHidden = true
             self.btnAgain.isHidden = true
@@ -154,13 +129,6 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
             if JSONResponse["Status"].int == 1
             {
                 if(self.pageIndex == 1)
-=======
-            print(JSONResponse["status"].rawValue as! String)
-            self.refreshControl.endRefreshing()
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 {
                     self.connectionList.Result = []
                 }
@@ -291,18 +259,12 @@ class Connections: UIViewController, UITableViewDataSource, UITableViewDelegate,
         openUserProfile(index:indexPath.row)
     }
     
-<<<<<<< HEAD
     func btnView(_ sender : UIButton)
     {
         openUserProfile(index:sender.tag)
     }
     func btnSaveUser(_ sender : UIButton)
     {
-=======
-    func btnfav(btn : UIButton)
-    {
-        
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         self.startAnimating()
         let param = ["TablePrimaryID":self.connectionList.Result[sender.tag].UserID,
                      "PageType":self.connectionList.Result[sender.tag].PageType] as [String : Any]

@@ -212,11 +212,6 @@ public struct ResizingImageProcessor: ImageProcessor {
     ///
     /// - parameter targetSize: Target size of output image should be.
     /// - parameter contentMode: Target content mode of output image should be.
-<<<<<<< HEAD
-=======
-    ///
-    /// - returns: An initialized `ResizingImageProcessor`.
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     public init(targetSize: CGSize, contentMode: ContentMode = .none) {
         self.targetSize = targetSize
         self.targetContentMode = contentMode

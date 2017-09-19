@@ -29,12 +29,9 @@ class MyNavigationController: ENSideMenuNavigationController, ENSideMenuDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-<<<<<<< HEAD
     override func viewWillAppear(_ animated: Bool) {
 
     }
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
         AppDelegate.sharedInstance().moveToDashboard()

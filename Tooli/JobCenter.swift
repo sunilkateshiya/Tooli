@@ -47,11 +47,7 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         refreshControl.addTarget(self, action: #selector(JobCenter.refreshPage) , for: UIControlEvents.valueChanged)
         tvjobs.addSubview(refreshControl)
         
-<<<<<<< HEAD
         FilterOption = 0
-=======
-        FilterOption = "Default"
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         //onLoadDetail(withfilter: FilterOption, page: self.currentPage)
 
         btnSortby.setTitle("Sort Jobs by : Default", for: .normal)
@@ -66,7 +62,6 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         isFirstTime = true
         isFull = false
         currentPage = 1
-<<<<<<< HEAD
         onLoadDetail()
     }
     override func viewWillAppear(_ animated: Bool)
@@ -88,20 +83,6 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         if self.isFirstTime
         {
             
-=======
-        onLoadDetail(withfilter: FilterOption, page: currentPage)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        onLoadDetail(withfilter: FilterOption, page: currentPage)
-
-    }
-
-
-    func onLoadDetail(withfilter: NSString, page: Int){
-        
-        if self.isFirstTime {
-            self.startAnimating()
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         }
         else
         {
@@ -123,19 +104,11 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
             print(JSONResponse["Status"].rawValue)
             self.refreshControl.endRefreshing()
             
-<<<<<<< HEAD
             if JSONResponse["Status"].int == 1
             {
                 print(JSONResponse.rawValue)
                 self.stopAnimating()
                 if self.isFirstTime
-=======
-            print(JSONResponse["status"].rawValue as! String)
-            self.refreshControl.endRefreshing()
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 {
                    self.joblist = Mapper<JobListData>().map(JSONObject: JSONResponse.rawValue)!
                     if(self.joblist.Result.count == 0)
@@ -157,7 +130,6 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 }
                 else
                 {
-<<<<<<< HEAD
                     let temp = Mapper<JobListData>().map(JSONObject: JSONResponse.rawValue)!
                     for tmpJobs in temp.Result
                     {
@@ -244,15 +216,6 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 else
                 {
                     self.viewSearch.isHidden = true
-=======
-                    self.stopAnimating()
-                    self.isFirstTime = false;
-                    self.isFull = true
-                }
-                if(self.joblist?.count == 0 && self.isFirstTime)
-                {
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 }
             }
             else
@@ -525,13 +488,8 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
-<<<<<<< HEAD
     func btnSaveAsFavorites(_ sender : UIButton)
     {
-=======
-    func btnfav(btn : UIButton)  {
-        
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         self.startAnimating()
         let param = ["TablePrimaryID":"\(self.joblist.Result[sender.tag].JobID)",
             "PageType":4] as [String : Any]
@@ -549,17 +507,11 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
                 else{
                     self.joblist.Result[sender.tag].IsSaved = true
                 }
-<<<<<<< HEAD
                 self.tvjobs.reloadData()
-=======
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             }
         }) {
             (error) -> Void in
             self.stopAnimating()
-<<<<<<< HEAD
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
@@ -577,11 +529,4 @@ class JobCenter: UIViewController, UITableViewDataSource, UITableViewDelegate, E
         myAttrString.addAttributes(anotherAttribute1, range: myRange1)
         return myAttrString
     }
-=======
-            
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
-        }
-    }
-
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 }

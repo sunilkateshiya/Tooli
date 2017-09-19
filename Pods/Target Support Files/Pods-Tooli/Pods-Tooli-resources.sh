@@ -21,12 +21,9 @@ case "${TARGETED_DEVICE_FAMILY}" in
   3)
     TARGET_DEVICE_ARGS="--target-device tv"
     ;;
-<<<<<<< HEAD
   4)
     TARGET_DEVICE_ARGS="--target-device watch"
     ;;
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
   *)
     TARGET_DEVICE_ARGS="--target-device mac"
     ;;

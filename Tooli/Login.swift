@@ -79,7 +79,6 @@ class Login: UIViewController, NVActivityIndicatorViewable
                         
                         UIApplication.shared.applicationIconBadgeNumber = 0
                         
-<<<<<<< HEAD
                         if JSONResponse["Result"]["IsProfileSetup"].bool == true
                         {
                             AppDelegate.sharedInstance().initSignalR();
@@ -89,38 +88,6 @@ class Login: UIViewController, NVActivityIndicatorViewable
                             AppDelegate.sharedInstance().initSignalR();
                             let obj : SignUpVC1 = self.storyboard?.instantiateViewController(withIdentifier: "SignUpVC1") as! SignUpVC1
                             self.navigationController?.pushViewController(obj, animated: true)
-=======
-                        if JSONResponse != nil{
-                            
-                            if self.sharedManager.currentUser.status == "1"
-                            {
-                                
-                                    let userDefaults = UserDefaults.standard
-                                    userDefaults.set(true, forKey: Constants.KEYS.LOGINKEY)
-                                
-                                    userDefaults.set(JSONResponse.rawValue, forKey: Constants.KEYS.USERINFO)
-                                    userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
-                                    userDefaults.synchronize()
-                                
-                                    
-                                if self.sharedManager.currentUser.IsSetupProfile == true {
-                                
-                                
-                                    self.appDelegate().moveToDashboard()
-                                }
-                                else{
-                                    let obj : Info = self.storyboard?.instantiateViewController(withIdentifier: "Info") as! Info
-                                    self.navigationController?.pushViewController(obj, animated: true)
-                                    
-                                }
-                            }
-                            else
-                            {
-                                
-                            }
-                            
-                            self.view.makeToast(self.sharedManager.currentUser.message, duration: 3, position: .bottom)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         }
                     }
                     else

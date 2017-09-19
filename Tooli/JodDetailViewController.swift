@@ -25,28 +25,15 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
     @IBOutlet var lblfinish: UILabel!
     @IBOutlet var imguser: UIImageView!
     @IBOutlet var lblcity: UILabel!
-<<<<<<< HEAD
     var JobId = 0
     @IBOutlet weak var ScrollView: UIScrollView!
     var sharedManager : Globals = Globals.sharedInstance
     var jobDetail:JobViewM = JobViewM()
     @IBOutlet weak var btnApply: UIButton!
     @IBOutlet weak var btnSave: UIButton!
-=======
-
-    @IBOutlet weak var ScrollView: UIScrollView!
-    var sharedManager : Globals = Globals.sharedInstance
-    var jobDetail:JobListM!
-
-    @IBOutlet weak var btnApply: UIButton!
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBOutlet var  tagListView:TagListView!
     @IBOutlet weak var tagViewHeight: NSLayoutConstraint!
     
-<<<<<<< HEAD
-=======
-    
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func btnJobApplyAction(_ sender: UIButton)
     {
         btnApplyForJobs()
@@ -123,7 +110,6 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
         let url = URL(string: imgURL!)
         imguser.kf.indicatorType = .activity
         imguser.kf.setImage(with: url, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
-<<<<<<< HEAD
         
         if(self.jobDetail.StartDate as String! != "")
         {
@@ -146,8 +132,6 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
         {
             btnSave.isSelected = false
         }
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         lblDescription.text = self.jobDetail.Description
         if(self.jobDetail.IsApplied)
         {
@@ -157,11 +141,7 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
         {
             btnApply.isEnabled = true
         }
-<<<<<<< HEAD
         for (index,_) in (self.jobDetail.SectorNameList.enumerated())
-=======
-        for (index,i) in (self.jobDetail.ServiceList?.enumerated())!
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         {
             print(index)
             let color:UIColor!
@@ -177,14 +157,8 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
                 self.tagViewHeight.constant = 0
             }
         }
-<<<<<<< HEAD
     }
     
-=======
-        buttomConstraints.constant = 10
-       // print(self.jobDetail.ServiceList)
-    }
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
         AppDelegate.sharedInstance().moveToDashboard()
@@ -209,7 +183,6 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
     {
         self.navigationController?.popViewController(animated: true)
     }
-<<<<<<< HEAD
     @IBAction func btnSaveAsFavorites(_ sender : UIButton)
     {
         self.startAnimating()
@@ -267,47 +240,4 @@ class JodDetailViewController: UIViewController,NVActivityIndicatorViewable
         return myAttrString
     }
 
-=======
-    func btnApplyForJobs()
-    {
-        return
-        self.startAnimating()
-        
-        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,
-                     "PrimaryID": "" ?? "",
-                     "PageType":"4"] as [String : Any]
-        
-        print(param)
-        AFWrapper.requestPOSTURL(Constants.URLS.PageSaveToggle, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
-            (JSONResponse) -> Void in
-            
-            
-            self.stopAnimating()
-            
-            print(JSONResponse["status"].rawValue as! String)
-            
-            if JSONResponse != nil{
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.btnApply.isEnabled = false
-                    self.jobDetail.IsApplied = true
-                }
-                else
-                {
-                    
-                }
-                
-                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-            }
-            
-        }) {
-            (error) -> Void in
-            print(error.localizedDescription)
-            self.stopAnimating()
-            
-            self.view.makeToast("Server error. Please try again later", duration: 3, position: .bottom)
-        }
-    }
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 }

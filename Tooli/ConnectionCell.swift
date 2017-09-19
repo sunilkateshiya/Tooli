@@ -19,19 +19,12 @@ class ConnectionCell : UITableViewCell {
 
     @IBOutlet weak var lbldate: UILabel!
     @IBOutlet weak var lblTitle1: UILabel!
-<<<<<<< HEAD
     @IBOutlet var btnProfile: UIButton!
     @IBOutlet weak var lbltitle: UILabel!
     @IBOutlet weak var lblhtml: UILabel!
     
     override func awakeFromNib()
     {
-=======
-
-    @IBOutlet weak var lbltitle: UILabel!
-    @IBOutlet weak var lblhtml: UILabel!
-    override func awakeFromNib() {
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         super.awakeFromNib()
         // Initialization code
     }

@@ -28,28 +28,10 @@ pod 'FacebookShare'
 pod 'TTTAttributedLabel'
 pod 'JSQMessagesViewController'
 pod 'SwiftR'
-<<<<<<< HEAD
 pod 'ActionSheetPicker-3.0'
 pod 'GLNotificationBar'
 pod 'BSImagePicker', '~> 2.4'
 pod 'Google/Analytics'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
-=======
-#pod 'GooglePlacesAutocomplete'
-pod 'ActionSheetPicker-3.0'
-pod 'FSCalendar'
-  # Pods for Tooli
-
-  target 'TooliTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'TooliUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 end

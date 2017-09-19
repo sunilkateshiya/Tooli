@@ -14,15 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/Aadil.xcuserdatad/xcschemes/SwiftR.xcscheme
                BlueprintIdentifier = "61DC39CC83CCF103AEF10DE3873C1929"
                BuildableName = "SwiftR.framework"
                BlueprintName = "SwiftR"
-=======
-               BlueprintIdentifier = "0AC35B3F3B27C6CCDAB2BA66340D10F7"
-               BuildableName = "Pods_TooliTests.framework"
-               BlueprintName = "Pods-TooliTests"
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/Pods-TooliTests.xcscheme
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -51,15 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/Aadil.xcuserdatad/xcschemes/SwiftR.xcscheme
             BlueprintIdentifier = "61DC39CC83CCF103AEF10DE3873C1929"
             BuildableName = "SwiftR.framework"
             BlueprintName = "SwiftR"
-=======
-            BlueprintIdentifier = "0AC35B3F3B27C6CCDAB2BA66340D10F7"
-            BuildableName = "Pods_TooliTests.framework"
-            BlueprintName = "Pods-TooliTests"
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/Pods-TooliTests.xcscheme
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

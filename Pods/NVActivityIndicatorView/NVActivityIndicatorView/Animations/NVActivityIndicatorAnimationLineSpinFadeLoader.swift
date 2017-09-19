@@ -82,11 +82,7 @@ class NVActivityIndicatorAnimationLineSpinFadeLoader: NVActivityIndicatorAnimati
         lineContainer.frame = lineContainerFrame
         line.frame = lineFrame
         lineContainer.addSublayer(line)
-<<<<<<< HEAD
         lineContainer.sublayerTransform = CATransform3DMakeRotation(CGFloat.pi / 2.0 + angle, 0, 0, 1)
-=======
-        lineContainer.sublayerTransform = CATransform3DMakeRotation(CGFloat(M_PI_2) + angle, 0, 0, 1)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 
         return lineContainer
     }

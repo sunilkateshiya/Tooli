@@ -29,7 +29,6 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
     var selectedImage : UIImage?
     var imagePicker: UIImagePickerController!
     var isImageSelected : Bool = false
-<<<<<<< HEAD
     var placeholderLabel:UILabel!
     var assets: [PHAsset]!
     var imageArr:[UIImage] = []
@@ -48,14 +47,6 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
             toggleSideMenuView()
         }
         //
-=======
-     var placeholderLabel:UILabel!
-    
-    
-    @IBAction func actionBack(sender : UIButton) {
-        toggleSideMenuView()
-        //self.navigationController?.popViewController(animated: true)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     @IBAction func actionPost(sender : UIButton)
     {
@@ -94,7 +85,6 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
-<<<<<<< HEAD
     @IBAction func btnBack(_ sender: UIButton)
     {
         if(isFromProfile)
@@ -106,13 +96,6 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
             let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
             app.moveToDashboard()
         }
-=======
-    @IBAction func btnBack(_ sender: UIButton) {
-        
-        let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        app.moveToDashboard()
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,14 +116,10 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !TxtDescription.text.isEmpty
         
-<<<<<<< HEAD
         if(isFromProfile)
         {
             self.btnMenu.isHidden = true
         }
-=======
-        
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
@@ -149,14 +128,8 @@ class Addportfolio: UIViewController, UICollectionViewDelegate, UICollectionView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-<<<<<<< HEAD
     func numberOfSections(in collectionView: UICollectionView) -> Int
     {
-=======
-    
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

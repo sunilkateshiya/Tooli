@@ -36,13 +36,8 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             let imgURL = AppDelegate.sharedInstance().sharedManager.currentUser.ProfileImageLink as String
             let urlPro = URL(string: imgURL)
             ivimage?.kf.indicatorType = .activity
-<<<<<<< HEAD
             
             let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: AppDelegate.sharedInstance().sharedManager.currentUser.ProfileImageLink)
-=======
-           
-            let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             let optionInfo: KingfisherOptionsInfo = [
                 .downloadPriority(0.5),
                 .transition(ImageTransition.fade(1)),
@@ -57,15 +52,11 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
      
         // Do any additional setup after loading the view.
     }
-<<<<<<< HEAD
     func refreshPage()
     {
        self.stopAnimating()
        tableview?.reloadData()
     }
-=======
-    
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
         AppDelegate.sharedInstance().moveToDashboard()
@@ -91,11 +82,7 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
      
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           // Return the number of rows in the section.
-<<<<<<< HEAD
           return 13
-=======
-          return 9
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
      }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -152,7 +139,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
         cell?.accessoryView = imgView
         
           if indexPath.row == 0 {
-<<<<<<< HEAD
                cell!.textLabel?.text = "   Profile "
                imgView.image = #imageLiteral(resourceName: "NProfile")
           }
@@ -163,22 +149,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
           else if indexPath.row == 2 {
              cell!.textLabel?.text = "   Job Centre"
              imgView.image = #imageLiteral(resourceName: "NSettings")
-=======
-               cell!.textLabel?.text = "   PROFILE "
-               imgView.image = #imageLiteral(resourceName: "NProfile")
-          }
-          else if indexPath.row == 1 {
-            cell!.textLabel?.text = "   MESSAGES"
-            imgView.image = #imageLiteral(resourceName: "NMessage")
-          }
-          else if indexPath.row == 2 {
-             cell!.textLabel?.text = "   JOBS"
-             imgView.image = #imageLiteral(resourceName: "NSettings")
-          }
-          else if indexPath.row == 3 {
-             cell!.textLabel?.text = "   CONTRACTOR SEARCH"
-             imgView.image = #imageLiteral(resourceName: "NContractor")
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
           }
             else if indexPath.row == 3
           {
@@ -186,27 +156,15 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             imgView.image = #imageLiteral(resourceName: "NSpecialOffer")
             }
           else if indexPath.row == 4 {
-<<<<<<< HEAD
              cell!.textLabel?.text = "   Contractor Search"
              imgView.image = #imageLiteral(resourceName: "NContractor")
-=======
-             cell!.textLabel?.text = "   SAVED"
-             imgView.image = #imageLiteral(resourceName: "NSaved")
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
           }
-          
           else if indexPath.row == 5 {
-<<<<<<< HEAD
              cell!.textLabel?.text = "   Saved"
              imgView.image = #imageLiteral(resourceName: "NSaved")
-=======
-            cell!.textLabel?.text = "   CONNECTIONS"
-            imgView.image = #imageLiteral(resourceName: "Nconnections")
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
           }
           
           else if indexPath.row == 6 {
-<<<<<<< HEAD
             cell!.textLabel?.text = "   Your Connections"
             imgView.image = #imageLiteral(resourceName: "Nconnections")
           }
@@ -233,18 +191,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
           else if indexPath.row == 12 {
             cell!.textLabel?.text = "   Log out"
             imgView.image = #imageLiteral(resourceName: "logout (1)")
-=======
-             cell!.textLabel?.text = "   REFERRAL"
-             imgView.image = #imageLiteral(resourceName: "Nconnections")
-            }
-          else if indexPath.row == 7 {
-            cell!.textLabel?.text = "   STATISTICS"
-            imgView.image = #imageLiteral(resourceName: "Nconnections")
-          }
-          else if indexPath.row == 8 {
-             cell!.textLabel?.text = "   LOGOUT"
-             imgView.image = #imageLiteral(resourceName: "Nconnections")
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         }
        
           return cell!
@@ -273,7 +219,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorProfileView")
                break
           case 1:
-<<<<<<< HEAD
             
             do
             {
@@ -284,8 +229,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
                 print(error)
             }
             
-=======
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 destViewController = mainStoryboard.instantiateViewController(withIdentifier: "MessageTab")
                 break
           case 2:
@@ -295,7 +238,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SpecialOfferList")
             break
           case 4:
-<<<<<<< HEAD
 
              destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ContractorSearch")
             break
@@ -303,21 +245,11 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SavedView")
                
                break
-=======
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "SavedView")
-               
-               break
-          case 5:
-            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
-            break
-            
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
           case 6:
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Connections")
             break
             
           case 7:
-<<<<<<< HEAD
             destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Referrals")
             break
           case 8:
@@ -343,26 +275,11 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
           case 12:
                callWSSignOut()
                 destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Login")
-=======
-            destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Statistics")
-            break
-          case 8:
-               callWSSignOut()
-               
-               let userDefaults = UserDefaults.standard
-               userDefaults.set(false, forKey: Constants.KEYS.LOGINKEY)
-               userDefaults.set(false, forKey: Constants.KEYS.ISINITSIGNALR)
-               userDefaults.synchronize()
-               let app : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-               app.moveToLogin()
-               destViewController = mainStoryboard.instantiateViewController(withIdentifier: "Login")
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                break
           default:
                destViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController4")
                break
           }
-<<<<<<< HEAD
        
         if(indexPath.row == 1)
         {
@@ -379,9 +296,6 @@ class SlidingMenu: UIViewController, UITableViewDelegate, UITableViewDataSource,
             toggleSideMenuView()
         }
         if indexPath.row != 9 && indexPath.row != 10 && indexPath.row != 11 && indexPath.row != 12 && indexPath.row != 1 && indexPath.row != 2 && indexPath.row != 0 {
-=======
-        if indexPath.row != 8{
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             self.navigationController?.pushViewController(destViewController, animated: true)
             sideMenuController()?.setContentViewController(destViewController)
         }

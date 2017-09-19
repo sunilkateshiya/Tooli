@@ -112,11 +112,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
         didSet {
             if let qs: Any = queryString {
                 if let jsonData = try? JSONSerialization.data(withJSONObject: qs, options: JSONSerialization.WritingOptions()) {
-<<<<<<< HEAD
                     let json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)! as String
-=======
-                    let json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                     runJavaScript("swiftR.connection.qs = \(json)")
                 }
             } else {
@@ -129,11 +125,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
         didSet {
             if let h = headers {
                 if let jsonData = try? JSONSerialization.data(withJSONObject: h, options: JSONSerialization.WritingOptions()) {
-<<<<<<< HEAD
                     let json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)! as String
-=======
-                    let json = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                     runJavaScript("swiftR.headers = \(json)")
                 }
             } else {
@@ -471,11 +463,7 @@ open class SignalR: NSObject, SwiftRWebDelegate {
         // Using an array to start with a valid top level type for NSJSONSerialization
         let arr = [obj]
         if let data = try? JSONSerialization.data(withJSONObject: arr, options: JSONSerialization.WritingOptions()) {
-<<<<<<< HEAD
             if let str = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String? {
-=======
-            if let str = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String {
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 // Strip the array brackets to be left with the desired value
                 let range = str.characters.index(str.startIndex, offsetBy: 1) ..< str.characters.index(str.endIndex, offsetBy: -1)
                 return str.substring(with: range)

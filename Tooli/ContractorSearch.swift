@@ -52,18 +52,12 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
     
     @IBOutlet weak var TblTrade: UITableView!
     @IBOutlet var txtPostCode:UITextField!
-<<<<<<< HEAD
     @IBOutlet weak var TblSectoreSkill: UITableView!
     @IBOutlet weak var TblCertificate: UITableView!
     
     @IBOutlet weak var JobRoleHeightConstraints: NSLayoutConstraint!
     
     @IBOutlet weak var TradeHeightConstraints: NSLayoutConstraint!
-=======
-    @IBOutlet weak var TblSelectSkill: UITableView!
-    @IBOutlet weak var TblSelectCertificate: UITableView!
-    @IBOutlet weak var SkillHeightConstraints: NSLayoutConstraint!
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBOutlet weak var CertificateHeightConstraints: NSLayoutConstraint!
     @IBOutlet weak var SectoreHeightConstraints: NSLayoutConstraint!
     @IBOutlet weak var BtnSkill: UIButton!
@@ -169,7 +163,6 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
             self.CertificateHeightConstraints.constant = 0
             isVisible2 = false
             
-<<<<<<< HEAD
             isVisible0 = true
             if(DataList.Result.JobRoleList.count > 5)
             {
@@ -178,49 +171,6 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
             else
             {
                 self.JobRoleHeightConstraints.constant = (self.view.frame.size.height/17.62)*CGFloat(DataList.Result.JobRoleList.count)
-=======
-            if JSONResponse != nil {
-                
-                if JSONResponse["status"].rawString()! == "1"
-                {
-                    self.stopAnimating()
-                    // Setting Trade Button
-                    var i = 0;
-                    var index = 0;
-                    if (self.sharedManager.masters != nil) {
-                        for trades in self.sharedManager.masters.DataList! {
-                            if trades.PrimaryID == self.sharedManager.currentUser.TradeCategoryID {
-                                index = i
-                                //  self.btntrades.setTitle(trades.TradeCategoryName, for: UIControlState.normal)
-                            }
-                            i = i + 1;
-                        }
-                    }
-                
-                    self.integerCount = (self.sharedManager.masters.DataList![self.selectedTrade].ServiceList?.count)! as NSInteger
-                    let One = self.integerCount * 44 as NSInteger
-                    self.SkillHeightConstraints.constant = CGFloat(One)
-                    
-                    self.integerCountCertificate = (self.sharedManager.masters.DataList![self.selectedTrade].CertificateCategoryList?.count)! as NSInteger
-                    let Two = self.integerCountCertificate * 44 as NSInteger
-                    self.CertificateHeightConstraints.constant = CGFloat(Two)
-                    
-                    
-                    
-                    self.selectedSkills = []
-                    self.selectedCertificate = []
-                    self.TblSelectSkill.reloadData()
-                    self.TblSelectCertificate.reloadData()
-                    
-                    self.BtnTrade.setTitle(String(describing: self.sharedManager.masters.DataList![index].TradeCategoryName), for: UIControlState.normal)
-                }
-                else
-                {
-                    self.stopAnimating()
-                    self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .bottom)
-                }
-                
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             }
         }
         TblJobRole.reloadData()
@@ -315,13 +265,6 @@ class ContractorSearch: UIViewController, UITableViewDataSource, UITableViewDele
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
-<<<<<<< HEAD
-=======
-    @IBAction func BtnBackMainScreen(_ sender: UIButton)
-    {
-        AppDelegate.sharedInstance().moveToDashboard()
-    }
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         if(TblTrade == tableView)

@@ -82,12 +82,8 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
-<<<<<<< HEAD
     @IBAction func actionPost(sender : UIButton)
     {
-=======
-    @IBAction func actionPost(sender : UIButton) {
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         var isValid : Bool = true
         if TxtProjectTitle.text == ""
         {
@@ -182,11 +178,7 @@ class Editportfolio: UIViewController, UICollectionViewDelegate, UICollectionVie
                 let imgURL = portfolio.Result.PortfolioImageList[indexPath.row].ImageLink
                 let urlPro = URL(string: imgURL)
                 Collectcell.PortfolioImage.kf.indicatorType = .activity
-<<<<<<< HEAD
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: portfolio.Result.PortfolioImageList[indexPath.row].ImageLink)
-=======
-                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.sharedManager.currentUser.ProfileImageLink)
->>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),
                     .transition(ImageTransition.fade(1)),
