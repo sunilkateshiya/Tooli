@@ -174,7 +174,11 @@ open class Popover: UIView {
   }
 
   open func showAsDialog(_ contentView: UIView) {
+<<<<<<< HEAD
     self.showAsDialog(contentView, inView: UIApplication.shared.windows.first!)
+=======
+    self.showAsDialog(contentView, inView: UIApplication.shared.keyWindow!)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
   }
 
   open func showAsDialog(_ contentView: UIView, inView: UIView) {

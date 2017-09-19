@@ -9,8 +9,24 @@
 import UIKit
 class Globals {
     static let sharedInstance = Globals()
+<<<<<<< HEAD
     var deviceToken : String = ""
     var currentUser : UserDataM = UserDataM()
+=======
+    var deviceToken : String!
+    var currentUser : SignIn!
+    var masters : Masters!
+    var selectedCompany : CompanyProfileM!
+    var dashBoard : ContractorDashBoard!
+    var SearchdashBoard : SearchContractoreList!
+    var jobList : JobList!
+    var connectionList : ConnectionList!
+    var OfferDetail : OfferListM!
+    var OfferDetail1 : OfferDetailM!
+    var savedPageList:SavedPageList!
+    var portFolio:Portfolio!
+    var stastics:StatisticsModal!
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     
     var unreadAllNotification:Int = 0
     var unreadMessage:Int = 0
@@ -51,7 +67,11 @@ class Globals {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch {
+<<<<<<< HEAD
                  
+=======
+                print(error.localizedDescription)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             }
         }
         return nil

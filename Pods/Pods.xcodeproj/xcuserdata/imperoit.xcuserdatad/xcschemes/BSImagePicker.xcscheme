@@ -14,8 +14,13 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
+<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/BSImagePicker.xcscheme
                BlueprintIdentifier = '1462A800C6623ADC2221545332D41D29'
                BlueprintName = 'BSImagePicker'
+=======
+               BlueprintIdentifier = '4D5B8B1BE64F80268007C79821DDDC20'
+               BlueprintName = 'JTAppleCalendar'
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/JTAppleCalendar.xcscheme
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'BSImagePicker.framework'>
             </BuildableReference>

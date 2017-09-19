@@ -30,11 +30,19 @@ popover.show(aView, point: startPoint)
 let width = self.view.frame.width / 4
 let aView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: width))
 let options = [
+<<<<<<< HEAD
   .type(.up),
   .cornerRadius(width / 2),
   .animationIn(0.3),
   .blackOverlayColor(UIColor.red),
   .arrowSize(CGSize.zero)
+=======
+  .type(.Up),
+  .cornerRadius(width / 2),
+  .animationIn(0.3),
+  .blackOverlayColor(UIColor.redColor()),
+  .arrowSize(CGSizeZero)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
   ] as [PopoverOption]
 let popover = Popover(options: options, showHandler: nil, dismissHandler: nil)
 popover.show(aView, fromView: self.leftBottomButton)

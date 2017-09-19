@@ -13,7 +13,10 @@ import SafariServices
 
 class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
 {
+<<<<<<< HEAD
     @IBOutlet weak var btnOpenOffer: UIButton!
+=======
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBOutlet weak var buttomConstraints: NSLayoutConstraint!
     @IBOutlet weak var lblCatagory: UILabel!
     @IBOutlet weak var ViewWidthConstrain: NSLayoutConstraint!
@@ -30,6 +33,10 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     var OfferId = 0
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var imgOffer: UIImageView!
+<<<<<<< HEAD
+=======
+
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     
     var isNotification:Bool =  false
     override func viewDidLoad()
@@ -68,6 +75,7 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         imgOffer.kf.indicatorType = .activity
         imgOffer.kf.setImage(with: url1, placeholder: nil , options: nil, progressBlock: nil, completionHandler: nil)
         
+<<<<<<< HEAD
         if(self.OfferDetail.IsSaved)
         {
             btnSave.isSelected = true
@@ -86,12 +94,17 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
     func lblNamedTaped(tapGestureRecognizer: UITapGestureRecognizer)
     {
 
+=======
+        lblDiscription.text = self.OfferDetail.Description
+    
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+<<<<<<< HEAD
     override func viewWillAppear(_ animated: Bool) {
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
         tracker.set(kGAIScreenName, value: "OfferDetail Screen.")
@@ -99,6 +112,9 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
+=======
+
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func btnBackAction(_ sender: UIButton)
     {
         self.navigationController?.popViewController(animated: true)
@@ -211,6 +227,7 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
 
     func fillDatatoConttrollerFromApi()
     {
+<<<<<<< HEAD
         OfferId = self.OfferDetail.OfferID
         lblcompany.text = self.OfferDetail.CompanyName as String!
         lblstart.text = self.OfferDetail.PriceTag as String!
@@ -220,6 +237,16 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         //        //  cell.lbldatetime = self.
         
         let imgURL = self.OfferDetail.ProfileImageLink as String!
+=======
+        lblcompany.text = self.OfferDetail1.CompanyName as String!
+        lblstart.text = self.OfferDetail1.PriceTag as String!
+        lblfinish.text = self.OfferDetail1.AddedOn as String!
+        lblwork.text = self.OfferDetail1.CompanyTradeCategoryName as String!
+        lblCatagory.text = self.OfferDetail1.Title as String!
+        //        //  cell.lbldatetime = self.
+        
+        let imgURL = self.OfferDetail1.CompanyImageLink as String!
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         
         let url = URL(string: imgURL!)
         imguser.kf.indicatorType = .activity
@@ -240,6 +267,7 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         }
         lblDiscription.text = self.OfferDetail.Description
         
+<<<<<<< HEAD
         guard let url10 = URL(string: (self.OfferDetail.Website)) else
         {
             btnOpenOffer.isHidden = true
@@ -274,5 +302,8 @@ class OfferDetailViewController: UIViewController,NVActivityIndicatorViewable
         {
             return
         }
+=======
+        lblDiscription.text = self.OfferDetail1.Description
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
 }

@@ -14,8 +14,13 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
+<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/Protobuf.xcscheme
                BlueprintIdentifier = '8734C88CF8D6BA97C5F48DE24AC61019'
                BlueprintName = 'Protobuf'
+=======
+               BlueprintIdentifier = '37D975E79113B06F6B0EE9D73CA41336'
+               BlueprintName = 'SwiftHEXColors'
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/SwiftHEXColors.xcscheme
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Protobuf.framework'>
             </BuildableReference>

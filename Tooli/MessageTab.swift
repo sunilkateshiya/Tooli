@@ -13,6 +13,7 @@ import Kingfisher
 import NVActivityIndicatorView
 import ObjectMapper
 
+<<<<<<< HEAD
 class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate,UISearchBarDelegate,NVActivityIndicatorViewable,RetryButtonDeleget
     
 {
@@ -23,15 +24,40 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     @IBOutlet var viewSearch:UIView!
     var Searchdashlist : [SerachDashBoardM] = []
     var refreshControl:UIRefreshControl!
+=======
+class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, ENSideMenuDelegate,UISearchBarDelegate,NVActivityIndicatorViewable   {
+
+    @IBOutlet var tvmsg : UITableView!
+    @IBOutlet weak var SearchbarView: UISearchBar!
+    @IBOutlet var noMessageView : UIView!
+    let sharedManager : Globals = Globals.sharedInstance
+    var selectedSenderId = 0
+    var app : AppDelegate!
+    var isNext:Bool = false
+    @IBOutlet var TBLSearchView:UITableView!
+    @IBOutlet var viewSearch:UIView!
+    var Searchdashlist : [SerachDashBoardM]?
+     var refreshControl:UIRefreshControl!
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+<<<<<<< HEAD
+=======
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.reloadTable),
+            name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED),
+            object: nil)
+        app = UIApplication.shared.delegate! as! AppDelegate
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         tvmsg.delegate = self
         tvmsg.dataSource = self
         tvmsg.rowHeight = UITableViewAutomaticDimension
         tvmsg.estimatedRowHeight = 450
         tvmsg.tableFooterView = UIView()
+<<<<<<< HEAD
         SearchbarView.delegate = self
         AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
         
@@ -43,10 +69,30 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(GetBuddyList), for: UIControlEvents.valueChanged)
+=======
+        self.noMessageView.isHidden = false;
+        if app.buddyList != nil {
+            if  app.buddyList.Users.count > 0 {
+                self.noMessageView.isHidden = true;
+                self.tvmsg.reloadData();
+            }
+        }
+         SearchbarView.delegate = self
+         AppDelegate.sharedInstance().setSearchBarWhiteColor(SearchbarView: SearchbarView)
+        
+//        if  selectedSenderId != 0  {
+//            self.navigateUser()
+//            
+//        }
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(MessageTab.refreshPage), for: UIControlEvents.valueChanged)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         tvmsg.addSubview(refreshControl)
         
         // Do any additional setup after loading the view.
     }
+<<<<<<< HEAD
     
     func refreshPage()
     {
@@ -69,21 +115,33 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             {
                 temp?.removeFromSuperview()
             }
+=======
+    func refreshPage()
+    {
+        refreshControl.endRefreshing()
+        if(app.isActiveChat && app.persistentConnection.state == .connected) {
+            app.persistentConnection.send(Command.buddyListCommand())
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         }
     }
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
         var strUpdated:NSString =  searchBar.text! as NSString
         strUpdated = strUpdated.replacingCharacters(in: range, with: text) as NSString
+<<<<<<< HEAD
         if(Reachability.isConnectedToNetwork())
         {
             onSerach(str: strUpdated as String)
         }
+=======
+        onSerach(str: strUpdated as String)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         return true
     }
     
     func onSerach(str:String)
     {
         self.startAnimating()
+<<<<<<< HEAD
         let param = ["QueryText":str] as [String : Any]
         
         AFWrapper.requestPOSTURL(Constants.URLS.AccountSearchUser, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
@@ -107,12 +165,53 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             else
             {
                 
+=======
+        let param = ["ContractorID": self.sharedManager.currentUser.ContractorID,"SearchQuery":str] as [String : Any]
+        
+        print(param)
+        AFWrapper.requestPOSTURL(Constants.URLS.GetUserSearchByQuery, params :param as [String : AnyObject]? ,headers : nil  ,  success: {
+            (JSONResponse) -> Void in
+            
+            self.sharedManager.SearchdashBoard = Mapper<SearchContractoreList>().map(JSONObject: JSONResponse.rawValue)
+            
+            self.stopAnimating()
+            
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+                
+                if JSONResponse["status"].rawString()! == "1"
+                {
+                    self.Searchdashlist = self.sharedManager.SearchdashBoard.DataList
+                    if(self.Searchdashlist!.count > 0)
+                    {
+                        self.viewSearch.isHidden = false
+                        self.TBLSearchView.reloadData()
+                    }
+                    else
+                    {
+                        self.viewSearch.isHidden = true
+                    }
+                }
+                else
+                {
+                    
+                }
+                
+                self.view.makeToast(JSONResponse["message"].rawString()!, duration: 3, position: .center)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             }
             
         }) {
             (error) -> Void in
+<<<<<<< HEAD
             
             self.stopAnimating()
+=======
+            print(error.localizedDescription)
+            self.stopAnimating()
+            
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             self.view.makeToast("Server error. Please try again later", duration: 3, position: .center)
         }
     }
@@ -122,6 +221,7 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         SearchbarView.text = ""
         viewSearch.isHidden = true
     }
+<<<<<<< HEAD
     override func viewWillAppear(_ animated: Bool)
     {
         self.GetBuddyList()
@@ -164,6 +264,58 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
     }
     override func didReceiveMemoryWarning()
     {
+=======
+
+    func navigateUser(){
+        for buddy in self.app.buddyList.Users {
+            
+            if buddy.ChatUserID == selectedSenderId {
+                
+                let chatDetail : MessageDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageDetails") as! MessageDetails
+                chatDetail.currentBuddy = buddy
+                chatDetail.senderId = String(sharedManager.currentUser.UserID)
+                app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(buddy.ChatUserID)))
+                
+                self.navigationController?.pushViewController(chatDetail, animated: true)
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.reloadTable),
+            name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED),
+            object: nil)
+        if(app.isActiveChat && app.persistentConnection.state == .connected) {
+            app.persistentConnection.send(Command.buddyListCommand())
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+
+    }
+    
+    func reloadTable(){
+        refreshPage()
+        if app.buddyList != nil {
+            if  app.buddyList.Users.count > 0 {
+                self.noMessageView.isHidden = true;
+                self.tvmsg.reloadData();
+                
+                if(isNext == true)
+                {
+                    isNext = false
+                    self.navigateUser()
+                }
+            }
+        }
+        self.tvmsg.reloadData()
+    }
+    
+    override func didReceiveMemoryWarning() {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -174,9 +326,36 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         toggleSideMenuView()
     }
     
+<<<<<<< HEAD
     @IBAction func btnHomeScreenAction(_ sender: UIButton)
     {
        AppDelegate.sharedInstance().moveToDashboard()
+=======
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //     print("COunt:",(sharedManager1.Timeline1.DataListTimeLine?.count)!)
+        //  return (sharedManager1.Timeline1.DataListTimeLine?.count)!
+        
+        if(tableView == TBLSearchView)
+        {
+            guard  ((sharedManager.SearchdashBoard) != nil) else {
+                
+                return 0
+            }
+            if  (self.Searchdashlist == nil){
+                self.Searchdashlist = sharedManager.SearchdashBoard.DataList
+                return  (self.Searchdashlist?.count)!;
+            }
+            return  (self.Searchdashlist?.count)!;
+        }
+        else
+        {
+            if app.buddyList == nil {
+                return 0
+            }
+            return  self.app.buddyList.Users.count
+        }
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -200,12 +379,17 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
         if(tableView == TBLSearchView)
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+<<<<<<< HEAD
             cell.textLabel?.text = self.Searchdashlist[indexPath.row].Name
+=======
+            cell.textLabel?.text = self.Searchdashlist?[indexPath.row].displayvalue
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
             return cell
         }
         else
         {
+<<<<<<< HEAD
             AppDelegate.sharedInstance().GetNotificationCount()
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MessageTabCell
             cell.lblname.text = AppDelegate.sharedInstance().buddyList.Result[indexPath.row].Name
@@ -227,6 +411,22 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 let urlPro = URL(string: imgURL)
                 cell.imguser?.kf.indicatorType = .activity
                 let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: AppDelegate.sharedInstance().buddyList.Result[indexPath.row].ProfileImageLink)
+=======
+            
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MessageTabCell
+            cell.lblname.text = self.app.buddyList.Users[indexPath.row].Name
+            cell.lbltime.text = self.app.buddyList.Users[indexPath.row].LastOnlineDate
+            cell.lblmsg.text = self.app.buddyList.Users[indexPath.row].LastMessageText
+            
+            // Set Image :
+            
+            if self.app.buddyList.Users[indexPath.row].ProfileImageLink != "" {
+                let imgURL = self.app.buddyList.Users[indexPath.row].ProfileImageLink as String
+                let urlPro = URL(string: imgURL)
+                cell.imguser?.kf.indicatorType = .activity
+                let tmpResouce = ImageResource(downloadURL: urlPro!, cacheKey: self.app.buddyList.Users[indexPath.row].ProfileImageLink)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 let optionInfo: KingfisherOptionsInfo = [
                     .downloadPriority(0.5),
                     .transition(ImageTransition.fade(1)),
@@ -235,8 +435,47 @@ class MessageTab: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                 cell.imguser?.kf.setImage(with: tmpResouce, placeholder: nil, options: optionInfo, progressBlock: nil, completionHandler: nil)
                 
             }
+<<<<<<< HEAD
             return cell
         }
+=======
+            
+            return cell
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if tableView == self.TBLSearchView
+        {
+            if(self.Searchdashlist?[indexPath.row].IsContractor == false)
+            {
+                let companyVC : CompnayProfilefeed = self.storyboard?.instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = self.Searchdashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            else
+            {
+                let companyVC : ProfileFeed = self.storyboard?.instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                companyVC.contractorId = self.Searchdashlist![indexPath.row].PrimaryID
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            SearchbarView.text = ""
+            SearchbarView.resignFirstResponder()
+            viewSearch.isHidden = true
+
+        }
+        else
+        {
+            let chatDetail : MessageDetails = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageDetails") as! MessageDetails
+            chatDetail.currentBuddy = self.app.buddyList.Users[indexPath.row]
+            chatDetail.senderId = String(sharedManager.currentUser.UserID)
+            app.persistentConnection.send(Command.chatHistoryCommand(friendId: String(self.app.buddyList.Users[indexPath.row].ChatUserID)))
+            
+            self.navigationController?.pushViewController(chatDetail, animated: true)
+        }
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)

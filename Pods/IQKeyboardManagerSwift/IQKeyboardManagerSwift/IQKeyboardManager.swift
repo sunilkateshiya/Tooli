@@ -800,8 +800,12 @@ open class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
         toolbarPreviousNextAllowedClasses.append(UITableView.self)
         toolbarPreviousNextAllowedClasses.append(UICollectionView.self)
         toolbarPreviousNextAllowedClasses.append(IQPreviousNextView.self)
+<<<<<<< HEAD
         touchResignedGestureIgnoreClasses.append(UIControl.self)
         touchResignedGestureIgnoreClasses.append(UINavigationBar.self)
+=======
+        
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         //Special Controllers
         struct InternalClass {
             
@@ -1505,6 +1509,21 @@ open class IQKeyboardManager: NSObject, UIGestureRecognizerDelegate {
         //  Boolean to know keyboard is showing/hiding
         _privateIsKeyboardShowing = false
         
+<<<<<<< HEAD
+=======
+        //If not enabled then do nothing.
+        if privateIsEnabled() == false {
+            return
+        }
+        
+        let startTime = CACurrentMediaTime()
+        showLog("****** \(#function) started ******")
+
+        //Commented due to #56. Added all the conditions below to handle UIWebView's textFields.    (Bug ID: #56)
+        //  We are unable to get textField object while keyboard showing on UIWebView's textField.  (Bug ID: #11)
+        //    if (_textFieldView == nil)   return
+
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         let info : [AnyHashable: Any]? = (notification as NSNotification?)?.userInfo
         
         //  Getting keyboard animation duration

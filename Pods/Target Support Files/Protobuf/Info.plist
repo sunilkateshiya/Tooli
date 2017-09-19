@@ -15,7 +15,11 @@
   <key>CFBundlePackageType</key>
   <string>FMWK</string>
   <key>CFBundleShortVersionString</key>
+<<<<<<< HEAD:Pods/Target Support Files/Protobuf/Info.plist
   <string>3.3.0</string>
+=======
+  <string>8.0.2</string>
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Target Support Files/Cosmos/Info.plist
   <key>CFBundleSignature</key>
   <string>????</string>
   <key>CFBundleVersion</key>

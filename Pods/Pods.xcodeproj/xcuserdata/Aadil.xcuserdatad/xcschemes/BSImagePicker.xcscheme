@@ -14,9 +14,15 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/Aadil.xcuserdatad/xcschemes/BSImagePicker.xcscheme
                BlueprintIdentifier = "C59EE95662AD4757E7FCE220DB1AFA41"
                BuildableName = "BSImagePicker.framework"
                BlueprintName = "BSImagePicker"
+=======
+               BlueprintIdentifier = "A9AB563EC44E18434CA21E43F9CA1289"
+               BuildableName = "Pods_TooliUITests.framework"
+               BlueprintName = "Pods-TooliUITests"
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/Pods-TooliUITests.xcscheme
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +51,15 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
+<<<<<<< HEAD:Pods/Pods.xcodeproj/xcuserdata/Aadil.xcuserdatad/xcschemes/BSImagePicker.xcscheme
             BlueprintIdentifier = "C59EE95662AD4757E7FCE220DB1AFA41"
             BuildableName = "BSImagePicker.framework"
             BlueprintName = "BSImagePicker"
+=======
+            BlueprintIdentifier = "A9AB563EC44E18434CA21E43F9CA1289"
+            BuildableName = "Pods_TooliUITests.framework"
+            BlueprintName = "Pods-TooliUITests"
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Pods.xcodeproj/xcuserdata/imperoit.xcuserdatad/xcschemes/Pods-TooliUITests.xcscheme
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

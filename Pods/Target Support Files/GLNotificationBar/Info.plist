@@ -15,7 +15,11 @@
   <key>CFBundlePackageType</key>
   <string>FMWK</string>
   <key>CFBundleShortVersionString</key>
+<<<<<<< HEAD:Pods/Target Support Files/GLNotificationBar/Info.plist
   <string>1.3.3</string>
+=======
+  <string>6.1.5</string>
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73:Pods/Target Support Files/JTAppleCalendar/Info.plist
   <key>CFBundleSignature</key>
   <string>????</string>
   <key>CFBundleVersion</key>

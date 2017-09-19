@@ -207,7 +207,11 @@ public final class NVActivityIndicatorPresenter {
 
         // Add constraints for `messageLabel`.
         ({
+<<<<<<< HEAD
             let leadingConstraint = NSLayoutConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: messageLabel, attribute: .leading, multiplier: 1, constant: -8)
+=======
+            let leadingConstraint = NSLayoutConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: messageLabel, attribute: .leading, multiplier: 1, constant: 8)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             let trailingConstraint = NSLayoutConstraint(item: containerView, attribute: .trailing, relatedBy: .equal, toItem: messageLabel, attribute: .trailing, multiplier: 1, constant: 8)
 
             containerView.addConstraints([leadingConstraint, trailingConstraint])

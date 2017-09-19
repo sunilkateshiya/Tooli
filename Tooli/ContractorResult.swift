@@ -30,10 +30,16 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
     
     var currentPage = 1
     var isFirstTime : Bool = true
+<<<<<<< HEAD
     var isFull : Bool = false
     var refreshControl:UIRefreshControl!
     var isCallService:Bool = false
     var activityIndicator = UIActivityIndicatorView()
+=======
+     var isFull : Bool = false
+    //var notificationList : FollowerModel = FollowerModel();
+     var refreshControl:UIRefreshControl!
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func btnBackAction(_ sender: UIButton)
     {
         self.navigationController?.popViewController(animated: true)
@@ -60,17 +66,26 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
         refreshControl.addTarget(self, action: #selector(refreshPage), for: UIControlEvents.valueChanged)
         tvconnections.addSubview(refreshControl)
         
+<<<<<<< HEAD
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
         activityIndicator.startAnimating()
         
         activityIndicator.color = UIColor.black
         activityIndicator.hidesWhenStopped = true
+=======
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ContractorResult.refreshPage), for: UIControlEvents.valueChanged)
+        tvconnections.addSubview(refreshControl)
+
+        
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         // Do any additional setup after loading the view.
     }
     func refreshPage()
     {
         isFirstTime = true
         isFull = false
+<<<<<<< HEAD
         isCallService = false
         self.connectionList.Result = []
         currentPage = 1
@@ -79,6 +94,13 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
     override func viewWillAppear(_ animated: Bool) {
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
         tracker.set(kGAIScreenName, value: "Contractor Result Screen.")
+=======
+        
+        currentPage = 1
+        onLoadDetail(page : currentPage)
+    }
+    func onLoadDetail(page : Int){
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         
         guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
         tracker.send(builder.build() as [NSObject : AnyObject])
@@ -110,6 +132,7 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
             
             self.stopAnimating()
             self.refreshControl.endRefreshing()
+<<<<<<< HEAD
             print(JSONResponse["Status"].rawValue)
             
             self.tvconnections.tableFooterView = UIView()
@@ -119,13 +142,38 @@ class ContractorResult: UIViewController, UITableViewDataSource, UITableViewDele
                 self.tvconnections.isHidden = false
                 self.stopAnimating()
                 print(JSONResponse)
+=======
+            print(JSONResponse["status"].rawValue as! String)
+            
+            if JSONResponse != nil{
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 
                 if self.isFirstTime
                 {
+<<<<<<< HEAD
                     self.connectionList  = GetFilterListConntractorM()
                     self.connectionList = Mapper<GetFilterListConntractorM>().map(JSONObject: JSONResponse.rawValue)!
                     self.isFirstTime = false;
                     self.currentPage = self.currentPage + 1
+=======
+                     self.vwnolist?.isHidden = false
+                     self.tvconnections.isHidden = false
+                     self.stopAnimating()
+                    print(JSONResponse)
+                    if self.isFirstTime {
+                        self.connlist  = FilterContractoreList()
+                        self.connlist = Mapper<FilterContractoreList>().map(JSONObject: JSONResponse.rawValue)!
+                        self.isFirstTime = false;
+                    }
+                    else {
+                        let tmpList : FilterContractoreList = Mapper<FilterContractoreList>().map(JSONObject: JSONResponse.rawValue)!
+                        for tmpNotifcation in tmpList.DataList {
+                            self.connlist.DataList.append(tmpNotifcation)
+                        }
+                        self.currentPage = self.currentPage + 1
+                    }
+                    self.tvconnections.reloadData()
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 }
                 else
                 {

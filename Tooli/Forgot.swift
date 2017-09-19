@@ -18,6 +18,14 @@ class Forgot: UIViewController,NVActivityIndicatorViewable {
 
         // Do any additional setup after loading the view.
     }
+<<<<<<< HEAD
+=======
+    @IBAction func BtnBackMainScreen(_ sender: UIButton)
+    {
+        AppDelegate.sharedInstance().moveToDashboard()
+    }
+    
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func btnForgot(_ sender: Any) {
         
         var validflag = 0

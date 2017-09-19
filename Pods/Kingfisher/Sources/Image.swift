@@ -430,6 +430,7 @@ extension Kingfisher where Base: Image {
         }
     }
     
+<<<<<<< HEAD
     public func crop(to size: CGSize, anchorOn anchor: CGPoint) -> Image {
         guard let cgImage = cgImage else {
             assertionFailure("[Kingfisher] Crop only works for CG-based image.")
@@ -445,6 +446,8 @@ extension Kingfisher where Base: Image {
         return Kingfisher.image(cgImage: image, scale: scale, refImage: base)
     }
     
+=======
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     // MARK: - Blur
     
     /// Create an image with blur effect based on `self`.
@@ -501,7 +504,11 @@ extension Kingfisher where Base: Image {
                 return vImage_Buffer(data: data, height: height, width: width, rowBytes: rowBytes)
             }
 
+<<<<<<< HEAD
             guard let context = beginContext(size: size) else {
+=======
+            guard let context = beginContext() else {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 assertionFailure("[Kingfisher] Failed to create CG context for blurring image.")
                 return base
             }
@@ -511,7 +518,11 @@ extension Kingfisher where Base: Image {
             
             var inBuffer = createEffectBuffer(context)
             
+<<<<<<< HEAD
             guard let outContext = beginContext(size: size) else {
+=======
+            guard let outContext = beginContext() else {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                 assertionFailure("[Kingfisher] Failed to create CG context for blurring image.")
                 return base
             }
@@ -627,7 +638,11 @@ extension Kingfisher where Base: Image {
             return base
         }
         let colorSpace = CGColorSpaceCreateDeviceRGB()
+<<<<<<< HEAD
         guard let context = beginContext(size: CGSize(width: imageRef.width, height: imageRef.height)) else {
+=======
+        guard let context = beginContext() else {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             assertionFailure("[Kingfisher] Decoding fails to create a valid context.")
             return base
         }
@@ -747,6 +762,7 @@ extension CGSizeProxy {
     }
 }
 
+<<<<<<< HEAD
 extension Comparable {
     func clamped(to limits: ClosedRange<Self>) -> Self {
         return min(max(self, limits.lowerBound), limits.upperBound)
@@ -756,6 +772,11 @@ extension Comparable {
 extension Kingfisher where Base: Image {
     
     func beginContext(size: CGSize) -> CGContext? {
+=======
+extension Kingfisher where Base: Image {
+    
+    func beginContext() -> CGContext? {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         #if os(macOS)
             guard let rep = NSBitmapImageRep(
                 bitmapDataPlanes: nil,

@@ -47,6 +47,7 @@ class Referrals: UIViewController, NVActivityIndicatorViewable {
 //        
 //        self.view.makeToast("Referral Link Copy Successfully.", duration: 3, position: .bottom)
     }
+<<<<<<< HEAD
     override func viewWillAppear(_ animated: Bool) {
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
         tracker.set(kGAIScreenName, value: "Referrals Screen.")
@@ -54,6 +55,8 @@ class Referrals: UIViewController, NVActivityIndicatorViewable {
         guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
+=======
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     @IBAction func BtnBackMainScreen(_ sender: UIButton)
     {
         AppDelegate.sharedInstance().moveToDashboard()

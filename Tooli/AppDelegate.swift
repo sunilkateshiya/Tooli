@@ -14,6 +14,7 @@ import UserNotifications
 import CoreLocation
 import Fabric
 import Crashlytics
+<<<<<<< HEAD
 import GoogleMaps
 import GooglePlaces
 import GLNotificationBar
@@ -23,6 +24,11 @@ import FirebaseMessaging
 import SwiftR
 import SwiftyJSON
 import NVActivityIndicatorView
+=======
+import SwiftR
+import GoogleMaps
+import GooglePlaces
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate,FIRMessagingDelegate,NVActivityIndicatorViewable
@@ -33,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var locationManager = CLLocationManager()
     var coordinate : CLLocationCoordinate2D!
     var addressString : String!
+<<<<<<< HEAD
     
     var simpleHub: Hub!
     var hubConnection: SignalR!
@@ -47,6 +54,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     override init()
     {
+=======
+    var IsMapFirst : Bool!
+    let persistentConnection = SignalR("http://tooli.blush.cloud/chat", connectionType: .persistent)
+    var isActiveChat : Bool = false;
+    var buddyList : ChatList!
+    var currentHistory : ChatHistory!
+    var currentMessage : MessageList!
+    var newMessage : Messages!
+    
+    
+    override init() {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         coordinate=CLLocationCoordinate2DMake(0, 0)
     }
     class func sharedInstance() -> (AppDelegate)
@@ -56,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+<<<<<<< HEAD
         GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
 
         var configureError: NSError?
@@ -63,6 +83,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         assert(configureError == nil, "Error configuring Google services: \(String(describing: configureError))")
         
 
+=======
+         GMSPlacesClient.provideAPIKey(Constants.Keys.GOOGLE_PLACE_KEY)
+        IsMapFirst = true
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         
         if (UserDefaults.standard.value(forKey: Constants.KEYS.TOKEN) == nil)
         {
@@ -112,6 +140,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let gai = GAI.sharedInstance()
         gai?.trackUncaughtExceptions = true
         registerForRemoteNotification()
+<<<<<<< HEAD
+=======
+        UIApplication.shared.applicationIconBadgeNumber = 0
+
+        self.initSignalR();
+        
+        Fabric.with([Crashlytics.self])
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         return true
     }
     func addNoDataView(view:UIView,frame:CGRect,viewController:UIViewController,strMsg:String)
@@ -168,6 +206,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.sharedManager.deviceToken = "1234"
         print("i am not available in simulator \(error)")
     }
+<<<<<<< HEAD
     func messaging(_ messaging: FIRMessaging, didRefreshRegistrationToken fcmToken: String)
     {
         print("Firebase registration token: \(fcmToken)")
@@ -191,6 +230,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         else
         {
           RedirectFromNotification(userInfo)
+=======
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print(userInfo)
+        let CompanyID = userInfo["CompanyID"]
+        let PrimaryID = userInfo["PrimaryID"]
+        let NotificationStatusID = userInfo["NotificationStatusID"] as! Int
+        let ContractorID = userInfo["ContractorID"]
+        let IsContractor : Bool = (userInfo["IsContractor"]) as! Bool
+        let tab : CustomTabBarC = self.navigationController!.viewControllers[0] as! CustomTabBarC;
+        if NotificationStatusID == 1 {
+            // MESSAGE VC
+            let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = PrimaryID as! Int
+            msgVC.isNext = true
+            self.navigationController?.pushViewController(msgVC, animated: true)
+            
+        } else if NotificationStatusID == 2 {
+            // Applied to JOb --> Notification VC
+            if  (self.navigationController?.viewControllers.count)! > 1 {
+                self.navigationController?.popToRootViewController(animated: false)
+            }
+            if (tab.selectedIndex != 3){
+                tab.selectedIndex = 3;
+            }
+        } else if NotificationStatusID == 3 {
+            
+            if  IsContractor {
+                let profile : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                profile.contractorId = ContractorID as! Int
+                self.navigationController?.pushViewController(profile, animated: true)
+            }
+            else {
+                let companyVC : CompnayProfilefeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = CompanyID as! Int
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            
+        } else if NotificationStatusID == 4 {
+            // Followed via shared link -> Profile VC
+            if  IsContractor {
+                let profile : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                profile.contractorId = ContractorID as! Int
+                self.navigationController?.pushViewController(profile, animated: true)
+            }
+            else {
+                let companyVC : CompnayProfilefeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = CompanyID as! Int
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+            
+        } else if NotificationStatusID == 5
+        {
+            // Posted New offeer -> Offer VC
+            let companyVC : OfferDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OfferDetailViewController") as! OfferDetailViewController
+            companyVC.OfferId = PrimaryID as! Int
+            companyVC.isNotification = true
+            self.navigationController?.pushViewController(companyVC, animated: true)
+        }
+        else if NotificationStatusID == 6
+        {
+            let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = PrimaryID as! Int
+            self.navigationController?.pushViewController(msgVC, animated: true)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         }
     }
     
@@ -234,6 +338,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if NotificationStatusID == 0
         {
             // MESSAGE VC
+<<<<<<< HEAD
             switch NotificationPageTypeID
             {
             case 0:
@@ -379,6 +484,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         {
             // MESSAGE VC
             let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+=======
+            let msgVC : MessageTab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MessageTab") as! MessageTab
+            msgVC.selectedSenderId = PrimaryID as! Int
+            msgVC.isNext = true
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             self.navigationController?.pushViewController(msgVC, animated: true)
             
         } else if NotificationStatusID == 2
@@ -393,6 +503,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             {
                 tab.selectedIndex = 3;
             }
+<<<<<<< HEAD
         } else if NotificationStatusID == 3
         {
             if(Role == 1)
@@ -407,6 +518,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CompanyView") as! CompanyView
                 vc.userId = UserID
                 self.navigationController?.pushViewController(vc, animated: true)
+=======
+        } else if NotificationStatusID == 3 {
+            
+            if  IsContractor {
+                let profile : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                profile.contractorId = ContractorID as! Int
+                self.navigationController?.pushViewController(profile, animated: true)
+            }
+            else {
+                let companyVC : CompnayProfilefeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CompnayProfilefeed") as! CompnayProfilefeed
+                companyVC.companyId = CompanyID as! Int
+                self.navigationController?.pushViewController(companyVC, animated: true)
+            }
+
+        } else if NotificationStatusID == 4 {
+            // Followed via shared link -> Profile VC
+            if  IsContractor {
+                let profile : ProfileFeed = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileFeed") as! ProfileFeed
+                profile.contractorId = ContractorID as! Int
+                self.navigationController?.pushViewController(profile, animated: true)
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
             }
             else if(Role == 3)
             {
@@ -444,6 +576,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 vc.userId = UserID
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        }
+        else if NotificationStatusID == 6
+        {
+         
+            
         }
     }
     func moveToPortfolio()
@@ -500,6 +637,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     }
 
+<<<<<<< HEAD
     func testNaviGation()
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -518,12 +656,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 disconnectSignalR()
             }
         }
+=======
+    func applicationWillResignActive(_ application: UIApplication) {
+            disconnectSignalR()
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
+<<<<<<< HEAD
     func applicationDidEnterBackground(_ application: UIApplication)
     {
         let userDefaults = UserDefaults.standard
@@ -535,11 +680,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             }
         }
        
+=======
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        disconnectSignalR()
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+<<<<<<< HEAD
 //        let userDefaults = UserDefaults.standard
 //        if (userDefaults.value(forKey: Constants.KEYS.LOGINKEY) != nil) == true{
 //            
@@ -548,6 +698,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 //                
 //            }
 //        }
+=======
+        initSignalR()
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
@@ -573,8 +726,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         FBSDKAppEvents.activateApp()
     }
 
+<<<<<<< HEAD
     func applicationWillTerminate(_ application: UIApplication)
     {
+=======
+    func applicationWillTerminate(_ application: UIApplication) {
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         disconnectSignalR()
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
@@ -708,6 +865,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             print("Starting...")
         }
         
+<<<<<<< HEAD
         hubConnection.reconnecting = { [weak self] in
             print("Reconnecting...")
         }
@@ -731,6 +889,91 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         hubConnection.error = { [weak self] error in
             print("Error: \(String(describing: error))")
+=======
+    }
+    func initSignalR(){
+        var qs : [String:AnyObject] = [:]
+        guard (sharedManager.currentUser != nil) else {
+            return
+        }
+        
+        if self.isActiveChat || self.persistentConnection.state == .connected {
+            return
+        }
+        
+        
+        qs["UserID"] = sharedManager.currentUser.UserID as AnyObject?
+        qs["Platform"] = "ios" as AnyObject?
+        
+        persistentConnection.queryString=qs
+        
+        // Receievd
+        persistentConnection.received = { data in
+            guard (data != nil) else {
+                return
+            }
+            
+            
+            let data1 = Globals.convertToDictionary(text: data as! String)
+            print(data1)
+            
+            switch data1!["status"]! as! String {
+            case "buddylist":
+                self.buddyList  = Mapper<ChatList>().map(JSONObject: data1)
+                
+                if self.buddyList == nil {
+                    return
+                }
+                NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.BUDDYLISTREFRESHED), object: nil) as Notification)
+                print(self.buddyList)
+                break;
+            case "chathistory":
+                self.currentHistory = Mapper<ChatHistory>().map(JSONObject: data1)
+                NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.CHATHISTORYRETRIVED), object: nil) as Notification)
+                break;
+            case "messagereceive":
+                self.newMessage = Mapper<Messages>().map(JSONObject: data1)
+                NotificationCenter.default.post(NSNotification(name: NSNotification.Name(rawValue: Constants.Notifications.MESSAGERECEIVED), object: nil) as Notification)
+                break;
+            default:
+                break;
+            }
+            
+            
+        }
+        persistentConnection.start()
+        
+        // Connected
+        
+        persistentConnection.connected = {
+            
+            self.isActiveChat = true
+            
+            self.persistentConnection.send(Command.buddyListCommand())
+            
+        }
+        persistentConnection.connectionFailed = { error in
+            print(error);
+        }
+        persistentConnection.connectionSlow = {
+            print("slow connection")
+        }
+        
+    }
+    func disconnectSignalR()
+    {
+        if isActiveChat {
+            self.isActiveChat = false
+            if self.persistentConnection.state == .connected {
+                
+                print("Sending offline--------------")
+                
+                self.persistentConnection.stop()
+            }
+        }
+    }
+    func setSearchBarWhiteColor(SearchbarView:UISearchBar){
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
         
             if let source = error?["source"] as? String , source == "TimeoutException" {
                 print("Connection timed out. Restarting...")

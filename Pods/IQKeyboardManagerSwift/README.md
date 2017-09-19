@@ -130,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ```
 
 #### Installation with Carthage
+<<<<<<< HEAD
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
@@ -147,8 +148,30 @@ github "hackiftekhar/IQKeyboardManager"
 ```
 
 Run `carthage` to build the frameworks and drag the appropriate framework (`IQKeyboardManager.framework` or `IQKeyboardManagerSwift.framework`) into your Xcode project according to your need. Make sure to add only one framework and not both.
+=======
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+<<<<<<< HEAD
+=======
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate `IQKeyboardManger` or `IQKeyboardManagerSwift` into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "hackiftekhar/IQKeyboardManager"
+```
+
+Run `carthage` to build the frameworks and drag the appropriate framework (`IQKeyboardManager.framework` or `IQKeyboardManagerSwift.framework`) into your Xcode project according to your need. Make sure to add only one framework and not both.
 
 
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
 #### Installation with Source Code:-
 
 [![Github tag](https://img.shields.io/github/tag/hackiftekhar/iqkeyboardmanager.svg)]()

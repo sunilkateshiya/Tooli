@@ -49,7 +49,11 @@ enum NVActivityIndicatorShape {
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
                         startAngle: 0,
+<<<<<<< HEAD
                         endAngle: 2 * CGFloat.pi,
+=======
+                        endAngle: CGFloat(2 * M_PI),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: false)
             layer.fillColor = color.cgColor
         case .circleSemi:
@@ -64,7 +68,11 @@ enum NVActivityIndicatorShape {
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
                         startAngle: 0,
+<<<<<<< HEAD
                         endAngle: 2 * CGFloat.pi,
+=======
+                        endAngle: CGFloat(2 * M_PI),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: false)
             layer.fillColor = nil
             layer.strokeColor = color.cgColor
@@ -72,8 +80,13 @@ enum NVActivityIndicatorShape {
         case .ringTwoHalfVertical:
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
+<<<<<<< HEAD
                         startAngle: -3 * CGFloat.pi / 4,
                         endAngle: -CGFloat.pi / 4,
+=======
+                        startAngle: CGFloat(-3 * M_PI_4),
+                        endAngle: CGFloat(-M_PI_4),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: true)
             path.move(
                 to: CGPoint(x: size.width / 2 - size.width / 2 * cos(CGFloat.pi / 4),
@@ -81,8 +94,13 @@ enum NVActivityIndicatorShape {
             )
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
+<<<<<<< HEAD
                         startAngle: -5 * CGFloat.pi / 4,
                         endAngle: -7 * CGFloat.pi / 4,
+=======
+                        startAngle: CGFloat(-5 * M_PI_4),
+                        endAngle: CGFloat(-7 * M_PI_4),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: false)
             layer.fillColor = nil
             layer.strokeColor = color.cgColor
@@ -90,8 +108,13 @@ enum NVActivityIndicatorShape {
         case .ringTwoHalfHorizontal:
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
+<<<<<<< HEAD
                         startAngle: 3 * CGFloat.pi / 4,
                         endAngle: 5 * CGFloat.pi / 4,
+=======
+                        startAngle: CGFloat(3 * M_PI_4),
+                        endAngle: CGFloat(5 * M_PI_4),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: true)
             path.move(
                 to: CGPoint(x: size.width / 2 + size.width / 2 * cos(CGFloat.pi / 4),
@@ -99,8 +122,13 @@ enum NVActivityIndicatorShape {
             )
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 2,
+<<<<<<< HEAD
                         startAngle: -CGFloat.pi / 4,
                         endAngle: CGFloat.pi / 4,
+=======
+                        startAngle: CGFloat(-M_PI_4),
+                        endAngle: CGFloat(M_PI_4),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: true)
             layer.fillColor = nil
             layer.strokeColor = color.cgColor
@@ -136,7 +164,11 @@ enum NVActivityIndicatorShape {
             path.addArc(withCenter: CGPoint(x: size.width / 2, y: size.height / 2),
                         radius: size.width / 4,
                         startAngle: 0,
+<<<<<<< HEAD
                         endAngle: 2 * CGFloat.pi,
+=======
+                        endAngle: CGFloat(2 * M_PI),
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
                         clockwise: true)
             layer.fillColor = nil
             layer.strokeColor = color.cgColor

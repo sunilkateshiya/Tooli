@@ -29,10 +29,13 @@ class CustomTabBarC: UITabBarController {
     {
         AppDelegate.sharedInstance().moveToDashboard()
     }
+<<<<<<< HEAD
     override func viewWillAppear(_ animated: Bool)
     {
      
     }
+=======
+>>>>>>> a6f4aee38bdcccc9873263992593cdc98263fd73
     func setTabBarItems(){
     
         let myTabBarItem1 = (self.tabBar.items?[0])! as UITabBarItem
